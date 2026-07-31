@@ -1,0 +1,40 @@
+# --- Zugangsdaten: niemals versionieren ---
+.env
+config/config.yaml
+*.key
+*.token
+
+# --- Rohdaten und personenbezogene Daten ---
+data/raw/
+data/interim/
+eval/responses/
+
+# --- Modellgewichte ---
+models/
+*.gguf
+*.safetensors
+*.bin
+
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# --- LaTeX-Hilfsdateien (nur im Ordner thesis/) ---
+thesis/*.aux
+thesis/*.log
+thesis/*.bbl
+thesis/*.blg
+thesis/*.toc
+thesis/*.lot
+thesis/*.lof
+thesis/*.out
+thesis/*.fls
+thesis/*.fdb_latexmk
+thesis/*.synctex.gz
+
+# --- macOS und Editoren ---
+.DS_Store
+.vscode/
+.idea/
