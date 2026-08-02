@@ -13,6 +13,7 @@ Repository: /Users/omar/Developer/qrisp-re-thesis
 
 - A0 Arbeitsumgebung: Repository initialisiert (Zweig main),
   .gitignore und README.md angelegt, erster Commit erstellt
+- STATUS.md als Uebergabedokument angelegt
 
 ## Aktuell
 
@@ -29,7 +30,8 @@ Arbeitspaket A (Setup), Aufgabe A1: Ordnerstruktur und GitHub-Anbindung
 
 ## Offene Punkte
 
-- E-Mail im GitHub-Konto und Sichtbarkeit des Repositorys ungeklaert
+- Sichtbarkeit des Repositorys (oeffentlich/privat) noch zu entscheiden
+  Git-Identitaet geklaert: GitHub-Noreply-Adresse, echte Adresse geschuetzt
 - API-Budget fuer FF3 offen, zu klaeren bis Woche 4
 - Python 3.14 und lokale Inferenz: Kompatibilitaet ungeprueft,
   Kontrollpunkt Woche 5
