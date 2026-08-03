@@ -11,35 +11,66 @@ Repository: /Users/omar/Developer/qrisp-re-thesis
 
 ## Abgeschlossen
 
-- A0 Arbeitsumgebung: Repository initialisiert (Zweig main),
-  .gitignore und README.md angelegt, erster Commit erstellt
-- STATUS.md als Uebergabedokument angelegt
+Arbeitspaket A (Setup) vollstaendig:
+- A0 Repository initialisiert (Zweig main), .gitignore, README.md, STATUS.md
+- A1 Ordnerstruktur mit Erklaerungsdateien; SSH-Schluessel eingerichtet
+  (Fingerabdruck gegen GitHub-Doku geprueft); privates Repository
+  github.com/os759/qrisp-re-thesis angelegt und verbunden; erster push
+- A2 Virtuelle Umgebung .venv, requests 2.34.2, requirements.txt
+
+Belegt: .gitignore greift bis zum Server (data/raw, data/interim,
+eval/responses erscheinen nicht auf GitHub).
+Belegt: Fuer Python 3.14 existieren vorkompilierte Pakete (cp314-Wheels).
+Gilt nur fuer requests, nicht fuer lokale Inferenz.
 
 ## Aktuell
 
-Arbeitspaket A (Setup), Aufgabe A1: Ordnerstruktur und GitHub-Anbindung
+Arbeitspaket A abgeschlossen. Naechstes Paket nach Zeitplan:
+B (Literatur und Grundlagen) oder D (GitHub-Extraktion).
 
 ## Getroffene Entscheidungen
 
-- Evaluation reduziert: Betreuer plus dokumentierte Selbstbewertung.
-  Abweichung vom Exposé, mit Professor abgestimmt, schriftliche
-  Bestaetigung ausstehend. In Limitationen auszuweisen.
-- FF3: API-Modell darf von OpenAI oder Anthropic stammen.
-- KI-Einsatz durch Professor erlaubt. Formulierung fuer vorspann.tex
-  noch einzutragen.
+- Evaluation reduziert: Bewertung durch den Betreuer, ergaenzt um eine
+  dokumentierte Selbstbewertung. Abweichung vom Exposé, mit dem Professor
+  abgestimmt, schriftliche Bestaetigung ausstehend. In den Limitationen
+  auszuweisen. Folge: kein Uebereinstimmungsmass in der Evaluation;
+  stattdessen Abgleich LLM-Klassifikation gegen manuelle Klassifikation
+  in Schritt 6.
+- FF3: API-Modell darf von OpenAI oder Anthropic stammen (freie Wahl).
+  Zu beachten: Wird dasselbe Modell als Arbeitswerkzeug und als
+  Evaluationsgegenstand verwendet, ist das eine Bedrohung der
+  Konstruktvaliditaet und muss dokumentiert werden.
+- Repository privat. Begruendung: Veroeffentlichung der Arbeit laut
+  Vorlage auf Nein; PR-Daten enthalten Klarnamen Dritter.
+- KI-Einsatz durch den Professor erlaubt (Textgenerierung, Literatursuche,
+  Code). Konkrete Formulierung fuer vorspann.tex noch einzutragen.
+
+## Zugangsdaten
+
+- GitHub-Token `qrisp-thesis-readonly`, fein granuliert, nur oeffentliche
+  Repositories, keine zusaetzlichen Berechtigungen, mit Ablaufdatum.
+  Liegt im Passwortmanager. Noch nicht praktisch erprobt.
+- SSH-Schluessel ed25519 fuer Zugriff auf das eigene Repository.
+- Git-Identitaet: Omar Assad Salem, GitHub-Noreply-Adresse.
 
 ## Offene Punkte
 
-- Sichtbarkeit des Repositorys (oeffentlich/privat) noch zu entscheiden
-  Git-Identitaet geklaert: GitHub-Noreply-Adresse, echte Adresse geschuetzt
-- API-Budget fuer FF3 offen, zu klaeren bis Woche 4
-- Python 3.14 und lokale Inferenz: Kompatibilitaet ungeprueft,
-  Kontrollpunkt Woche 5
-- preamble.tex laedt longtable, booktabs, array nicht;
-  Ergaenzung noetig, bevor die erste Tabelle gesetzt wird
+- Schriftliche Bestaetigung des Professors zur reduzierten Evaluation
+- API-Budget fuer FF3, zu klaeren bis Woche 4
+- Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Woche 5
+- preamble.tex laedt longtable, booktabs, array nicht
 - vorspann.tex bindet figures/hsrmlogo.pdf ein,
   vorhanden ist hsrmlogo_bunt.pdf
-- Rote KI-Hinweisbox in vorspann.tex noch zu ersetzen
+- Rote KI-Hinweisbox in vorspann.tex vor Abgabe ersetzen
+- Formulierung zur KI-Nutzung mit Professor abstimmen:
+  Kennzeichnungspflicht im Anhang? Prompts beilegen?
+
+## Arbeitsweise
+
+- Vor jedem Python-Befehl: source .venv/bin/activate
+- Commit-Ablauf: status -> diff -> gezieltes add -> diff --staged ->
+  commit -> show --stat -> status -> push
+- Kein git add . verwenden
 
 ## Zeitplan
 
