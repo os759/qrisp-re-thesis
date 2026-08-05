@@ -38,3 +38,8 @@ thesis/*.synctex.gz
 .DS_Store
 .vscode/
 .idea/
+
+# --- Lizenzpflichtige Volltexte: nicht versionieren ---
+literatur/
+*.pdf
+!thesis/figures/*.pdf
