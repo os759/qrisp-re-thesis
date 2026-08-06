@@ -33,6 +33,7 @@ thesis/*.out
 thesis/*.fls
 thesis/*.fdb_latexmk
 thesis/*.synctex.gz
+thesis/thesis.pdf
 
 # --- macOS und Editoren ---
 .DS_Store
@@ -40,6 +41,5 @@ thesis/*.synctex.gz
 .idea/
 
 # --- Lizenzpflichtige Volltexte: nicht versionieren ---
-literatur/
-*.pdf
-!thesis/figures/*.pdf
+literatur/pdf/
+literatur/volltexte/
