@@ -14,4 +14,4 @@ gefuehrt, um Nachweispflichten erfuellen zu koennen.
 | 31.07.2026 | Claude | Opus | Projektplanung, Kompetenz- und Zeitplan | Projektanweisung, Exposé | Zeitplan 13 Wochen, Repository-Struktur | Plausibilitaet gegen Exposé geprueft | Struktur und Zeitplan uebernommen |
 | 31.07.2026 | Claude | Opus | Einrichtung Git, SSH, Python-Umgebung | Terminal-Ausgaben | Schrittanleitungen | Jeden Befehl selbst ausgefuehrt und Ausgabe geprueft | ja |
 | 05.08.2026 | Claude | Opus | Pruefung der Literaturliste des Exposés | Exposé, Webrecherche | Bestaetigung der Quellenangaben, drei Zusatzfunde | Fundstellen stichprobenartig geprueft | Ergaenzungen in Literaturmatrix |
-| 05.08.2026 | Claude | Opus | ISO/IEC/IEEE 29148 Abschn. 5.2.5-5.2.7 aufbereiten | Norm-Volltext | Deutsche Erlaeuterung, LaTeX-Abschnitt | [Noch offen: eigene Pruefung nach dem Lesen] | Abschnitt in thesis.tex |
+| 05.08.2026 | Claude | Opus | ISO/IEC/IEEE 29148 Abschn. 5.2.5-5.2.7 aufbereiten | Norm-Volltext | Deutsche Erlaeuterung, LaTeX-Abschnitt | Abschnitt selbst gelesen, ueberarbeitet und um 5.2.4, 5.2.8 sowie die Definitionen erweitert; Belege stichprobenartig geprueft| Abschnitt in thesis.tex |
