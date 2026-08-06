@@ -296,8 +296,74 @@ für sich genommen keine Konformität mit ISO/IEC/IEEE~29148.
 \section{Anforderungsformate}
 \label{sec:anforderungsformate}
 
-\textbf{[Noch zu ergänzen: RFC 2119, User Stories, EARS, die
+\textbf{[Noch zu ergänzen: User Stories, EARS, die
 Spezifikationsvorlagen aus ISO/IEC/IEEE 29148.]}
+
+\subsection{Normative Schlüsselwörter nach RFC 2119}
+\label{subsec:rfc2119}
+
+RFC 2119 ist kein Anforderungsformat im Sinne eines Satzmusters, sondern
+legt ausschließlich fest, wie einzelne Schlüsselwörter hinsichtlich
+ihrer Verbindlichkeit zu interpretieren sind. Das Dokument trifft keine
+Aussage darüber, wie eine Anforderung strukturell aufgebaut ist. Es
+betrifft damit die normative Modalität und nicht die Syntax oder die
+Darstellungsperspektive einer Anforderung.
+
+Das Dokument unterscheidet fünf Verbindlichkeitsstufen. Die Ausdrücke
+\emph{MUST}, \emph{REQUIRED} und \emph{SHALL} kennzeichnen eine
+unbedingte Anforderung, \emph{MUST NOT} und \emph{SHALL NOT} ein
+unbedingtes Verbot. \emph{SHOULD} und \emph{RECOMMENDED} weisen darauf
+hin, dass in bestimmten Situationen Gründe für ein Abweichen bestehen
+können, dessen Folgen zuvor vollständig verstanden und sorgfältig
+abgewogen werden müssen. \emph{SHOULD NOT} und \emph{NOT RECOMMENDED}
+bezeichnen umgekehrt ein Verhalten, das in Einzelfällen vertretbar oder
+sogar nützlich sein kann. \emph{MAY} und \emph{OPTIONAL} kennzeichnen
+eine echte Wahlfreiheit~\cite[Abschn.~1--5]{rfc2119}.
+
+Ergänzend fordert das Dokument einen zurückhaltenden Gebrauch dieser
+Ausdrücke. Sie sollen nur dort eingesetzt werden, wo sie für die
+Zusammenarbeit von Implementierungen tatsächlich erforderlich sind oder
+potenziell schädliches Verhalten begrenzen. Sie sollen insbesondere
+nicht dazu dienen, Umsetzenden eine bestimmte Methode vorzuschreiben,
+sofern diese für die Interoperabilität nicht erforderlich
+ist~\cite[Abschn.~6]{rfc2119}.
+
+RFC 2119 wurde durch RFC 8174 aktualisiert. Beide Dokumente bilden
+gemeinsam BCP~14. Die Aktualisierung stellt klar, dass die genannten
+Schlüsselwörter die beschriebene besondere Bedeutung ausschließlich in
+durchgängiger Großschreibung tragen. Werden dieselben Wörter klein
+geschrieben, gelten sie als gewöhnliche englische Wörter und sind von
+der Festlegung nicht berührt. Ferner wird klargestellt, dass normativer
+Text die Schlüsselwörter nicht zwingend verwenden muss, sondern auch
+ohne sie normativ sein kann~\cite[Abschn.~2]{rfc8174}.
+
+Für die vorliegende Arbeit ergeben sich daraus drei Konsequenzen. Erstens
+lässt sich die Schlüsselwortkonvention mit anderen Anforderungsansätzen
+kombinieren, da sie deren Satzbau nicht festlegt; sie stellt insoweit
+keine Alternative zu einem Satzmuster oder einer
+Darstellungsperspektive dar. Zweitens ist die Einhaltung der Konvention
+maschinell gut prüfbar, weil die Schlüsselwörter ein geschlossenes
+Vokabular bilden und nach RFC 8174 zusätzlich durch die Großschreibung
+eindeutig abgegrenzt sind. Drittens besteht bei einer automatisierten
+Erzeugung von Anforderungen das Risiko, dass Sachverhalte
+unterschiedlicher Verbindlichkeit einheitlich als unbedingte
+Anforderungen formuliert werden. Da eine derartige Übergeneralisierung
+der geforderten Zurückhaltung widerspricht, wird sie im Prompt-Entwurf
+in Kapitel~\ref{cha:konzeption} berücksichtigt und im Modellvergleich in
+Kapitel~\ref{cha:evaluation} gesondert betrachtet.
+
+Zwischen den beiden bislang betrachteten Festlegungen besteht ein
+Unterschied, der eine Entscheidung erfordert. ISO/IEC/IEEE~29148 sieht
+\emph{shall} als Kennzeichnung verbindlicher Anforderungen vor und rät
+von \emph{must} wegen möglicher Fehldeutungen ab
+\cite[Abschn.~5.2.4]{iso29148}. RFC 2119 behandelt \emph{MUST} und
+\emph{SHALL} dagegen als gleichbedeutend~\cite[Abschn.~1]{rfc2119}.
+Beide Konventionen können daher nicht unverändert nebeneinander
+angewendet werden. Welche Festlegung für die in dieser Arbeit erzeugten
+Anforderungen gilt, wird in der Entscheidungsmatrix in
+Abschnitt~\textbf{[Noch zu ergänzen: Verweis auf die Entscheidungsmatrix]}
+begründet festgelegt.
+
 
 \section{Large Language Models und Prompt Engineering}
 \label{sec:llm-grundlagen}
