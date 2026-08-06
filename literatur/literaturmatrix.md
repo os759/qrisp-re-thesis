@@ -1,19 +1,22 @@
 # Literaturmatrix
 
-Stand: 05.08.2026
+Stand: 06.08.2026
 
 Status-Werte: offen -> zu beschaffen -> beschafft -> ueberflogen ->
 gelesen -> eingearbeitet
 
 | ID | Kurzangabe | Jahr | Typ | FF | Kernaussage | Nutzen | Einschraenkungen | Status |
 |---|---|---|---|---|---|---|---|---|
-| L01 | Zadenoori et al., LLMs for RE: SLR, arXiv:2509.11446 | 2025 | Preprint | FF1, FF3 | Ueberblick ueber 74 Primaerstudien 2023-2024 zum LLM-Einsatz im RE | Landkarte des Feldes, Zugang zu Primaerquellen ueber Literaturverzeichnis | Autoren bezeichnen die Arbeit selbst als vorlaeufig, ohne systematische Gegenpruefung | offen |
-| L02 | Arora, Grundy, Abdelrazek, Advancing RE through Generative AI, arXiv:2310.13976 | 2023 | Buchkapitel | FF1 | | begutachtete Fassung ueber SpringerLink verfuegbar | | offen |
-| L03 | Vogelsang, Fischbach, LLMs for NLP Tasks in RE, arXiv:2402.13823 | 2024 | Buchkapitel | FF1, FF3 | | erschienen im Handbook on NLP for RE, Springer 2025 | | offen |
-| L04 | Seidel et al., Qrisp, arXiv:2406.14792 | 2024 | Preprint | Kontext | Beschreibung des untersuchten Frameworks | BibTeX-Eintrag liegt im Qrisp-Repository vor | Betreuer ist Mitautor, siehe Limitationen | offen |
-| L05 | Mavin et al., EARS | 2009 | Konferenz | FF2 | | Anforderungsformat fuer die Entscheidungsmatrix | genaue Fundstelle zu pruefen | zu beschaffen |
-| L06 | Bradner, RFC 2119 | 1997 | Standard | FF2 | | Schluesselwoerter fuer normative Formulierungen | frei verfuegbar | zu beschaffen |
-| L07 | ISO/IEC/IEEE 29148:2018 | 2018 | Standard | FF2, FF4 | Abschn. 5.2.5 nennt neun Merkmale einzelner Anforderungen, 5.2.6 fuenf Merkmale von Anforderungsmengen, 5.2.7 sprachliche Kriterien | normative Grundlage der Entscheidungsmatrix und der automatischen Formatvalidierung | kostenpflichtig, Volltext bleibt ausserhalb des Repositorys | 5.2.5-5.2.7 gelesen |
-| L08 | Common Criteria CC:2022 Rev. 1 | 2022 | Standard | FF4 | | Bewertungsraster fuer die Gap-Analyse | frei ueber CC-Portal; ISO/IEC 15408:2022 kostenpflichtig | offen |
-| L09 | Pohl, Rupp, Basiswissen RE | | Buch | FF2 | | RE-Grundlagen auf Deutsch | Auflage und Jahr zu pruefen | offen |
-| L10 | OWASP Top 10 for LLM Applications | | Standard | Kap. Absicherung | | Ausschnitt fuer das Sicherheitskapitel | Version widerspruechlich in Sekundaerquellen, Primaerquelle pruefen | offen |
+| L01 | Zadenoori et al., LLMs for RE: SLR, arXiv:2509.11446 | 2025 | Preprint | FF1, FF3 | Ueberblick ueber 74 Primaerstudien 2023-2024 zum LLM-Einsatz im RE; zunehmend auch Issue-Tracker-Artefakte statt nur Spezifikationen; ueberwiegend GPT-Modelle und Zero-/Few-Shot-Prompting | Landkarte des Feldes, Zugang zu Primaerquellen ueber das Literaturverzeichnis; Beleg fuer die Forschungsluecke | Autoren bezeichnen die Arbeit selbst als vorlaeufig, ohne systematische Gegenpruefung. Nur als Einstieg zitieren | zu beschaffen |
+| L02 | Arora, Grundy, Abdelrazek, Advancing RE through Generative AI, arXiv:2310.13976 | 2023 | Buchkapitel | FF1 | | Begutachtete Fassung ueber SpringerLink, DOI 10.1007/978-3-031-55642-5_6. Diese Fassung zitieren, nicht den Preprint | | zu beschaffen |
+| L03 | Vogelsang, Fischbach, LLMs for NLP Tasks in RE, arXiv:2402.13823 | 2024 | Buchkapitel | FF1, FF3 | | Erschienen im Handbook on NLP for RE, Springer 2025, S. 435-456 | | zu beschaffen |
+| L04 | Seidel et al., Qrisp, arXiv:2406.14792 | 2024 | Preprint | Kontext | Beschreibung des untersuchten Frameworks | BibTeX-Eintrag liegt im Qrisp-Repository vor und sollte von dort uebernommen werden | Betreuer ist Mitautor. In den Limitationen auszuweisen | zu beschaffen |
+| L05 | Mavin et al., EARS | 2009 | Konferenz | FF2 | | Satzmuster fuer die Entscheidungsmatrix; Ebene (b) der Vieranalyse | Genaue Fundstelle noch zu pruefen. Naechster Baustein | zu beschaffen |
+| L06 | Bradner, RFC 2119, BCP 14 | 1997 | Standard | FF2 | Definiert fuenf Verbindlichkeitsstufen: MUST/REQUIRED/SHALL, MUST NOT/SHALL NOT, SHOULD/RECOMMENDED, SHOULD NOT/NOT RECOMMENDED, MAY/OPTIONAL. Fordert sparsamen Gebrauch | Modalitaetskonvention, Ebene (c). Kombinierbar mit Satzmustern, keine Alternative dazu. Maschinell gut pruefbar | Kein Satzmuster, keine Aussage zum Aufbau einer Anforderung. Konflikt zu 29148 bei shall/must | eingearbeitet (Abschn. 2.2.1) |
+| L07 | ISO/IEC/IEEE 29148:2018 | 2018 | Standard | FF2, FF4 | Abschn. 5.2.5 neun Merkmale einzelner Anforderungen, 5.2.6 fuenf Merkmale von Anforderungsmengen, 5.2.7 sprachliche Kriterien, 5.2.4 Aufbau und Schluesselwoerter, 5.2.8 Attribute | Normative Grundlage der Entscheidungsmatrix und der automatischen Formatvalidierung. 5.2.4 NOTE 2 laesst User Stories ausdruecklich zu | Kostenpflichtig; Volltext bleibt ausserhalb des Repositorys. Schluesselwortkonvention nur fuer Englisch formuliert | eingearbeitet (Abschn. 2.1) |
+| L08 | Common Criteria CC:2022 Rev. 1 | 2022 | Standard | FF4 | Fuenf Teile seit 2022 statt bisher drei | Bewertungsraster fuer die Gap-Analyse | Frei ueber CC-Portal; ISO/IEC 15408:2022 kostenpflichtig. Nur begruendeter Ausschnitt verwenden | offen |
+| L09 | Pohl, Rupp, Basiswissen RE | | Buch | FF2 | | RE-Grundlagen auf Deutsch, als Einstieg geeignet | Auflage und Jahr zu pruefen | offen |
+| L10 | OWASP Top 10 for LLM Applications | | Standard | Kap. Absicherung | | Ausschnitt fuer das Sicherheitskapitel | Version in Sekundaerquellen widerspruechlich. Primaerquelle pruefen und Abrufdatum notieren | offen |
+| L11 | Leiba, RFC 8174, BCP 14 | 2017 | Standard | FF2 | Aktualisiert RFC 2119: besondere Bedeutung nur bei durchgaengiger Grossschreibung; normativer Text muss die Schluesselwoerter nicht zwingend verwenden | Erhoeht die maschinelle Pruefbarkeit. Gemeinsam mit RFC 2119 zu zitieren | Rein klarstellend, kein eigener Inhalt | eingearbeitet (Abschn. 2.2.1) |
+| L12 | From Online User Feedback to Requirements: Evaluating LLMs for Classification and Specification Tasks | | Preprint | FF3 | Evaluiert fuenf leichtgewichtige Open-Source-Modelle auf drei RE-Aufgaben; stellt fest, dass bestehende Arbeiten ueberwiegend grosse proprietaere Modelle betrachten | Direkter Bezug zu FF3 mit anderem Datenmaterial | Vollstaendige Angaben noch zu ermitteln | offen |
+| L13 | Zadenoori et al., Does model size matter? Small vs large LMs for requirements classification, CoRR abs/2510.21443 | 2025 | Preprint | FF3 | | Direkter Bezug zu FF3 | Vollstaendige Angaben noch zu ermitteln | offen |

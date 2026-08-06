@@ -21,9 +21,39 @@ Arbeiten ohne beschriebene Methodik.
 - Springer Nature Link (HLB-Lizenz)
 - arXiv (frei)
 - Common Criteria Portal (frei)
+- RFC Editor (frei)
 
-## Protokoll
+## Phase 1: Vorabpruefung der im Exposé genannten Quellen
+
+Zweck dieser Phase war nicht die systematische Suche, sondern die
+Pruefung, ob die im Exposé genannten Quellen tatsaechlich existieren
+und korrekt angegeben sind. Durchgefuehrt als gezielte Titelsuche im
+offenen Web, nicht als Datenbankrecherche. Die systematische Suche in
+ACM, IEEE und Springer steht noch aus (Phase 2).
 
 | Datum | Portal | Suchstring | Filter | Treffer | gescreent | aufgenommen | Bemerkung |
 |---|---|---|---|---|---|---|---|
-| 05.08.2026 | IEEE Xplore | 29148 | - | - | - | 1 | ISO/IEC/IEEE 29148:2018 als Volltext bezogen |
+| 05.08.2026 | IEEE Xplore | 29148 | - | - | - | 1 | ISO/IEC/IEEE 29148:2018 als Volltext bezogen (L07) |
+| 05.08.2026 | Web, gezielt | Arora Grundy Abdelrazek generative AI requirements engineering | - | - | - | 1 | arXiv:2310.13976 bestaetigt; zusaetzlich begutachtete Fassung als Springer-Buchkapitel gefunden (L02) |
+| 05.08.2026 | Web, gezielt | Qrisp compilable high-level programming gate-based quantum computers | - | - | - | 1 | arXiv:2406.14792 bestaetigt (L04). Nebenbefund: Betreuer ist Mitautor |
+| 05.08.2026 | Web, gezielt | Vogelsang Fischbach large language models NLP requirements engineering | - | - | - | 1 | arXiv:2402.13823 bestaetigt; erschienen im Handbook on NLP for RE, Springer 2025 (L03) |
+| 05.08.2026 | Web, gezielt | large language models requirements engineering systematic literature review | - | - | - | 3 | Zadenoori et al. SLR arXiv:2509.11446 (L01); zusaetzlich zwei Arbeiten zu Open-Source-Modellen im RE, relevant fuer FF3 (L12, L13) |
+| 05.08.2026 | Web, gezielt | OWASP Top 10 for LLM Applications aktuelle Version | - | - | - | 0 | Sekundaerquellen widersprechen sich zur Versionsbezeichnung. Primaerquelle noch zu pruefen (L10) |
+| 05.08.2026 | Web, gezielt | Common Criteria CC:2022 ISO/IEC 15408:2022 | - | - | - | 1 | CC:2022 Rev. 1 frei ueber CC-Portal; ISO-Fassung kostenpflichtig (L08) |
+| 06.08.2026 | RFC Editor | RFC 2119 | - | - | - | 1 | Volltext gelesen (L06) |
+| 06.08.2026 | RFC Editor | RFC 8174 | - | - | - | 1 | Aktualisiert RFC 2119. Beide bilden BCP 14 (L11) |
+
+## Phase 2: Systematische Suche (noch nicht begonnen)
+
+Geplante Suchstraenge:
+
+- S1 LLM im RE: "large language model" AND "requirements engineering"
+- S2 Retrospektives RE und Mining: mining software repositories
+  requirements, pull request analysis requirements
+- S3 Anforderungsformate: EARS requirements syntax, requirements
+  quality criteria, user story quality
+- S4 Sicherheitsanforderungen: security requirements engineering,
+  Common Criteria security functional requirements
+
+Portale in dieser Reihenfolge: ACM Digital Library, IEEE Xplore,
+SpringerLink, ergaenzend arXiv.
