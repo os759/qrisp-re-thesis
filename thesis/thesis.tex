@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper]{report} 
+
+% Für doppelseitigen Ausdruck (nur bei > 60 Seiten sinnvoll)
+% \usepackage{ifthen}
+% \setboolean{@twoside}{true}
+% \setboolean{@openright}{true} 
+
+\input{preamble.tex} % alle Pakete und Einstellungen
+
+% Hier anpassen 
+\newcommand{\welchethesis}{Bachelor}
+\newcommand{\welcherstudiengang}{Angewandte Informatik}
+\newcommand{\thesisofwas}{of Science}
+\newcommand{\titel}{LLM-gestützte Rekonstruktion von Softwareanforderungen
+aus der Entwicklungshistorie eines Open-Source-Projekts~-- Konzeption,
+Umsetzung und Evaluation am Beispiel des Quantencomputing-Frameworks
+Eclipse Qrisp}
+\newcommand{\kurztitel}{LLM-gestützte Anforderungsrekonstruktion}
+\newcommand{\autor}{Omar Assad Salem}
+\newcommand{\datum}{\textbf{[Noch zu ergänzen: Abgabedatum]}}
+\newcommand{\ort}{Wiesbaden}
+\newcommand{\referent}{Prof.\ Dr.\ Nikolay Tcholtchev}
+\newcommand{\korreferent}{\textbf{[Noch zu ergänzen: Korreferent]}}
+
+\begin{document}
+\include{vorspann} % Titelseite, Erklärungen, etc.
+
+\begin{abstract} 
+\textbf{[Noch zu ergänzen: Abstract. Wird zuletzt geschrieben, wenn die
+Ergebnisse vorliegen. Umfang etwa 150--250 Wörter: Problemstellung,
+Vorgehen, zentrale Ergebnisse, Einordnung.]}
+\end{abstract}
+
+\tableofcontents
+
+\chapter{Einleitung}
+\label{cha:einleitung}
+
+\textbf{[Noch zu ergänzen: Motivation, Problemstellung, Zielsetzung,
+Forschungsfragen, Aufbau der Arbeit. Wird nach den Grundlagen
+geschrieben.]}
+
+
+\chapter{Grundlagen}
+\label{cha:grundlagen}
+
+\section{Qualitätskriterien für Anforderungen}
+\label{sec:anforderungsqualitaet}
+
+Die Frage, wann eine Anforderung als brauchbar gilt, ist für die
+vorliegende Arbeit zentral: Ohne einen festgelegten Qualitätsmaßstab
+ließe sich weder das Anforderungsformat begründet auswählen noch die
+Ausgabe der Extraktionspipeline bewerten. Als Bezugsrahmen dient
+ISO/IEC/IEEE~29148 in der Ausgabe von 2018, die die Anforderungsprozesse
+im Lebenszyklus von Systemen und Software beschreibt~\cite{iso29148}.
+
+\subsection{Merkmale einzelner Anforderungen}
+\label{subsec:merkmale-einzeln}
+
+Der Standard nennt neun Merkmale, die jede einzelne Anforderung
+aufweisen muss. Eine Anforderung soll notwendig sein, also eine
+Fähigkeit beschreiben, die ohne sie nicht abgedeckt wäre. Sie soll in
+ihrer Detailtiefe zur betrachteten Abstraktionsebene passen und
+Entwurfsentscheidungen nicht vorwegnehmen. Sie soll eindeutig sein und
+nur eine Lesart zulassen, aus sich heraus verständlich sein und genau
+einen Sachverhalt beschreiben. Weiter soll sie unter den gegebenen
+Randbedingungen umsetzbar sein, ihre Erfüllung nachweisbar machen, den
+zugrunde liegenden Bedarf zutreffend wiedergeben und einer festgelegten
+Vorlage folgen~\cite[Abschn.~5.2.5]{iso29148}.
+
+Für die automatisierte Rekonstruktion aus Entwicklungsartefakten sind
+diese Merkmale unterschiedlich gut zugänglich. Eindeutigkeit,
+Einzelbezug, Nachweisbarkeit und Vorlagenkonformität lassen sich am
+Anforderungstext selbst und damit grundsätzlich auch maschinell prüfen.
+Notwendigkeit, Umsetzbarkeit und Korrektheit setzen dagegen Wissen über
+den tatsächlichen Bedarf und die Systemumgebung voraus, das in einer
+Pull-Request-Historie nur teilweise dokumentiert ist. Diese
+Unterscheidung wird in Kapitel~\ref{cha:evaluation} bei der Auswahl der
+Bewertungskriterien wieder aufgegriffen.
+
+\subsection{Merkmale einer Anforderungsmenge}
+\label{subsec:merkmale-menge}
+
+Über die einzelne Anforderung hinaus formuliert der Standard fünf
+Merkmale, die sich auf die Gesamtheit der Anforderungen beziehen. Die
+Menge soll vollständig sein und keine ungeklärten Platzhalter mehr
+enthalten, in sich widerspruchsfrei sein und eine einheitliche
+Begrifflichkeit verwenden, insgesamt umsetzbar und verständlich sein
+sowie eine Validierung gegen die zugrunde liegenden Bedarfe
+zulassen~\cite[Abschn.~5.2.6]{iso29148}.
+
+Insbesondere die Forderung nach Widerspruchsfreiheit und einheitlicher
+Begrifflichkeit ist für die hier entwickelte Pipeline relevant. Da die
+Extraktion je Pull Request erfolgt, ist nicht ohne Weiteres
+sichergestellt, dass gleichartige Sachverhalte über die gesamte
+Historie hinweg gleich benannt werden. Die Behandlung von Dubletten und
+Begriffsvarianten wird daher in Kapitel~\ref{cha:implementierung}
+gesondert betrachtet.
+
+\subsection{Sprachliche Kriterien}
+\label{subsec:sprachkriterien}
+
+Der Standard konkretisiert darüber hinaus, wie Anforderungen sprachlich
+zu fassen sind, damit die genannten Merkmale erreicht werden.
+Leitprinzip ist, dass eine Anforderung beschreibt, was benötigt wird,
+und nicht, wie es umzusetzen ist. Ergänzend benennt der Standard
+Klassen von Formulierungen, die zu vermeiden sind, weil sie
+Mehrdeutigkeit erzeugen oder eine Verifikation verhindern: Superlative,
+subjektive Bewertungen, unklare Pronomen, unbestimmte Adverbien und
+Adjektive, mehrdeutige logische Verknüpfungen, offene und nicht
+prüfbare Wendungen, Vergleiche ohne Bezugsgröße, einschränkende
+Vorbehalte, pauschale Allaussagen sowie Verweise ohne Angabe von
+Version und Datum~\cite[Abschn.~5.2.7]{iso29148}.
+
+Diese Aufzählung ist für die vorliegende Arbeit von besonderem Wert, da
+sie sich in maschinell prüfbare Regeln überführen lässt. Sie bildet
+damit die Grundlage sowohl für die automatische Validierung der
+Modellausgaben als auch für ein quantitatives Vergleichsmaß im
+Modellvergleich in Kapitel~\ref{cha:evaluation}.
+
+\section{Anforderungsformate}
+\label{sec:anforderungsformate}
+
+\textbf{[Noch zu ergänzen: RFC 2119, User Stories, EARS, die
+Spezifikationsvorlagen aus ISO/IEC/IEEE 29148.]}
+
+\section{Large Language Models und Prompt Engineering}
+\label{sec:llm-grundlagen}
+
+\textbf{[Noch zu ergänzen]}
+
+\section{Common Criteria und BSI-orientierte Prüfungen im Überblick}
+\label{sec:cc-bsi}
+
+\textbf{[Noch zu ergänzen]}
+
+
+\chapter{Verwandte Arbeiten}
+\label{cha:verwandte-arbeiten}
+
+\textbf{[Noch zu ergänzen: LLMs im Requirements Engineering,
+retrospektives Requirements Engineering, Mining von
+Entwicklungsartefakten.]}
+
+
+\chapter{Konzeption der Pipeline}
+\label{cha:konzeption}
+
+\textbf{[Noch zu ergänzen: Formatauswahl, Architektur, Datenmodell,
+Prompt-Design, Klassifikationsraster, Modellwahl,
+Evaluationskonzept.]}
+
+
+\chapter{Implementierung}
+\label{cha:implementierung}
+
+\textbf{[Noch zu ergänzen: GitHub-API, Aufbereitung, Extraktion,
+Klassifikation, Gap-Analyse, Absicherung.]}
+
+
+\chapter{Evaluation}
+\label{cha:evaluation}
+
+\textbf{[Noch zu ergänzen: Design, Durchführung, Ergebnisse,
+Auswertung.]}
+
+
+\chapter{Diskussion}
+\label{cha:diskussion}
+
+\textbf{[Noch zu ergänzen: Beantwortung der Forschungsfragen,
+Interpretation, Übertragbarkeit, Validitätsbedrohungen,
+Limitationen.]}
+
+
+\chapter{Fazit und Ausblick}
+\label{cha:fazit}
+
+\textbf{[Noch zu ergänzen]}
+
+
+\bibliographystyle{plain} % Literaturverzeichnis
+\begin{btSect}{thesis} % mit bibtopic Quellen trennen
+\section*{Literaturverzeichnis}
+\btPrintCited
+\end{btSect}
+\begin{btSect}{online}
+\section*{Online-Quellen}
+\btPrintCited
+\end{btSect}
+
+\end{document}
