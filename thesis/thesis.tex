@@ -44,79 +44,254 @@ geschrieben.]}
 \chapter{Grundlagen}
 \label{cha:grundlagen}
 
-\section{Qualitätskriterien für Anforderungen}
+\section{Requirements Engineering und Qualitätskriterien für Anforderungen}
 \label{sec:anforderungsqualitaet}
 
 Die Frage, wann eine Anforderung als brauchbar gilt, ist für die
-vorliegende Arbeit zentral: Ohne einen festgelegten Qualitätsmaßstab
-ließe sich weder das Anforderungsformat begründet auswählen noch die
-Ausgabe der Extraktionspipeline bewerten. Als Bezugsrahmen dient
-ISO/IEC/IEEE~29148 in der Ausgabe von 2018, die die Anforderungsprozesse
-im Lebenszyklus von Systemen und Software beschreibt~\cite{iso29148}.
+vorliegende Arbeit zentral. Ohne einen festgelegten Qualitätsmaßstab
+ließen sich weder das Anforderungsformat begründet auswählen noch die
+Ausgaben der Extraktionspipeline systematisch bewerten. Als
+Bezugsrahmen dient ISO/IEC/IEEE~29148 in der Ausgabe von 2018. Der
+Standard behandelt Prozesse und Dokumentationsgegenstände des
+Requirements Engineering und beschreibt insbesondere den Aufbau, die
+Qualitätsmerkmale, die sprachliche Gestaltung und die Attribute
+wohlgeformter Anforderungen~\cite[Abschn.~1 und 5.2]{iso29148}.
+
+\subsection{Begriffliche Einordnung}
+\label{subsec:re-begriffe}
+
+ISO/IEC/IEEE~29148 definiert eine Anforderung als Aussage, die einen
+Bedarf einschließlich der zugehörigen Bedingungen und Randbedingungen
+ausdrückt. Requirements Engineering bezeichnet die interdisziplinäre
+Tätigkeit, mit der Anforderungen an ein System, eine Software oder eine
+Dienstleistung ermittelt, entwickelt, analysiert, verifiziert,
+validiert, kommuniziert, dokumentiert und über den Lebenszyklus
+verwaltet werden~\cite[Abschn.~3.1.19 und 3.1.21]{iso29148}.
+
+Der Standard unterscheidet zwischen der Verifikation und der Validierung
+von Anforderungen. Die Anforderungsverifikation untersucht, ob einzelne
+Anforderungen und die Anforderungsmenge wohlgeformt und sachgerecht
+strukturiert sind. Die Anforderungsvalidierung prüft dagegen, ob die
+Anforderungen das von den Stakeholdern beabsichtigte System und den
+zugrunde liegenden Bedarf zutreffend beschreiben. Rückverfolgbarkeit
+bezeichnet die dokumentierte Verbindung einer Anforderung zu ihrem
+Ursprung sowie zu übergeordneten oder nachgelagerten Anforderungen und
+Umsetzungselementen~\cite[Abschn.~3.1.23 sowie
+3.1.25--3.1.26]{iso29148}.
+
+Für die vorliegende Arbeit folgt daraus, dass die Qualität einer
+rekonstruierten Anforderung nicht allein anhand ihrer sprachlichen Form
+beurteilt werden kann. Neben der Wohlgeformtheit sind die
+Übereinstimmung mit dem in den Entwicklungsartefakten dokumentierten
+Bedarf und die Rückverfolgbarkeit zur jeweiligen Quelle zu
+berücksichtigen. Sprachliche und strukturelle Kriterien können
+teilweise automatisiert vorgeprüft werden. Die fachliche Korrektheit,
+Relevanz und Angemessenheit erfordern dagegen eine kontextbezogene
+Bewertung anhand der Quelleninformationen und durch fachkundige
+Bewertende.
+
+\subsection{Aufbau wohlgeformter Anforderungen}
+\label{subsec:anforderungsaufbau}
+
+Eine Anforderung überführt einen Bedarf in eine konkrete Aussage und
+berücksichtigt dabei die zugehörigen Bedingungen und
+Randbedingungen. Wird sie in natürlicher Sprache formuliert, soll sie
+ein bestimmbares Subjekt und ein Verb enthalten. Aus der Formulierung
+soll hervorgehen, welches System, welche Software oder welches
+Systemelement Gegenstand der Anforderung ist und welche Funktion,
+Eigenschaft oder Randbedingung gefordert wird. Messbare Bedingungen
+qualifizieren, unter welchen Umständen die Anforderung gilt, während
+Randbedingungen den zulässigen Lösungsraum begrenzen
+können~\cite[Abschn.~5.2.4]{iso29148}.
+
+Eine wohlgeformte Anforderung soll so formuliert sein, dass sie
+hinsichtlich ihrer sprachlichen und strukturellen Qualität verifiziert,
+gegenüber dem zugrunde liegenden Bedarf validiert und ihre spätere
+Realisierung im System nachgewiesen werden kann. Sie soll beschreiben,
+was benötigt wird, ohne unnötig vorzugeben, wie eine technische Lösung
+umzusetzen ist~\cite[Abschn.~5.2.4 und 5.2.7]{iso29148}.
+
+Für englischsprachige Anforderungsspezifikationen unterscheidet der
+Standard zwischen verbindlichen und nicht verbindlichen
+Schlüsselwörtern. Verbindliche Anforderungen werden üblicherweise mit
+\emph{shall} gekennzeichnet. \emph{Should} bezeichnet dagegen ein
+gewünschtes, aber nicht verbindliches Ziel, \emph{may} eine Erlaubnis
+oder Möglichkeit und \emph{will} eine Tatsachen-, Zukunfts- oder
+Zweckaussage. Der Ausdruck \emph{must} soll wegen möglicher
+Fehlinterpretationen vermieden werden. Ferner werden aktive und
+möglichst positive Formulierungen empfohlen. Passive Konstruktionen,
+negative Anforderungen und Formulierungen wie \emph{shall be able to}
+sollen nach Möglichkeit vermieden werden
+\cite[Abschn.~5.2.4]{iso29148}.
+
+Da diese Schlüsselwortkonvention für englischsprachige Anforderungen
+formuliert ist, muss für die in dieser Arbeit erzeugten
+deutschsprachigen Anforderungen gesondert festgelegt werden, wie eine
+verbindliche Anforderung sprachlich gekennzeichnet wird. Diese
+Entscheidung erfolgt beim Vergleich der Anforderungsansätze in
+Abschnitt~\ref{sec:anforderungsformate}.
 
 \subsection{Merkmale einzelner Anforderungen}
 \label{subsec:merkmale-einzeln}
 
-Der Standard nennt neun Merkmale, die jede einzelne Anforderung
-aufweisen muss. Eine Anforderung soll notwendig sein, also eine
-Fähigkeit beschreiben, die ohne sie nicht abgedeckt wäre. Sie soll in
-ihrer Detailtiefe zur betrachteten Abstraktionsebene passen und
-Entwurfsentscheidungen nicht vorwegnehmen. Sie soll eindeutig sein und
-nur eine Lesart zulassen, aus sich heraus verständlich sein und genau
-einen Sachverhalt beschreiben. Weiter soll sie unter den gegebenen
-Randbedingungen umsetzbar sein, ihre Erfüllung nachweisbar machen, den
-zugrunde liegenden Bedarf zutreffend wiedergeben und einer festgelegten
-Vorlage folgen~\cite[Abschn.~5.2.5]{iso29148}.
+ISO/IEC/IEEE~29148 legt neun Merkmale fest, die eine einzelne
+Anforderung aufweisen soll. Sie ist notwendig, wenn sie eine
+wesentliche Fähigkeit, Eigenschaft, Randbedingung oder einen
+wesentlichen Qualitätsfaktor beschreibt, dessen Weglassen zu einer
+fachlichen Lücke führen würde. Sie ist angemessen, wenn ihr Inhalt und
+ihre Detailtiefe zur betrachteten Abstraktionsebene passen und der
+Entwurfsraum nicht unnötig eingeschränkt wird. Darüber hinaus soll sie
+eindeutig, vollständig und singulär sein. Sie soll demnach nur eine
+Interpretation zulassen, ohne zusätzliche Informationen verständlich
+sein und genau eine Fähigkeit, Eigenschaft, Randbedingung oder einen
+Qualitätsfaktor behandeln.
+
+Eine Anforderung soll außerdem innerhalb der bestehenden technischen,
+zeitlichen und wirtschaftlichen Randbedingungen realisierbar sein. Sie
+soll so strukturiert und formuliert werden, dass ihre Realisierung
+nachgewiesen werden kann, den zugrunde liegenden Bedarf korrekt
+wiedergeben und, soweit anwendbar, einem freigegebenen Schreibstandard,
+einer festgelegten Vorlage und einem einheitlichen Schreibstil
+entsprechen~\cite[Abschn.~5.2.5]{iso29148}.
 
 Für die automatisierte Rekonstruktion aus Entwicklungsartefakten sind
-diese Merkmale unterschiedlich gut zugänglich. Eindeutigkeit,
-Einzelbezug, Nachweisbarkeit und Vorlagenkonformität lassen sich am
-Anforderungstext selbst und damit grundsätzlich auch maschinell prüfen.
-Notwendigkeit, Umsetzbarkeit und Korrektheit setzen dagegen Wissen über
-den tatsächlichen Bedarf und die Systemumgebung voraus, das in einer
-Pull-Request-Historie nur teilweise dokumentiert ist. Diese
-Unterscheidung wird in Kapitel~\ref{cha:evaluation} bei der Auswahl der
-Bewertungskriterien wieder aufgegriffen.
+diese Merkmale unterschiedlich gut zugänglich. Formale
+Vorlagenkonformität, bestimmte sprachliche Mehrdeutigkeiten und Hinweise
+auf nicht singuläre beziehungsweise nicht atomare Formulierungen können
+regelbasiert oder heuristisch vorgeprüft werden. Auch das Vorhandensein
+eines messbaren Akzeptanz- oder Verifikationskriteriums lässt sich
+strukturell untersuchen. Eine solche Prüfung liefert jedoch keinen
+abschließenden Nachweis der Anforderungsqualität.
+
+Notwendigkeit, Vollständigkeit, Realisierbarkeit, Verifizierbarkeit und
+Korrektheit hängen regelmäßig vom fachlichen Bedarf, vom Systemkontext
+und von den verfügbaren Quelleninformationen ab. Diese Merkmale
+erfordern daher zumindest teilweise eine kontextbezogene oder
+menschliche Bewertung. Automatisierte Prüfungen liefern Hinweise auf
+mögliche Qualitätsprobleme, ersetzen aber keine fachliche Beurteilung.
+Diese Unterscheidung wird in Kapitel~\ref{cha:evaluation} bei der
+Operationalisierung der Bewertungskriterien berücksichtigt.
 
 \subsection{Merkmale einer Anforderungsmenge}
 \label{subsec:merkmale-menge}
 
-Über die einzelne Anforderung hinaus formuliert der Standard fünf
-Merkmale, die sich auf die Gesamtheit der Anforderungen beziehen. Die
-Menge soll vollständig sein und keine ungeklärten Platzhalter mehr
-enthalten, in sich widerspruchsfrei sein und eine einheitliche
-Begrifflichkeit verwenden, insgesamt umsetzbar und verständlich sein
-sowie eine Validierung gegen die zugrunde liegenden Bedarfe
-zulassen~\cite[Abschn.~5.2.6]{iso29148}.
+Über die einzelne Anforderung hinaus nennt der Standard fünf Merkmale
+für eine gesamte Anforderungsmenge. Sie soll vollständig, konsistent,
+realisierbar, verständlich und validierbar sein. Eine abschließend als
+vollständig bezeichnete Menge darf keine ungeklärten
+\emph{To-Be-Defined}-, \emph{To-Be-Specified}- oder
+\emph{To-Be-Resolved}-Einträge enthalten. Eine konsistente Menge enthält
+keine widersprüchlichen oder unnötig überlappenden Anforderungen und
+verwendet Begriffe, Maßeinheiten und Messsysteme einheitlich. Die
+Anforderungsmenge soll darüber hinaus innerhalb der bestehenden
+Randbedingungen realisierbar und so verständlich sein, dass die
+erwarteten Eigenschaften des betrachteten Systems erkennbar
+werden~\cite[Abschn.~5.2.6]{iso29148}.
 
-Insbesondere die Forderung nach Widerspruchsfreiheit und einheitlicher
-Begrifflichkeit ist für die hier entwickelte Pipeline relevant. Da die
-Extraktion je Pull Request erfolgt, ist nicht ohne Weiteres
-sichergestellt, dass gleichartige Sachverhalte über die gesamte
-Historie hinweg gleich benannt werden. Die Behandlung von Dubletten und
-Begriffsvarianten wird daher in Kapitel~\ref{cha:implementierung}
-gesondert betrachtet.
+Diese mengenbezogenen Merkmale können nicht durch die isolierte Prüfung
+einzelner Modellausgaben bewertet werden. Sofern die Rekonstruktion
+zunächst PR-bezogen erfolgt, ist eine nachgelagerte Betrachtung der
+gesamten Ergebnismenge erforderlich. Dabei müssen Dubletten,
+Begriffsvarianten, mögliche Widersprüche, Überschneidungen und
+uneinheitliche Maßeinheiten erkannt und untersucht werden. Die dafür
+vorgesehenen Verarbeitungsschritte werden in
+Kapitel~\ref{cha:implementierung} beschrieben.
+
+Aus der Untersuchung der Pull-Request-Historie kann allerdings nicht
+ohne Weiteres auf die Vollständigkeit sämtlicher Anforderungen von
+Qrisp geschlossen werden. Bewertet werden kann zunächst nur die
+Vollständigkeit innerhalb des festgelegten Untersuchungsumfangs und
+der tatsächlich verfügbaren Quelleninformationen. Fehlende Belege in
+der untersuchten Historie sind daher nicht mit einer tatsächlich
+fehlenden Funktion oder Anforderung gleichzusetzen.
 
 \subsection{Sprachliche Kriterien}
 \label{subsec:sprachkriterien}
 
-Der Standard konkretisiert darüber hinaus, wie Anforderungen sprachlich
-zu fassen sind, damit die genannten Merkmale erreicht werden.
-Leitprinzip ist, dass eine Anforderung beschreibt, was benötigt wird,
-und nicht, wie es umzusetzen ist. Ergänzend benennt der Standard
-Klassen von Formulierungen, die zu vermeiden sind, weil sie
-Mehrdeutigkeit erzeugen oder eine Verifikation verhindern: Superlative,
-subjektive Bewertungen, unklare Pronomen, unbestimmte Adverbien und
-Adjektive, mehrdeutige logische Verknüpfungen, offene und nicht
-prüfbare Wendungen, Vergleiche ohne Bezugsgröße, einschränkende
-Vorbehalte, pauschale Allaussagen sowie Verweise ohne Angabe von
-Version und Datum~\cite[Abschn.~5.2.7]{iso29148}.
+Der Standard konkretisiert, wie textuelle Anforderungen sprachlich
+formuliert werden sollen. Leitprinzip ist, dass eine Anforderung
+beschreibt, was benötigt wird, und nicht, wie die technische Umsetzung
+erfolgen soll. Zu vermeiden sind insbesondere Superlative, subjektive
+Bewertungen, unklare Pronomen, unbestimmte Adverbien und Adjektive,
+mehrdeutige logische Verknüpfungen, offene und nicht verifizierbare
+Wendungen, vergleichende Formulierungen ohne ausreichend bestimmten
+Maßstab, einschränkende Vorbehalte, pauschale Allaussagen sowie
+unvollständige Verweise ohne Angabe der maßgeblichen Version, des
+Datums oder des tatsächlich anzuwendenden Abschnitts
+\cite[Abschn.~5.2.7]{iso29148}.
 
-Diese Aufzählung ist für die vorliegende Arbeit von besonderem Wert, da
-sie sich in maschinell prüfbare Regeln überführen lässt. Sie bildet
-damit die Grundlage sowohl für die automatische Validierung der
-Modellausgaben als auch für ein quantitatives Vergleichsmaß im
-Modellvergleich in Kapitel~\ref{cha:evaluation}.
+Annahmen, die einer Anforderung zugrunde liegen, sollen dokumentiert
+und validiert werden. Sie können beispielsweise als Begründung oder in
+einem begleitenden Informationsgegenstand festgehalten werden.
+Definitionen sind dagegen als beschreibende Aussagen und nicht als
+verbindliche Anforderungen zu formulieren
+\cite[Abschn.~5.2.7--5.2.8]{iso29148}.
+
+Ein Teil dieser sprachlichen Kriterien kann in lexikalische oder
+strukturelle Prüfindikatoren überführt werden. Dazu zählen
+beispielsweise Listen problematischer Begriffe, Muster für mehrere
+Sachverhalte innerhalb einer Anforderung, Prüfungen unvollständiger
+Referenzen und Kontrollen der vorgesehenen Ausgabestruktur. Solche
+Indikatoren können eine automatisierte oder teilautomatisierte
+Qualitätsvorprüfung der Modellausgaben unterstützen.
+
+Hierzu müssen die einzelnen Kriterien im Konzeptions- und
+Evaluationskapitel operationalisiert werden. Dabei ist festzulegen,
+welche Formulierungen oder Strukturen erkannt werden, wie Treffer
+gezählt und bewertet werden und welche Grenzen beziehungsweise
+möglichen Fehlklassifikationen die jeweilige Regel besitzt. Ob und in
+welcher Form aus diesen Indikatoren ein quantitatives Vergleichsmaß
+gebildet werden kann, muss vor der Evaluation methodisch festgelegt und
+anschließend empirisch geprüft werden. Eine solche Vorprüfung stellt
+keine vollständige fachliche Validierung der rekonstruierten
+Anforderungen dar.
+
+\subsection{Attribute von Anforderungen}
+\label{subsec:anforderungsattribute}
+
+Neben dem eigentlichen Anforderungssatz beschreibt der Standard
+zusätzliche Attribute, die das Verständnis, die Verwaltung und die
+Rückverfolgbarkeit von Anforderungen unterstützen. Beispiele sind eine
+eindeutige Identifikation, die Versionsnummer, eine verantwortliche
+Person oder Organisationseinheit, die Stakeholderpriorität, das Risiko,
+die Begründung, die angenommene Umsetzungsschwierigkeit und der
+Anforderungstyp. Eine einmal vergebene Identifikation soll dauerhaft
+eindeutig bleiben, bei Änderungen nicht ersetzt und nach dem Löschen
+einer Anforderung nicht erneut vergeben werden
+\cite[Abschn.~5.2.8.1--5.2.8.2]{iso29148}.
+
+Als mögliche Typen nennt der Standard unter anderem funktionale und
+leistungsbezogene Anforderungen, Schnittstellenanforderungen,
+Prozessanforderungen, Qualitäts- beziehungsweise nichtfunktionale
+Anforderungen, Anforderungen an Gebrauchstauglichkeit und
+Nutzungsqualität sowie Anforderungen an menschliche Faktoren
+\cite[Abschn.~5.2.8.3]{iso29148}.
+
+Für die LLM-gestützte Rekonstruktion werden diese Attribute durch
+projektspezifische Angaben ergänzt. Das vorgesehene Ausgabeschema soll
+mindestens eine eindeutige Kennung, den Anforderungstext, den
+Anforderungstyp, die betroffene Komponente, die Referenz auf den
+ursprünglichen Pull Request, einen relevanten Quellenausschnitt, eine
+Begründung, ein Akzeptanz- oder Verifikationskriterium, die Belegstärke,
+dokumentierte Unsicherheiten und Hinweise auf fehlende Informationen
+enthalten.
+
+Die Belegstärke beschreibt nachvollziehbar, ob eine rekonstruierte
+Anforderung direkt durch die Quelleninformationen belegt, lediglich
+indirekt gestützt oder unzureichend belegt ist. Sie ist von einer durch
+das Modell selbst geäußerten Unsicherheit zu unterscheiden. Eine frei
+erzeugte numerische Modellkonfidenz wird nicht als objektive
+Wahrscheinlichkeit oder als eigenständiger Qualitätsnachweis
+interpretiert. Modellseitig erkannte Unsicherheiten werden stattdessen
+getrennt in Textform dokumentiert.
+
+Die projektspezifischen Attribute werden nicht unmittelbar durch
+ISO/IEC/IEEE~29148 vorgeschrieben. Sie ergeben sich aus dem Ziel, die
+rekonstruierten Anforderungen auf ihre Ursprungsinformationen
+zurückzuführen, unbelegte Modellaussagen erkennbar zu machen und die
+Ergebnisse systematisch evaluieren zu können. Die Orientierung an den
+Strukturen, Qualitätsmerkmalen und Attributen des Standards begründet
+für sich genommen keine Konformität mit ISO/IEC/IEEE~29148.
 
 \section{Anforderungsformate}
 \label{sec:anforderungsformate}
