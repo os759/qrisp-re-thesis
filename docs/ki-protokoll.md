@@ -18,6 +18,8 @@ gefuehrt, um Nachweispflichten erfuellen zu koennen.
 | 05.08.2026 | Claude | Opus | Uebernahme der HSRM-Vorlage, Kapitelgeruest | Vorlagendateien, Exposé | thesis.tex mit Metadaten und Kapitelstruktur | Selbst kompiliert, Ausgabe geprueft | ja |
 | 06.08.2026 | Claude | Opus | Gegenpruefung meiner Belege in Abschnitt 2.1 | ueberarbeitete thesis.tex, Norm-Volltext | Alle acht Abschnittsangaben als korrekt bestaetigt | Ergebnis nachvollzogen | Beleg am ersten Absatz ergaenzt |
 | 06.08.2026 | Claude | Opus | RFC 2119 und RFC 8174 aufbereiten | Volltexte beider RFCs | Deutsche Erlaeuterung, LaTeX-Abschnitt, BibTeX | \[Noch offen: eigene Pruefung nach dem Lesen] | Abschnitt 2.2.1 in thesis.tex |
+| 06.08.2026 | Claude | Opus | EARS aufarbeiten (Mavin 2009, Mavin/Wilkinson 2010, Wilkinson/Mavin 2018) | Volltexte der drei Papiere, STATUS.md | Deutsche Erlaeuterung, Feingliederung, LaTeX-Abschnitt 2.2.2 mit Tabelle, drei BibTeX-Eintraege, Lesenotizen, Matrixeintraege | Belege gegen beide RFC-Volltexte geprueft | Abschnitt 2.2.2 in thesis.tex, Eintraege in thesis.bib |
+
 
 ## Hinweis zur Arbeitsteilung
 
