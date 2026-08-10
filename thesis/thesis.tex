@@ -364,6 +364,201 @@ Anforderungen gilt, wird in der Entscheidungsmatrix in
 Abschnitt~\textbf{[Noch zu ergänzen: Verweis auf die Entscheidungsmatrix]}
 begründet festgelegt.
 
+\subsection{Easy Approach to Requirements Syntax (EARS)}
+\label{sec:ears}
+
+Der Easy Approach to Requirements Syntax (EARS) entstand bei einem
+Hersteller von Regelungssystemen für Flugzeugtriebwerke. Solche Systeme
+sind sicherheitskritisch, umfassen mehr als einhunderttausend Zeilen
+Quelltext und werden mit einer zweistelligen Zahl von Zulieferern
+entwickelt \cite{mavin2009ears}. Ausgangspunkt war die Beobachtung, dass
+Anforderungen überwiegend von Personen formuliert werden, die nicht im
+Requirements Engineering ausgebildet sind, und dass unstrukturierte
+natürliche Sprache dafür ungeeignet ist. Die Autoren benennen acht
+wiederkehrende Probleme: Mehrdeutigkeit, Vagheit, Komplexität,
+Auslassung, Duplikation, Wortreichtum, unangemessene
+Implementierungsvorgaben und fehlende Prüfbarkeit
+\cite[Abschn.~2]{mavin2009ears}. Widersprüchliche Anforderungen und
+fehlende Rückverfolgbarkeitsbeziehungen werden ausdrücklich
+ausgeklammert, da sie im untersuchten Material nicht auftraten
+\cite[Abschn.~2]{mavin2009ears}.
+
+Formale Notationen wie Z oder Petri-Netze und grafische Notationen wie
+UML oder SysML lehnen die Autoren als Lösung ab. Ihre Begründung: Der
+Wechsel der Notation erfordert eine Übersetzung des Ausgangstextes,
+diese Übersetzung führt neue Fehler ein und errichtet eine Sprachbarriere
+zwischen Entwicklern und Stakeholdern; hinzu kommt der Schulungsaufwand
+\cite[Abschn.~2]{mavin2009ears}. Die daraus abgeleitete Hypothese lautet,
+dass eine kleine Menge einfacher Satzstrukturen ein effizienterer Weg zur
+Verbesserung hochrangiger Anforderungen ist als der Wechsel des
+Formalismus \cite[Abschn.~2]{mavin2009ears}.
+
+EARS beruht auf einer einzigen generischen Satzstruktur, die aus einer
+optionalen Vorbedingung, einem optionalen Auslöser, dem Systemnamen, dem
+Schlüsselwort \textit{shall} und der geforderten Systemreaktion besteht
+\cite[Abschn.~4.1]{mavin2009ears}. Die Reihenfolge dieser Satzteile ist
+nicht beliebig, sondern folgt einer zeitlichen Logik: Vorbedingungen
+müssen erfüllt sein, damit ein Auslöser die Anforderung überhaupt
+aktivieren kann, und die Systemreaktion ist genau dann gefordert, wenn
+Vorbedingung und Auslöser zutreffen \cite[Abschn.~4.1]{mavin2009ears}.
+Aus dieser Grundstruktur leiten sich fünf Muster ab, die sich darin
+unterscheiden, welche Satzteile besetzt sind
+(Tabelle~\ref{tab:ears-muster}).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Die fünf Muster des Easy Approach to Requirements Syntax
+           nach \cite[Abschn.~4.2--4.6]{mavin2009ears}}
+  \label{tab:ears-muster}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm}%
+                    >{\raggedright\arraybackslash}p{2.0cm}%
+                    >{\raggedright\arraybackslash}p{8.2cm}@{}}
+    \toprule
+    \textbf{Muster} & \textbf{Schlüssel\-wort} & \textbf{Allgemeine Form} \\
+    \midrule
+    Ubiquitous & keines &
+      The \textless system name\textgreater{} shall
+      \textless system response\textgreater \\
+    State-driven & WHILE &
+      WHILE \textless in a specific state\textgreater{} the
+      \textless system name\textgreater{} shall
+      \textless system response\textgreater \\
+    Event-driven & WHEN &
+      WHEN \textless trigger\textgreater{} the
+      \textless system name\textgreater{} shall
+      \textless system response\textgreater \\
+    Unwanted behaviour & IF \dots{} THEN &
+      IF \textless trigger\textgreater, THEN the
+      \textless system name\textgreater{} shall
+      \textless system response\textgreater \\
+    Optional feature & WHERE &
+      WHERE \textless feature is included\textgreater{} the
+      \textless system name\textgreater{} shall
+      \textless system response\textgreater \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Für zustandsgetriebene Anforderungen ist \textit{During} als
+gleichbedeutende Alternative zu \textit{While} zugelassen; die Wahl
+dient allein der Lesbarkeit \cite[Abschn.~4.5]{mavin2009ears}. Die
+Schlüsselwörter \textit{When}, \textit{While} und \textit{Where} lassen
+sich zu komplexeren Mustern kombinieren und innerhalb von
+\textit{If}-\textit{Then}-Konstruktionen verwenden, wenn eine Anforderung
+mehrere Bedingungen zugleich benötigt \cite[Abschn.~4.7]{mavin2009ears}.
+
+Bemerkenswert ist die Begründung für ein eigenes Muster für unerwünschtes
+Verhalten. Es ist logisch äquivalent zum ereignisgetriebenen Muster,
+erhält aber eine eigene Syntax, damit derartige Anforderungen über den
+gesamten Lebenszyklus hinweg als solche erkennbar bleiben. Auslassungen
+bei unerwünschtem Verhalten gelten den Autoren als wesentliche Ursache
+kostspieliger Nacharbeit \cite[Abschn.~4.4]{mavin2009ears}. In einer
+Fußnote desselben Abschnitts wird auf Misuse Cases als verwandte
+Perspektive auf unerwünschtes Verhalten verwiesen
+\cite[Abschn.~4.4]{mavin2009ears}.
+
+Die empirische Grundlage von EARS besteht aus Fallstudien in einem
+einzelnen Unternehmen. Die erste Studie wandte die Muster auf einen
+Abschnitt einer luftfahrtrechtlichen Zulassungsvorschrift an. Aus
+36~Rohanforderungen entstanden 47~Anforderungen in EARS-Form, die
+durchschnittliche Wortzahl je Anforderung sank von 36,9 auf 25,6
+\cite[Tab.~2]{mavin2009ears}. Bei fünf der acht genannten Probleme traten
+in den umformulierten Anforderungen keine Vorkommen mehr auf; bei
+Mehrdeutigkeit, Vagheit und Wortreichtum wurde eine Verringerung, aber
+keine Beseitigung beobachtet \cite[Abschn.~5]{mavin2009ears}. Die Autoren
+schränken selbst ein, dass die Beseitigung von Auslassungen mit Vorsicht
+zu bewerten sei, da kein Nachweis darüber vorliegt, ob weitere fehlende
+Anforderungen erfasst wurden \cite[Abschn.~6]{mavin2009ears}.
+
+Eine Folgearbeit weitete die Untersuchung auf drei umfangreichere
+Dokumentmengen aus: die vollständige Zulassungsvorschrift mit 78\,187
+Wörtern, ein unternehmensinternes Anforderungsdokument mit
+267~Anforderungssätzen und 418~Sicherheitsanforderungen eines konkreten
+Entwicklungsvorhabens \cite[Abschn.~Case Studies]{mavin2010bigears}. Für
+die vorliegende Arbeit ist weniger das Ergebnis als das dort
+beschriebene Verfahren von Bedeutung. Es verläuft zweistufig: Zunächst
+wird jede Aussage des Ausgangstextes danach eingestuft, ob sie eine
+Anforderung, eine Überschrift, eine Information oder für das betrachtete
+System nicht anwendbar ist. Erst danach werden die als Anforderung
+eingestuften Aussagen in die EARS-Muster überführt, zusammengesetzte
+Anforderungen aufgetrennt und die Umformulierungen von einem Fachexperten
+validiert \cite[Abschn.~Method]{mavin2010bigears}. Zudem werden die acht
+Probleme dort erstmals prüfbar gefasst; Komplexität liegt beispielsweise
+vor, wenn eine Anforderung zwei oder mehr miteinander verbundene
+Anforderungen, drei oder mehr Vorbedingungen oder zwei oder mehr Auslöser
+enthält \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}.
+
+Die berichteten Ergebnisse sind bei der Einordnung ihrer Aussagekraft zu
+berücksichtigen. Die Untersuchungen fanden in einem Unternehmen und einer
+Anwendungsdomäne statt, die Bewertung der Anforderungen erfolgte durch
+dieselbe Personengruppe, welche die Umformulierung vorgenommen hat, und
+einzelne Schwellenwerte wurden nach Angabe der Autoren aufgrund
+subjektiver Lesbarkeitserwägungen festgelegt
+\cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}. Nach
+Einschätzung des Verfassers handelt es sich damit um belastbare
+Praxisbefunde, nicht um ein kontrolliertes Experiment; die berichteten
+Verbesserungen sind entsprechend als Erfahrungswerte zu lesen.
+
+Die Autoren benennen mehrere Grenzen des Ansatzes. Universelle
+Anwendbarkeit war nie das Ziel; die Muster wurden für die Definition
+hochrangiger Stakeholder-Anforderungen entwickelt
+\cite[Abschn.~2]{mavin2009ears}. Auch nach der Umformulierung bleiben
+Anforderungen unprüfbar, die unquantifizierte Ausdrücke wie
+\textit{minimise} oder \textit{limit} enthalten, und Anforderungen aus
+Matrizen oder langen Bedingungslisten bleiben aus pragmatischen Gründen
+komplex, da eine vollständige Zerlegung zu einer kombinatorischen
+Ausweitung des Anforderungssatzes führen würde
+\cite[Abschn.~Residual Problems]{mavin2010bigears}. Für unerwünschte
+Zustände, im Unterschied zu unerwünschten Ereignissen, existiert kein
+eigenes Muster; ebenso wird die Berechtigung eines gesonderten
+\textit{If}-\textit{Then}-Musters von Dritten hinterfragt, da das
+resultierende Systemverhalten dem ereignisgetriebenen Fall entspricht
+\cite[Abschn.~Future Work]{mavin2010bigears}. Als mögliche
+Weiterentwicklung nennen die Autoren ausdrücklich die Erweiterung auf die
+Spezifikation von Softwareanforderungen
+\cite[Abschn.~Future Work]{mavin2010bigears}.
+
+Über die Formulierung einzelner Anforderungen hinaus wurde vorgeschlagen,
+die Klauselstruktur von EARS-Anforderungen systematisch auf Abweichungen
+zu untersuchen und daraus ergänzende Anforderungen abzuleiten
+\cite{wilkinson2018mitigation}. Dieser Ansatz betrifft die
+Betriebssicherheit technischer Systeme und nicht die
+Informationssicherheit im Sinne einer Bedrohungsanalyse; er wird in
+dieser Arbeit ausschließlich als methodisches Vorbild für eine
+strukturierte Lückensuche herangezogen
+(Kapitel~\ref{cha:konzeption}).
+
+Für die Einordnung im Sinne der Fragestellung dieser Arbeit ist
+festzuhalten, dass EARS ausschließlich den Satzbau regelt. Es definiert
+weder Qualitätsmerkmale einzelner Anforderungen noch abgestufte
+Verbindlichkeitsstufen, sondern legt fest, in welcher Reihenfolge
+Vorbedingung, Auslöser, System und Systemreaktion aufzuführen sind. EARS
+verwendet dabei durchgängig \textit{shall} und kennt keine weiteren
+Modalitäten \cite[Abschn.~4.1]{mavin2009ears}. Es steht damit auf
+derselben Seite wie die Schlüsselwortkonvention aus
+Abschnitt~\ref{subsec:sprachkriterien} \cite[Abschn.~5.2.7]{iso29148}
+und nicht auf derjenigen der in
+Abschnitt~\ref{subsec:rfc2119} dargestellten Konvention.. EARS und die
+Qualitätskriterien der Norm sind daher nach Einschätzung des Verfassers
+nicht als konkurrierende Alternativen, sondern als aufeinander
+beziehbare Festlegungen unterschiedlicher Art zu betrachten.
+
+Zwei Eigenschaften sind für eine automatisierte Rekonstruktion von
+Anforderungen von besonderem Interesse. Erstens sind sämtliche Muster an
+festen Schlüsselwörtern und einer festen Klauselfolge verankert. Ob eine
+erzeugte Anforderung einem Muster entspricht, lässt sich dadurch
+regelbasiert prüfen, ohne dass eine inhaltliche Bewertung erforderlich
+wäre. Zweitens entspricht die Klauselstruktur einer Menge klar
+abgegrenzter Felder, sodass eine Sprachmodellausgabe nicht als freier
+Satz, sondern als strukturierter Datensatz erzeugt und der Satz daraus
+programmatisch zusammengesetzt werden kann. Beide Überlegungen sind
+eigene Schlussfolgerungen des Verfassers und werden in
+Kapitel~\ref{cha:konzeption}
+aufgegriffen. Dort ist zugleich zu behandeln, dass EARS für hochrangige
+Anforderungen entwickelt und erprobt wurde, während die in dieser Arbeit
+ausgewertete Entwicklungshistorie Aussagen auf der Ebene der
+Implementierung enthält.
+
 
 \section{Large Language Models und Prompt Engineering}
 \label{sec:llm-grundlagen}
