@@ -559,6 +559,206 @@ Anforderungen entwickelt und erprobt wurde, während die in dieser Arbeit
 ausgewertete Entwicklungshistorie Aussagen auf der Ebene der
 Implementierung enthält.
 
+\subsection{User Stories}
+\label{subsec:userstories}
+
+User Stories sind eine in der agilen Softwareentwicklung verbreitete
+Notation für Anforderungen \cite[Abschn.~1]{lucassen2016qus}. Anders als
+die in Abschnitt~\ref{sec:ears} dargestellten Muster legen sie nicht in
+erster Linie den Satzbau fest, sondern die Perspektive: Eine User Story
+hält fest, für wen eine Funktionalität bestimmt ist, was vom System
+erwartet wird und optional, warum dies wichtig ist. Die verbreitete und
+auf Cohn zurückgeführte Form lautet \textit{As a \textless type of
+user\textgreater, I want \textless goal\textgreater, [so that
+\textless some reason\textgreater]}
+\cite[Abschn.~1]{lucassen2016qus}. Der letzte Teil ist optional.
+
+Der Textbaustein ist dabei nur ein Teil des Konzepts. Die Autoren halten
+fest, dass die einschlägige Literatur übereinstimmend drei Bestandteile
+einer User Story nennt: den kurzen Text, die Gespräche zwischen den
+Beteiligten über diesen Text und die zugehörigen Akzeptanzkriterien
+\cite[Abschn.~1]{lucassen2016qus}. Eine einheitliche Schablone existiert
+zudem nicht; unter Verweis auf eine Übersichtsarbeit nennen die Autoren
+mehr als achtzig syntaktische Varianten
+\cite[Abschn.~2]{lucassen2016qus}.
+
+Um User Stories analysierbar zu machen, entwickeln die Autoren ein
+Begriffsmodell. Danach besteht eine User Story aus genau einer Rolle,
+genau einem \textit{Means}, keinem oder mehreren \textit{Ends} sowie
+einem \textit{Format}, das als Textgerüst die übrigen Bestandteile
+verbindet \cite[Abschn.~2]{lucassen2016qus}. Die Rolle benennt den
+Beteiligten oder eine stellvertretende Nutzerfigur, von der der Bedarf
+ausgeht \cite[Abschn.~2.2]{lucassen2016qus}. Das Means enthält
+grammatisch ein Subjekt mit einer Absicht, ein Handlungsverb und ein
+direktes Objekt; ein indirektes Objekt und ein Adjektiv können
+hinzutreten \cite[Abschn.~2.3]{lucassen2016qus}. Für die Ends
+unterscheiden die Autoren drei wohlgeformte Varianten, die einander
+nicht ausschließen: die Erläuterung des Means, ein impliziter Verweis
+auf eine weitere benötigte Funktionalität und die Angabe einer
+qualitativen Wirkung \cite[Abschn.~2.4]{lucassen2016qus}.
+
+Auf diesem Modell setzt das \textit{Quality User Story}-Rahmenwerk (QUS)
+auf, eine Zusammenstellung von dreizehn Kriterien für die Qualität von
+User Stories (Tabelle~\ref{tab:qus-kriterien}). Die Kriterien sind nach
+den Kategorien syntaktisch, semantisch und pragmatisch geordnet und
+zusätzlich danach unterschieden, ob sie sich auf eine einzelne Story
+oder auf eine Menge von Stories beziehen
+\cite[Abschn.~3]{lucassen2016qus}. Für die Kriterien der Menge geben die
+Autoren formale Prädikate an, mit denen sich Verstöße prüfen lassen,
+etwa für vollständige und für sinngleiche Duplikate
+\cite[Abschn.~3.2]{lucassen2016qus}. Gegenüber der in der Praxis
+verbreiteten Merkregel INVEST grenzen die Autoren QUS damit ab, dass
+jene sechs Heuristiken stark qualitativ blieben
+\cite[Abschn.~1]{lucassen2016qus}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Die dreizehn Kriterien des Quality-User-Story-Rahmenwerks
+           nach \cite[Tab.~1]{lucassen2016qus}}
+  \label{tab:qus-kriterien}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.1cm}%
+                    >{\raggedright\arraybackslash}p{7.5cm}%
+                    >{\raggedright\arraybackslash}p{1.9cm}@{}}
+    \toprule
+    \textbf{Kriterium} & \textbf{Bedeutung} & \textbf{Bezug} \\
+    \midrule
+    \multicolumn{3}{@{}l}{\textit{Syntaktisch}} \\
+    Well-formed & enthält mindestens eine Rolle und ein Means & einzeln \\
+    Atomic & beschreibt genau ein Merkmal & einzeln \\
+    Minimal & enthält nichts außer Rolle, Means und Ends & einzeln \\
+    \midrule
+    \multicolumn{3}{@{}l}{\textit{Semantisch}} \\
+    Conceptually sound & das Means benennt ein Merkmal, das End eine
+      Begründung & einzeln \\
+    Problem-oriented & benennt nur das Problem, nicht dessen Lösung &
+      einzeln \\
+    Unambiguous & vermeidet Begriffe, die mehrere Deutungen zulassen &
+      einzeln \\
+    Conflict-free & steht zu keiner anderen Story im Widerspruch &
+      Menge \\
+    \midrule
+    \multicolumn{3}{@{}l}{\textit{Pragmatisch}} \\
+    Full sentence & ist ein wohlgeformter vollständiger Satz & einzeln \\
+    Estimatable & ist nicht so grob gefasst, dass Planung und
+      Priorisierung erschwert werden & einzeln \\
+    Unique & kommt kein zweites Mal vor & Menge \\
+    Uniform & verwendet dieselbe Schablone wie die übrigen Stories &
+      Menge \\
+    Independent & ist in sich abgeschlossen, ohne inhärente
+      Abhängigkeiten & Menge \\
+    Complete & die Umsetzung der Menge ergibt eine funktionsvollständige
+      Anwendung & Menge \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Nach Einschätzung des Verfassers ist die Zweiteilung des Rahmenwerks
+bemerkenswert: QUS unterscheidet zwischen Kriterien der einzelnen
+Anforderung und Kriterien der Anforderungsmenge und folgt damit
+derselben Systematik wie die in den
+Abschnitten~\ref{subsec:merkmale-einzeln}
+und~\ref{subsec:merkmale-menge} dargestellten Merkmale der
+ISO/IEC/IEEE 29148. Beide Quellen kommen unabhängig voneinander zu
+dieser Trennung. Anzumerken ist, dass die hier behandelte Arbeit die
+Norm in ihrer Ausgabe von 2011 heranzieht
+\cite[Abschn.~7.2]{lucassen2016qus}, während die vorliegende Arbeit die
+Ausgabe von 2018 verwendet.
+
+Der zweite Beitrag der Arbeit ist ein Werkzeug, das Verstöße gegen einen
+Teil dieser Kriterien selbsttätig aufdeckt. Ein sprachlicher Zerleger
+sucht zunächst nach bekannten Signalwörtern wie \textit{As a},
+\textit{I want to}, \textit{I am able to} und \textit{so that} und
+trennt den Text an diesen Stellen in Rolle, Means und Ends; anschließend
+werden die Wortarten der einzelnen Bestandteile bestimmt und gegen das
+Begriffsmodell geprüft \cite[Abschn.~4.2]{lucassen2016qus}. Leitend ist
+dabei die von Berry und Kollegen übernommene Forderung, ein solches
+Werkzeug solle möglichst sämtliche Mängel auffinden und dafür
+gegebenenfalls eine geringere Treffergenauigkeit in Kauf nehmen. Zur
+Begründung führen die Autoren an, dass der Bearbeiter andernfalls die
+gesamte Anforderungsmenge erneut von Hand prüfen müsse und die
+Werkzeugunterstützung damit entwertet werde
+\cite[Abschn.~4]{lucassen2016qus}. Aus demselben Grund beschränkt sich
+die erste Fassung des Werkzeugs auf die syntaktischen und einen Teil der
+pragmatischen Kriterien; die semantischen Kriterien bleiben ausgespart,
+da sie ein inhaltliches Verständnis der Anforderung voraussetzen
+\cite[Abschn.~4]{lucassen2016qus}.
+
+Zur Bewertung wurden 1023 User Stories aus achtzehn Datensätzen
+ausgewertet, überwiegend von unabhängigen Softwareanbietern mit Sitz in
+den Niederlanden \cite[Abschn.~5]{lucassen2016qus}. Im Mittel wies gut
+die Hälfte der Stories mindestens einen Mangel auf
+\cite[Abschn.~5.1]{lucassen2016qus}. Tabelle~\ref{tab:aqusa} zeigt die
+Ergebnisse je Kriterium. Auffällig ist die Spreizung: Während die
+Trefferquote mit Ausnahme des Kriteriums \textit{Atomic} durchgehend
+über 95 Prozent liegt, fällt die Genauigkeit bei den Kriterien
+\textit{Well-formed} und \textit{Atomic} unter 55 Prozent. Als häufigste
+Ursache unbegründeter Meldungen nennen die Autoren ein kaufmännisches
+Und innerhalb einer Rollenbezeichnung sowie Sonderzeichen am Beginn
+einer Story \cite[Abschn.~5.1]{lucassen2016qus}. Für eine überarbeitete
+Fassung des Werkzeugs erwarten sie eine Trefferquote von 97,9 Prozent
+bei einer Genauigkeit von 84,8 Prozent
+\cite[Abschn.~6.7]{lucassen2016qus}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Trefferquote und Genauigkeit der selbsttätigen
+           Qualitätsprüfung von User Stories, ermittelt an
+           1023~Stories aus achtzehn Datensätzen
+           \cite[Tab.~4 und 5]{lucassen2016qus}}
+  \label{tab:aqusa}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.5cm}rr@{}}
+    \toprule
+    \textbf{Kriterium} & \textbf{Trefferquote} & \textbf{Genauigkeit} \\
+    \midrule
+    Well-formed & 95,7\,\% & 42,3\,\% \\
+    Atomic      & 82,9\,\% & 51,2\,\% \\
+    Minimal     & 95,5\,\% & 69,5\,\% \\
+    Uniform     & 95,4\,\% & 87,1\,\% \\
+    Unique      & 100\,\%  & 100\,\% \\
+    \midrule
+    Gesamt (gewichtetes Mittel) & 93,8\,\% & 72,2\,\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Die Autoren benennen zwei Einschränkungen ihrer Untersuchung. Zum einen
+liege eine Auswahlverzerrung vor, da sämtliche Datensätze von
+unabhängigen Softwareanbietern stammen und diese überwiegend in den
+Niederlanden ansässig sind; die Übertragbarkeit auf andere Kontexte sei
+daher offen. Zum anderen bestehe eine Untersucherverzerrung, weil die
+Kriterien des Rahmenwerks unterschiedlich ausgelegt werden können und
+das Verständnis der prüfenden Person das Ergebnis beeinflusst
+\cite[Abschn.~5.2]{lucassen2016qus}. Nach Einschätzung des Verfassers
+handelt es sich damit um eine methodisch dokumentierte Mehrfallstudie
+mit quantitativer Auswertung, deren Kennzahlen jedoch an den
+untersuchten Datenbestand gebunden sind und nicht als allgemeingültige
+Leistungsangabe gelesen werden dürfen.
+
+Für die automatisierte Rekonstruktion von Anforderungen aus einer
+Entwicklungshistorie ergeben sich daraus drei Folgerungen, die
+sämtlich eigene Schlussfolgerungen des Verfassers sind. Erstens setzt
+bereits das grundlegende Kriterium \textit{Well-formed} eine
+ausdrücklich benannte Rolle voraus. Pull-Request-Inhalte richten sich
+jedoch an andere Entwickelnde und benennen die Nutznießer einer
+Änderung in der Regel nicht; eine Rolle müsste daher ergänzt werden,
+ohne dass die Quelle sie belegt. Zweitens ist von den drei genannten
+Bestandteilen einer User Story aus einer Entwicklungshistorie
+allenfalls der Text und ansatzweise die Diskussion zugänglich, während
+Akzeptanzkriterien im agilen Sinne dort nicht vorliegen. Drittens
+liefert die Arbeit einen veröffentlichten Bezugswert dafür, welche
+Genauigkeit eine regelbasierte Formatprüfung erreichen kann, sowie
+einen begründeten Grundsatz für die Aufgabenteilung zwischen Werkzeug
+und Mensch: Das Werkzeug übernimmt die maschinell entscheidbaren
+Prüfungen, die urteilsabhängigen verbleiben beim Menschen. Beide Punkte
+werden in Kapitel~\ref{cha:konzeption} aufgegriffen.
+
+Ergänzend sei angemerkt, dass die Arbeit in ihrer Übersicht verwandter
+Ansätze auf ein Verfahren verweist, das sprachliche Auffälligkeiten in
+Anforderungen gegen die Qualitätsvorgaben der ISO/IEC/IEEE 29148 prüft
+\cite[Abschn.~7.3]{lucassen2016qus}.
+\textbf{[Zu prüfen: Primärquelle Femmer et al.\ noch nicht gelesen;
+vor einer inhaltlichen Verwendung beschaffen oder Satz streichen]}
+
 
 \section{Large Language Models und Prompt Engineering}
 \label{sec:llm-grundlagen}
