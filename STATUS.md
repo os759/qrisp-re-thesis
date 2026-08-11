@@ -3,6 +3,28 @@
 Letzte Aktualisierung: 10.08.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
+## Zusammenarbeit im Chat
+
+Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
+
+- Claude hat kein Gedaechtnis ueber Chats hinweg. Nur was in dieser
+  Datei oder im Projektwissen steht, gilt als bekannt.
+- Projektwissen enthaelt ausschliesslich Unveraenderliches:
+  exposee.tex und 29148-2018.pdf. Arbeitsdateien werden pro Chat
+  hochgeladen, nie im Projektwissen abgelegt - dort veralten sie
+  unbemerkt. Die Vorlagenkopien (thesis.tex, thesis.bib, online.bib,
+  preamble.tex, hyphenations.tex, Makefile) wurden am 10.08.2026
+  entfernt; sie enthielten Demo-Daten der Hochschulvorlage.
+- Wenn Claude den Inhalt einer Datei braucht, muss er sie ausdruecklich
+  anfordern und dabei den vollstaendigen Pfad nennen. Claude arbeitet
+  nie mit einer aus dem Gedaechtnis oder aus dem Projektwissen
+  rekonstruierten Fassung einer Arbeitsdatei.
+- Dasselbe gilt fuer Befehlsausgaben: Claude erklaert einen Commit,
+  eine Installation, eine Kompilierung oder einen Test erst dann fuer
+  erfolgreich, wenn die tatsaechliche Ausgabe im Chat steht.
+- Claude erfindet keine Bearbeitungsstaende, Trefferzahlen,
+  Bewertungen oder Dateiinhalte. Bei Unklarheit fragt er nach.
+
 ## Umgebung
 
 MacBook Pro, Apple M3 Pro, 36 GB RAM, ca. 515 GB frei
@@ -255,8 +277,6 @@ Technisch und redaktionell:
   Platzhalter auf) · Z. 768 (1,4pt, Ueberschrift)
 - Rote KI-Hinweisbox in vorspann.tex vor Abgabe ersetzen
 - fancyhdr-Warnungen stammen aus der Vorlage und sind harmlos
-- Suchprotokoll: Platzhalter <Trefferzahl> und Spalte "gescreent" in der
-  Zeile vom 06.08.2026 (Titelsuche EARS) noch offen
 
 ## Arbeitsweise
 
@@ -268,6 +288,8 @@ Technisch und redaktionell:
   commit -> log -1 -> status -> push
 - Kein git add . und kein git add ordner/
 - Commit-Praefixe: lit:, bib:, tex:, chore:
+- Bereits gepushte Commits werden nicht nachtraeglich geaendert.
+  Korrekturen kommen als eigener Folge-Commit.
 - BibTeX-Felder mit Umlauten oder Backslashes in {...} setzen,
   nicht in "..." - sonst bricht der Eintrag ab.
 - Eigennamen im BibTeX-Titel in {...} setzen, damit plain die
