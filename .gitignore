@@ -8,6 +8,7 @@ config/config.yaml
 data/raw/
 data/interim/
 eval/responses/
+docs/pseudonyme.csv
 
 # --- Modellgewichte ---
 models/
