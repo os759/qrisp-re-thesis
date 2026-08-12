@@ -1,8 +1,7 @@
-# Konfiguration der Datenerhebung aus der GitHub-API
-# Arbeitspaket D, Bachelorarbeit
-# Diese Datei enthaelt keine Zugangsdaten.
+# Data collection settings for the GitHub API.
+# Work package D, bachelor thesis. Contains no credentials.
 
-[quelle]
+[source]
 owner = "eclipse-qrisp"
 repo = "Qrisp"
 repo_id = 632066325
@@ -14,5 +13,5 @@ version = "2022-11-28"
 per_page = 100
 state = "all"
 
-[abruf]
-timeout_sekunden = 30
+[fetch]
+timeout_seconds = 30
