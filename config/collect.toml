@@ -1,0 +1,18 @@
+# Konfiguration der Datenerhebung aus der GitHub-API
+# Arbeitspaket D, Bachelorarbeit
+# Diese Datei enthaelt keine Zugangsdaten.
+
+[quelle]
+owner = "eclipse-qrisp"
+repo = "Qrisp"
+repo_id = 632066325
+html_url = "https://github.com/eclipse-qrisp/Qrisp"
+
+[api]
+base_url = "https://api.github.com"
+version = "2022-11-28"
+per_page = 100
+state = "all"
+
+[abruf]
+timeout_sekunden = 30
