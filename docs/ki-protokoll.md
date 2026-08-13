@@ -20,7 +20,7 @@ gefuehrt, um Nachweispflichten erfuellen zu koennen.
 | 06.08.2026 | Claude | Opus | RFC 2119 und RFC 8174 aufbereiten | Volltexte beider RFCs | Deutsche Erlaeuterung, LaTeX-Abschnitt, BibTeX | gelesen und geprueft | Abschnitt 2.2.1 in thesis.tex |
 | 06.08.2026 | Claude | Opus | EARS aufarbeiten (Mavin 2009, Mavin/Wilkinson 2010, Wilkinson/Mavin 2018) | Volltexte der drei Papiere, STATUS.md | Deutsche Erlaeuterung, Feingliederung, LaTeX-Abschnitt 2.2.2 mit Tabelle, drei BibTeX-Eintraege, Lesenotizen, Matrixeintraege | gegen Volltexte geprueft | Abschnitt 2.2.2 in thesis.tex, Eintraege in thesis.bib |
 | 10.08.2026 | Claude | Opus | User Stories aufarbeiten (Lucassen et al. 2016) | Volltext des Artikels, STATUS.md | Deutsche Erlaeuterung, Einordnung, Feingliederung, LaTeX-Abschnitt 2.2.3 mit zwei Tabellen, Lesenotiz, Matrixeintrag, BibTeX | gegen Volltexte geprueft | Abschnitt 2.2.3 in thesis.tex, Eintrag in thesis.bib |
-
+| 12.08.2026 | Claude | Opus | Paket D Teil 1: Anleitung zum GitHub-API-Zugriff, Entwurf von fuenf Python-Skripten, Entscheidungsvorlage zur Datenhaltung | STATUS.md, Projektanweisung, Repository-Name eclipse-qrisp/Qrisp, Ausgaben von curl und Python, Inhalt von .gitignore und entscheidungen.md. Kein Token, keine Rohdaten. | github_api.py, api_test.py, explore_fields.py, compare_objects.py, fetch_pull_list.py; 13 Entscheidungseintraege; Recherche zu Rate Limits, Paginierung und API-Versionen mit Fundstellen | Jeden Befehl selbst ausgefuehrt und jede Ausgabe zurueckgemeldet. Zwei Fehler des Modells korrigiert: der Vorschlag, data/interim/ zu versionieren, wurde verworfen (bestehende .gitignore war strenger); ein angegebener Pruefwert war falsch. | Skripte und Entscheidungen uebernommen, Vorschlag zu data/interim/ nicht |
 
 ## Hinweis zur Arbeitsteilung
 
@@ -29,3 +29,9 @@ Quelle, erlaeutert sie auf Deutsch und liefert einen Entwurf mit
 Belegen. Ich lese den Entwurf, pruefe die Belege gegen die Quelle und
 ueberarbeite ihn, bevor er uebernommen wird. Abschnitt 2.1 wurde von
 mir inhaltlich erweitert.
+
+Bei der Implementierung gilt dieselbe Trennung: Das Modell entwirft
+Skripte und Anleitungen, ich fuehre jeden Befehl selbst aus und melde
+die tatsaechliche Ausgabe zurueck. Kein Schritt gilt als erfolgreich,
+bevor die Ausgabe geprueft ist. Vorschlaege des Modells wurden dabei
+auch zurueckgewiesen; das ist in der Tabelle vermerkt.
