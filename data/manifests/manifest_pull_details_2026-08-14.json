@@ -1,0 +1,25 @@
+{
+  "collected_at_utc": "2026-08-14T15:11:37.456041+00:00",
+  "repository": 632066325,
+  "repository_full_name": "eclipse-qrisp/Qrisp",
+  "endpoint": "pulls_detail",
+  "api_version": "2022-11-28",
+  "parameters": {
+    "pause_seconds": 0.2,
+    "max_retries": 5,
+    "timeout_seconds": 30
+  },
+  "source_dataset": {
+    "file": "pulls_2026-08-12.jsonl",
+    "sha256": "88a6652c1de9c2f2a1d2e60dbe9bef7291c8e1f3fada14418f4bf5bc387bead1",
+    "record_count": 476
+  },
+  "record_count": 476,
+  "number_min": 5,
+  "number_max": 797,
+  "missing_numbers": [],
+  "failures": [],
+  "output_file": "pull_details_2026-08-14.jsonl",
+  "sha256": "19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9",
+  "collector_commit": "5950f938df50210504f51d9633f2199e552278c2"
+}

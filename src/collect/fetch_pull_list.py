@@ -8,9 +8,7 @@ Raw data stays outside the repository; only the manifest is versioned.
 
 from __future__ import annotations
 
-import hashlib
 import json
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -18,34 +16,17 @@ from typing import Any
 
 import requests
 
-from github_api import PROJECT_ROOT, build_headers, load_config, load_token
+from github_api import (
+    PROJECT_ROOT,
+    build_headers,
+    current_commit,
+    load_config,
+    load_token,
+    sha256_of,
+)
 
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
 MANIFEST_DIR = PROJECT_ROOT / "data" / "manifests"
-
-
-def sha256_of(path: Path) -> str:
-    """Return the SHA-256 checksum of a file."""
-    digest = hashlib.sha256()
-    with path.open("rb") as file:
-        for block in iter(lambda: file.read(65536), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def current_commit() -> str:
-    """Return the current Git commit hash, or 'unknown' if unavailable."""
-    try:
-        result = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            cwd=PROJECT_ROOT,
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return result.stdout.strip()
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return "unknown"
 
 
 def fetch_all_pages(
