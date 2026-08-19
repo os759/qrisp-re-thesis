@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 12.08.2026
+Letzte Aktualisierung: 19.08.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -23,6 +23,9 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   Bewertungen oder Dateiinhalte. Bei Unklarheit fragt er nach.
 - Stopp-Punkte in Anleitungen sind verbindlich. Sie stehen dort, wo
   etwas unwiederbringlich ueberschrieben werden kann.
+- Claude testet groessere Skripte vor der Uebergabe in seiner eigenen
+  Umgebung mit erfundenen Testdaten und sagt das dazu. Bewaehrt: hat in
+  Paket D Teil 2 jeden Fehler vor dem echten Lauf gefunden.
 
 ## Umgebung
 
@@ -61,121 +64,143 @@ Arbeitspaket B (Literatur und Grundlagen) inhaltlich abgeschlossen:
 - literatur/suchprotokoll.md und literaturmatrix.md fortgeschrieben
   (16 Quellen erfasst, davon 7 gelesen und eingearbeitet:
   L05, L06, L07, L11, L14, L15, L16)
-- Sechs Lesenotizen unter literatur/notizen/ angelegt:
-  bradner_1997_rfc2119.md · iso_2018_29148.md · mavin_2009_ears.md ·
-  mavin_2010_big_ears.md · wilkinson_2018_mitigation.md ·
-  lucassen_2016_qus.md
-- docs/ki-protokoll.md und entscheidungen.md fortgeschrieben
+- Sechs Lesenotizen unter literatur/notizen/
 - LaTeX-Vorlage nach thesis/ uebernommen, kompiliert fehlerfrei
-- Abschnitt 2.1: ISO/IEC/IEEE 29148:2018, Abschn. 3.1 und 5.2.4-5.2.8
-- Abschnitt 2.2.1: RFC 2119 und RFC 8174
-- Abschnitt 2.2.2: EARS, mit Tabelle der fuenf Muster
-- Abschnitt 2.2.3: User Stories, mit zwei Tabellen
-- preamble.tex um booktabs und array ergaenzt, konfliktfrei geladen
+- Abschnitte 2.1, 2.2.1, 2.2.2, 2.2.3 ausformuliert
 
 Arbeitspaket D, Teil 1 (Pilotabruf) abgeschlossen:
-- .env mit GITHUB_TOKEN angelegt, per .gitignore ausgeschlossen
-- config/collect.toml haelt alle Erhebungsparameter
-- src/collect/github_api.py: gemeinsames Modul (Konfiguration, Token,
-  HTTP-Kopfzeilen)
-- src/collect/api_test.py: Verbindungstest
-- src/collect/explore_fields.py: Feldstruktur eines PR-Objekts
-- src/collect/compare_objects.py: Liste gegen Detail
-- src/collect/fetch_pull_list.py: Listenabruf mit Paginierung,
-  Duplikatpruefung, JSONL-Ausgabe und Manifest
-- Erhebung 12.08.2026: 476 Pull Requests in
-  data/raw/pulls_2026-08-12.jsonl (lokal, nicht im Repository)
-- data/manifests/manifest_pulls_2026-08-12.json (versioniert)
+- .env mit GITHUB_TOKEN, config/collect.toml
+- src/collect/: github_api.py, api_test.py, explore_fields.py,
+  compare_objects.py, fetch_pull_list.py
+- Erhebung 12.08.2026: 476 Pull Requests
 
-## Belegte Fakten aus Paket D (Stand 12.08.2026)
+Arbeitspaket D, Teil 2 - alle vier Abrufe abgeschlossen:
+- src/collect/fetch_pull_details.py, fetch_pull_comments.py,
+  fetch_pull_files.py, analyze_pull_details.py, analyze_pull_files.py
+- github_api.py um sha256_of, current_commit, read_jsonl, append_jsonl,
+  retry_delay_seconds, request_with_retry, fetch_paginated ergaenzt.
+  fetch_pull_list.py importiert die ersten beiden von dort.
+- config/collect.toml um pause_seconds = 0.2 und max_retries = 5
+  ergaenzt
+- docs/findings_pull_details.md und findings_pull_files.md erzeugt
+- Entscheidungen D1 bis D4 in docs/entscheidungen.md festgeschrieben
 
-- Token funktioniert: Statuscode 200, Kontingent 5000/Stunde,
-  Ablaufdatum 2027-05-31, also nach dem Abgabetermin.
-- Repository eclipse-qrisp/Qrisp ist oeffentlich, ID 632066325.
-- 476 Pull Requests, Nummern 5 bis 797, keine Duplikate.
-  Zweifach belegt: Link-Header mit per_page=1 und vollstaendiger Abruf.
-- Die Nummernluecken (476 Datensaetze bei Spanne 793) entstehen durch
-  den gemeinsamen Zaehler von Issues und Pull Requests. Jede
-  Verarbeitung muss die vorhandenen Nummern aus der Datei lesen und darf
-  nicht von 1 bis 797 durchzaehlen.
-- Listenendpunkt liefert 36 Felder, Detailendpunkt 48. Keine Felder nur
-  in der Liste. Nur im Detailabruf: additions, deletions, changed_files,
-  comments, commits, review_comments, merged, merged_by,
-  maintainer_can_modify, mergeable, mergeable_state, rebaseable.
-- state kennt nur open und closed und unterscheidet nicht zwischen
-  zusammengefuehrt und verworfen. Dafuer ist merged_at zustaendig.
-- PR-Beschreibungen verwenden CRLF-Zeilenenden. Normalisierung in der
-  Aufbereitung noetig.
-- PR-Beschreibungen enthalten Vorlagentext des Projekts als
-  HTML-Kommentar ("## Description <!-- What does this PR do? ...").
-  Kein Autorentext, keine Anforderungsquelle.
-- Ein Listenabruf kostet 5 Anfragen, ein Detailabruf 1 Anfrage je PR.
-- SHA-256 des Datensatzes vom 12.08.2026:
-  88a6652c1de9c2f2a1d2e60dbe9bef7291c8e1f3fada14418f4bf5bc387bead1
+## Datensaetze (alle lokal, nicht im Repository)
+
+data/raw/pulls_2026-08-12.jsonl - 476 PRs
+  SHA-256 88a6652c1de9c2f2a1d2e60dbe9bef7291c8e1f3fada14418f4bf5bc387bead1
+data/raw/pull_details_2026-08-14.jsonl - 476 Detailobjekte
+  SHA-256 19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9
+data/raw/issue_comments_2026-08-19.jsonl - 639 Kommentare
+  SHA-256 7d9918c628bd51bc2c9245fcbc2a678c20ec963c3d92481809fbdd724c760459
+data/raw/review_comments_2026-08-19.jsonl - 1713 Kommentare
+  SHA-256 d1c0dd08487402bf6020c2fd43b0243903c010d761c75e98cda8a86c7c12c7a4
+data/raw/pull_files_2026-08-19.jsonl - 8424 Dateisaetze
+  SHA-256 7315f5254a914278618c85c23422d7f2a04d1460ee8d8c6c6733f4e91533bbdc
+
+Dazu je eine .progress.jsonl fuer Kommentare und Dateien, ebenfalls
+lokal. Alle Manifeste unter data/manifests/ sind versioniert.
+
+## Belegte Fakten aus Paket D (Stand 19.08.2026)
+
+Erhebung
+- Token: Kontingent 5000/Stunde, Ablauf 2027-05-31.
+- Repository eclipse-qrisp/Qrisp, oeffentlich, ID 632066325.
+- 476 Pull Requests, Nummern 5 bis 797, keine Duplikate. Die Luecken
+  entstehen durch den gemeinsamen Zaehler von Issues und Pull Requests.
+  Jede Verarbeitung muss die Nummern aus der Datei lesen.
+- Listenendpunkt 36 Felder, Detailendpunkt 48.
+- state kennt nur open und closed; merged_at unterscheidet
+  zusammengefuehrt von verworfen.
+
+Struktur des Korpus
+- outcome: merged 314 (66,0 %), closed_unmerged 109 (22,9 %),
+  open 53 (11,1 %).
+- 61 Autoren; die drei aktivsten schrieben 236 der 476 PRs (49,6 %),
+  die zehn aktivsten rund 79 Prozent.
+- Bots: 31 PRs (6,5 %), dependabot[bot] 28 und Copilot 3. Copilot endet
+  nicht auf "[bot]" und wird nur ueber user.type erkannt.
+- 222 PRs (46,6 %) ohne jeden Kommentar; nur 113 (23,7 %) mit
+  Review-Kommentaren.
+- 56 PRs (11,8 %) ohne Beschreibungstext.
+- Vorlagentext "<!--" in 124 von 420 Beschreibungen (29,5 %),
+  CRLF-Zeilenenden in 259 (61,7 %).
+- labels nur bei 36 PRs (7,6 %) - keine Klassifikationsgrundlage.
+- locked konstant False. draft 66-mal True (13,9 %).
+- author_association nur CONTRIBUTOR (435) und NONE (41).
+- Durchgehend leer: requested_teams, auto_merge, active_lock_reason.
+- Fuenf PRs ohne jede Codeaenderung: 169, 332, 407, 408, 578.
+
+Groessen
+- additions + deletions je PR: Median 162, p90 2424, p99 18474,
+  Maximum 30166, Summe 583821.
+- 8424 Dateisaetze, 32557763 Zeichen Aenderungstext, entspricht bei rund
+  3,5 Zeichen je Token grob 9 Millionen Token.
+- Zeichen je Datei: Median 1397, p90 9534, Maximum 99478.
+- Zeichen je PR: Median 9627, p90 112459, Maximum 2761999.
+- .py haelt 81,0 Prozent des Aenderungstextes; src und tests zusammen
+  80,7 Prozent. Die groessten PRs sind handgeschriebener Python-Code.
+- GitHub liefert bei 331 von 8424 Dateien (3,9 %) kein patch-Feld.
+
+Abweichungen
+- PR 639: erwartet 1, geholt 4 allgemeine Kommentare. Geklaert, drei
+  Kommentare vom 18.08.
+- PR 470: erwartet 7, geholt 14 Dateien. Geklaert, updated_at von
+  13.06. auf 17.08. gewandert, Commits 16 -> 22.
+- PR 331, 344, 767: je ein Review-Kommentar weniger als gezaehlt. Nicht
+  aufloesbar, reproduzierbar. 3 von 1716, 0,17 Prozent.
 
 ## Ungepruefte Beobachtungen
 
 - Ob die 321 Nummernluecken alle Issues sind: plausibel, nicht gemessen.
-- assignees, milestone, requested_reviewers, requested_teams,
-  auto_merge und locked waren in PR #797 leer. Ein Datenpunkt, kein
-  Befund. Der Detailabruf soll ihre Belegung zaehlen.
-- Verbreitung des Vorlagentexts in den Beschreibungen: unbekannt.
+- Zu PR 344: vermutet ein Review im Zustand pending, nur seinem
+  Verfasser sichtbar. Nicht pruefbar.
+- PR 674 und 676 sind fast gleich gross (574/575 Dateien) - vermutlich
+  zwei Anlaeufe derselben Umbauaktion. Nicht geprueft.
+- Warum author_association nie OWNER oder MEMBER annimmt: unbekannt.
 
 ## Aktuell
 
-Paket D, Teil 1 abgeschlossen. Naechster Schritt: Detailabruf der 476
-Pull Requests, dann Kommentare und Diffs, dann Reduktion nach
-data/interim/.
+Paket D, Teil 2: alle vier Abrufe abgeschlossen und committet.
+Naechster Schritt: Reduktion nach data/interim/, danach die vier Tests.
 
-Paket C (Entscheidungsmatrix zur Formatauswahl) ist nicht blockiert -
-es braucht keine weitere Lesearbeit. Vorgesehen als eigener Chat nach
-Paket D Teil 2. Begruendung: Die Formatentscheidung profitiert davon,
-dass die echten PR-Daten bereits gesichtet sind (z. B. das
-Rollen-Problem bei User Stories).
+Paket C (Entscheidungsmatrix zur Formatauswahl) ist nicht blockiert und
+braucht keine weitere Lesearbeit. Vorgesehen als eigener Chat nach
+Paket D.
 
 ## Getroffene Entscheidungen
 
-Vollstaendig in docs/entscheidungen.md. Kurzfassung der fuer die
-Zusammenarbeit wichtigsten:
+Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 
 - Repository privat. Nach Abgabe umstellbar.
-- Evaluation nach Exposé-Variante: Das Qrisp-Team wird durch den
-  Professor informiert und bewertet, sobald das Werkzeug fertig ist.
-  Ergaenzt um eine dokumentierte Selbstbewertung. Bei mehreren
-  Bewertenden wird ein Uebereinstimmungsmass moeglich. Der aeltere
-  Eintrag "Evaluation reduziert" vom 31.07. ist ueberholt.
-  Terminabhaengigkeit: Werkzeug bis Ende Woche 8 bewertbar,
-  Git-Tag thesis-v1.0.
-- FF3: API-Modell darf von OpenAI oder Anthropic stammen. Dasselbe
-  Modell als Werkzeug und als Evaluationsgegenstand ist eine Bedrohung
-  der Konstruktvaliditaet und muss dokumentiert werden.
+- Evaluation nach Exposé-Variante, ergaenzt um Selbstbewertung.
+  Werkzeug bis Ende Woche 8 bewertbar, Git-Tag thesis-v1.0.
+- FF3: API-Modell von OpenAI oder Anthropic. Dasselbe Modell als
+  Werkzeug und Evaluationsgegenstand ist eine Bedrohung der
+  Konstruktvaliditaet und muss dokumentiert werden.
 - Kapitel nicht in Einzeldateien. Alles in thesis/thesis.tex.
 - BibTeX-Eintragstyp misc statt standard.
-- Given-When-Then wird nicht als eigener Grundlagenabschnitt
-  aufgearbeitet; Ausschluss in der Entscheidungsmatrix begruenden.
-- Wilkinson/Mavin 2018 nachrangig (safety, nicht security).
-- Lesenotizen ab 06.08.2026 nach Neun-Abschnitte-Vorlage.
-- API-Version 2022-11-28, explizit in jeder Anfrage, Wert in
-  config/collect.toml. Wechsel auf 2026-03-10 geprueft und verworfen.
-- Codesprache im Quelltext: Englisch, Bezeichner und Kommentare.
-  Deutschsprachige Erlaeuterung in Kapitel 5.
-- Commit-Praefix code: fuer Quelltext, zusaetzlich zu lit:, bib:, tex:,
-  chore:.
-- Keine README.md in Unterordnern von src/.
-- Speicherformat JSONL (fortsetzbar nach Abbruch).
-- Keine Datensaetze im Repository. Nachweis der Datensatzversion ueber
-  SHA-256-Pruefsumme im Manifest unter data/manifests/.
-- Manifest je Erhebung: Zeitpunkt in UTC, Repository und ID,
-  API-Version, Parameter, Anzahl, Dateiname, Pruefsumme,
-  erhebender Git-Commit.
-- Feldauswahl inklusive abgeleitetem Feld outcome
-  (merged / closed_unmerged / open).
-- Ausschluss volatiler Felder: mergeable, mergeable_state, rebaseable,
-  merge_commit_sha.
-- Datenminimierung: vom user-Objekt nur login, die uebrigen 18 Felder
-  werden verworfen.
-- Pseudonyme A01 ff. in der schriftlichen Arbeit; Zuordnungstabelle
-  docs/pseudonyme.csv bleibt lokal.
+- API-Version 2022-11-28, explizit, in config/collect.toml.
+- Speicherformat JSONL. Keine Datensaetze im Repository, Nachweis ueber
+  SHA-256 im Manifest.
+- Datenminimierung: vom user-Objekt nur login. Pseudonyme A01 ff. in
+  der Arbeit, Zuordnung in docs/pseudonyme.csv, lokal.
+- D1 dreistufige Kuerzung, erst in der Aufbereitung:
+  Stufe 1 Typausschluss .ipynb, .drawio, .bkp, .svg und Dateien ohne
+  patch-Feld; Dateiname, status, additions, deletions bleiben.
+  Stufe 2 hoechstens 10000 Zeichen je Datei.
+  Stufe 3 Budget 50000 Zeichen je Pull Request, unter Vorbehalt Paket E.
+  Alle Werte in die Konfiguration, jede Kuerzung wird markiert.
+- D2 Bots markieren (author_is_bot), nicht loeschen. Regel: user.type
+  gleich "Bot" ODER Login endet auf "[bot]".
+- D3 eine Rohdatei je Endpunkt, Zusammenfuehrung erst in data/interim/.
+  Jedes Manifest traegt source_dataset mit Pruefsumme.
+- D4 pytest, vier Tests: Wiederaufnahme, outcome, Normalisierung,
+  JSONL-Ein- und Ausgabe. Kein Nachbau der API.
+- Sprache: Programme unter src/ geben Meldungen und Berichte auf
+  Englisch aus, einschliesslich der Berichtsdateinamen. docs/ und
+  literatur/ bleiben deutsch.
+- Erst Quelltext committen, dann abrufen.
 
 ## LaTeX-Konventionen
 
@@ -256,6 +281,7 @@ Zu User Stories:
   Mensch/Werkzeug.
 - Kernproblem: Well-formed verlangt eine Rolle. PR-Daten sind
   entwicklerzentriert und nennen den Nutzniesser meist nicht.
+  Durch die Erhebung gestuetzt: die Daten sind entwicklerzentriert.
 
 Nicht belegbare Merkmale aus 29148: Notwendigkeit, Umsetzbarkeit und
 Korrektheit. Eindeutigkeit, Einzelbezug, Nachweisbarkeit und
@@ -264,8 +290,7 @@ Vorlagenkonformitaet sind am Text pruefbar.
 ## Zugangsdaten
 
 - GitHub-Token qrisp-thesis-readonly, im Passwortmanager und in
-  .env im Projektwurzelverzeichnis. Erprobt am 12.08.2026,
-  Ablauf 2027-05-31.
+  .env im Projektwurzelverzeichnis. Ablauf 2027-05-31.
 - SSH-Schluessel ed25519 fuer das eigene Repository.
 - Git-Identitaet: Omar Assad Salem, GitHub-Noreply-Adresse.
 
@@ -289,17 +314,17 @@ Inhaltlich offen:
 - Titelvariante Mavin 2009 vereinheitlichen.
 
 Paket D, noch zu erledigen:
-- Detailabruf je Pull Request (476 Anfragen)
-- Review-Kommentare und allgemeine PR-Kommentare
-- Geaenderte Dateien und Diffs; Umgang mit sehr grossen Diffs
-- Reduktion nach data/interim/ mit Feldauswahl, outcome und
-  Datenminimierung
-- Normalisierung der Zeilenenden, Entfernen des Vorlagentexts
-- Wiederaufnahme abgebrochener Abrufe, Caching
-- Belegung der scheinbar leeren Felder zaehlen
-- Tests unter tests/
+- Reduktion nach data/interim/: Feldauswahl, outcome, author_is_bot,
+  Normalisierung der Zeilenenden, Entfernen des Vorlagentexts,
+  Umsetzung der drei Kuerzungsstufen aus D1, Zusammenfuehrung der
+  vier Rohdateien, Manifest
+- Vier Tests unter tests/ mit pytest. pytest ist noch NICHT
+  installiert; requirements.txt enthaelt bisher nur requests.
+- docs/ki-protokoll.md fuer Paket D Teil 2 nachtragen
 
 Technisch und redaktionell:
+- github_api.py: doppelte Leerzeile vor fetch_paginated, kein
+  Zeilenumbruch am Dateiende. Rein kosmetisch, Aufraum-Commit.
 - Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Woche 5
 - Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
   Z. 29 Abstract · Z. 39 Einleitung · Z. 299 SATZ UEBERARBEITEN ·
@@ -317,7 +342,14 @@ Technisch und redaktionell:
 
 - Vor jedem Python-Befehl: source .venv/bin/activate
 - Skripte immer aus der Projektwurzel starten
-  (python src/collect/<name>.py), sonst wird github_api nicht gefunden
+  (python src/collect/<n>.py), sonst wird github_api nicht gefunden
+- Erst Quelltext committen, dann abrufen. Dann stimmt collector_commit
+  im Manifest exakt.
+- Vor dem vollen Lauf immer ein Probelauf mit --limit 5
+- Nach Abbruch: denselben Befehl erneut ausfuehren. Die Skripte lesen
+  ihren Fortschritt aus der bereits geschriebenen Datei.
+- --day <Datum> mitgeben, wenn in eine bestehende Datei
+  weitergeschrieben werden soll
 - Kompilieren: cd thesis && pdflatex thesis.tex && bibtex thesis1 &&
   bibtex thesis2 && pdflatex thesis.tex && pdflatex thesis.tex
   (nicht make all - braucht LibreOffice und ImageMagick)
@@ -330,12 +362,28 @@ Technisch und redaktionell:
 - Eigennamen im BibTeX-Titel in {...} setzen.
 - requirements.txt nie von Hand bearbeiten: pip freeze > requirements.txt
 
+## Konfiguration (config/collect.toml)
+
+[source] owner eclipse-qrisp, repo Qrisp, repo_id 632066325
+[api] base_url https://api.github.com, version 2022-11-28,
+      per_page 100, state all
+[fetch] timeout_seconds 30, pause_seconds 0.2, max_retries 5
+
+## Commits Paket D Teil 2
+
+fe95a1a Detailabruf mit Wiederaufnahme
+d26c682 Auswertung der Detaildaten, Befund, Entscheidungen D1-D4
+c4f0dee Kommentarabruf fuer beide Endpunkte
+a8d649b Manifeste des Kommentarabrufs und Befund zu den Abweichungen
+44c669f Abruf der geaenderten Dateien und Diffs
+336422d Dateiabruf ausgewertet, D1 endgueltig, Berichte auf Englisch
+
 ## Zeitplan
 
 W1 03.-09.08. Setup, Literaturstart                    erledigt
-W2 10.-16.08. Python, JSON/REST, erster GitHub-Abruf   Pilotabruf
-                                                       erledigt 12.08.
-W3 17.-23.08. Extraktion, Formatauswahl
+W2 10.-16.08. Python, JSON/REST, erster GitHub-Abruf   erledigt
+W3 17.-23.08. Extraktion, Formatauswahl                Abrufe erledigt
+                                                       19.08.
 W4 24.-30.08. LLM-Extraktion mit API-Modell
 W5 31.08.-06.09. Prompt-Iteration, lokales Modell
 W6 07.-13.09. Modellvergleich (Kontrollpunkt lokales Modell)
@@ -347,6 +395,6 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Paket B wurde eine Woche frueher fertig. Der Pilotabruf lief am dritten
-Tag von W2. Detailabruf und Aufbereitung koennen in W2 vorgezogen
-werden. Paket C folgt danach als eigener Chat.
+Paket B wurde eine Woche frueher fertig. Alle vier Abrufe aus Paket D
+Teil 2 liefen am dritten Tag von W3. Reduktion und Tests koennen in W3
+abgeschlossen werden, danach Paket C.

@@ -259,46 +259,6 @@ Typregel, durch den Befund widerlegt.
 Status: festgelegt, Stufe 3 unter Vorbehalt Paket E.
 Bezug: FF1, Reproduzierbarkeit.
 
-### 2026-08-19 Befunde aus dem Dateiabruf
-
-Erhebung 19.08.2026 mit Commit 44c669f. Erstmals stimmt
-collector_commit exakt mit dem ausfuehrenden Code ueberein.
-
-- 8424 Dateisaetze zu 471 Pull Requests, 32557763 Zeichen
-  Aenderungstext, 0 fehlgeschlagene Anfragen.
-- GitHub liefert bei 331 von 8424 Dateien (3,9 Prozent) kein
-  patch-Feld. Damit ist gemessen, dass die API selbst kuerzt. Betroffen
-  vor allem Binaerdateien (.png 151, .jpg 7, .docx 2, .pptx 1), aber
-  auch 128 .py-Dateien, vermutlich wegen Ueberschreitung der
-  Groessengrenzen. Untere Grenze der Datenlage, nicht beeinflussbar.
-- Eine Abweichung: PR 470, erwartet 7, geholt 14. Geklaert: updated_at
-  ist von 2026-06-13 auf 2026-08-17 gewandert, die Commits von 16 auf
-  22. Der Pull Request wurde nach dem Detailabruf weiterbearbeitet.
-- Fuenf Pull Requests ohne jede Codeaenderung: 169, 332, 407, 408, 578.
-  Bereits am 14.08. changed_files=0, additions=0, deletions=0, alle
-  geschlossen und nicht zusammengefuehrt. Fuer diese Pull Requests
-  bleiben nur Titel, Beschreibung und Kommentare als Quelle. In der
-  Belegstaerke-Systematik zu beruecksichtigen.
-- 32557763 Zeichen entsprechen bei rund 3,5 Zeichen je Token grob 9
-  Millionen Token. Kein Modell verarbeitet das am Stueck. Die
-  Aufbereitung ist damit zwingend, nicht optional.
-
-Bezug: FF1, Reproduzierbarkeit, Limitationen.
-
-### 2026-08-19 Sprache der Programmausgaben
-
-Programme unter src/ geben ihre Meldungen und Berichte auf Englisch
-aus, einschliesslich der Dateinamen erzeugter Berichte. Eigene
-Arbeitsunterlagen unter docs/ und literatur/ bleiben deutsch.
-Begruendung: Praezisierung der Entscheidung vom 12.08. Die Ausgabe
-eines Programms gehoert zum Programm; das Qrisp-Team soll das Werkzeug
-benutzen koennen. Die Entscheidungs- und Literaturdateien sind
-Vorstufen der deutschsprachigen Arbeit.
-Folge: befund_pull_details.md und befund_pull_files.md ersetzt durch
-findings_pull_details.md und findings_pull_files.md. Zahlen unveraendert,
-gegen die alte Fassung geprueft.
-Bezug: Nachvollziehbarkeit, Uebergabe an das Qrisp-Team.
-
 ### 2026-08-16 D2 Bot-Beitraege
 
 Regel: Ein Beitrag gilt als Bot-Beitrag, wenn user.type gleich "Bot"
@@ -412,6 +372,46 @@ auf den Stand davor und identifiziert den ausfuehrenden Code nicht
 eindeutig. Die Luecke wurde mit Commit fe95a1a geschlossen. In
 Kapitel 5 zu benennen.
 Bezug: Reproduzierbarkeit.
+
+### 2026-08-19 Befunde aus dem Dateiabruf
+
+Erhebung 19.08.2026 mit Commit 44c669f. Erstmals stimmt
+collector_commit exakt mit dem ausfuehrenden Code ueberein.
+
+- 8424 Dateisaetze zu 471 Pull Requests, 32557763 Zeichen
+  Aenderungstext, 0 fehlgeschlagene Anfragen.
+- GitHub liefert bei 331 von 8424 Dateien (3,9 Prozent) kein
+  patch-Feld. Damit ist gemessen, dass die API selbst kuerzt. Betroffen
+  vor allem Binaerdateien (.png 151, .jpg 7, .docx 2, .pptx 1), aber
+  auch 128 .py-Dateien, vermutlich wegen Ueberschreitung der
+  Groessengrenzen. Untere Grenze der Datenlage, nicht beeinflussbar.
+- Eine Abweichung: PR 470, erwartet 7, geholt 14. Geklaert: updated_at
+  ist von 2026-06-13 auf 2026-08-17 gewandert, die Commits von 16 auf
+  22. Der Pull Request wurde nach dem Detailabruf weiterbearbeitet.
+- Fuenf Pull Requests ohne jede Codeaenderung: 169, 332, 407, 408, 578.
+  Bereits am 14.08. changed_files=0, additions=0, deletions=0, alle
+  geschlossen und nicht zusammengefuehrt. Fuer diese Pull Requests
+  bleiben nur Titel, Beschreibung und Kommentare als Quelle. In der
+  Belegstaerke-Systematik zu beruecksichtigen.
+- 32557763 Zeichen entsprechen bei rund 3,5 Zeichen je Token grob 9
+  Millionen Token. Kein Modell verarbeitet das am Stueck. Die
+  Aufbereitung ist damit zwingend, nicht optional.
+
+Bezug: FF1, Reproduzierbarkeit, Limitationen.
+
+### 2026-08-19 Sprache der Programmausgaben
+
+Programme unter src/ geben ihre Meldungen und Berichte auf Englisch
+aus, einschliesslich der Dateinamen erzeugter Berichte. Eigene
+Arbeitsunterlagen unter docs/ und literatur/ bleiben deutsch.
+Begruendung: Praezisierung der Entscheidung vom 12.08. Die Ausgabe
+eines Programms gehoert zum Programm; das Qrisp-Team soll das Werkzeug
+benutzen koennen. Die Entscheidungs- und Literaturdateien sind
+Vorstufen der deutschsprachigen Arbeit.
+Folge: befund_pull_details.md und befund_pull_files.md ersetzt durch
+findings_pull_details.md und findings_pull_files.md. Zahlen unveraendert,
+gegen die alte Fassung geprueft.
+Bezug: Nachvollziehbarkeit, Uebergabe an das Qrisp-Team.
 
 ## 2026-08-19 Kommentarabruf und vier Abweichungen
 

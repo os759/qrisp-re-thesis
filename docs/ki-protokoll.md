@@ -21,6 +21,7 @@ gefuehrt, um Nachweispflichten erfuellen zu koennen.
 | 06.08.2026 | Claude | Opus | EARS aufarbeiten (Mavin 2009, Mavin/Wilkinson 2010, Wilkinson/Mavin 2018) | Volltexte der drei Papiere, STATUS.md | Deutsche Erlaeuterung, Feingliederung, LaTeX-Abschnitt 2.2.2 mit Tabelle, drei BibTeX-Eintraege, Lesenotizen, Matrixeintraege | gegen Volltexte geprueft | Abschnitt 2.2.2 in thesis.tex, Eintraege in thesis.bib |
 | 10.08.2026 | Claude | Opus | User Stories aufarbeiten (Lucassen et al. 2016) | Volltext des Artikels, STATUS.md | Deutsche Erlaeuterung, Einordnung, Feingliederung, LaTeX-Abschnitt 2.2.3 mit zwei Tabellen, Lesenotiz, Matrixeintrag, BibTeX | gegen Volltexte geprueft | Abschnitt 2.2.3 in thesis.tex, Eintrag in thesis.bib |
 | 12.08.2026 | Claude | Opus | Paket D Teil 1: Anleitung zum GitHub-API-Zugriff, Entwurf von fuenf Python-Skripten, Entscheidungsvorlage zur Datenhaltung | STATUS.md, Projektanweisung, Repository-Name eclipse-qrisp/Qrisp, Ausgaben von curl und Python, Inhalt von .gitignore und entscheidungen.md. Kein Token, keine Rohdaten. | github_api.py, api_test.py, explore_fields.py, compare_objects.py, fetch_pull_list.py; 13 Entscheidungseintraege; Recherche zu Rate Limits, Paginierung und API-Versionen mit Fundstellen | Jeden Befehl selbst ausgefuehrt und jede Ausgabe zurueckgemeldet. Zwei Fehler des Modells korrigiert: der Vorschlag, data/interim/ zu versionieren, wurde verworfen (bestehende .gitignore war strenger); ein angegebener Pruefwert war falsch. | Skripte und Entscheidungen uebernommen, Vorschlag zu data/interim/ nicht |
+| 14.-19.08.2026 | Claude | Opus | Paket D Teil 2: Entwurf von drei Abrufskripten und zwei Auswertungsskripten, Erweiterung von github_api.py, Entscheidungsvorlagen D1 bis D4, Analyse von vier Datenabweichungen | STATUS.md, entscheidungen.md, ki-protokoll.md, github_api.py, collect.toml, fetch_pull_list.py, Manifeste, erzeugte Befundberichte, Terminalausgaben. Keine PR-Rohdaten, kein Token. Autorennamen nur in Terminalausgaben, nicht in versionierten Dateien. | fetch_pull_details.py, fetch_pull_comments.py, fetch_pull_files.py, analyze_pull_details.py, analyze_pull_files.py; Entscheidungen D1 bis D4; Recherche zur GitHub-Doku (Dateigrenze je Pull Request) mit Fundstelle | Jedes Skript vor dem vollen Lauf mit --limit 5 selbst getestet und die Ausgabe zurueckgemeldet. Alle Zahlen stammen aus eigenen Laeufen, keine aus dem Modell. Drei Fehler des Modells korrigiert bzw. festgestellt: falsches Datum (13.08. statt 14.08.); deutsche Programmausgaben entgegen der eigenen Sprachentscheidung, von mir bemerkt; ein Pruefbefehl klammerte den Zeitstempel nicht aus und meldete falschen Alarm. Zwei Modellvermutungen wurden durch Messung widerlegt (geloeschte Kommentare bei PR 331/344/767; erzeugte Dateien in den groessten Diffs). | Skripte, Entscheidungen und Befundtexte nach eigener Pruefung uebernommen |
 
 ## Hinweis zur Arbeitsteilung
 
@@ -35,3 +36,11 @@ Skripte und Anleitungen, ich fuehre jeden Befehl selbst aus und melde
 die tatsaechliche Ausgabe zurueck. Kein Schritt gilt als erfolgreich,
 bevor die Ausgabe geprueft ist. Vorschlaege des Modells wurden dabei
 auch zurueckgewiesen; das ist in der Tabelle vermerkt.
+
+Ab Paket D Teil 2 gilt zusaetzlich: Groessere Skripte werden vom Modell
+vor der Uebergabe in seiner eigenen Umgebung mit erfundenen Testdaten
+ausgefuehrt. Diese Testlaeufe erzeugen keine Ergebnisse der Arbeit; sie
+dienen ausschliesslich der Fehlersuche. Jede in der Arbeit verwendete
+Zahl stammt aus einem Lauf auf meinem Rechner mit den echten
+Qrisp-Daten. Dasselbe gilt fuer die Erhebung: kein Datensatz und keine
+Kennzahl wurde vom Modell erzeugt oder geschaetzt.
