@@ -184,7 +184,7 @@ Bezug: Datenschutz, FF1, Limitationen.
 Alle Zahlen in den folgenden vier Entscheidungen stammen aus
 pull_details_2026-08-14.jsonl, 476 Datensaetze, SHA-256
 19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9.
-Vollstaendiger Befund in docs/befund_pull_details.md, erzeugt von
+Vollstaendiger Befund in docs/findings_pull_details.md, erzeugt von
 src/collect/analyze_pull_details.py.
 
 ### 2026-08-16 D1 Umgang mit sehr grossen Diffs
@@ -215,6 +215,89 @@ Dateiabruf. Erst dann ist bekannt, ob die grossen Diffs aus erzeugten
 Dateien bestehen; in diesem Fall waere eine Regel nach Dateityp
 geeigneter als eine nach Zeilenzahl.
 Bezug: FF1, Reproduzierbarkeit.
+
+### 2026-08-19 D1 endgueltig: dreistufige Kuerzung in der Aufbereitung
+
+Ersetzt die vorgemerkte Schwelle von 2000 Zeilen aus dem Eintrag vom
+16.08. Datengrundlage: pull_files_2026-08-19.jsonl, 8424 Dateisaetze,
+SHA-256 7315f5254a914278618c85c23422d7f2a04d1460ee8d8c6c6733f4e91533bbdc.
+Befund in docs/findings_pull_files.md.
+
+Die am 16.08. offene Frage ist beantwortet: Die grossen Pull Requests
+bestehen NICHT aus erzeugten Dateien. Auf .py entfallen 81,0 Prozent
+des Aenderungstextes, auf src und tests zusammen 80,7 Prozent. Die
+beiden groessten, PR 674 und PR 676, sind zu 100 Prozent Python bei 574
+bzw. 575 Dateien. Eine Regel allein nach Dateityp reicht daher nicht.
+
+Stufe 1, Typausschluss. Kein Patch-Text fuer .ipynb, .drawio, .bkp und
+.svg sowie fuer Dateien ohne patch-Feld. Dateiname, status, additions
+und deletions bleiben erhalten. Begruendung: kein von Menschen
+geschriebener Inhalt. Ein .ipynb-Diff besteht ueberwiegend aus
+serialisierter Ausgabe. Wirkung: 170 Dateien, 11,0 Prozent des
+Aenderungstextes. Bei PR 532 sind .drawio und .bkp zusammen 91 Prozent.
+
+Stufe 2, Obergrenze je Datei: 10000 Zeichen. Wirkung: p90 der Dateien
+liegt bei 9534 Zeichen, rund 90 Prozent bleiben unveraendert.
+Verhindert, dass eine einzelne Datei das Budget eines Pull Requests
+aufbraucht.
+
+Stufe 3, Budget je Pull Request: 50000 Zeichen. Wirkung: 377 von 471
+Pull Requests mit Dateien (80,0 Prozent) bleiben vollstaendig; 94
+werden gekuerzt. Bei rund 3,5 Zeichen je Token entspricht das etwa
+14000 Token Codeanteil je Pull Request.
+
+Alle drei Werte stehen in der Konfiguration, nicht im Quelltext. Jede
+Kuerzung wird am Datensatz markiert und geht in die Belegstaerke ein.
+Der Wert der Stufe 3 wird in Paket E bestaetigt oder angepasst, sobald
+Modell und Kontextgroesse feststehen; 50000 ist eine begruendete
+Voreinstellung, keine Ableitung aus einem Modell.
+
+Alternativen: reine Zeilenschwelle, verworfen, weil sie handgeschriebenen
+Python-Code genauso trifft wie serialisierte Notebook-Ausgabe. Reine
+Typregel, durch den Befund widerlegt.
+
+Status: festgelegt, Stufe 3 unter Vorbehalt Paket E.
+Bezug: FF1, Reproduzierbarkeit.
+
+### 2026-08-19 Befunde aus dem Dateiabruf
+
+Erhebung 19.08.2026 mit Commit 44c669f. Erstmals stimmt
+collector_commit exakt mit dem ausfuehrenden Code ueberein.
+
+- 8424 Dateisaetze zu 471 Pull Requests, 32557763 Zeichen
+  Aenderungstext, 0 fehlgeschlagene Anfragen.
+- GitHub liefert bei 331 von 8424 Dateien (3,9 Prozent) kein
+  patch-Feld. Damit ist gemessen, dass die API selbst kuerzt. Betroffen
+  vor allem Binaerdateien (.png 151, .jpg 7, .docx 2, .pptx 1), aber
+  auch 128 .py-Dateien, vermutlich wegen Ueberschreitung der
+  Groessengrenzen. Untere Grenze der Datenlage, nicht beeinflussbar.
+- Eine Abweichung: PR 470, erwartet 7, geholt 14. Geklaert: updated_at
+  ist von 2026-06-13 auf 2026-08-17 gewandert, die Commits von 16 auf
+  22. Der Pull Request wurde nach dem Detailabruf weiterbearbeitet.
+- Fuenf Pull Requests ohne jede Codeaenderung: 169, 332, 407, 408, 578.
+  Bereits am 14.08. changed_files=0, additions=0, deletions=0, alle
+  geschlossen und nicht zusammengefuehrt. Fuer diese Pull Requests
+  bleiben nur Titel, Beschreibung und Kommentare als Quelle. In der
+  Belegstaerke-Systematik zu beruecksichtigen.
+- 32557763 Zeichen entsprechen bei rund 3,5 Zeichen je Token grob 9
+  Millionen Token. Kein Modell verarbeitet das am Stueck. Die
+  Aufbereitung ist damit zwingend, nicht optional.
+
+Bezug: FF1, Reproduzierbarkeit, Limitationen.
+
+### 2026-08-19 Sprache der Programmausgaben
+
+Programme unter src/ geben ihre Meldungen und Berichte auf Englisch
+aus, einschliesslich der Dateinamen erzeugter Berichte. Eigene
+Arbeitsunterlagen unter docs/ und literatur/ bleiben deutsch.
+Begruendung: Praezisierung der Entscheidung vom 12.08. Die Ausgabe
+eines Programms gehoert zum Programm; das Qrisp-Team soll das Werkzeug
+benutzen koennen. Die Entscheidungs- und Literaturdateien sind
+Vorstufen der deutschsprachigen Arbeit.
+Folge: befund_pull_details.md und befund_pull_files.md ersetzt durch
+findings_pull_details.md und findings_pull_files.md. Zahlen unveraendert,
+gegen die alte Fassung geprueft.
+Bezug: Nachvollziehbarkeit, Uebergabe an das Qrisp-Team.
 
 ### 2026-08-16 D2 Bot-Beitraege
 

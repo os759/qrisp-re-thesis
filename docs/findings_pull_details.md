@@ -1,17 +1,17 @@
-# Befund: Detaildaten der Pull Requests
+# Findings: pull request details
 
-Erstellt: 2026-08-16T14:57:58.122694+00:00
-Quelle: `pull_details_2026-08-14.jsonl`
-SHA-256 der Quelle: `19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9`
-Datensaetze: 476
+Created: 2026-08-19T11:28:08.290631+00:00
+Source: `pull_details_2026-08-14.jsonl`
+SHA-256 of source: `19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9`
+Records: 476
 
-Erzeugt von `src/collect/analyze_pull_details.py`. Keine API-Anfragen.
+Produced by `src/collect/analyze_pull_details.py`. No API requests.
 
-## 1 Feldbelegung
+## 1 Field coverage
 
-Leer bedeutet: `null`, leere Liste, leeres Objekt oder leerer Text.
+Unpopulated means null, empty list, empty object or empty string.
 
-| Feld | belegt | Anteil | Wertarten |
+| Field | Populated | Share | Value types |
 |---|---|---|---|
 | `_links` | 476 | 100.0 % | dict 476 |
 | `active_lock_reason` | 0 | 0.0 % | NoneType 476 |
@@ -62,24 +62,24 @@ Leer bedeutet: `null`, leere Liste, leeres Objekt oder leerer Text.
 | `url` | 476 | 100.0 % | str 476 |
 | `user` | 476 | 100.0 % | dict 476 |
 
-## 2 Autoren und Bots
+## 2 Authors and bots
 
-Verschiedene Autoren: 61
-Als Bot erkannt: 31 von 476 Pull Requests, 2 verschiedene Konten
+Distinct authors: 61
+Detected as bot: 31 of 476 pull requests, 2 distinct accounts
 
-| Kontotyp | Pull Requests |
+| Account type | Pull requests |
 |---|---|
 | `User` | 445 |
 | `Bot` | 31 |
 
-| Bot-Konto | Pull Requests |
+| Bot account | Pull requests |
 |---|---|
 | `dependabot[bot]` | 28 |
 | `Copilot` | 3 |
 
-Verteilung ohne Kontonamen, Datenminimierung nach `docs/entscheidungen.md`.
+Distribution without account names, data minimisation per `docs/entscheidungen.md`.
 
-| Rang | Pull Requests |
+| Rank | Pull requests |
 |---|---|
 | 1 | 95 |
 | 2 | 74 |
@@ -143,55 +143,55 @@ Verteilung ohne Kontonamen, Datenminimierung nach `docs/entscheidungen.md`.
 | 60 | 1 |
 | 61 | 1 |
 
-## 3 Ergebnis der Pull Requests
+## 3 Outcome of the pull requests
 
-| outcome | Anzahl | Anteil |
+| outcome | Count | Share |
 |---|---|---|
 | `merged` | 314 | 66.0 % |
 | `closed_unmerged` | 109 | 22.9 % |
 | `open` | 53 | 11.1 % |
 
-## 4 Groesse der Aenderungen
+## 4 Size of the changes
 
-| Groesse | min | Median | p75 | p90 | p95 | p99 | max | Summe |
+| Measure | min | median | p75 | p90 | p95 | p99 | max | total |
 |---|---|---|---|---|---|---|---|---|
 | additions | 0 | 101 | 529 | 1978 | 5837 | 11467 | 19297 | 429717 |
 | deletions | 0 | 12 | 93 | 420 | 846 | 7582 | 17650 | 154104 |
 | additions + deletions | 0 | 162 | 766 | 2424 | 6880 | 18474 | 30166 | 583821 |
 | changed_files | 0 | 3 | 10 | 30 | 53 | 416 | 575 | 8417 |
 
-### Wirkung moeglicher Schwellen
+### Effect of candidate thresholds
 
-Zeilen bedeutet `additions + deletions`.
+Lines means `additions + deletions`.
 
-| Schwelle | PRs darueber | Anteil PRs | Anteil aller Zeilen |
+| Threshold | PRs above | Share of PRs | Share of all lines |
 |---|---|---|---|
-| > 200 Zeilen | 222 | 46.6 % | 98.0 % |
-| > 500 Zeilen | 151 | 31.7 % | 93.9 % |
-| > 1000 Zeilen | 100 | 21.0 % | 87.6 % |
-| > 2000 Zeilen | 55 | 11.6 % | 76.6 % |
-| > 5000 Zeilen | 28 | 5.9 % | 61.9 % |
-| > 10000 Zeilen | 15 | 3.2 % | 45.0 % |
+| > 200 lines | 222 | 46.6 % | 98.0 % |
+| > 500 lines | 151 | 31.7 % | 93.9 % |
+| > 1000 lines | 100 | 21.0 % | 87.6 % |
+| > 2000 lines | 55 | 11.6 % | 76.6 % |
+| > 5000 lines | 28 | 5.9 % | 61.9 % |
+| > 10000 lines | 15 | 3.2 % | 45.0 % |
 
-## 5 Kommentare
+## 5 Comments
 
-| Groesse | min | Median | p75 | p90 | p95 | p99 | max | Summe |
+| Measure | min | median | p75 | p90 | p95 | p99 | max | total |
 |---|---|---|---|---|---|---|---|---|
 | comments | 0 | 0 | 2 | 4 | 6 | 12 | 21 | 636 |
 | review_comments | 0 | 0 | 0 | 9 | 20 | 63 | 158 | 1716 |
 | commits | 0 | 3 | 11 | 28 | 55 | 168 | 430 | 6673 |
 
-Pull Requests ganz ohne Kommentare: 222
-Pull Requests mit Review-Kommentaren: 113
+Pull requests without any comment: 222
+Pull requests with review comments: 113
 
-## 6 Beschreibungstexte
+## 6 Description texts
 
-Ohne Beschreibung (`null`): 56
-Beschreibung nur aus Leerzeichen: 0
-Enthaelt Vorlagentext (`<!--`): 124
-Enthaelt CRLF-Zeilenenden: 259
+Without description (null): 56
+Description is whitespace only: 0
+Contains template text (`<!--`): 124
+Contains CRLF line endings: 259
 
-| Groesse | min | Median | p75 | p90 | p95 | p99 | max | Summe |
+| Measure | min | median | p75 | p90 | p95 | p99 | max | total |
 |---|---|---|---|---|---|---|---|---|
-| Zeichen je Beschreibung | 9 | 874 | 1876 | 3951 | 6043 | 11122 | 19512 | 679145 |
+| characters per description | 9 | 874 | 1876 | 3951 | 6043 | 11122 | 19512 | 679145 |
 

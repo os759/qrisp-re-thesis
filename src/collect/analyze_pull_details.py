@@ -19,7 +19,7 @@ from typing import Any
 
 from github_api import PROJECT_ROOT, read_jsonl, sha256_of
 
-DEFAULT_OUTPUT = PROJECT_ROOT / "docs" / "befund_pull_details.md"
+DEFAULT_OUTPUT = PROJECT_ROOT / "docs" / "findings_pull_details.md"
 SIZE_THRESHOLDS = [200, 500, 1000, 2000, 5000, 10000]
 TEMPLATE_MARKER = "<!--"
 
@@ -93,7 +93,7 @@ def field_coverage(records: list[dict[str, Any]]) -> list[str]:
             if key not in keys:
                 keys.append(key)
 
-    lines = ["| Feld | belegt | Anteil | Wertarten |",
+    lines = ["| Field | Populated | Share | Value types |",
              "|---|---|---|---|"]
     for key in sorted(keys):
         populated = 0
@@ -110,12 +110,12 @@ def field_coverage(records: list[dict[str, Any]]) -> list[str]:
     return lines
 
 
-def number_summary(title: str, values: list[int]) -> list[str]:
-    """Report the distribution of a list of numbers."""
+def number_row(title: str, values: list[int]) -> str:
+    """Format one distribution row of a markdown table."""
     ordered = sorted(values)
     if not ordered:
-        return [f"| {title} | keine Werte | | | | | | | |"]
-    return [
+        return f"| {title} | - | - | - | - | - | - | - | - |"
+    return (
         f"| {title} | {min(ordered)} | "
         f"{percentile(ordered, 0.5):.0f} | "
         f"{percentile(ordered, 0.75):.0f} | "
@@ -123,7 +123,7 @@ def number_summary(title: str, values: list[int]) -> list[str]:
         f"{percentile(ordered, 0.95):.0f} | "
         f"{percentile(ordered, 0.99):.0f} | "
         f"{max(ordered)} | {sum(ordered)} |"
-    ]
+    )
 
 
 def build_report(
@@ -135,26 +135,29 @@ def build_report(
     total = len(records)
     lines: list[str] = []
     add = lines.append
+    header = ("| Measure | min | median | p75 | p90 | p95 | p99 | max "
+              "| total |")
+    ruler = "|---|---|---|---|---|---|---|---|---|"
 
-    add("# Befund: Detaildaten der Pull Requests")
+    add("# Findings: pull request details")
     add("")
-    add(f"Erstellt: {datetime.now(timezone.utc).isoformat()}")
-    add(f"Quelle: `{source_path.name}`")
-    add(f"SHA-256 der Quelle: `{checksum}`")
-    add(f"Datensaetze: {total}")
+    add(f"Created: {datetime.now(timezone.utc).isoformat()}")
+    add(f"Source: `{source_path.name}`")
+    add(f"SHA-256 of source: `{checksum}`")
+    add(f"Records: {total}")
     add("")
-    add("Erzeugt von `src/collect/analyze_pull_details.py`. "
-        "Keine API-Anfragen.")
+    add("Produced by `src/collect/analyze_pull_details.py`. "
+        "No API requests.")
     add("")
 
-    add("## 1 Feldbelegung")
+    add("## 1 Field coverage")
     add("")
-    add("Leer bedeutet: `null`, leere Liste, leeres Objekt oder leerer Text.")
+    add("Unpopulated means null, empty list, empty object or empty string.")
     add("")
     lines.extend(field_coverage(records))
     add("")
 
-    add("## 2 Autoren und Bots")
+    add("## 2 Authors and bots")
     add("")
     authors = [author_of(record) for record in records]
     logins = Counter(login for login, _ in authors)
@@ -163,86 +166,87 @@ def build_report(
         login for login, account_type in authors
         if looks_like_bot(login, account_type)
     )
-    add(f"Verschiedene Autoren: {len(logins)}")
-    add(f"Als Bot erkannt: {sum(bot_logins.values())} von {total} "
-        f"Pull Requests, {len(bot_logins)} verschiedene Konten")
+    add(f"Distinct authors: {len(logins)}")
+    add(f"Detected as bot: {sum(bot_logins.values())} of {total} "
+        f"pull requests, {len(bot_logins)} distinct accounts")
     add("")
-    add("| Kontotyp | Pull Requests |")
+    add("| Account type | Pull requests |")
     add("|---|---|")
     for account_type, count in types.most_common():
         add(f"| `{account_type}` | {count} |")
     add("")
     if bot_logins:
-        add("| Bot-Konto | Pull Requests |")
+        add("| Bot account | Pull requests |")
         add("|---|---|")
         for login, count in bot_logins.most_common():
             add(f"| `{login}` | {count} |")
     else:
-        add("Kein Konto erfuellt die Bot-Regel.")
+        add("No account matches the bot rule.")
     add("")
-    add("Verteilung ohne Kontonamen, Datenminimierung nach "
+    add("Distribution without account names, data minimisation per "
         "`docs/entscheidungen.md`.")
     add("")
-    add("| Rang | Pull Requests |")
+    add("| Rank | Pull requests |")
     add("|---|---|")
     for rank, (_, count) in enumerate(logins.most_common(), start=1):
         add(f"| {rank} | {count} |")
     add("")
 
-    add("## 3 Ergebnis der Pull Requests")
+    add("## 3 Outcome of the pull requests")
     add("")
     outcomes = Counter(outcome_of(record) for record in records)
-    add("| outcome | Anzahl | Anteil |")
+    add("| outcome | Count | Share |")
     add("|---|---|---|")
     for name, count in outcomes.most_common():
         add(f"| `{name}` | {count} | {100 * count / total:.1f} % |")
     add("")
 
-    add("## 4 Groesse der Aenderungen")
+    add("## 4 Size of the changes")
     add("")
     additions = [int(r.get("additions") or 0) for r in records]
     deletions = [int(r.get("deletions") or 0) for r in records]
     changed = [int(r.get("changed_files") or 0) for r in records]
     touched = [a + d for a, d in zip(additions, deletions)]
-    add("| Groesse | min | Median | p75 | p90 | p95 | p99 | max | Summe |")
-    add("|---|---|---|---|---|---|---|---|---|")
-    lines.extend(number_summary("additions", additions))
-    lines.extend(number_summary("deletions", deletions))
-    lines.extend(number_summary("additions + deletions", touched))
-    lines.extend(number_summary("changed_files", changed))
+    add(header)
+    add(ruler)
+    add(number_row("additions", additions))
+    add(number_row("deletions", deletions))
+    add(number_row("additions + deletions", touched))
+    add(number_row("changed_files", changed))
     add("")
-    add("### Wirkung moeglicher Schwellen")
+    add("### Effect of candidate thresholds")
     add("")
-    add("Zeilen bedeutet `additions + deletions`.")
+    add("Lines means `additions + deletions`.")
     add("")
-    add("| Schwelle | PRs darueber | Anteil PRs | Anteil aller Zeilen |")
+    add("| Threshold | PRs above | Share of PRs | Share of all lines |")
     add("|---|---|---|---|")
     total_lines = sum(touched) or 1
     for threshold in SIZE_THRESHOLDS:
         above = [value for value in touched if value > threshold]
-        add(f"| > {threshold} Zeilen | {len(above)} | "
+        add(f"| > {threshold} lines | {len(above)} | "
             f"{100 * len(above) / total:.1f} % | "
             f"{100 * sum(above) / total_lines:.1f} % |")
     add("")
 
-    add("## 5 Kommentare")
+    add("## 5 Comments")
     add("")
     issue_comments = [int(r.get("comments") or 0) for r in records]
     review_comments = [int(r.get("review_comments") or 0) for r in records]
     commits = [int(r.get("commits") or 0) for r in records]
-    add("| Groesse | min | Median | p75 | p90 | p95 | p99 | max | Summe |")
-    add("|---|---|---|---|---|---|---|---|---|")
-    lines.extend(number_summary("comments", issue_comments))
-    lines.extend(number_summary("review_comments", review_comments))
-    lines.extend(number_summary("commits", commits))
+    add(header)
+    add(ruler)
+    add(number_row("comments", issue_comments))
+    add(number_row("review_comments", review_comments))
+    add(number_row("commits", commits))
     add("")
-    add(f"Pull Requests ganz ohne Kommentare: "
-        f"{sum(1 for a, b in zip(issue_comments, review_comments) if a + b == 0)}")
-    add(f"Pull Requests mit Review-Kommentaren: "
+    silent = sum(1 for a, b in zip(issue_comments, review_comments)
+                 if a + b == 0)
+    add(f"Pull requests without any comment: {silent}")
+    add(f"Pull requests with review comments: "
         f"{sum(1 for value in review_comments if value > 0)}")
     add("")
 
-    add("## 6 Beschreibungstexte")
+    add("## 6 Description texts")
     add("")
     bodies = [record.get("body") for record in records]
     missing = sum(1 for body in bodies if body is None)
@@ -250,15 +254,15 @@ def build_report(
     with_template = sum(1 for body in bodies
                         if body and TEMPLATE_MARKER in body)
     with_crlf = sum(1 for body in bodies if body and "\r\n" in body)
-    add(f"Ohne Beschreibung (`null`): {missing}")
-    add(f"Beschreibung nur aus Leerzeichen: {blank}")
-    add(f"Enthaelt Vorlagentext (`{TEMPLATE_MARKER}`): {with_template}")
-    add(f"Enthaelt CRLF-Zeilenenden: {with_crlf}")
+    add(f"Without description (null): {missing}")
+    add(f"Description is whitespace only: {blank}")
+    add(f"Contains template text (`{TEMPLATE_MARKER}`): {with_template}")
+    add(f"Contains CRLF line endings: {with_crlf}")
     add("")
     body_lengths = [len(body) for body in bodies if body]
-    add("| Groesse | min | Median | p75 | p90 | p95 | p99 | max | Summe |")
-    add("|---|---|---|---|---|---|---|---|---|")
-    lines.extend(number_summary("Zeichen je Beschreibung", body_lengths))
+    add(header)
+    add(ruler)
+    add(number_row("characters per description", body_lengths))
     add("")
 
     return "\n".join(lines) + "\n"
