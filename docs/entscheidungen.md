@@ -330,6 +330,46 @@ eindeutig. Die Luecke wurde mit Commit fe95a1a geschlossen. In
 Kapitel 5 zu benennen.
 Bezug: Reproduzierbarkeit.
 
+## 2026-08-19 Kommentarabruf und vier Abweichungen
+
+Erhebung 19.08.2026 mit Commit c4f0dee. Zwei Rohdateien nach D3:
+issue_comments_2026-08-19.jsonl (639 Kommentare) und
+review_comments_2026-08-19.jsonl (1713 Kommentare), je 476 von 476 Pull
+Requests, 0 fehlgeschlagene Anfragen. Erwartungswerte aus den
+Zaehlfeldern comments und review_comments des Detailabrufs vom
+14.08.2026.
+
+Vier Pull Requests weichen vom Erwartungswert ab. Alle vier wurden
+einzeln geprueft.
+
+PR 639, allgemeine Kommentare, erwartet 1, geholt 4: geklaert. Drei
+Kommentare tragen das Datum 18.08.2026, liegen also nach dem
+Detailabruf. Der heutige Zaehlstand bestaetigt den Zuwachs
+(comments 1 -> 4). Es fehlt nichts; der Erwartungswert war veraltet.
+Belegt zugleich, dass sich die Datenbasis innerhalb weniger Tage
+messbar aendert, und begruendet Zeitstempel und Pruefsumme je
+Erhebung.
+
+PR 331 (154/153), PR 344 (1/0) und PR 767 (5/4), Review-Kommentare:
+nicht aufloesbar. Die heutigen Zaehlstaende sind unveraendert, ein
+Zeitversatz scheidet damit aus. Eine erneute Abfrage liefert
+reproduzierbar dieselben Werte wie der Abruf. Der Endpunkt
+pulls/{nr}/comments gibt also dauerhaft weniger Kommentare heraus, als
+das Zaehlfeld review_comments angibt.
+
+Bei PR 344 listet der Endpunkt pulls/{nr}/reviews kein einziges Review,
+obwohl ein Review-Kommentar gezaehlt wird. Vermutet, aber nicht
+belegbar: ein nicht abgeschicktes Review im Zustand pending, das nur
+seinem Verfasser sichtbar ist. Eine Pruefung waere nur mit dem Konto
+der jeweiligen Person moeglich und unterbleibt.
+
+Umfang: 3 von 1716 Review-Kommentaren, 0,17 Prozent. Keine Korrektur,
+keine Schaetzung, kein Ersatzwert. Die Abweichungen stehen je Erhebung
+im Manifest unter deviations und gehen als Limitation in Kapitel 7.
+
+Status: dokumentiert, nicht aufgeklaert.
+Bezug: FF1, Limitationen.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C

@@ -1,0 +1,48 @@
+{
+  "collected_at_utc": "2026-08-19T09:54:47.981017+00:00",
+  "repository": 632066325,
+  "repository_full_name": "eclipse-qrisp/Qrisp",
+  "endpoint": "review_comments",
+  "api_version": "2022-11-28",
+  "parameters": {
+    "per_page": 100,
+    "pause_seconds": 0.2,
+    "max_retries": 5,
+    "timeout_seconds": 30
+  },
+  "source_dataset": {
+    "file": "pull_details_2026-08-14.jsonl",
+    "sha256": "19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9",
+    "record_count": 476
+  },
+  "added_fields": [
+    "collected_pull_number"
+  ],
+  "pull_requests_handled": 476,
+  "pull_requests_missing": [],
+  "record_count": 1713,
+  "expected_count": 1716,
+  "deviations": [
+    {
+      "number": 331,
+      "expected": 154,
+      "fetched": 153
+    },
+    {
+      "number": 344,
+      "expected": 1,
+      "fetched": 0
+    },
+    {
+      "number": 767,
+      "expected": 5,
+      "fetched": 4
+    }
+  ],
+  "failures": [],
+  "output_file": "review_comments_2026-08-19.jsonl",
+  "sha256": "d1c0dd08487402bf6020c2fd43b0243903c010d761c75e98cda8a86c7c12c7a4",
+  "progress_file": "review_comments_2026-08-19.progress.jsonl",
+  "progress_sha256": "be60e0c576f1e419e837010fb3ec2ed52d2cd910718d030a813e659d05cac46b",
+  "collector_commit": "c4f0dee5013169bf3b34c34df34bde0b75c6e32e"
+}
