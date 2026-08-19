@@ -17,3 +17,17 @@ state = "all"
 timeout_seconds = 30
 pause_seconds = 0.2
 max_retries = 5
+
+
+[prepare]
+# Truncation of patch text, decision D1 of 2026-08-19.
+# Stage 1: no patch text for these file types and for files the API
+# delivered without a patch. Name, status and line counts are kept.
+skip_patch_extensions = [".ipynb", ".drawio", ".bkp", ".svg"]
+# Stage 2: upper limit of patch characters per single file.
+max_patch_chars_per_file = 10000
+# Stage 3: character budget for the patch text of one pull request.
+# Provisional value, to be confirmed in work package E.
+max_patch_chars_per_pull = 50000
+# Appended where text was cut, so truncation stays visible in the data.
+truncation_marker = "\n[... truncated ...]\n"
