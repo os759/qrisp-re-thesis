@@ -55,6 +55,7 @@ def build_headers(token: str, api_version: str) -> dict[str, str]:
         "X-GitHub-Api-Version": api_version,
     }
 
+
 def sha256_of(path: Path) -> str:
     """Return the SHA-256 checksum of a file."""
     digest = hashlib.sha256()
@@ -157,3 +158,38 @@ def request_with_retry(
         return response
 
     raise RuntimeError(f"Giving up after {max_retries} attempts: {url}")
+
+
+
+def fetch_paginated(
+    url: str,
+    headers: dict[str, str],
+    timeout: int,
+    max_retries: int,
+    per_page: int = 100,
+    pause: float = 0.0,
+) -> tuple[list[dict[str, Any]], int]:
+    """Fetch every page of a paginated endpoint, following the link header.
+
+    Returns the collected records and the last HTTP status code, so the
+    caller can distinguish an empty result from a failed request.
+    """
+    records: list[dict[str, Any]] = []
+    page = 1
+    while True:
+        response = request_with_retry(
+            url, headers, timeout, max_retries,
+            params={"per_page": per_page, "page": page},
+        )
+        if response.status_code != 200:
+            return records, response.status_code
+        batch = response.json()
+        if not batch:
+            break
+        records.extend(batch)
+        if 'rel="next"' not in response.headers.get("link", ""):
+            break
+        page += 1
+        if pause:
+            time.sleep(pause)
+    return records, 200
