@@ -1,0 +1,110 @@
+{
+  "built_at_utc": "2026-08-19T20:54:12.412620+00:00",
+  "repository": 632066325,
+  "repository_full_name": "eclipse-qrisp/Qrisp",
+  "stage": "interim",
+  "source_dataset": {
+    "details": {
+      "file": "pull_details_2026-08-14.jsonl",
+      "sha256": "19bc97ad11d3e097e873eb72cc84df283d20c9fffb61d8a1f7013151dfa03bd9",
+      "record_count": 476
+    },
+    "issue_comments": {
+      "file": "issue_comments_2026-08-19.jsonl",
+      "sha256": "7d9918c628bd51bc2c9245fcbc2a678c20ec963c3d92481809fbdd724c760459",
+      "record_count": 639
+    },
+    "review_comments": {
+      "file": "review_comments_2026-08-19.jsonl",
+      "sha256": "d1c0dd08487402bf6020c2fd43b0243903c010d761c75e98cda8a86c7c12c7a4",
+      "record_count": 1713
+    },
+    "files": {
+      "file": "pull_files_2026-08-19.jsonl",
+      "sha256": "7315f5254a914278618c85c23422d7f2a04d1460ee8d8c6c6733f4e91533bbdc",
+      "record_count": 8424
+    }
+  },
+  "parameters": {
+    "skip_patch_extensions": [
+      ".ipynb",
+      ".drawio",
+      ".bkp",
+      ".svg"
+    ],
+    "max_patch_chars_per_file": 10000,
+    "max_patch_chars_per_pull": 50000,
+    "file_order": "as delivered by the API",
+    "limit": null
+  },
+  "derived_fields": [
+    "outcome",
+    "author_is_bot",
+    "has_body",
+    "has_code_changes",
+    "has_patch_text",
+    "body_had_crlf",
+    "body_had_template",
+    "body_template_unterminated",
+    "counts_dataset",
+    "truncation"
+  ],
+  "record_count": 476,
+  "statistics": {
+    "pull_requests": 476,
+    "bot_pull_requests": 31,
+    "without_body": 56,
+    "body_emptied_by_cleaning": 0,
+    "body_template_unterminated": 0,
+    "normalised_crlf": 259,
+    "removed_template": 124,
+    "without_code_changes": 5,
+    "without_patch_text": 12,
+    "without_any_comment": 222,
+    "issue_comments": 639,
+    "review_comments": 1713,
+    "files": 8424,
+    "files_stage1_dropped": 497,
+    "files_stage2_truncated": 258,
+    "files_stage3_truncated": 61,
+    "files_stage3_dropped": 4580,
+    "pulls_truncated": 183,
+    "patch_chars_original": 32555716,
+    "patch_chars_kept": 7396580
+  },
+  "deviations": [
+    {
+      "number": 331,
+      "field": "review_comments",
+      "api": 154,
+      "dataset": 153
+    },
+    {
+      "number": 344,
+      "field": "review_comments",
+      "api": 1,
+      "dataset": 0
+    },
+    {
+      "number": 470,
+      "field": "changed_files",
+      "api": 7,
+      "dataset": 14
+    },
+    {
+      "number": 639,
+      "field": "comments",
+      "api": 1,
+      "dataset": 4
+    },
+    {
+      "number": 767,
+      "field": "review_comments",
+      "api": 5,
+      "dataset": 4
+    }
+  ],
+  "output_file": "pulls_prepared_2026-08-19.jsonl",
+  "sha256": "138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683",
+  "builder_commit": "98cb781a059e7396266914048d663a9e04b7abbd"
+}
