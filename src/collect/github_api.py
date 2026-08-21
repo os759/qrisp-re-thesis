@@ -160,7 +160,6 @@ def request_with_retry(
     raise RuntimeError(f"Giving up after {max_retries} attempts: {url}")
 
 
-
 def fetch_paginated(
     url: str,
     headers: dict[str, str],
