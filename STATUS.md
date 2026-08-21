@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 19.08.2026
+Letzte Aktualisierung: 21.08.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -15,7 +15,9 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   unbemerkt.
 - Wenn Claude den Inhalt einer Datei braucht, muss er sie ausdruecklich
   anfordern und dabei den vollstaendigen Pfad nennen. Claude arbeitet
-  nie mit einer aus dem Gedaechtnis rekonstruierten Fassung.
+  nie mit einer aus dem Gedaechtnis rekonstruierten Fassung. Bewaehrt:
+  in Paket D Teil 3 hat Claude von sich aus gemeldet, dass ihm zwei
+  Dateien nicht mehr vorliegen, statt sie nachzubauen.
 - Dasselbe gilt fuer Befehlsausgaben: Claude erklaert einen Commit,
   eine Installation, eine Kompilierung oder einen Test erst dann fuer
   erfolgreich, wenn die tatsaechliche Ausgabe im Chat steht.
@@ -26,6 +28,12 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 - Claude testet groessere Skripte vor der Uebergabe in seiner eigenen
   Umgebung mit erfundenen Testdaten und sagt das dazu. Bewaehrt: hat in
   Paket D Teil 2 jeden Fehler vor dem echten Lauf gefunden.
+- Ab Paket D Teil 3: Claude prueft eine Testsuite zusaetzlich gegen
+  absichtlich eingebrachte Fehler und zeigt, welche Tests dabei
+  anschlagen. Nur so ist belegt, dass ein bestandener Test etwas misst.
+- Vor jedem Schritt nennt Claude unaufgefordert Ziel und FF-Bezug,
+  Voraussetzungen, Arbeitsverzeichnis, den Befehl mit Erklaerung,
+  erwartete Ausgabe, haeufige Fehler und Abschlusskriterium.
 
 ## Umgebung
 
@@ -34,6 +42,9 @@ macOS 26.5.2 (25F84) - Python 3.14.6 (Homebrew) - pip 26.1.2 - Git 2.50.1
 TeX Live 2026
 Repository: /Users/omar/Developer/qrisp-re-thesis
 Remote: github.com/os759/qrisp-re-thesis (privat, SSH)
+Pakete laut requirements.txt: requests 2.34.2, pytest 9.1.1 sowie
+certifi, charset-normalizer, idna, iniconfig, packaging, pluggy,
+Pygments, urllib3
 
 ## Repository-Struktur
 
@@ -44,12 +55,16 @@ src/{collect,prepare,extract,classify,analyze} · tests/ · thesis/
 
 src/ enthaelt eine README.md, die alle Unterordner beschreibt. Die
 Unterordner selbst haben keine README.md - bewusst so entschieden.
+tests/ hat eine eigene README.md, die die Testbereiche und die
+bewusst offenen Luecken benennt.
 
 Per .gitignore ausgeschlossen: .env, config/config.yaml, *.key, *.token,
 data/raw/, data/interim/, eval/responses/, docs/pseudonyme.csv,
 models/, literatur/pdf/, literatur/volltexte/, .venv/, __pycache__/,
 LaTeX-Hilfsdateien in thesis/, .DS_Store, .vscode/, .idea/
 Nicht ausgeschlossen und damit versioniert: data/manifests/
+Geprueft am 21.08.2026: __pycache__/ und .pytest_cache/ erscheinen
+nicht in git status.
 
 ## Abgeschlossen
 
@@ -85,6 +100,18 @@ Arbeitspaket D, Teil 2 - alle vier Abrufe abgeschlossen:
 - docs/findings_pull_details.md und findings_pull_files.md erzeugt
 - Entscheidungen D1 bis D4 in docs/entscheidungen.md festgeschrieben
 
+Arbeitspaket D, Teil 3 (Aufbereitung und Tests) abgeschlossen:
+- config/collect.toml um den Abschnitt [prepare] ergaenzt
+- src/prepare/build_interim.py: fuehrt die vier Rohdateien zu einem
+  Datensatz je Pull Request zusammen, reduziert die Felder,
+  normalisiert Zeilenenden, entfernt Vorlagenkommentare und setzt die
+  drei Kuerzungsstufen aus D1 um
+- Lauf vom 19.08.2026 ueber alle 476 Pull Requests, Manifest versioniert
+- tests/: conftest.py und fuenf Testdateien mit 38 Tests, alle bestanden
+- tests/README.md neu gefasst
+- Entscheidungen D5 bis D8 in docs/entscheidungen.md
+- docs/ki-protokoll.md fuer Teil 2 und Teil 3 nachgetragen
+
 ## Datensaetze (alle lokal, nicht im Repository)
 
 data/raw/pulls_2026-08-12.jsonl - 476 PRs
@@ -97,9 +124,16 @@ data/raw/review_comments_2026-08-19.jsonl - 1713 Kommentare
   SHA-256 d1c0dd08487402bf6020c2fd43b0243903c010d761c75e98cda8a86c7c12c7a4
 data/raw/pull_files_2026-08-19.jsonl - 8424 Dateisaetze
   SHA-256 7315f5254a914278618c85c23422d7f2a04d1460ee8d8c6c6733f4e91533bbdc
+data/interim/pulls_prepared_2026-08-19.jsonl - 476 aufbereitete PRs, 20 MB
+  SHA-256 138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683
 
 Dazu je eine .progress.jsonl fuer Kommentare und Dateien, ebenfalls
-lokal. Alle Manifeste unter data/manifests/ sind versioniert.
+lokal. Alle Manifeste unter data/manifests/ sind versioniert:
+manifest_pulls_2026-08-12.json, manifest_pull_details_2026-08-14.json,
+manifest_issue_comments_2026-08-19.json,
+manifest_review_comments_2026-08-19.json,
+manifest_pull_files_2026-08-19.json,
+manifest_prepared_2026-08-19.json
 
 ## Belegte Fakten aus Paket D (Stand 19.08.2026)
 
@@ -149,6 +183,84 @@ Abweichungen
   13.06. auf 17.08. gewandert, Commits 16 -> 22.
 - PR 331, 344, 767: je ein Review-Kommentar weniger als gezaehlt. Nicht
   aufloesbar, reproduzierbar. 3 von 1716, 0,17 Prozent.
+- Alle fuenf Abweichungen erscheinen unveraendert im Manifest der
+  Aufbereitung. Keine neue Abweichung.
+
+## Belegte Fakten aus der Aufbereitung (Lauf 19.08.2026)
+
+Quelle: manifest_prepared_2026-08-19.json, erzeugt von
+src/prepare/build_interim.py.
+
+Vollstaendigkeit
+- 476 Pull Requests, 639 allgemeine und 1713 Review-Kommentare, 8424
+  Dateien uebernommen. Kein Datensatz verloren.
+- 31 Bot-Beitraege enthalten und markiert (D7).
+- 5 Pull Requests ohne Codeaenderung, 222 ohne Kommentar, 56 ohne
+  Beschreibung - alle enthalten und markiert (D6).
+
+Reinigung
+- Zeilenenden bei 259 Beschreibungen vereinheitlicht.
+- Vorlagentext bei 124 Beschreibungen entfernt.
+- 0 Beschreibungen wurden durch die Reinigung leer. Die Zahl 56 bleibt
+  unveraendert. Widerlegt die Vorabvermutung, sie koenne steigen.
+- 0 unabgeschlossene Kommentarmarker im gesamten Korpus.
+- Zeichenzahl 32555716 statt 32557763 im Rohabruf. Die Differenz von
+  2047 Zeichen entfaellt auf CRLF-Zeilenenden, die zu LF werden. Kein
+  Inhaltsverlust.
+
+Wirkung der Kuerzung nach D1
+- Stufe 1: 497 Dateien ohne Patch-Text (Dateityp oder kein patch-Feld).
+- Stufe 2: 258 Dateien auf 10000 Zeichen gekuerzt.
+- Stufe 3: 61 Dateien gekuerzt, 4580 Dateien ohne Patch-Text wegen
+  erschoepftem Budget. Das sind 54,4 Prozent aller Dateien.
+- 32555716 Zeichen werden zu 7396580, also 22,7 Prozent. Bei rund
+  3,5 Zeichen je Token grob 2,1 statt 9,3 Millionen Token.
+- 183 von 476 Pull Requests (38,4 %) sind irgendwie gekuerzt.
+- Ergebnisdatei 476 Zeilen, 20 MB.
+
+Diese Wirkung ist die groesste Einzelentscheidung der Datenaufbereitung
+und gehoert nach Kapitel 5 und Kapitel 7. Der Budgetwert steht in
+config/collect.toml und ist in Paket E ohne Codeaenderung anpassbar;
+der Lauf ist dann zu wiederholen.
+
+## Struktur eines aufbereiteten Datensatzes
+
+Eine Zeile je Pull Request. Felder:
+number, title, body, has_body, body_had_crlf, body_had_template,
+body_template_unterminated, state, outcome, draft, author,
+author_is_bot, author_association, created_at, updated_at, closed_at,
+merged_at, html_url, labels, base_ref, base_sha, head_sha,
+counts_api, counts_dataset, has_code_changes, has_patch_text,
+truncation, issue_comments, review_comments, files
+
+- counts_api enthaelt die Zaehlfelder von GitHub, counts_dataset die
+  tatsaechlich vorliegenden Anzahlen. Beide bleiben getrennt, damit die
+  bekannten Abweichungen sichtbar bleiben.
+- truncation zaehlt je Pull Request: stage1_dropped, stage2_truncated,
+  stage3_truncated, stage3_dropped, chars_original, chars_kept.
+- Je Datei: filename, status, additions, deletions, changes, patch,
+  patch_kept, patch_drop_reason, patch_truncated, patch_chars_original,
+  patch_chars_kept. Gruende: no_patch_from_api, excluded_file_type,
+  pull_budget_exhausted.
+- Je Review-Kommentar zusaetzlich: path, line, side, commit_id,
+  review_id, diff_hunk. Der diff_hunk gibt die Codezeilen, auf die sich
+  der Kommentar bezieht - wertvoll fuer die Rueckverfolgbarkeit.
+- Kommentare sind nach created_at sortiert, Dateien in der
+  Lieferreihenfolge der API.
+
+## Testsuite
+
+38 Tests, ausfuehren aus der Projektwurzel:
+python -m pytest tests/ -v
+Zuletzt gruen am 21.08.2026 unter Python 3.14.6.
+
+tests/conftest.py setzt den Importpfad auf src/collect und src/prepare.
+Ohne diese Datei finden die Tests die Module nicht.
+
+Bereiche: test_resume.py (Wiederaufnahme), test_outcome.py,
+test_normalisation.py, test_jsonl_io.py, test_truncation.py.
+Nicht abgedeckt: Netzschicht in github_api.py, Auswertungsskripte,
+Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Ungepruefte Beobachtungen
 
@@ -158,15 +270,24 @@ Abweichungen
 - PR 674 und 676 sind fast gleich gross (574/575 Dateien) - vermutlich
   zwei Anlaeufe derselben Umbauaktion. Nicht geprueft.
 - Warum author_association nie OWNER oder MEMBER annimmt: unbekannt.
+- Ob die 28 Dependabot-Beitraege sicherheitsbezogene Angaben enthalten:
+  Vermutung aus D7, nicht gemessen. Relevant fuer FF4.
+- Ob 50000 Zeichen je Pull Request ausreichen: haengt vom Modell ab,
+  Entscheidung in Paket E.
 
 ## Aktuell
 
-Paket D, Teil 2: alle vier Abrufe abgeschlossen und committet.
-Naechster Schritt: Reduktion nach data/interim/, danach die vier Tests.
+Paket D vollstaendig abgeschlossen: Erhebung, Aufbereitung, Tests,
+Entscheidungen und Protokoll. Der aufbereitete Datensatz liegt unter
+data/interim/pulls_prepared_2026-08-19.jsonl bereit.
 
-Paket C (Entscheidungsmatrix zur Formatauswahl) ist nicht blockiert und
-braucht keine weitere Lesearbeit. Vorgesehen als eigener Chat nach
-Paket D.
+Naechster Schritt: Paket C (Entscheidungsmatrix zur Formatauswahl) als
+eigener Chat. Danach Paket E (Prompt-Entwicklung und API-Modell).
+
+Begruendung fuer diese Reihenfolge: Paket E braucht ein festgelegtes
+Anforderungsformat, sonst muss die Prompt-Arbeit wiederholt werden.
+Paket C braucht keine weitere Lesearbeit; die vier Ebenen und die
+Kriterien stehen bereits.
 
 ## Getroffene Entscheidungen
 
@@ -191,16 +312,27 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Stufe 2 hoechstens 10000 Zeichen je Datei.
   Stufe 3 Budget 50000 Zeichen je Pull Request, unter Vorbehalt Paket E.
   Alle Werte in die Konfiguration, jede Kuerzung wird markiert.
+  Ergaenzung 21.08.: Das Budget wird in der Lieferreihenfolge der API
+  verbraucht. Die Schwaeche dieser Regel steht in Kapitel 7.
 - D2 Bots markieren (author_is_bot), nicht loeschen. Regel: user.type
   gleich "Bot" ODER Login endet auf "[bot]".
 - D3 eine Rohdatei je Endpunkt, Zusammenfuehrung erst in data/interim/.
   Jedes Manifest traegt source_dataset mit Pruefsumme.
-- D4 pytest, vier Tests: Wiederaufnahme, outcome, Normalisierung,
-  JSONL-Ein- und Ausgabe. Kein Nachbau der API.
+- D4 pytest, Tests dort, wo ein Fehler still Daten verfaelscht:
+  Wiederaufnahme, outcome, Normalisierung, JSONL-Ein- und Ausgabe.
+  Kein Nachbau der API.
+- D5 ein Datensatz je Pull Request, Kommentare und Dateien eingebettet.
+- D6 Pull Requests ohne Beschreibung und ohne Codeaenderung bleiben
+  enthalten und werden markiert. Reinigung entfernt nur vollstaendige
+  Kommentarbloecke und wird nie auf Patch-Text angewandt.
+- D7 praezisiert D2: Bots bleiben in data/interim/. Der Ausschluss
+  erfolgt erst bei der Erzeugung der Modelleingabe, weil
+  Dependabot-Beitraege fuer FF4 einschlaegig sein koennten.
+- D8 ergaenzt D4 um einen fuenften Testbereich: die Kuerzungsstufen.
 - Sprache: Programme unter src/ geben Meldungen und Berichte auf
   Englisch aus, einschliesslich der Berichtsdateinamen. docs/ und
   literatur/ bleiben deutsch.
-- Erst Quelltext committen, dann abrufen.
+- Erst Quelltext committen, dann abrufen oder aufbereiten.
 
 ## LaTeX-Konventionen
 
@@ -287,6 +419,15 @@ Nicht belegbare Merkmale aus 29148: Notwendigkeit, Umsetzbarkeit und
 Korrektheit. Eindeutigkeit, Einzelbezug, Nachweisbarkeit und
 Vorlagenkonformitaet sind am Text pruefbar.
 
+Aus der Erhebung fuer die Matrix nutzbar:
+- labels traegt nichts bei (nur 7,6 %). Die Klassifikation muss aus
+  Text und Code kommen.
+- author_association unterscheidet nur CONTRIBUTOR und NONE. Keine
+  Rollenzuordnung fuer User Stories ableitbar.
+- 46,6 Prozent der Pull Requests haben keinen Kommentar. Die
+  Begruendung einer Anforderung stammt bei ihnen allein aus Titel,
+  Beschreibung und Diff.
+
 ## Zugangsdaten
 
 - GitHub-Token qrisp-thesis-readonly, im Passwortmanager und in
@@ -313,18 +454,16 @@ Inhaltlich offen:
 - INVEST: Lucassen loest das S als Scalable auf. Gegen Wake 2003 pruefen.
 - Titelvariante Mavin 2009 vereinheitlichen.
 
-Paket D, noch zu erledigen:
-- Reduktion nach data/interim/: Feldauswahl, outcome, author_is_bot,
-  Normalisierung der Zeilenenden, Entfernen des Vorlagentexts,
-  Umsetzung der drei Kuerzungsstufen aus D1, Zusammenfuehrung der
-  vier Rohdateien, Manifest
-- Vier Tests unter tests/ mit pytest. pytest ist noch NICHT
-  installiert; requirements.txt enthaelt bisher nur requests.
-- docs/ki-protokoll.md fuer Paket D Teil 2 nachtragen
+Aus Paket D in spaetere Pakete uebernommen:
+- Budget der Stufe 3 in Paket E bestaetigen oder anpassen. Bei
+  Aenderung ist build_interim.py erneut auszufuehren.
+- Auswahlregel fuer die Modelleingabe festlegen und begruenden:
+  Bots, Pull Requests ohne Beschreibung, ohne Codeaenderung (Paket E).
+- Messen, ob die 28 Dependabot-Beitraege sicherheitsbezogene Angaben
+  enthalten (Paket G, FF4).
+- Schemavalidierung der LLM-Ausgaben testen (Paket E).
 
 Technisch und redaktionell:
-- github_api.py: doppelte Leerzeile vor fetch_paginated, kein
-  Zeilenumbruch am Dateiende. Rein kosmetisch, Aufraum-Commit.
 - Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Woche 5
 - Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
   Z. 29 Abstract · Z. 39 Einleitung · Z. 299 SATZ UEBERARBEITEN ·
@@ -337,26 +476,34 @@ Technisch und redaktionell:
   Z. 300-301 (14,5pt) · Z. 768 (1,4pt)
 - Rote KI-Hinweisbox in vorspann.tex vor Abgabe ersetzen
 - fancyhdr-Warnungen stammen aus der Vorlage und sind harmlos
+- Fehlender Zeilenumbruch am Dateiende: docs/ki-protokoll.md,
+  tests/README.md. Rein kosmetisch.
 
 ## Arbeitsweise
 
 - Vor jedem Python-Befehl: source .venv/bin/activate
 - Skripte immer aus der Projektwurzel starten
-  (python src/collect/<n>.py), sonst wird github_api nicht gefunden
-- Erst Quelltext committen, dann abrufen. Dann stimmt collector_commit
-  im Manifest exakt.
+  (python src/collect/<n>.py bzw. python src/prepare/<n>.py), sonst
+  wird github_api nicht gefunden
+- Tests: python -m pytest tests/ -v aus der Projektwurzel
+- Erst Quelltext committen, dann abrufen oder aufbereiten. Dann stimmt
+  collector_commit bzw. builder_commit im Manifest exakt.
 - Vor dem vollen Lauf immer ein Probelauf mit --limit 5
-- Nach Abbruch: denselben Befehl erneut ausfuehren. Die Skripte lesen
-  ihren Fortschritt aus der bereits geschriebenen Datei.
+- Probelaeufe erzeugen ein Manifest. Vor dem Commit loeschen, sonst
+  landet ein Probelauf in der Historie.
+- Nach Abbruch: denselben Befehl erneut ausfuehren. Die Abrufskripte
+  lesen ihren Fortschritt aus der bereits geschriebenen Datei.
 - --day <Datum> mitgeben, wenn in eine bestehende Datei
   weitergeschrieben werden soll
+- build_interim.py schreibt nie in eine vorhandene Datei. Zum Neubau
+  --overwrite mitgeben.
 - Kompilieren: cd thesis && pdflatex thesis.tex && bibtex thesis1 &&
   bibtex thesis2 && pdflatex thesis.tex && pdflatex thesis.tex
   (nicht make all - braucht LibreOffice und ImageMagick)
 - Commit-Ablauf: status -> diff -> gezieltes add -> diff --staged ->
   commit -> log -1 -> status -> push
 - Kein git add . und kein git add ordner/
-- Commit-Praefixe: lit:, bib:, tex:, code:, chore:
+- Commit-Praefixe: lit:, bib:, tex:, code:, test:, docs:, chore:
 - Bereits gepushte Commits werden nicht nachtraeglich geaendert.
 - BibTeX-Felder mit Umlauten oder Backslashes in {...} setzen.
 - Eigennamen im BibTeX-Titel in {...} setzen.
@@ -368,6 +515,19 @@ Technisch und redaktionell:
 [api] base_url https://api.github.com, version 2022-11-28,
       per_page 100, state all
 [fetch] timeout_seconds 30, pause_seconds 0.2, max_retries 5
+[prepare] skip_patch_extensions .ipynb .drawio .bkp .svg,
+      max_patch_chars_per_file 10000, max_patch_chars_per_pull 50000,
+      truncation_marker "\n[... truncated ...]\n"
+
+## Aufruf des Aufbereitungsskripts
+
+python src/prepare/build_interim.py \
+  --details data/raw/pull_details_2026-08-14.jsonl \
+  --issue-comments data/raw/issue_comments_2026-08-19.jsonl \
+  --review-comments data/raw/review_comments_2026-08-19.jsonl \
+  --files data/raw/pull_files_2026-08-19.jsonl
+
+Optional: --limit N (Probelauf), --day JJJJ-MM-TT, --overwrite
 
 ## Commits Paket D Teil 2
 
@@ -378,12 +538,22 @@ a8d649b Manifeste des Kommentarabrufs und Befund zu den Abweichungen
 44c669f Abruf der geaenderten Dateien und Diffs
 336422d Dateiabruf ausgewertet, D1 endgueltig, Berichte auf Englisch
 
+## Commits Paket D Teil 3
+
+1c47a39 Kuerzungsparameter aus D1 in die Konfiguration
+f7f8c52 build_interim.py und Testsuite (26 Tests)
+d56feec Manifest des aufbereiteten Datensatzes vom 19.08.2026
+c63f700 Kuerzungsstufen aus D1 getestet (12 weitere Tests)
+acacebb KI-Protokoll fuer Paket D Teil 3
+[nachzutragen] Entscheidungen D5 bis D8
+[nachzutragen, optional] kosmetische Bereinigung github_api.py
+
 ## Zeitplan
 
 W1 03.-09.08. Setup, Literaturstart                    erledigt
 W2 10.-16.08. Python, JSON/REST, erster GitHub-Abruf   erledigt
-W3 17.-23.08. Extraktion, Formatauswahl                Abrufe erledigt
-                                                       19.08.
+W3 17.-23.08. Extraktion, Formatauswahl                Paket D
+                                                       erledigt 21.08.
 W4 24.-30.08. LLM-Extraktion mit API-Modell
 W5 31.08.-06.09. Prompt-Iteration, lokales Modell
 W6 07.-13.09. Modellvergleich (Kontrollpunkt lokales Modell)
@@ -395,6 +565,7 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Paket B wurde eine Woche frueher fertig. Alle vier Abrufe aus Paket D
-Teil 2 liefen am dritten Tag von W3. Reduktion und Tests koennen in W3
-abgeschlossen werden, danach Paket C.
+Paket B wurde eine Woche frueher fertig. Paket D ist am fuenften Tag
+von W3 vollstaendig abgeschlossen, drei Tage vor Plan. Paket C kann
+noch in W3 begonnen werden. Bis zur Abgabe verbleiben rund
+zehn Wochen.
