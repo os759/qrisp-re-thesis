@@ -19,6 +19,7 @@ still Daten verfaelscht, nicht dort, wo er sichtbar zum Abbruch fuehrt.
 | `test_outcome.py` | Ableitung des Feldes `outcome` | verworfene Aenderung gilt als umgesetzt |
 | `test_normalisation.py` | Zeilenenden und Reinigung der Fliesstextfelder | echter Text geloescht oder Quellcode veraendert |
 | `test_jsonl_io.py` | JSONL-Ein- und Ausgabe | Datensatz verloren, Umlaut zerstoert |
+| `test_truncation.py` | Die drei Kuerzungsstufen aus D1 | Quellcode still entfernt oder Budget ueberschritten |
 
 Die Tests wurden gegen absichtlich eingebrachte Fehler geprueft: Bei
 vertauschtem `outcome` und bei einer Reinigung ohne Abschlussmarker
@@ -26,7 +27,6 @@ schlugen sechs der 26 Tests fehl.
 
 ## Noch nicht abgedeckt
 
-- Die drei Kuerzungsstufen aus Entscheidung D1 in `prepare_files`.
 - Die Netzschicht in `github_api.py` (Wiederholung, Ratengrenzen,
   Paginierung). Sie wurde im Betrieb geprueft, nicht automatisiert.
 - Die Auswertungsskripte unter `src/collect/`.
