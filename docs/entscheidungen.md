@@ -453,6 +453,142 @@ im Manifest unter deviations und gehen als Limitation in Kapitel 7.
 Status: dokumentiert, nicht aufgeklaert.
 Bezug: FF1, Limitationen.
 
+## 2026-08-21 Paket D Teil 3: Aufbereitung nach data/interim/
+
+Alle Zahlen in den folgenden Entscheidungen stammen aus dem Lauf von
+src/prepare/build_interim.py am 19.08.2026 mit Commit f7f8c52.
+Ergebnisdatei data/interim/pulls_prepared_2026-08-19.jsonl, 476
+Datensaetze, SHA-256
+138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683.
+Manifest data/manifests/manifest_prepared_2026-08-19.json.
+
+### 2026-08-21 D5 Ein Datensatz je Pull Request, Teile eingebettet
+
+Die vier Rohdateien werden zu einer JSONL-Datei zusammengefuehrt. Eine
+Zeile entspricht einem Pull Request und enthaelt Kommentare und
+geaenderte Dateien als eingebettete Listen. Verbindendes Feld ist
+collected_pull_number aus den Abrufskripten.
+
+Begruendung: Die Verarbeitungseinheit in Paket E ist ein Pull Request.
+Ein Prompt erhaelt Titel, Beschreibung, Diskussion und Codeauszuege
+eines einzelnen Pull Requests. Lagen diese Teile in vier Dateien,
+muesste jedes spaetere Skript sie erneut zusammenfuehren. Die
+Begruendung von D3 traegt hier nicht: sie stuetzt sich auf
+Fortsetzbarkeit nach Abbruch und Stabilitaet der Pruefsumme des
+Netzabrufs. Die Aufbereitung laeuft lokal, ist in unter zwei Minuten
+wiederholbar und jederzeit aus data/raw/ reproduzierbar. Ausserdem
+rechnet Stufe 3 aus D1 je Pull Request; dazu muessen alle Dateien eines
+Pull Requests gleichzeitig vorliegen.
+
+Alternative: getrennte Dateien mit Verweis ueber die PR-Nummer,
+verworfen, weil sie in jedem Folgeschritt eine Zusammenfuehrung
+erzwingt, ohne einen Vorteil zu bieten.
+
+Wirkung: 476 Zeilen, 20 MB. Nicht versioniert (data/interim/ ist per
+.gitignore ausgeschlossen); Nachweis ueber das Manifest.
+Status: festgelegt.
+Bezug: FF1, Reproduzierbarkeit.
+
+### 2026-08-21 D1 Ergaenzung: Reihenfolge bei Stufe 3
+
+Das Budget von 50000 Zeichen je Pull Request wird in der Reihenfolge
+verbraucht, in der die API die Dateien liefert. Die Datei, bei der das
+Budget endet, wird abgeschnitten und markiert. Alle folgenden Dateien
+behalten Name, status, additions und deletions, aber keinen Patch-Text.
+
+Begruendung: Eine gleichmaessige Aufteilung ergibt bei 574 Dateien rund
+87 Zeichen je Datei und damit keinen lesbaren Ausschnitt. Eine Auswahl
+nach Dateigroesse setzt voraus, dass gross gleich wichtig ist; dafuer
+gibt es keinen Beleg.
+
+Einschraenkung, die in Kapitel 7 gehoert: Die Lieferreihenfolge der API
+ist keine Rangfolge nach Bedeutung. Bei sehr grossen Pull Requests
+entscheidet damit die Sortierung, welcher Code in die Extraktion geht.
+Jede Kuerzung ist am Datensatz markiert und geht in die Belegstaerke
+ein.
+Status: festgelegt, ueberpruefbar in Paket E.
+Bezug: FF1, Limitationen.
+
+### 2026-08-21 D6 Unvollstaendige Pull Requests bleiben enthalten
+
+Pull Requests ohne Beschreibungstext (56) und ohne Codeaenderung (5)
+bleiben in data/interim/ und werden markiert: has_body,
+has_code_changes, has_patch_text, counts_dataset. Eine Auswahl erfolgt
+erst dort, wo die Modelleingabe erzeugt wird.
+
+Begruendung: Der Korpus bleibt bei 476, sodass alle bisherigen
+Prozentangaben ihre Grundgesamtheit behalten. Ein Pull Request ohne
+Codeaenderung traegt Titel und moeglicherweise Kommentare; ein
+abgelehnter Vorschlag kann eine bewusst nicht umgesetzte Anforderung
+belegen. D1 und D2 folgen bereits dem Muster kuerzen und markieren
+statt loeschen.
+
+Zur Reinigung des Beschreibungstexts: Entfernt werden nur
+vollstaendige HTML-Kommentarbloecke von "<!--" bis "-->". Ein Marker
+ohne Abschluss bleibt stehen und wird markiert, damit keine echte
+Beschreibung verloren geht. Auf Patch-Text und diff_hunk wird die
+Reinigung nicht angewandt, weil ein Kommentarmarker Bestandteil einer
+geaenderten Datei sein kann.
+
+Messergebnis: Die Zahl der Pull Requests ohne Beschreibung bleibt bei
+56. Kein Beschreibungstext bestand ausschliesslich aus Vorlagentext
+(body_emptied_by_cleaning = 0). Kein unabgeschlossener Marker im
+gesamten Korpus (0). Die Vermutung, die Reinigung koenne Beschreibungen
+leeren, ist damit widerlegt.
+Status: festgelegt.
+Bezug: FF1, Nachvollziehbarkeit.
+
+### 2026-08-21 D7 Bots bleiben in data/interim/ - Praezisierung von D2
+
+D2 vom 16.08. haelt fest, der Ausschluss der Bot-Beitraege erfolge
+"erst in der Aufbereitung". Das wird praezisiert: Der Ausschluss
+erfolgt erst bei der Erzeugung der Modelleingabe, nicht bereits in
+data/interim/. Dort bleiben die 31 Bot-Beitraege enthalten und tragen
+author_is_bot = true.
+
+Begruendung: Markieren ist umkehrbar, Loeschen nicht. Dependabot
+erzeugt Pull Requests, die Programmbibliotheken aktualisieren; solche
+Aktualisierungen erfolgen haeufig wegen bekannter Sicherheitsluecken
+und koennten damit fuer FF4 einschlaegig sein. Ob das fuer Qrisp
+zutrifft, ist NICHT geprueft und ausdruecklich eine Vermutung. Genau
+deshalb werden die Daten behalten, bis eine Messung vorliegt.
+
+Status: festgelegt. Die Auswahl fuer die Modelleingabe ist in Paket E
+zu treffen und dort zu begruenden. Die Messung, ob die 28
+Dependabot-Beitraege sicherheitsbezogene Angaben enthalten, steht aus.
+Bezug: FF1, FF4, Datenminimierung.
+
+### 2026-08-21 D8 Fuenfter Testbereich: die Kuerzungsstufen
+
+D4 vom 16.08. nennt vier Testbereiche. Ergaenzt wird ein fuenfter:
+tests/test_truncation.py prueft prepare_files mit zwoelf Tests.
+
+Begruendung: Die Kuerzung veraendert den Datensatz am staerksten. 4580
+von 8424 Dateien (54,4 Prozent) verlieren ihren Patch-Text, und 77,3
+Prozent aller Zeichen entfallen. Ein Fehler waere still: entfernter
+Quellcode oder ein ueberschrittenes Budget faellt bei laufendem
+Programm nicht auf. Damit erfuellt der Bereich das Auswahlkriterium
+aus D4.
+
+Geprueft werden: Typausschluss einschliesslich Grossschreibung,
+fehlendes patch-Feld der API, Obergrenze je Datei, Budget je Pull
+Request, Erhalt des Diff-Anfangs beim Abschneiden, Erhalt aller
+Dateieintraege trotz entferntem Patch-Text, getrennte Zaehlung von
+Ursprungs- und Restgroesse.
+
+Gegenprobe: Die gesamte Testsuite wurde gegen absichtlich
+eingebrachte Fehler geprueft. Bei vertauschtem outcome und einer
+Reinigung ohne Abschlussmarker schlugen sechs von 26 Tests fehl; bei
+verworfenen Dateieintraegen und umgekehrter Kuerzungsrichtung vier von
+zwoelf. Die Tests bestehen also nicht nur, sie schlagen auch an.
+
+Nicht abgedeckt bleiben: die Netzschicht in github_api.py (im Betrieb
+geprueft, nicht automatisiert), die Auswertungsskripte und die
+Schemavalidierung der LLM-Ausgaben (Paket E). Diese Luecken stehen in
+tests/README.md.
+Status: festgelegt, 38 Tests aktiv.
+Bezug: FF1, Reproduzierbarkeit.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C
