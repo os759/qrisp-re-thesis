@@ -21,6 +21,9 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 - Dasselbe gilt fuer Befehlsausgaben: Claude erklaert einen Commit,
   eine Installation, eine Kompilierung oder einen Test erst dann fuer
   erfolgreich, wenn die tatsaechliche Ausgabe im Chat steht.
+- Commit-Nachrichten werden erst nach dem git diff formuliert, nie
+  vorab. In Paket D Teil 3 hat eine vorformulierte Nachricht eine
+  Aenderung behauptet, die der Commit nicht enthielt (1d83472).
 - Claude erfindet keine Bearbeitungsstaende, Trefferzahlen,
   Bewertungen oder Dateiinhalte. Bei Unklarheit fragt er nach.
 - Stopp-Punkte in Anleitungen sind verbindlich. Sie stehen dort, wo
@@ -476,8 +479,6 @@ Technisch und redaktionell:
   Z. 300-301 (14,5pt) · Z. 768 (1,4pt)
 - Rote KI-Hinweisbox in vorspann.tex vor Abgabe ersetzen
 - fancyhdr-Warnungen stammen aus der Vorlage und sind harmlos
-- Fehlender Zeilenumbruch am Dateiende: docs/ki-protokoll.md,
-  tests/README.md. Rein kosmetisch.
 
 ## Arbeitsweise
 
@@ -545,8 +546,13 @@ f7f8c52 build_interim.py und Testsuite (26 Tests)
 d56feec Manifest des aufbereiteten Datensatzes vom 19.08.2026
 c63f700 Kuerzungsstufen aus D1 getestet (12 weitere Tests)
 acacebb KI-Protokoll fuer Paket D Teil 3
-[nachzutragen] Entscheidungen D5 bis D8
-[nachzutragen, optional] kosmetische Bereinigung github_api.py
+ea16a7c Entscheidungen D5 bis D8
+1d83472 Zeilenumbruch am Dateiende in github_api.py,
+        docs/ki-protokoll.md und tests/README.md. Achtung: Die
+        Commit-Nachricht kuendigt zusaetzlich das Entfernen einer
+        Leerzeile in github_api.py an. Das ist in diesem Commit nicht
+        geschehen und wurde nachgeholt.
+XXXXXXX Leerzeile in github_api.py entfernt, Richtigstellung zu 1d83472
 
 ## Zeitplan
 
