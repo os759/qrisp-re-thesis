@@ -589,6 +589,81 @@ tests/README.md.
 Status: festgelegt, 38 Tests aktiv.
 Bezug: FF1, Reproduzierbarkeit.
 
+## 2026-08-23 Paket C: Vorentscheidungen zur Formatauswahl
+
+### 2026-08-23 C1 Rekonstruierte Anforderungen werden auf Englisch formuliert
+
+Die Pipeline gibt Anforderungen auf Englisch aus. Die schriftliche
+Arbeit bleibt deutsch. Beispiele erscheinen im Original mit
+deutscher Erlaeuterung.
+
+Begruendung: Erstens ist es die konsequente Fortsetzung der
+Entscheidung vom 19.08.2026 zur Sprache der Programmausgaben. Eine
+rekonstruierte Anforderung ist eine Ausgabe des Programms, und das
+Qrisp-Team soll das Werkzeug benutzen koennen. Zweitens sind die
+Quellen englisch; eine deutsche Ausgabe erzwaenge eine Uebersetzung
+und damit eine zusaetzliche Fehlerquelle zwischen Anforderungssatz
+und belegendem Quellausschnitt. Drittens sind RFC 2119, EARS und
+ISO/IEC/IEEE 29148 ausschliesslich fuer Englisch formuliert; eine
+deutsche Modalitaetskonvention waere eine eigene Erfindung ohne
+Beleg. Viertens ist die Formatkonformitaet maschinell pruefbar, weil
+die Schluesselwoerter shall, WHEN, WHILE, IF und WHERE ein
+geschlossenes Vokabular bilden.
+
+Alternative Deutsch: verworfen. Sie verlangte eine selbst
+aufgestellte Konvention und erschwerte die Bewertung durch das
+Qrisp-Team.
+
+Folge: Der bisher offene Punkt "deutschsprachige
+Modalitaetskonvention festlegen" entfaellt. Der Absatz in
+thesis.tex, der eine solche Festlegung ankuendigt, wird bei der
+Ausarbeitung des Abschnitts zur Formatauswahl ersetzt.
+Status: festgelegt.
+Bezug: FF2, FF1.
+
+### 2026-08-23 C2 Bewertungsgrundlage der Entscheidungsmatrix
+
+Die Matrix wird zweifach abgestuetzt. Die Kriterien und der
+ueberwiegende Teil der Bewertungen stammen aus der gelesenen
+Literatur. Ergaenzend wird eine Formulierungsprobe von Hand an einer
+kleinen, nach vorher festgelegten Regeln gezogenen Stichprobe echter
+Qrisp-Pull-Requests durchgefuehrt. Ein Sprachmodell ist daran nicht
+beteiligt.
+
+Begruendung: Eine rein konzeptionelle Bewertung waere von einer
+Praeferenz nicht unterscheidbar. Eine rein empirische Bewertung mit
+dem Sprachmodell scheidet aus, weil sie je Kandidatenformat einen
+eigenen Prompt und ein Modell voraussetzt. Ein schlechtes Ergebnis
+liesse sich dann nicht dem Format, dem Prompt oder dem Modell
+zuordnen. Das vermengte FF2 mit FF1 und FF3 und bedrohte die
+Konstruktvaliditaet. Ausserdem setzt Paket E die Formatentscheidung
+bereits voraus.
+
+Die Probe misst insbesondere, ob die Quelldaten die von einem Format
+verlangten Bestandteile ueberhaupt hergeben, etwa eine Rolle bei
+User Stories oder einen belegten Ausloeser bei EARS. Damit wird eine
+bisher begruendete Vermutung zu einer Messung.
+
+Einschraenkungen, die in Kapitel 7 gehoeren: Die Probe ist eine
+Selbstbewertung des Verfassers. Die Ziehungs- und Bewertungsregeln
+werden vor dem Blick auf die Stichprobe festgelegt und versioniert.
+Alle Versuche werden protokolliert, auch misslungene. Die gezogenen
+PR-Nummern werden notiert, damit die Evaluationsstichprobe in
+Paket H moeglichst andere Pull Requests umfasst.
+Status: festgelegt, Regeln und Stichprobengroesse noch zu bestimmen.
+Bezug: FF2, Limitationen.
+
+### 2026-08-23 C3 Eine Kombination mehrerer Ebenen gilt als ein Format
+
+Die Projektanweisung verlangt zu pruefen, ob eine Kombination
+mehrerer Ebenen geeigneter ist als ein einzelnes Format. Das Exposé
+spricht von der Auswahl eines Anforderungsformats. Beides wird so in
+Einklang gebracht: Faellt die Wahl auf eine Kombination, wird diese
+als ein festgelegtes Zielformat definiert, benannt und vollstaendig
+spezifiziert.
+Status: festgelegt.
+Bezug: FF2, formale Vorgaben.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C
