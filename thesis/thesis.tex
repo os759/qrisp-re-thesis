@@ -293,6 +293,150 @@ Ergebnisse systematisch evaluieren zu können. Die Orientierung an den
 Strukturen, Qualitätsmerkmalen und Attributen des Standards begründet
 für sich genommen keine Konformität mit ISO/IEC/IEEE~29148.
 
+\subsection{Inhalte einer Software-Anforderungsspezifikation}
+\label{subsec:srs-inhalte}
+
+Über die Gestaltung einzelner Anforderungen hinaus legt
+ISO/IEC/IEEE~29148 fest, welche Inhalte die Dokumente aufweisen sollen,
+in denen Anforderungen festgehalten werden. Diese Inhaltsvorgaben
+bezeichnet der Standard ausdrücklich als normativ
+\cite[Abschn.~9.1]{iso29148}. Für Software ist die
+Software-Anforderungsspezifikation maßgeblich. Sie beschreibt ein
+bestimmtes Softwareprodukt, benennt die geforderten Fähigkeiten sowie
+die Bedingungen und Randbedingungen der Ausführung und hält die
+vorgesehenen Verifikationsansätze fest
+\cite[Abschn.~8.5.1]{iso29148}. Die zugehörigen Inhaltsvorgaben stehen
+in Abschnitt~9.6 des Standards. Sie betreffen die Dokumentebene und
+bestimmen, welche Inhaltsblöcke eine Spezifikation umfassen soll. Ein
+Satzmuster für die einzelne Anforderung geben sie nicht vor.
+
+Für die in einer solchen Spezifikation aufgeführten Anforderungen nennt
+der Standard vier Vorgaben. Die Anforderungen sollen den Merkmalen
+entsprechen, die in Abschnitt~5.2 des Standards beschrieben sind, auf
+frühere Fassungen oder verwandte Dokumente verweisen, eindeutig
+identifizierbar sein und jede Eingabe, jede Ausgabe sowie jede Funktion
+beschreiben, die das System als Reaktion auf eine Eingabe oder zur
+Unterstützung einer Ausgabe ausführt. Der Detaillierungsgrad soll für
+Entwurf, Entwicklung und Verifikation der jeweiligen Auslieferung
+ausreichen \cite[Abschn.~9.6.10]{iso29148}. Die erste dieser Vorgaben
+verbindet die Dokumentebene unmittelbar mit den in
+Abschnitt~\ref{subsec:merkmale-einzeln} dargestellten Merkmalen; die
+dritte entspricht der in Abschnitt~\ref{subsec:anforderungsattribute}
+genannten dauerhaft eindeutigen Identifikation.
+
+Die inhaltlichen Vorgaben gliedern sich in mehrere Blöcke. Zu
+beschreiben sind sämtliche Ein- und Ausgaben des Systems einschließlich
+Wertebereich, Maßeinheit, Zeitverhalten und Datenformat
+\cite[Abschn.~9.6.11]{iso29148}. Die grundlegenden Handlungen der
+Software umfassen ausdrücklich auch Gültigkeitsprüfungen der Eingaben,
+die Abfolge der Operationen sowie Reaktionen auf Ausnahmesituationen
+einschließlich Fehlerbehandlung und Wiederherstellung
+\cite[Abschn.~9.6.12]{iso29148}. Hinzu treten Anforderungen an die
+Gebrauchstauglichkeit mit messbaren Kriterien für Effektivität,
+Effizienz und Zufriedenheit \cite[Abschn.~9.6.13]{iso29148},
+Leistungsanforderungen, die der Standard ausdrücklich in messbaren
+Größen verlangt und anhand eines Gegenbeispiels ohne Zahlenangabe
+abgrenzt \cite[Abschn.~9.6.14]{iso29148}, Anforderungen an gespeicherte
+Informationen einschließlich Integritätsbedingungen, Sicherheit und
+Aufbewahrung \cite[Abschn.~9.6.15]{iso29148}, Randbedingungen des
+Entwurfs \cite[Abschn.~9.6.16]{iso29148} sowie Anforderungen, die sich
+aus bestehenden Normen oder Vorschriften ergeben, etwa zur
+Nachvollziehbarkeit von Verarbeitungsschritten
+\cite[Abschn.~9.6.17]{iso29148}. Als Produktattribute nennt der
+Standard Zuverlässigkeit, Verfügbarkeit, Sicherheit, Wartbarkeit und
+Portierbarkeit \cite[Abschn.~9.6.18]{iso29148}.
+Tabelle~\ref{tab:29148-srs-inhalte} stellt diese Blöcke zusammen.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Inhaltsblöcke einer Software-Anforderungsspezifikation nach
+           \cite[Abschn.~9.6.11--9.6.18]{iso29148}. Die Zuordnung in
+           der rechten Spalte ist eine eigene Einordnung des
+           Verfassers und nicht Bestandteil des Standards}
+  \label{tab:29148-srs-inhalte}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.9cm}%
+                    >{\raggedright\arraybackslash}p{5.3cm}%
+                    >{\raggedright\arraybackslash}p{5.6cm}@{}}
+    \toprule
+    \textbf{Abschnitt} & \textbf{Inhaltsblock} &
+      \textbf{Zuordnung (eigene Einordnung)} \\
+    \midrule
+    9.6.11 & Externe Schnittstellen &
+      funktional, Schnittstellenanforderung \\
+    9.6.12 & Funktionen einschließlich Fehlerbehandlung &
+      funktional \\
+    9.6.13 & Gebrauchstauglichkeit &
+      nicht-funktional \\
+    9.6.14 & Leistung &
+      nicht-funktional \\
+    9.6.15 & Logische Anforderungen an gespeicherte Informationen &
+      funktional und nicht-funktional, teils sicherheitsbezogen \\
+    9.6.16 & Randbedingungen des Entwurfs &
+      Randbedingung \\
+    9.6.17 & Konformität mit Normen und Vorschriften &
+      Randbedingung, teils sicherheitsbezogen \\
+    9.6.18 & Attribute des Softwareprodukts &
+      nicht-funktional, darunter sicherheitsbezogen \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Sicherheitsbezogene Inhalte verteilen sich über mehrere dieser Blöcke.
+Unter dem Attribut Sicherheit fordert der Standard, die Software vor
+zufälligem oder böswilligem Zugriff, Gebrauch, Veränderung, Zerstörung
+oder Offenlegung zu schützen. Als mögliche konkrete Anforderungen
+nennt er den Einsatz bestimmter kryptografischer Verfahren, das Führen
+bestimmter Protokoll- oder Verlaufsdatenbestände, die Verteilung
+bestimmter Funktionen auf verschiedene Module, die Einschränkung der
+Kommunikation zwischen Programmbereichen, die Prüfung der
+Datenintegrität kritischer Variablen sowie die Sicherstellung des
+Schutzes personenbezogener Daten. Der Standard kennzeichnet diese
+Aufzählung ausdrücklich als unvollständige Beispielliste
+\cite[Abschn.~9.6.18]{iso29148}. Ergänzend verlangt er unter der
+Konformität mit Normen und Vorschriften die Nachvollziehbarkeit von
+Verarbeitungsschritten und führt als Beispiel die Protokollierung von
+Änderungen mit den Werten vor und nach der Änderung an
+\cite[Abschn.~9.6.17]{iso29148}. Für gespeicherte Informationen nennt
+er Zugriffsmöglichkeiten, Integritätsbedingungen, Sicherheit und
+Aufbewahrungsdauer \cite[Abschn.~9.6.15]{iso29148}.
+
+Für die Verifikation sieht der Standard vor, die geplanten Verfahren
+und Methoden zur Qualifizierung der Software anzugeben, und empfiehlt,
+sie parallel zu den zuvor genannten Inhaltsblöcken zu führen
+\cite[Abschn.~9.6.19]{iso29148}. Diese Vorgabe stützt die in
+Abschnitt~\ref{subsec:anforderungsattribute} vorgesehene Aufnahme eines
+Akzeptanz- oder Verifikationskriteriums in das Ausgabeschema, da damit
+für jede rekonstruierte Anforderung angegeben werden soll, woran ihre
+Erfüllung überprüft werden kann.
+
+Nach Einschätzung des Verfassers sind diese Inhaltsvorgaben für die
+vorliegende Arbeit in zweifacher Hinsicht bedeutsam, unterliegen jedoch
+einer erkennbaren Einschränkung. Zum einen liefern sie eine normativ
+verankerte Aufgliederung der Anforderungsarten, an der sich das in
+Kapitel~\ref{cha:konzeption} zu entwickelnde Klassifikationsraster
+ausrichten lässt, ohne dass die Unterscheidung zwischen funktionalen,
+nicht-funktionalen und sicherheitsbezogenen Anforderungen eigens gesetzt
+werden müsste. Zum anderen bildet die Aufzählung sicherheitsbezogener
+Inhalte einen möglichen Baustein des Bewertungsrasters für die
+Gap-Analyse; dessen Auswahl erfolgt gesondert und wird dort begründet.
+Die Einschränkung liegt darin, dass die Software-Anforderungs\-%
+spezifikation ein abgegrenztes Softwareprodukt mit erwerbender und
+liefernder Seite voraussetzt \cite[Abschn.~8.5.1]{iso29148}. Qrisp ist
+demgegenüber eine offen entwickelte Programmbibliothek. Mehrere
+Inhaltsblöcke, etwa die Zahl gleichzeitig zu unterstützender
+Nutzender, Anforderungen an eine Datenhaltung oder
+Abrechnungsverfahren, treffen auf diesen Gegenstand nicht zu. Für die
+Gap-Analyse folgt daraus, dass eine Kategorie für nicht einschlägige
+Erwartungen vorzusehen ist; die genannten Blöcke belegen, dass eine
+solche Kategorie nicht lediglich vorsorglich eingeführt wird. Zu
+beachten ist ferner, dass der Standard das Anpassen seiner
+Inhaltsvorgaben eigens regelt: Eine Anpassung ist mit der Beanspruchung
+vollständiger Konformität unvereinbar, und eine eingeschränkte
+Konformität setzt ein festgelegtes, dokumentiertes Anpassungsverfahren
+voraus \cite[Anhang~C.1]{iso29148}. Da die vorliegende Arbeit lediglich
+einen begründet gewählten Ausschnitt heranzieht, wird eine Konformität
+mit ISO/IEC/IEEE~29148 nicht beansprucht.
+
 \section{Anforderungsformate}
 \label{sec:anforderungsformate}
 
