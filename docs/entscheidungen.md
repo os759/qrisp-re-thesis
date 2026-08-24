@@ -664,6 +664,59 @@ spezifiziert.
 Status: festgelegt.
 Bezug: FF2, formale Vorgaben.
 
+### 2026-08-23 C4 Kriterienkatalog, Skala und Entscheidungsverfahren
+
+Der vollstaendige Katalog steht in docs/formatauswahl.md. Hier nur
+die Festlegungen mit Begruendung.
+
+Zehn Kriterien. Acht ergeben sich aus der Zielsetzung der Arbeit und
+aus FF2. Zwei kommen hinzu. K9 Deckung durch die Quelldaten misst,
+ob die Pull Requests die Pflichtbestandteile eines Ansatzes
+ueberhaupt hergeben. Ohne K9 bliebe der bekannte Schwachpunkt der
+User Story, naemlich die geforderte Rolle, eine Vermutung statt
+einer Messung. K10 Kombinierbarkeit liefert den Massstab dafuer, ob
+mehrere Ebenen widerspruchsfrei verbunden werden koennen. Da die
+vier Ebenen unterschiedliche Aspekte einer Anforderung regeln, ist
+eine solche Verbindung moeglich und zu pruefen; ohne K10 waere sie
+nicht bewertbar.
+
+Dreistufige ordinale Skala mit den Werten 2, 1 und 0, ergaenzt um
+n. a. fuer nicht anwendbar und ? fuer nicht entscheidbar.
+Begruendung: Die Belege sind Textstellen aus Normen und Aufsaetzen.
+Aus ihnen ist ablesbar, ob eine Regel vorhanden, unvollstaendig oder
+abwesend ist. Feinere Stufen taeuschten eine Genauigkeit vor, die
+die Quellen nicht hergeben. Der Wert ? verhindert, dass im Zweifel
+eine Note geraten wird.
+
+Keine Gesamtsumme und keine Gewichte. Begruendung: K2 formale
+Struktur, K4 maschinelle Verarbeitbarkeit und K8 automatische
+Validierbarkeit haengen voneinander ab. Eine strenge Satzstruktur
+wuerde dreimal belohnt; eine Summe waere dann ein Rechenfehler und
+kein Befund. Stattdessen wird jeder Ebene eine Rolle zugewiesen:
+verpflichtend, optional oder nicht verwendet. Eine Kombination
+entsteht dadurch als Ergebnis und nicht als Vorgabe.
+
+Ausschlussregel E1: Eine Ebene erhaelt die Rolle verpflichtend
+nicht, wenn K9 mit 0 bewertet ist; die Rolle optional bleibt
+moeglich. Begruendung: Ein Pflichtbestandteil ohne Beleg in der
+Quelle zwingt das Modell zum Erfinden oder erzeugt eine Leerstelle.
+Die Pipeline erzeugte dann unbelegte Angaben durch Konstruktion und
+widerspraeche der Belegstaerke-Systematik.
+
+Alternative verworfen: gewichtete Punktsumme. Sie waere durch die
+genannte Abhaengigkeit verzerrt, und die Gewichte selbst waeren
+unbelegt.
+
+Einschraenkung fuer Kapitel 7: Die Schwellen 80 und 40 Prozent bei
+K9 sowie die Zuordnung der Kriterien zu den Ebenen sind Setzungen
+des Verfassers. Regel R8 verlangt deshalb, den gemessenen Wert zu
+berichten und zu pruefen, ob eine andere Schwelle die Entscheidung
+aendern wuerde. K7 Verstaendlichkeit wird nur ersatzweise bewertet
+und ist erst nach der Bewertung in Paket H belastbar.
+
+Status: festgelegt vor jeder Bewertung.
+Bezug: FF2, Limitationen.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C
@@ -671,3 +724,4 @@ Bezug: FF2, formale Vorgaben.
 - Ausschnitt des Sicherheitsrasters (FF4), Paket G
 - Umfang gegenueber dem Qrisp-Team: Was gehoert zur Arbeit, was ist
   Weiterentwicklung? Mit Professor zu klaeren.
+
