@@ -207,6 +207,34 @@ Wert berichtet, nicht nur die Note. Zusaetzlich wird geprueft, ob
 eine andere Schwelle die Entscheidung aendern wuerde. Falls ja,
 steht das in Kapitel 7.
 
+R9 Pauschale Rollenangabe. Nennt die Quelle eine Personengruppe nur
+pauschal, ohne sie von anderen Gruppen abzugrenzen (etwa "users"
+oder "Nutzer"), gilt der Bestandteil Rolle als belegt.
+Begruendung: K9 misst, ob die Quelle einen Bestandteil liefert, nicht
+ob sie ihn trennscharf liefert. Die Trennschaerfe wird bei K1
+bewertet. Eine nachtraegliche Verschaerfung dieser Regel wuerde
+gegen R2 verstossen, weil das Messergebnis bereits vorliegt.
+Zusatz: Jeder solche Fall wird im Protokoll als generische Rolle
+gekennzeichnet. Die Deckungsquote der Ebene (a) wird in Kapitel 7
+zusaetzlich ohne diese Faelle berichtet, damit der Einwand gegen die
+Aussagekraft pauschaler Rollen sichtbar bleibt.
+
+R10 Bezugspunkt der Modalitaet. Eine Verbindlichkeitsstufe gilt fuer
+Ebene (c) nur dann als belegt, wenn sich die Modalaussage der Quelle
+auf die rekonstruierte Anforderung selbst bezieht.
+Nicht als Beleg gewertet werden:
+- Aussagen ueber das Vorgehen im Pull Request, etwa was vor dem
+  Zusammenfuehren zu tun ist oder in welchem Pull Request etwas
+  umzusetzen sei;
+- Aussagen ueber eine andere, im Protokoll nicht rekonstruierte
+  Anforderung;
+- der Umstand, dass ein Pull Request zusammengefuehrt wurde.
+Begruendung: Andernfalls belegte eine Aussage ueber den Arbeitsablauf
+eine Eigenschaft der Anforderung. Die Messung fuer K9 wuerde dann
+etwas anderes zaehlen als das, was sie zu zaehlen vorgibt.
+Diese Regel wurde bei PR 371 bereits angewandt und wird hier
+nachgetragen, damit sie auf alle zwoelf Faelle gleich wirkt.
+
 ## 5. Entscheidungsverfahren
 
 Statt einer Gesamtnote wird jeder Ebene eine Rolle zugewiesen.
@@ -271,9 +299,23 @@ Verfassers und folgen aus keiner Quelle. Sie trennen "nahezu
 durchgaengig" von "mehrheitlich" und dieses von "ueberwiegend
 nicht". R8 verlangt deshalb die Empfindlichkeitspruefung.
 
-Die Umrechnung der Prozentschwellen in Trefferzahlen wird
-festgelegt, sobald die Stichprobengroesse in Schritt 3 bestimmt ist.
-Sie wird hier nachgetragen, bevor die Stichprobe gezogen wird.
+Umrechnung auf die Stichprobengroesse. Die Stichprobe umfasst zwoelf
+Pull Requests, gezogen am 25.08.2026 (siehe
+docs/sample_formulation_probe.md). Ein Fall entspricht 8,33
+Prozentpunkten. Wirksam sind damit die folgenden Trefferzahlen:
+
+| Gedeckte Faelle von zwoelf | Anteil | Note |
+|---|---|---|
+| 10 bis 12 | 83,3 Prozent und mehr | 2 |
+| 5 bis 9 | 41,7 bis 75,0 Prozent | 1 |
+| 0 bis 4 | 0 bis 33,3 Prozent | 0 |
+
+Die gesetzten Grenzen von 80 und 40 Prozent sind bei zwoelf Faellen
+nicht erreichbar. Tatsaechlich wirksam sind 83,3 und 41,7 Prozent.
+Dieser Versatz wird in Kapitel 7 benannt.
+
+Fuer K6 ist keine Umrechnung noetig. Die Skala ist dort bereits in
+Faellen formuliert: drei Versuche je Ebene.
 
 ## 7. Abhaengigkeiten und Einschraenkungen (fuer Kapitel 7)
 
@@ -292,10 +334,21 @@ Sie wird hier nachgetragen, bevor die Stichprobe gezogen wird.
 
 ## 8. Offene Punkte
 
-- Stichprobengroesse und Ziehungsregel (Schritt 3)
-- Umrechnung der Prozentschwellen in Trefferzahlen (Schritt 3)
-- Protokollform der Formulierungsprobe (Schritt 3)
-- Bewertung der vier Ebenen (Schritt 4)
+Erledigt seit dem 23.08.2026:
+- Stichprobe gezogen (Schritt 3, 25.08.2026)
+- Formulierungsprobe Teil A ausgefuellt (26.08.2026)
+
+Noch offen:
+- Gegenpruefung von acht der zwoelf Faelle: 408, 413, 464, 533, 577,
+  622, 692, 711
+- Anwendung von R9 und R10 auf alle zwoelf Faelle, auch auf die vier
+  bereits gegengeprueften
+- Teil B der Formulierungsprobe neu aufsetzen. Die Referenzinhalte
+  enthalten Rolle, Systemname und Modalitaet bereits; alle vier
+  Ebenen erreichen dadurch 3 von 3 und K6 unterscheidet nicht.
+- Ist K6 fuer die Ebenen (c) und (d) ueberhaupt anwendbar?
+- Uebertragung der Messwerte in die Bewertung der vier Ebenen
+  (Schritt 4)
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -305,4 +358,12 @@ Sie wird hier nachgetragen, bevor die Stichprobe gezogen wird.
 | Datum | Aenderung | Begruendung |
 |---|---|---|
 | 23.08.2026 | Datei angelegt: Katalog K1 bis K10, Skala, Regeln R1 bis R8, Verfahren E1 bis E3, Schwellen | Grundlage fuer die Entscheidungsmatrix, festgelegt vor jeder Bewertung |
+| 25.08.2026 | Stichprobengroesse auf zwoelf festgelegt, Stichprobe geschichtet gezogen | Voraussetzung fuer die Umrechnung der Schwellen aus Abschnitt 6 in Trefferzahlen |
+| 26.08.2026 | Pflichtbestandteile je Ebene festgelegt: (a) Rolle und Means, (b) Systemname und Systemreaktion, (c) Verbindlichkeitsstufe, (d) keine | Ohne festgelegte Pflichtbestandteile ist der Begriff "gedeckt" fuer K9 nicht pruefbar |
+| 26.08.2026 | K9 fuer Ebene (d) als nicht anwendbar festgelegt | Ebene (d) schreibt keine Satzbestandteile vor, sondern Qualitaets- und Sprachregeln. Ein Deckungsanteil ist dort nicht definiert. Nach R3 ist n. a. keine schlechte Note. |
+| 26.08.2026 | Erhebungsform fuer Teil A: je Pull Request eine Kreuztabelle und ein Beispielsatz in der am besten gedeckten Ebene, statt zwoelf mal vier ausformulierter Saetze | Gemessen wird die Deckung der Pflichtbestandteile, nicht die Formulierungsguete. Ausformulierte Saetze fuer nicht gedeckte Ebenen haetten keinen zusaetzlichen Messwert geliefert und zum Erfinden fehlender Bestandteile verleitet. |
+| 26.08.2026 | Drei Referenzinhalte fuer Teil B konstruiert, vor den Formulierungsversuchen | R2: erst der Massstab, dann die Messung |
+| 27.08.2026 | Einzelne Faelle erneut an der Quelle geprueft. Der Verfasser aenderte PR 413, 622 und 692. Eine unabhaengige Gegenpruefung von PR 48, 75, 191 und 371 fuehrte zur Aenderung von PR 371. | R4 Vorrang der Messung; Fehler und uneinheitliche Regelanwendung sollen sichtbar werden |
+| 30.08.2026 | R9 (pauschale Rollenangabe) und R10 (Bezugspunkt der Modalitaet) ergaenzt | Beide Fragen waren bei der Messung faktisch entschieden, aber nicht schriftlich festgelegt. Ohne Festlegung waere die Gegenpruefung der acht offenen Faelle an einem anderen Massstab erfolgt als Teil A. |
+| 30.08.2026 | Abschnitt 6 um die Umrechnung der Schwellen auf zwoelf Faelle ergaenzt; Abschnitt 8 auf den tatsaechlichen Stand gebracht | Die Prozentgrenzen 80 und 40 fallen auf keinen ganzen Fall. Ohne Umrechnung waere die Notenvergabe nicht eindeutig. |
 

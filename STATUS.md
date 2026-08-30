@@ -1,14 +1,12 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 21.08.2026
+Letzte Aktualisierung: 30.08.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
 
 Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 
-- Claude hat kein Gedaechtnis ueber Chats hinweg. Nur was in dieser
-  Datei oder im Projektwissen steht, gilt als bekannt.
 - Projektwissen enthaelt ausschliesslich Unveraenderliches:
   exposee.tex und 29148-2018.pdf. Arbeitsdateien werden pro Chat
   hochgeladen, nie im Projektwissen abgelegt - dort veralten sie
@@ -18,14 +16,9 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   nie mit einer aus dem Gedaechtnis rekonstruierten Fassung. Bewaehrt:
   in Paket D Teil 3 hat Claude von sich aus gemeldet, dass ihm zwei
   Dateien nicht mehr vorliegen, statt sie nachzubauen.
-- Dasselbe gilt fuer Befehlsausgaben: Claude erklaert einen Commit,
-  eine Installation, eine Kompilierung oder einen Test erst dann fuer
-  erfolgreich, wenn die tatsaechliche Ausgabe im Chat steht.
 - Commit-Nachrichten werden erst nach dem git diff formuliert, nie
   vorab. In Paket D Teil 3 hat eine vorformulierte Nachricht eine
   Aenderung behauptet, die der Commit nicht enthielt (1d83472).
-- Claude erfindet keine Bearbeitungsstaende, Trefferzahlen,
-  Bewertungen oder Dateiinhalte. Bei Unklarheit fragt er nach.
 - Stopp-Punkte in Anleitungen sind verbindlich. Sie stehen dort, wo
   etwas unwiederbringlich ueberschrieben werden kann.
 - Claude testet groessere Skripte vor der Uebergabe in seiner eigenen
@@ -34,9 +27,14 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 - Ab Paket D Teil 3: Claude prueft eine Testsuite zusaetzlich gegen
   absichtlich eingebrachte Fehler und zeigt, welche Tests dabei
   anschlagen. Nur so ist belegt, dass ein bestandener Test etwas misst.
-- Vor jedem Schritt nennt Claude unaufgefordert Ziel und FF-Bezug,
-  Voraussetzungen, Arbeitsverzeichnis, den Befehl mit Erklaerung,
-  erwartete Ausgabe, haeufige Fehler und Abschlusskriterium.
+- Es gelten unveraendert der Zweckbindungs-Block und die technische
+  Schritt-fuer-Schritt-Regel der Projektanweisung. Keine Kurzfassung.
+- Eine Messung, die die Arbeit selbst ausmacht, trifft der Verfasser.
+  Das Modell darf erklaeren, gegenpruefen und formulieren. Wer eine
+  Bewertung ausgefuellt hat, gehoert ins Protokoll.
+- Claude darf Pull-Request-Seiten selbst oeffnen, um Bewertungen
+  gegenzupruefen. Es sagt dann ausdruecklich, welche Seiten es
+  geoeffnet hat und welche nicht.
 
 ## Umgebung
 
@@ -114,6 +112,17 @@ Arbeitspaket D, Teil 3 (Aufbereitung und Tests) abgeschlossen:
 - tests/README.md neu gefasst
 - Entscheidungen D5 bis D8 in docs/entscheidungen.md
 - docs/ki-protokoll.md fuer Teil 2 und Teil 3 nachgetragen
+
+Arbeitspaket C (Formatauswahl) begonnen, Schritte 1 bis 3 erledigt:
+- Vorentscheidungen C1 bis C4 in docs/entscheidungen.md
+- docs/formatauswahl.md: zehn Kriterien K1 bis K10, dreistufige ordinale Skala, zehn Bewertungsregeln R1 bis R10
+  (R9 und R10 ergaenzt am 30.08.2026),
+  Entscheidungsverfahren ueber Rollen je Ebene, Schwellen fuer K6/K9
+- Abschnitt 2.1.7 in thesis/thesis.tex zu ISO/IEC/IEEE 29148 Abschn.
+  9.6, mit Tabelle 2.1 zu den Inhaltsbloecken
+- src/analyze/draw_sample.py und docs/sample_formulation_probe.md:
+  zwoelf Pull Requests geschichtet und reproduzierbar gezogen
+- docs/formatprobe_protokoll.md ausgefuellt (Arbeitsentwurf)
 
 ## Datensaetze (alle lokal, nicht im Repository)
 
@@ -280,17 +289,18 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Aktuell
 
-Paket D vollstaendig abgeschlossen: Erhebung, Aufbereitung, Tests,
-Entscheidungen und Protokoll. Der aufbereitete Datensatz liegt unter
-data/interim/pulls_prepared_2026-08-19.jsonl bereit.
+Paket C, Schritt 4 laeuft: Gegenpruefung der Formulierungsprobe.
 
-Naechster Schritt: Paket C (Entscheidungsmatrix zur Formatauswahl) als
-eigener Chat. Danach Paket E (Prompt-Entwicklung und API-Modell).
+Die zwoelf Pull Requests wurden von mir im Browser geprueft und mit
+ChatGPT als Schreibwerkzeug in docs/formatprobe_protokoll.md
+festgehalten. Vier davon (48, 75, 191, 371) hat Claude am 27.08.2026
+selbst an den GitHub-Seiten gegengeprueft. Drei stimmen. Bei PR 371
+wurde Ebene (c) von ja auf nein geaendert.
 
-Begruendung fuer diese Reihenfolge: Paket E braucht ein festgelegtes
-Anforderungsformat, sonst muss die Prompt-Arbeit wiederholt werden.
-Paket C braucht keine weitere Lesearbeit; die vier Ebenen und die
-Kriterien stehen bereits.
+Noch gegenzupruefen: 408, 413, 464, 533, 577, 622, 692, 711.
+
+Danach: Schritt 5 (Rollenzuweisung und Formatentscheidung),
+Schritt 6 (Abschnitt zur Formatauswahl in Kapitel 4). Dann Paket E.
 
 ## Getroffene Entscheidungen
 
@@ -335,6 +345,20 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - Sprache: Programme unter src/ geben Meldungen und Berichte auf
   Englisch aus, einschliesslich der Berichtsdateinamen. docs/ und
   literatur/ bleiben deutsch.
+- C1 Rekonstruierte Anforderungen werden auf Englisch formuliert. Die
+  Arbeit bleibt deutsch. Damit entfaellt die deutsche
+  Modalitaetskonvention.
+- C2 Die Entscheidungsmatrix stuetzt sich auf Literatur plus eine
+  Formulierungsprobe von Hand an zwoelf echten Pull Requests. Kein
+  Sprachmodell trifft die Bewertung.
+- C3 Faellt die Wahl auf eine Kombination mehrerer Ebenen, gilt sie als
+  ein festgelegtes Zielformat und wird vollstaendig spezifiziert.
+- C4 Zehn Kriterien K1 bis K10, dreistufige ordinale Skala mit n. a.
+  und ?, keine Gesamtsumme und keine Gewichte. Entscheidung ueber
+  Rollen je Ebene mit Ausschlussregel E1.
+- Quelltext und Arbeitsunterlagen werden mit abgegeben. docs/ und
+  literatur/ muessen daher ohne Kenntnis der Projektanweisung
+  verstaendlich sein.
 - Erst Quelltext committen, dann abrufen oder aufbereiten.
 
 ## LaTeX-Konventionen
@@ -351,7 +375,9 @@ sec:cc-bsi · sec:ears (ist eine subsection, Praefix historisch)
 subsec:re-begriffe · subsec:anforderungsaufbau · subsec:merkmale-einzeln ·
 subsec:merkmale-menge · subsec:sprachkriterien ·
 subsec:anforderungsattribute · subsec:rfc2119 · subsec:userstories
-tab:ears-muster · tab:qus-kriterien · tab:aqusa
+subsec:srs-inhalte (neu 23.08.2026)
+tab:29148-srs-inhalte (Tabelle 2.1) · tab:ears-muster (2.2) ·
+tab:qus-kriterien (2.3) · tab:aqusa (2.4)
 
 Tabellenspalten in Markdown-Dateien:
 suchprotokoll.md: | Datum | Portal | Suchstring | Filter | Treffer |
@@ -381,9 +407,15 @@ Zur Norm:
 - Abschn. 5.2.4 (NOTE 2) schliesst User Stories nicht aus.
 - 29148 sieht shall vor und raet von must ab; RFC 2119 behandelt MUST und
   SHALL als gleichbedeutend. In der Matrix zu entscheiden.
-- Schluesselwortkonvention nur fuer Englisch formuliert. Fuer
-  deutschsprachige Anforderungen eigene Festlegung noetig - OFFEN.
-- Abschn. 8.4 und 8.5 noch nicht gelesen.
+- Schluesselwortkonvention nur fuer Englisch formuliert. Durch C1
+  erledigt: die Anforderungen werden englisch formuliert.
+- Abschn. 8.4 und 8.5 gelesen: Gliederungsvorlagen auf Dokumentebene,
+  kein Satzmuster. 8.5 verweist fuer den Inhalt auf 9.6.
+- Abschn. 9.6 gelesen und in Abschn. 2.1.7 eingearbeitet. 9.6.10
+  Vorgaben je Anforderung, 9.6.11-9.6.18 Inhaltsbloecke, 9.6.18 c
+  sechs Beispiele fuer Sicherheitsanforderungen, 9.6.19 Verifikation.
+- Anhang C.1 gelesen: Anpassung schliesst volle Konformitaet aus.
+- 9.6.3 bis 9.5 nicht gelesen, kein Bedarf erkennbar.
 
 Zu RFC 2119 / 8174:
 - Fuenf Verbindlichkeitsstufen; Abschn. 6 fordert sparsamen Gebrauch.
@@ -451,11 +483,37 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Deutschsprachige Modalitaetskonvention festlegen (FF2)
-- Entscheidungsmatrix aufstellen (Paket C)
-- Phase 2 der systematischen Literatursuche (S1, S2, S4)
+- Paket C Schritt 4: acht Pull Requests gegenpruefen (408, 413, 464,
+  533, 577, 622, 692, 711)
+- Paket C Schritt 4: Teil B des Protokolls neu aufsetzen. Die
+  Referenzinhalte enthalten Rolle, Systemname und Modalitaet bereits;
+  dadurch erreichen alle vier Ebenen 3 von 3 und K6 unterscheidet
+  nicht.
+- Paket C Schritt 4: R9 und R10 auf alle zwoelf Faelle anwenden, auch
+  auf die vier bereits gegengeprueften. R9 haelt fest, dass ein
+  pauschales "users" als Rolle zaehlt und der Fall zusaetzlich als
+  generische Rolle gekennzeichnet wird. R10 verlangt, dass sich die
+  Modalitaet auf die rekonstruierte Anforderung bezieht.
+- Paket C Schritt 5: Rollenzuweisung und Formatentscheidung
+- Paket C Schritt 6: Abschnitt zur Formatauswahl in Kapitel 4;
+  dabei Z. 127-132 in thesis.tex ersetzen (kuendigt eine deutsche
+  Konvention an, widerspricht C1)
+- Phase 2 der systematischen Literatursuche (S1, S2, S4), nach
+  Schritt 4 von Paket C
 - INVEST: Lucassen loest das S als Scalable auf. Gegen Wake 2003 pruefen.
 - Titelvariante Mavin 2009 vereinheitlichen.
+- docs/entscheidungen.md Z. 142 und 658 verweisen auf die
+  Projektanweisung. Da das Repository mit abgegeben wird, durch eine
+  inhaltliche Begruendung ersetzen - als datierte Praezisierung, nicht
+  durch Aendern der gepushten Commits.
+- Pruefen, ob in docs/findings_pull_details.md und
+  findings_pull_files.md GitHub-Anmeldenamen stehen. Die Suche nach "@"
+  fand nur docs/entscheidungen.md (zwei Bot-Namen, unproblematisch);
+  ein Name ohne "@" wuerde so nicht gefunden.
+- Wegweiser in README.md ergaenzen: welche Datei erklaert was und in
+  welcher Reihenfolge sie zu lesen ist (Paket I).
+- src/analyze/draw_sample.py hat keine Tests. Weicht von D4 ab.
+  Entweder Tests ergaenzen oder die Ausnahme begruenden.
 
 Aus Paket D in spaetere Pakete uebernommen:
 - Budget der Stufe 3 in Paket E bestaetigen oder anpassen. Bei
@@ -469,16 +527,18 @@ Aus Paket D in spaetere Pakete uebernommen:
 Technisch und redaktionell:
 - Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Woche 5
 - Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
-  Z. 29 Abstract · Z. 39 Einleitung · Z. 299 SATZ UEBERARBEITEN ·
-  Z. 364 Verweis auf die Entscheidungsmatrix ·
-  Z. 759 Femmer et al. - Primaerquelle beschaffen oder Satz streichen ·
-  Z. 766, 771, 777, 785, 793, 800, 807, 815 noch leere Kapitel
-- Demo-Dateien der Vorlage in thesis/figures/ vor Abgabe entfernen
+  Z. 29 Abstract · Z. 39 Einleitung · Z. 443 SATZ UEBERARBEITEN ·
+  Z. 508 Verweis auf die Entscheidungsmatrix ·
+  Z. 903 Femmer et al. - Primaerquelle beschaffen oder Satz streichen ·
+  Z. 910, 915, 921, 929, 937, 944, 951, 959 noch leere Kapitel
+  Achtung: Diese Nummern sind aus dem Versatz +144 errechnet, nicht
+  einzeln geprueft. Vor dem Bearbeiten nachsehen.
 - Overfull hboxen, Behebung in Woche 12: vorspann.tex Z. 4-16 (86,6pt) ·
   thesis.tex Z. 263-269 (12,7pt) · Z. 288-295 (12,9pt) ·
-  Z. 300-301 (14,5pt) · Z. 768 (1,4pt)
-- Rote KI-Hinweisbox in vorspann.tex vor Abgabe ersetzen
-- fancyhdr-Warnungen stammen aus der Vorlage und sind harmlos
+  Z. 444-445 (14,5pt) · Z. 912 (1,4pt)
+  Neu: Underfull hbox Z. 355 (badness 1546), Beschriftung Tabelle 2.1
+- Demo-Dateien der Vorlage in thesis/figures/ vor Abgabe entfernen
+
 
 ## Arbeitsweise
 
@@ -552,7 +612,29 @@ ea16a7c Entscheidungen D5 bis D8
         Commit-Nachricht kuendigt zusaetzlich das Entfernen einer
         Leerzeile in github_api.py an. Das ist in diesem Commit nicht
         geschehen und wurde nachgeholt.
-XXXXXXX Leerzeile in github_api.py entfernt, Richtigstellung zu 1d83472
+95175fb Leerzeile in github_api.py entfernt, Richtigstellung zu 1d83472
+
+## Commits Paket C
+
+9eb9052 Vorentscheidungen C1 bis C3 zur Formatauswahl
+e78f491 29148 Abschn. 9.6 und Anhang C.1 in Notiz und Matrix
+0a72cdf Abschnitt 2.1.7 Inhalte einer Software-Anforderungsspezifikation
+9147cc0 Kriterienkatalog, Skala und Entscheidungsverfahren
+6be91a8 Ziehungsskript und Stichprobe fuer die Formulierungsprobe
+
+## Aufruf des Ziehungsskripts
+
+python src/analyze/draw_sample.py \
+  --input data/interim/pulls_prepared_2026-08-19.jsonl
+
+Optional: --output, --seed (Standard 20260823), --overwrite.
+Das Skript importiert nichts aus github_api.py und laeuft aus der
+Projektwurzel. Ausgeschlossen werden Bot-Beitraege und Vorgaenge mit
+outcome = open. Sechs Schichten S6 bis S1, von der seltensten zur
+haeufigsten zugeordnet, jeder Datensatz nur einmal.
+
+Lauf vom 25.08.2026: 476 gelesen, 31 Bots, 50 offen, 395 verbleibend.
+Gezogen: 48, 75, 191, 371, 408, 413, 464, 533, 577, 622, 692, 711.
 
 ## Zeitplan
 
@@ -571,7 +653,7 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Paket B wurde eine Woche frueher fertig. Paket D ist am fuenften Tag
-von W3 vollstaendig abgeschlossen, drei Tage vor Plan. Paket C kann
-noch in W3 begonnen werden. Bis zur Abgabe verbleiben rund
-zehn Wochen.
+Stand 30.08.2026, letzter Tag von W4. Paket D war drei Tage vor Plan fertig.
+Paket C laeuft seit 23.08. und ist bei Schritt 4 von 6. Paket E hat
+noch nicht begonnen und liegt damit hinter dem Plan fuer W4.
+Bis zur Abgabe am 01.11.2026 verbleiben rund neun Wochen.
