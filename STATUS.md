@@ -113,7 +113,8 @@ Arbeitspaket D, Teil 3 (Aufbereitung und Tests) abgeschlossen:
 - Entscheidungen D5 bis D8 in docs/entscheidungen.md
 - docs/ki-protokoll.md fuer Teil 2 und Teil 3 nachgetragen
 
-Arbeitspaket C (Formatauswahl) begonnen, Schritte 1 bis 3 erledigt:
+Arbeitspaket C (Formatauswahl), Schritte 1 bis 3 und Schritt 4a
+erledigt (4a = Gegenpruefung und Auswertung Teil A):
 - Vorentscheidungen C1 bis C4 in docs/entscheidungen.md
 - docs/formatauswahl.md: zehn Kriterien K1 bis K10, dreistufige ordinale Skala, zehn Bewertungsregeln R1 bis R10
   (R9 und R10 ergaenzt am 30.08.2026),
@@ -123,6 +124,14 @@ Arbeitspaket C (Formatauswahl) begonnen, Schritte 1 bis 3 erledigt:
 - src/analyze/draw_sample.py und docs/sample_formulation_probe.md:
   zwoelf Pull Requests geschichtet und reproduzierbar gezogen
 - docs/formatprobe_protokoll.md ausgefuellt (Arbeitsentwurf)
+- Regeln R9 (pauschale Rollenangabe) und R10 (Bezugspunkt der
+  Modalitaet) am 30.08.2026 ergaenzt, vor der Gegenpruefung
+- Schwellen aus Abschnitt 6 auf zwoelf Faelle umgerechnet:
+  Note 2 ab 10, Note 1 ab 5, sonst Note 0
+- Alle zwoelf Faelle der Formulierungsprobe unabhaengig
+  gegengeprueft. Fuenf Aenderungen, alle bei Ebene (c):
+  PR 371 (27.08.), PR 408, 533, 577, 622 (30.08.)
+- Auswertung Teil A abgeschlossen
 
 ## Datensaetze (alle lokal, nicht im Repository)
 
@@ -286,21 +295,46 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
   Vermutung aus D7, nicht gemessen. Relevant fuer FF4.
 - Ob 50000 Zeichen je Pull Request ausreichen: haengt vom Modell ab,
   Entscheidung in Paket E.
+- PR 408 hat auf GitHub einen Commit, gilt im Datensatz aber als
+  Pull Request ohne Codeaenderung. Der Head-Branch wurde geloescht.
+  Ob das zusammenhaengt: ungeprueft. Falls ja, betrifft es die
+  Vollstaendigkeit der Erhebung und gehoert nach Kapitel 7.
+- Im Diff von PR 533 stehen Soll-Saetze, die Inhalt der neuen
+  Dokumentation sind (etwa: jede oeffentliche Funktionalitaet
+  sollte durch mindestens einen Test abgedeckt sein). Sie wurden
+  nicht als Fundstelle gewertet. Fuer Paket E interessant: Solche
+  Saetze sind selbst rekonstruierbare Anforderungen.
 
 ## Aktuell
 
-Paket C, Schritt 4 laeuft: Gegenpruefung der Formulierungsprobe.
+Paket C, Schritt 4a abgeschlossen. Die Gegenpruefung der
+Formulierungsprobe ist fertig, Teil A ist ausgewertet. Schritt 4b
+(Teil B, Messung fuer K6) ist offen.
 
-Die zwoelf Pull Requests wurden von mir im Browser geprueft und mit
-ChatGPT als Schreibwerkzeug in docs/formatprobe_protokoll.md
-festgehalten. Vier davon (48, 75, 191, 371) hat Claude am 27.08.2026
-selbst an den GitHub-Seiten gegengeprueft. Drei stimmen. Bei PR 371
-wurde Ebene (c) von ja auf nein geaendert.
+Messergebnis K9, Stand 30.08.2026:
+- Ebene (a) User Story: 4 von 12 gedeckt (33,3 %), Note 0.
+  Zwei davon stuetzen sich auf eine pauschale Rolle (PR 371, 622).
+  Ohne diese: 2 von 12 (16,7 %), Note bleibt 0.
+- Ebene (b) EARS: 9 von 12 gedeckt (75,0 %), Note 1.
+- Ebene (c) Modalitaet: 0 von 12 gedeckt, Note 0.
+- Ebene (d) Qualitaetsregeln: K9 nicht anwendbar.
 
-Noch gegenzupruefen: 408, 413, 464, 533, 577, 622, 692, 711.
+Die Noten von (a) und (b) haengen an je einem einzigen Fall. Die
+Note von (c) nicht: dafuer fehlen fuenf Faelle.
 
-Danach: Schritt 5 (Rollenzuweisung und Formatentscheidung),
-Schritt 6 (Abschnitt zur Formatauswahl in Kapitel 4). Dann Paket E.
+Naechste Schritte in dieser Reihenfolge:
+1. Teil B des Protokolls neu aufsetzen (K6). Bisheriges Problem:
+   Die drei Referenzinhalte enthalten Rolle, Systemname und
+   Modalitaet bereits; alle vier Ebenen erreichen 3 von 3 und K6
+   unterscheidet nicht. Dabei klaeren, ob K6 fuer die Ebenen (c)
+   und (d) ueberhaupt anwendbar ist.
+2. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung,
+   als C5 in docs/entscheidungen.md.
+3. Schritt 6: Abschnitt zur Formatauswahl in thesis/thesis.tex,
+   Kapitel 4.
+4. docs/ki-protokoll.md um eine Zeile fuer den 30.08.2026
+   ergaenzen.
+Danach Paket E.
 
 ## Getroffene Entscheidungen
 
@@ -463,6 +497,23 @@ Aus der Erhebung fuer die Matrix nutzbar:
   Begruendung einer Anforderung stammt bei ihnen allein aus Titel,
   Beschreibung und Diff.
 
+Aus der Formulierungsprobe (Stand 30.08.2026, Commit ecf4a40):
+- Eine explizite Verbindlichkeitsstufe fuer die jeweils
+  rekonstruierte Anforderung kommt in keinem der zwoelf Faelle vor.
+  Modalaussagen gibt es, sie betreffen aber das Vorgehen im Pull
+  Request, eine andere Anforderung oder ein benachbartes Bauteil.
+  Fuer FF2 heisst das: Die Modalitaet ist aus dieser Historie nicht
+  belegbar und muesste beim Rekonstruieren gesetzt werden.
+- Nach Regel E1 darf Ebene (c) damit nicht die Rolle
+  "verpflichtend" erhalten. "optional" bleibt moeglich. Das ist in
+  Schritt 5 zu entscheiden.
+- Ohne R10 stuende Ebene (c) bei 4 von 12 und erhielte ebenfalls
+  Note 0. Die Regel veraendert die Zahl, nicht die Entscheidung.
+- Rollen sind seltener belegt als Systemverhalten. Ebene (a)
+  scheitert meist am Rollenbestandteil.
+- Das EARS-Muster Ubiquitous passt fuer die meisten Faelle; WHEN
+  bei PR 622, WHILE bei PR 577.
+
 ## Zugangsdaten
 
 - GitHub-Token qrisp-thesis-readonly, im Passwortmanager und in
@@ -483,9 +534,7 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Paket C Schritt 4: acht Pull Requests gegenpruefen (408, 413, 464,
-  533, 577, 622, 692, 711)
-- Paket C Schritt 4: Teil B des Protokolls neu aufsetzen. Die
+- Paket C Schritt 4b: Teil B des Protokolls neu aufsetzen. Die
   Referenzinhalte enthalten Rolle, Systemname und Modalitaet bereits;
   dadurch erreichen alle vier Ebenen 3 von 3 und K6 unterscheidet
   nicht.
@@ -514,6 +563,16 @@ Inhaltlich offen:
   welcher Reihenfolge sie zu lesen ist (Paket I).
 - src/analyze/draw_sample.py hat keine Tests. Weicht von D4 ab.
   Entweder Tests ergaenzen oder die Ausnahme begruenden.
+- Paket C: docs/ki-protokoll.md um eine Zeile fuer den 30.08.2026
+  ergaenzen (Regeln R9/R10, Gegenpruefung der acht Faelle)
+- PR 711: Rolle und Systemreaktion sind die einzigen zwei Felder der
+  Stichprobe, die nicht unabhaengig gegengeprueft wurden. Die
+  Diff-Ansicht war dem gegenpruefenden Modell nicht zugaenglich.
+  Steht im Protokoll unter "Methodischer Status".
+- Vier Datumsangaben in der Aenderungshistorie von
+  docs/formatauswahl.md sind auf den 26.08.2026 geschaetzt
+  (Pflichtbestandteile, K9 bei Ebene (d), Erhebungsform Teil A).
+  Belegt ist nur "Begonnen: 26.08.2026" im Protokoll.
 
 Aus Paket D in spaetere Pakete uebernommen:
 - Budget der Stufe 3 in Paket E bestaetigen oder anpassen. Bei
@@ -621,6 +680,8 @@ e78f491 29148 Abschn. 9.6 und Anhang C.1 in Notiz und Matrix
 0a72cdf Abschnitt 2.1.7 Inhalte einer Software-Anforderungsspezifikation
 9147cc0 Kriterienkatalog, Skala und Entscheidungsverfahren
 6be91a8 Ziehungsskript und Stichprobe fuer die Formulierungsprobe
+076c396 Regeln R9 und R10, Formulierungsprobe aufgenommen
+ecf4a40 Gegenpruefung der Formulierungsprobe abgeschlossen
 
 ## Aufruf des Ziehungsskripts
 
@@ -653,7 +714,8 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Stand 30.08.2026, letzter Tag von W4. Paket D war drei Tage vor Plan fertig.
-Paket C laeuft seit 23.08. und ist bei Schritt 4 von 6. Paket E hat
-noch nicht begonnen und liegt damit hinter dem Plan fuer W4.
+Stand 30.08.2026, Ende W4. Paket D war drei Tage vor Plan fertig.
+Paket C laeuft seit 23.08.; Schritt 4a von 6 ist abgeschlossen, es
+fehlen Schritt 4b (Teil B), Schritt 5 und Schritt 6. Paket E
+hat noch nicht begonnen und liegt hinter dem Plan fuer W4.
 Bis zur Abgabe am 01.11.2026 verbleiben rund neun Wochen.

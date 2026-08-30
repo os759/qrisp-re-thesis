@@ -337,15 +337,17 @@ Faellen formuliert: drei Versuche je Ebene.
 Erledigt seit dem 23.08.2026:
 - Stichprobe gezogen (Schritt 3, 25.08.2026)
 - Formulierungsprobe Teil A ausgefuellt (26.08.2026)
+- Gegenpruefung aller zwoelf Faelle abgeschlossen (27. und
+  30.08.2026); R9 und R10 auf alle Faelle angewandt
+- Auswertung Teil A abgeschlossen: Ebene (a) 4 von 12 (Note 0),
+  Ebene (b) 9 von 12 (Note 1), Ebene (c) 0 von 12 (Note 0),
+  Ebene (d) nicht anwendbar
 
 Noch offen:
-- Gegenpruefung von acht der zwoelf Faelle: 408, 413, 464, 533, 577,
-  622, 692, 711
-- Anwendung von R9 und R10 auf alle zwoelf Faelle, auch auf die vier
-  bereits gegengeprueften
-- Teil B der Formulierungsprobe neu aufsetzen. Die Referenzinhalte
-  enthalten Rolle, Systemname und Modalitaet bereits; alle vier
-  Ebenen erreichen dadurch 3 von 3 und K6 unterscheidet nicht.
+- Schritt 4b: Teil B der Formulierungsprobe neu aufsetzen. Die
+  Referenzinhalte enthalten Rolle, Systemname und Modalitaet
+  bereits; alle vier Ebenen erreichen dadurch 3 von 3 und K6
+  unterscheidet nicht.
 - Ist K6 fuer die Ebenen (c) und (d) ueberhaupt anwendbar?
 - Uebertragung der Messwerte in die Bewertung der vier Ebenen
   (Schritt 4)
