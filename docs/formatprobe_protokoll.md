@@ -8,7 +8,7 @@ Stichprobe: docs/sample_formulation_probe.md
 Bearbeitet von: Omar Assad Salem (Verfasser)
 Schreibwerkzeug: ChatGPT, siehe Abschnitt "Methodischer Status"
 Begonnen: 26.08.2026
-Zuletzt geaendert: 28.08.2026
+Zuletzt geaendert: 30.08.2026
 Sprache der Anforderungssaetze: Englisch (C1).
 
 
@@ -35,8 +35,16 @@ Am 27.08.2026 hat Claude (Anthropic) vier der zwoelf Faelle
 unabhaengig an den GitHub-Seiten gegengeprueft: PR 48, 75, 191 und
 371, bei PR 75 zusaetzlich die Dateiansicht. Drei Eintraege wurden
 bestaetigt. Bei PR 371 wurde Ebene (c) beanstandet und vom Verfasser
-geaendert. Die uebrigen acht Faelle (408, 413, 464, 533, 577, 622,
-692, 711) sind noch nicht gegengeprueft.
+geaendert.
+
+Am 30.08.2026 hat Claude die uebrigen acht Faelle gegengeprueft:
+PR 408, 413, 464, 533, 577, 622, 692 und 711, jeweils in der
+Ansicht "Conversation". Die Ansicht "Files changed" war dem Modell
+nicht zugaenglich. Bei PR 711 blieben deshalb Rolle und
+Systemreaktion ungeprueft; beide stuetzen sich auf den Diff. Vier
+Eintraege wurden beanstandet und vom Verfasser geaendert: die
+Verbindlichkeitsstufe bei PR 408, 533, 577 und 622. Grundlage waren
+die zuvor festgelegten Regeln R9 und R10.
 
 Diese Gegenpruefung ersetzt die Messung nicht. Sie ist eine zweite,
 unabhaengige Beurteilung derselben Quellen und dient dazu, Fehler und
@@ -183,7 +191,7 @@ budgetbedingt gekuerzt. 25 geaenderte Dateien: 10 Python-Dateien und
 
 | Ebene | Bestandteil | belegt | Fundstelle |
 |---|---|---|---|
-| (a) | Rolle | ja | Kommentar: ausdruecklicher Bezug auf moegliche Probleme bzw. painpoints von Nutzern |
+| (a) | Rolle | ja | Kommentar: ausdruecklicher Bezug auf moegliche Probleme bzw. painpoints von Nutzern. Pauschale Gruppe, nach R9 belegt und als generische Rolle gekennzeichnet |
 | (a) | Means | ja | Beschreibung: Einfuehrung einer neuen BlockEncoding class als erweiterbare Struktur fuer Block-Encodings |
 | (b) | Systemname | ja | Titel und Beschreibung: BlockEncoding class |
 | (b) | Systemreaktion | ja | Beschreibung: die Klasse stellt eine erweiterbare Struktur bereit und kann zugehoerige Methoden buendeln |
@@ -218,12 +226,12 @@ Kommentare 1. Keine geaenderten Dateien; es gibt keinen Diff-Inhalt.
 | (a) | Means | ja | Kommentar: neue Qrisp-Dokumentationsseite zur Klaerung der Bit-Ordering-Konventionen |
 | (b) | Systemname | ja | Kommentar: neue Dokumentationsseite in Qrisp |
 | (b) | Systemreaktion | ja | Kommentar: die Dokumentationsseite soll die Bit-Ordering-Konventionen in Qrisp klaeren |
-| (c) | Verbindlichkeitsstufe | ja | Kommentar: die Dokumentationsloesung sollte in einem separaten PR umgesetzt werden |
+| (c) | Verbindlichkeitsstufe | nein | keine Stufe fuer die rekonstruierte Anforderung erkennbar; die Soll-Aussage im Kommentar betrifft den Pull Request, in dem die Loesung umzusetzen sei (R10) |
 
 Ends belegt: ja. EARS-Muster: Ubiquitous.
 Ausloeser/Vorbedingung belegt: nein.
 
-Gedeckt: (a) nein, (b) ja, (c) ja
+Gedeckt: (a) nein, (b) ja, (c) nein
 
 Beispielsatz:
 The Qrisp documentation shall clarify the bit-ordering conventions
@@ -235,6 +243,12 @@ konkrete Folgeloesung eine Dokumentationsseite, um die bestehende
 Verwirrung zu beseitigen. Es gibt keine Codeaenderung. Der Ausgang
 closed_unmerged ist deshalb nicht als einfache Ablehnung des
 zugrunde liegenden Bedarfs zu lesen.
+Zur Modalitaet: Der Kommentar enthaelt eine Soll-Aussage dazu, in
+welchem Pull Request die Loesung umzusetzen sei. Nach R10 belegt sie
+keine Verbindlichkeitsstufe der rekonstruierten Anforderung. Die
+Aussage, eine Dokumentationsseite sei die beste konkrete Loesung,
+ist ausdruecklich als eigene Einschaetzung des Verfassers des
+Kommentars formuliert und wird ebenfalls nicht als Stufe gewertet.
 
 ### PR 413 (S5, closed_unmerged, 36 Dateien ohne Patch-Text, 0 Kommentare)
 
@@ -305,12 +319,12 @@ geaenderte RST-Dokumentationsdateien.
 | (a) | Means | ja | Beschreibung: neuer Development Guide in der API-Referenz |
 | (b) | Systemname | ja | Titel und Beschreibung: Development Guide |
 | (b) | Systemreaktion | ja | Beschreibung: der Guide stellt einen zentral auffindbaren Einstiegspunkt bereit und dokumentiert Beitragskonventionen |
-| (c) | Verbindlichkeitsstufe | ja | Beschreibung: ausdrueckliche Soll-Aussage, den Guide bei neuen Pipelines und Aenderungen aktuell zu halten |
+| (c) | Verbindlichkeitsstufe | nein | die Soll-Aussage in der Beschreibung betrifft die laufende Pflege des Guides, also eine zweite, hier nicht rekonstruierte Anforderung (R10) |
 
 Ends belegt: ja. EARS-Muster: Ubiquitous.
 Ausloeser/Vorbedingung belegt: nein.
 
-Gedeckt: (a) ja, (b) ja, (c) ja
+Gedeckt: (a) ja, (b) ja, (c) nein
 
 Beispielsatz:
 As a new contributor, I want a single discoverable Development Guide
@@ -320,7 +334,8 @@ in one place.
 Bemerkung: Die Beschreibung liefert Rolle, Aenderung und Nutzen
 ausdruecklich. Der Guide wird zugleich als Ausgangspunkt und nicht
 als endgueltiger Vorschlag beschrieben. Eine ausdrueckliche
-Soll-Aussage zur Pflege des Guides liefert die Modalitaet.
+Soll-Aussage zur Pflege des Guides betrifft eine zweite Anforderung
+und liefert nach R10 keine Modalitaet fuer die hier rekonstruierte.
 
 ### PR 577 (S1, merged, 3 Kommentare)
 
@@ -334,12 +349,12 @@ geaenderte Python-Dateien.
 | (a) | Means | ja | Beschreibung: neue xDSL-Rewrite-Paesse zur Bereinigung des erzeugten IR und Rueckgabe des benoetigten xDSL Context |
 | (b) | Systemname | ja | Beschreibung: scalar_linalg_folding bzw. FoldScalarLinalgGeneric |
 | (b) | Systemreaktion | ja | Beschreibung: 0-dimensionale linalg.generic-Operationen werden in skalare Arithmetik zurueckgefaltet |
-| (c) | Verbindlichkeitsstufe | ja | Beschreibung: der xDSL Context wird ausdruecklich als fuer das Ausfuehren von xDSL-Transformationspaessen erforderlich bezeichnet |
+| (c) | Verbindlichkeitsstufe | nein | die Notwendigkeitsaussage betrifft den xDSL Context, also eine zweite, hier nicht rekonstruierte Anforderung (R10); zudem beschreibt sie eine technische Voraussetzung, keine normative Stufe |
 
 Ends belegt: ja. EARS-Muster: WHILE.
 Ausloeser/Vorbedingung belegt: ja (`lower_stablehlo=True`).
 
-Gedeckt: (a) nein, (b) ja, (c) ja
+Gedeckt: (a) nein, (b) ja, (c) nein
 
 Beispielsatz:
 While lower_stablehlo is true, the scalar_linalg_folding pass shall
@@ -350,8 +365,9 @@ Bemerkung: Der PR enthaelt mehrere eigenstaendige
 Verhaltensaenderungen. Fuer den Beispielsatz wurde der
 scalar_linalg_folding-Pass gewaehlt, weil Verhalten und Bedingung
 ausdruecklich beschrieben sind. Die erkannte Notwendigkeitsstufe
-bezieht sich in der Quelle auf den xDSL Context; sie wird nicht aus
-dem Merge abgeleitet.
+bezieht sich in der Quelle auf den xDSL Context und damit auf eine
+zweite Anforderung. Nach R10 belegt sie keine Stufe fuer die hier
+rekonstruierte Anforderung.
 
 ### PR 622 (S1, merged, 13 Kommentare)
 
@@ -361,17 +377,17 @@ geaenderte Python-Dateien.
 
 | Ebene | Bestandteil | belegt | Fundstelle |
 |---|---|---|---|
-| (a) | Rolle | ja | Beschreibung: users |
+| (a) | Rolle | ja | Beschreibung: users. Pauschale Gruppe, nach R9 belegt und als generische Rolle gekennzeichnet |
 | (a) | Means | ja | Beschreibung: benutzerdefinierte Circuit-Transformation-Paesse ueber ein pm-/PassManager-Argument einspeisen |
 | (b) | Systemname | ja | Titel und Beschreibung: QrispSimulatorBackend |
 | (b) | Systemreaktion | ja | Beschreibung: der PassManager wird auf jeden Circuit vor der Simulation angewendet |
-| (c) | Verbindlichkeitsstufe | ja | Kommentar: ausdrueckliche Soll-/Empfehlungsaussage zu einer PassManager-Referenz in der abstrakten Backend-Klasse |
+| (c) | Verbindlichkeitsstufe | nein | die Soll-/Empfehlungsaussage betrifft die abstrakte Backend-Klasse und wurde auf einen spaeteren Entwicklungszyklus vertagt; sie belegt nach R10 keine Stufe fuer die hier rekonstruierte Anforderung |
 
 Ends belegt: ja. EARS-Muster: WHEN.
 Ausloeser/Vorbedingung belegt: ja; Verarbeitung eines Circuits vor
 der Simulation.
 
-Gedeckt: (a) ja, (b) ja, (c) ja
+Gedeckt: (a) ja, (b) ja, (c) nein
 
 Beispielsatz:
 As a user, I want to inject custom circuit transformation passes into
@@ -383,9 +399,11 @@ und Nutzen deutlich. Debugging sowie transparente
 Transpilation/Optimierung werden als Nutzen genannt. Fuer die
 Systemreaktion ist ein Ausloeser belegt: Der PassManager wird auf
 einen Circuit angewendet, bevor dieser simuliert wird. Deshalb wird
-das EARS-Muster WHEN statt Ubiquitous verwendet. Eine Soll-Aussage in
-der Diskussion belegt zusaetzlich eine Verbindlichkeitsstufe fuer
-eine verwandte Architekturentscheidung.
+das EARS-Muster WHEN statt Ubiquitous verwendet. Die Soll-Aussage in
+der Diskussion betrifft eine verwandte Architekturentscheidung zur
+abstrakten Backend-Klasse und belegt nach R10 keine Stufe fuer diese
+Anforderung. Die Rolle "users" ist pauschal und nach R9 als
+generische Rolle gekennzeichnet.
 
 ### PR 692 (S5, closed_unmerged, 14 Dateien ohne Patch-Text, 0 Kommentare)
 
@@ -448,24 +466,37 @@ gewertet.
 
 ### Auswertung Teil A
 
+Stand nach der Gegenpruefung vom 30.08.2026 und nach Anwendung von
+R9 und R10 auf alle zwoelf Faelle.
+
 | Ebene | gedeckt | von | Anteil | Note K9 |
 |---|---:|---:|---:|---:|
 | (a) | 4 | 12 | 33,3 % | 0 |
 | (b) | 9 | 12 | 75,0 % | 1 |
-| (c) | 4 | 12 | 33,3 % | 0 |
+| (c) | 0 | 12 | 0,0 % | 0 |
 | (d) | n. a. | | | n. a. |
 
-Schwellen nach docs/formatauswahl.md Abschnitt 6:
-ab 80 Prozent Note 2, ab 40 Prozent Note 1, darunter Note 0.
+Schwellen nach docs/formatauswahl.md Abschnitt 6, umgerechnet auf
+zwoelf Faelle: Note 2 ab 10 gedeckten Faellen, Note 1 ab 5, sonst
+Note 0. Ein Fall entspricht 8,33 Prozentpunkten.
 
-Empfindlichkeitspruefung nach R8:
-- Ebene (a): Eine obere Schwelle von 70 oder 90 Prozent aendert die
-  Note nicht; 33,3 Prozent bleiben unter 40 Prozent.
-- Ebene (b): Beim festgelegten 80-Prozent-Schwellenwert ergibt
-  75,0 Prozent Note 1. Bei einer alternativen Schwelle von
-  70 Prozent waere es Note 2; bei 90 Prozent bleibt es Note 1.
-- Ebene (c): Eine obere Schwelle von 70 oder 90 Prozent aendert die
-  Note nicht; 41,7 Prozent bleiben im Bereich der Note 1.
+Zusatzzaehlung nach R9. Zwei der vier bei Ebene (a) gedeckten Faelle
+stuetzen sich auf eine pauschale Rolle: PR 371 und PR 622. Ohne diese
+Faelle waeren 2 von 12 gedeckt, also 16,7 Prozent. Die Note bleibt in
+beiden Zaehlungen 0.
+
+Empfindlichkeitspruefung nach R8, jeweils an der naechstgelegenen
+Schwelle:
+- Ebene (a): 4 von 12. Zur Schwelle von 5 Faellen fehlt genau ein
+  Fall. Ein zusaetzlich gedeckter Fall ergaebe Note 1 statt Note 0.
+- Ebene (b): 9 von 12. Zur Schwelle von 10 Faellen fehlt genau ein
+  Fall. Ein zusaetzlich gedeckter Fall ergaebe Note 2 statt Note 1.
+- Ebene (c): 0 von 12. Zur Schwelle von 5 Faellen fehlen fuenf Faelle.
+  Diese Note ist als einzige unempfindlich gegen einen Einzelfall.
+- Die Noten der Ebenen (a) und (b) haengen damit an je einem
+  einzigen Pull Request. Das gehoert nach Kapitel 7.
+- Ohne R10 waere Ebene (c) bei 4 von 12 und erhielte ebenfalls
+  Note 0. R10 veraendert die Zahl, nicht die Entscheidung.
 
 ## Teil B: Messung fuer K6
 
@@ -540,18 +571,10 @@ Bewertung der Versuche:
 | (c) | 3 | 3 | 2 |
 | (d) | 3 | 3 | 2 |
 
-Empfindlichkeitspruefung nach R8:
-- Ebene (a): 33,3 Prozent. Der Abstand zur 40-Prozent-Grenze betraegt
-  weniger als einen Fall. Ein zusaetzlich gedeckter Fall ergaebe
-  41,7 Prozent und damit Note 1 statt Note 0.
-- Ebene (b): 75,0 Prozent. Ein zusaetzlich gedeckter Fall ergaebe
-  83,3 Prozent und damit Note 2 statt Note 1.
-- Ebene (c): 33,3 Prozent. Ein zusaetzlich gedeckter Fall ergaebe
-  41,7 Prozent und damit Note 1 statt Note 0.
-- Alle drei Noten haengen an einem einzigen Fall. Das gehoert in
-  Kapitel 7. Die Pruefung an den Werten 70 und 90 Prozent wurde
-  gestrichen: sie liegt bei keiner Ebene an der naechstgelegenen
-  Schwelle und sagt deshalb nichts aus.
+Eine Empfindlichkeitspruefung nach R8 entfaellt fuer Teil B. Die
+K6-Skala ist in Faellen formuliert, nicht in Prozent; es gibt keine
+alternative Schwelle. Teil B ist ohnehin neu aufzusetzen, weil alle
+vier Ebenen 3 von 3 erreichen und K6 dadurch nicht unterscheidet. 
 
 ## Beobachtungen fuer Kapitel 7
 
@@ -561,10 +584,15 @@ Empfindlichkeitspruefung nach R8:
 - Eine Systemreaktion kann belegt sein, obwohl kein Ausloeser genannt
   wird. Das Ubiquitous-Muster ist deshalb fuer viele PRs die passende
   EARS-Grundform.
-- Explizite Verbindlichkeitsstufen treten nur in einem Teil der
-  ausfuehrlicheren Beschreibungen oder Kommentare auf. Ein Merge oder
-  eine tatsaechlich ausgefuehrte Aenderung wurde nicht als Muss-Stufe
-  interpretiert.
+- Explizite Verbindlichkeitsstufen fuer die jeweils rekonstruierte
+  Anforderung kommen in der Stichprobe nicht vor. Modalaussagen
+  finden sich zwar in mehreren Pull Requests, betreffen aber das
+  Vorgehen im Pull Request, eine andere Anforderung oder ein
+  benachbartes Bauteil. Nach R10 belegen sie keine Stufe. Ein Merge
+  oder eine ausgefuehrte Aenderung wurde nicht als Muss-Stufe
+  interpretiert. Fuer FF2 folgt daraus: Die Verbindlichkeitsstufe
+  ist aus dieser Historie nicht belegbar und muesste beim
+  Rekonstruieren gesetzt werden.
 - PR 48 zeigt, dass `closed_unmerged` nicht automatisch inhaltliche
   Ablehnung bedeutet, weil ein Kommentar die manuelle Uebernahme der
   Aenderung bestaetigt.
@@ -591,9 +619,11 @@ Empfindlichkeitspruefung nach R8:
 - Rollenverteilung zwischen Verfasser und Werkzeugen: siehe Abschnitt
   "Methodischer Status". Die Einstufungen stammen vom Verfasser und
   beruhen auf den dort genannten Quellen.
-- Die Gegenpruefung durch ein zweites Modell ist erst fuer vier von
-  zwoelf Faellen erfolgt. Solange sie nicht abgeschlossen ist, gelten
-  die Zahlen in den Auswertungstabellen als vorlaeufig.
+- Die Gegenpruefung durch ein zweites Modell ist fuer alle zwoelf
+  Faelle erfolgt. Sie fuehrte zu fuenf Aenderungen (PR 371, 408, 533,
+  577, 622), alle bei Ebene (c). Die Zahlen fuer Teil A gelten damit
+  als abgeschlossen. Die Zahlen fuer Teil B bleiben vorlaeufig, weil
+  Teil B neu aufzusetzen ist.
 
 ## Aenderungen nach erneuter Quellenpruefung am 27.08.2026
 
@@ -614,17 +644,54 @@ Empfindlichkeitspruefung nach R8:
   statt Note 1.
 - Folge fuer K9 Ebene (b): 9 von 12 = 75,0 Prozent, damit Note 1
   nach der festgelegten 80-Prozent-Schwelle.
+- Hinweis: Die hier genannten Zahlen geben den Stand vom 27.08.2026
+  wieder. Der abschliessende Stand steht in der Auswertung Teil A.
+
+## Aenderungen nach der Gegenpruefung am 30.08.2026
+
+Grundlage: die am 30.08.2026 festgelegten Regeln R9 und R10 in
+docs/formatauswahl.md (Commit 076c396). Claude hat die
+Conversation-Ansicht der betroffenen Pull Requests geoeffnet; die
+Einstufungen hat der Verfasser uebernommen.
+
+- PR 408: Verbindlichkeitsstufe von ja auf nein geaendert. Die
+  Soll-Aussage im Abschlusskommentar betrifft den Pull Request, in
+  dem die Dokumentationsloesung umzusetzen sei, nicht die
+  Verbindlichkeit der rekonstruierten Anforderung (R10).
+- PR 413: alle fuenf Einstufungen bestaetigt.
+- PR 464: alle fuenf Einstufungen bestaetigt.
+- PR 533: Verbindlichkeitsstufe von ja auf nein geaendert. Die
+  Soll-Aussage betrifft die laufende Pflege des Guides, nicht die
+  rekonstruierte Anforderung (R10). Rolle, Means, Systemname und
+  Systemreaktion bestaetigt. Die Rolle "new contributors and
+  students" ist nicht pauschal; R9 greift hier nicht.
+- PR 577: Verbindlichkeitsstufe von ja auf nein geaendert. Die
+  Notwendigkeitsaussage betrifft den xDSL Context, nicht die
+  rekonstruierte Anforderung (R10). Die uebrigen Einstufungen
+  einschliesslich der Vorbedingung lower_stablehlo=True bestaetigt.
+- PR 622: Verbindlichkeitsstufe von ja auf nein geaendert. Die
+  Soll-Aussage betrifft die abstrakte Backend-Klasse und wurde
+  vertagt (R10). Rolle, Means, Systemname, Systemreaktion und der
+  Ausloeser bestaetigt. Die Rolle "users" ist pauschal und wird nach
+  R9 als generische Rolle gekennzeichnet.
+- PR 371: keine Aenderung der Einstufung. Die Rolle wird nachtraeglich
+  als generische Rolle gekennzeichnet, weil R9 erst am 30.08.2026
+  festgelegt wurde und gleichmaessig auf alle zwoelf Faelle wirkt.
+- Generische Rollen in der Stichprobe: PR 371 und PR 622. Nicht
+  generisch: PR 533 und PR 711.
 
 ## Abschluss
 
 Inhaltlich ausgefuellt am: 26.08.2026
-Zuletzt geaendert am: 29.08.2026
+Zuletzt geaendert: 30.08.2026
 Dauer: nicht dokumentiert; kein Wert wird geschaetzt.
 Ergebnisse uebertragen nach docs/formatauswahl.md am: noch nicht
 erfolgt.
 
-Status: Teil A vollstaendig ausgefuellt. Vier von zwoelf Faellen
-unabhaengig gegengeprueft. Teil B ist neu aufzusetzen, weil die drei
+Status: Teil A vollstaendig ausgefuellt und vollstaendig unabhaengig
+gegengeprueft (vier Faelle am 27.08.2026, acht am 30.08.2026). Bei
+PR 711 blieben Rolle und Systemreaktion ungeprueft, weil die
+Diff-Ansicht dem gegenpruefenden Modell nicht zugaenglich war. Teil B ist neu aufzusetzen, weil die drei
 Referenzinhalte Rolle, Systemname und Modalitaet bereits enthalten
 und K6 dadurch nicht unterscheidet. Die Auswertungszahlen sind
 vorlaeufig.
