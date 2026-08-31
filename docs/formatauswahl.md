@@ -100,8 +100,16 @@ Leitfrage: Laesst sich mit dem Ansatz eine Anforderung jeder der drei
 Arten gleich gut formulieren?
 Pruefbar an: Je ein Formulierungsversuch zu 29148 Abschn. 9.6.12
 (Funktion), 9.6.14 (Leistung) und 9.6.18 c (Sicherheit).
+Anwendbarkeit: nur fuer die Ebenen (a) und (b). Beide geben
+Satzbestandteile und deren Reihenfolge vor; nur dort ist ein
+Formulierungsversuch ueberhaupt ein Versuch dieser Ebene. Ebene (c)
+legt allein die Bedeutung von Schluesselwoertern fest, Ebene (d)
+beurteilt eine bereits formulierte Anforderung. Fuer beide ist K6
+nicht anwendbar (n. a.), festgelegt am 31.08.2026, siehe
+Abschnitt 9.
 Herkunft: 29148 Abschn. 9.6.12 bis 9.6.18.
-Note aus: Formulierungsprobe. Schwellen in Abschnitt 6.
+Note aus: Formulierungsprobe, Ebenen (a) und (b). Schwellen in
+Abschnitt 6.
 
 ### K7 Verstaendlichkeit fuer das Qrisp-Team
 Leitfrage: Wie viel Vorwissen braucht eine entwickelnde Person, um
@@ -280,9 +288,11 @@ besetzen lassen.
 | 40 bis unter 80 Prozent | 1 |
 | unter 40 Prozent | 0 |
 
-K6, Eignung fuer die drei Anforderungsarten. Je Ebene werden drei
-Formulierungsversuche unternommen, einer je Art nach 29148
-Abschn. 9.6.12, 9.6.14 und 9.6.18 c.
+K6, Eignung fuer die drei Anforderungsarten. Je bewerteter Ebene
+werden drei Formulierungsversuche unternommen, einer je Art nach
+29148 Abschn. 9.6.12, 9.6.14 und 9.6.18 c. Bewertet werden nur die
+Ebenen (a) und (b); fuer (c) und (d) ist K6 nicht anwendbar, siehe
+K6 in Abschnitt 2.
 
 | Ergebnis | Note |
 |---|---|
@@ -315,7 +325,7 @@ nicht erreichbar. Tatsaechlich wirksam sind 83,3 und 41,7 Prozent.
 Dieser Versatz wird in Kapitel 7 benannt.
 
 Fuer K6 ist keine Umrechnung noetig. Die Skala ist dort bereits in
-Faellen formuliert: drei Versuche je Ebene.
+Faellen formuliert: drei Versuche je bewerteter Ebene.
 
 ## 7. Abhaengigkeiten und Einschraenkungen (fuer Kapitel 7)
 
@@ -331,6 +341,15 @@ Faellen formuliert: drei Versuche je Ebene.
 - Die Bewertung stuetzt sich auf sieben gelesene Quellen. Die
   systematische Suche der Straenge S1, S2 und S4 steht noch aus und
   betrifft nicht Ebene (a) bis (d).
+- K6 ist nur fuer die Ebenen (a) und (b) anwendbar. Ebene (d) hat
+  damit weder bei K6 noch bei K9 eine gemessene Note; alle ihre
+  Noten stammen aus der Literatur. Ebene (c) hat als einzige
+  gemessene Note die 0 aus K9. Der Einwand, die gemessenen
+  Kriterien griffen nur dort, wo ein Satzmuster vorliegt, ist
+  berechtigt und wird in Kapitel 7 benannt.
+- Die typabhaengige Wirkung der Qualitaetsregeln von Ebene (d) wird
+  dadurch nicht bei K6 erfasst. Sie wird bei K3 beruecksichtigt,
+  weil dort die Nachweisbarkeit bewertet wird.
 
 ## 8. Offene Punkte
 
@@ -342,15 +361,18 @@ Erledigt seit dem 23.08.2026:
 - Auswertung Teil A abgeschlossen: Ebene (a) 4 von 12 (Note 0),
   Ebene (b) 9 von 12 (Note 1), Ebene (c) 0 von 12 (Note 0),
   Ebene (d) nicht anwendbar
+- K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt
+  (31.08.2026, siehe Abschnitt 9). K6 wird nur noch fuer die
+  Ebenen (a) und (b) gemessen.
 
 Noch offen:
 - Schritt 4b: Teil B der Formulierungsprobe neu aufsetzen. Die
-  Referenzinhalte enthalten Rolle, Systemname und Modalitaet
-  bereits; alle vier Ebenen erreichen dadurch 3 von 3 und K6
-  unterscheidet nicht.
-- Ist K6 fuer die Ebenen (c) und (d) ueberhaupt anwendbar?
-- Uebertragung der Messwerte in die Bewertung der vier Ebenen
-  (Schritt 4)
+  bisherigen Referenzinhalte enthalten Rolle, Systemname und
+  Modalitaet bereits; dadurch erreichen auch die Ebenen (a) und (b)
+  je 3 von 3 und K6 unterscheidet nicht. Neue Referenzinhalte sind
+  nach R2 vor der Messung festzulegen.
+- Schritt 4c: Uebertragung in die Bewertung der vier Ebenen. Die
+  Noten fuer K1 bis K5, K7, K8 und K10 sind noch nicht vergeben.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -368,4 +390,5 @@ Noch offen:
 | 27.08.2026 | Einzelne Faelle erneut an der Quelle geprueft. Der Verfasser aenderte PR 413, 622 und 692. Eine unabhaengige Gegenpruefung von PR 48, 75, 191 und 371 fuehrte zur Aenderung von PR 371. | R4 Vorrang der Messung; Fehler und uneinheitliche Regelanwendung sollen sichtbar werden |
 | 30.08.2026 | R9 (pauschale Rollenangabe) und R10 (Bezugspunkt der Modalitaet) ergaenzt | Beide Fragen waren bei der Messung faktisch entschieden, aber nicht schriftlich festgelegt. Ohne Festlegung waere die Gegenpruefung der acht offenen Faelle an einem anderen Massstab erfolgt als Teil A. |
 | 30.08.2026 | Abschnitt 6 um die Umrechnung der Schwellen auf zwoelf Faelle ergaenzt; Abschnitt 8 auf den tatsaechlichen Stand gebracht | Die Prozentgrenzen 80 und 40 fallen auf keinen ganzen Fall. Ohne Umrechnung waere die Notenvergabe nicht eindeutig. |
+| 31.08.2026 | K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt. Die Anwendbarkeit steht jetzt bei K6 in Abschnitt 2; in Abschnitt 6 heisst es entsprechend "je bewerteter Ebene". Abschnitt 7 um zwei Einschraenkungen ergaenzt; Abschnitt 8 fortgeschrieben, die Uebertragung in die Bewertung heisst jetzt Schritt 4c | K6 ist ueber einen Formulierungsversuch definiert. Nur die Ebenen (a) und (b) geben Satzbestandteile und deren Reihenfolge vor. Ebene (c) legt allein die Bedeutung von Schluesselwoertern fest, Ebene (d) beurteilt eine bereits formulierte Anforderung. In Teil B uebernahmen die Versuche fuer (c) und (d) deshalb den Satzbau der Ebene (b); ihre 3 von 3 waren keine Leistung dieser Ebenen. Nach R3 ist n. a. keine schlechte Note. Die Festlegung erfolgt vor der Wiederholung der Messung (R2). |
 
