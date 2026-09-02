@@ -304,7 +304,7 @@ Ein Versuch gilt als gelungen, wenn der Satz alle
 Pflichtbestandteile des Ansatzes besetzt und keine Angabe enthaelt,
 die die Quelle nicht hergibt.
 
-Rahmen und Referenzinhalte fuer K6, festgelegt am 31.08.2026:
+Rahmen und Referenzinhalte fuer K6, festgelegt am 02.09.2026:
 
 Rahmen, gilt fuer alle drei Inhalte gleich: Das betrachtete System
 ist eine Software-Bibliothek (englisch: the library). Sie wird von
@@ -420,5 +420,5 @@ Noch offen:
 | 30.08.2026 | R9 (pauschale Rollenangabe) und R10 (Bezugspunkt der Modalitaet) ergaenzt | Beide Fragen waren bei der Messung faktisch entschieden, aber nicht schriftlich festgelegt. Ohne Festlegung waere die Gegenpruefung der acht offenen Faelle an einem anderen Massstab erfolgt als Teil A. |
 | 30.08.2026 | Abschnitt 6 um die Umrechnung der Schwellen auf zwoelf Faelle ergaenzt; Abschnitt 8 auf den tatsaechlichen Stand gebracht | Die Prozentgrenzen 80 und 40 fallen auf keinen ganzen Fall. Ohne Umrechnung waere die Notenvergabe nicht eindeutig. |
 | 31.08.2026 | K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt. Die Anwendbarkeit steht jetzt bei K6 in Abschnitt 2; in Abschnitt 6 heisst es entsprechend "je bewerteter Ebene". Abschnitt 7 um zwei Einschraenkungen ergaenzt; Abschnitt 8 fortgeschrieben, die Uebertragung in die Bewertung heisst jetzt Schritt 4c | K6 ist ueber einen Formulierungsversuch definiert. Nur die Ebenen (a) und (b) geben Satzbestandteile und deren Reihenfolge vor. Ebene (c) legt allein die Bedeutung von Schluesselwoertern fest, Ebene (d) beurteilt eine bereits formulierte Anforderung. In Teil B uebernahmen die Versuche fuer (c) und (d) deshalb den Satzbau der Ebene (b); ihre 3 von 3 waren keine Leistung dieser Ebenen. Nach R3 ist n. a. keine schlechte Note. Die Festlegung erfolgt vor der Wiederholung der Messung (R2). |
-| 31.08.2026 | Rahmen und drei Referenzinhalte fuer K6 in Abschnitt 6 festgelegt; die bisherigen Inhalte aus Teil B werden verworfen. Abschnitt 7 um zwei Einschraenkungen ergaenzt | Die bisherigen Referenzinhalte enthielten Rolle, Systemnamen und Verbindlichkeitsstufe bereits. Ein Versuch konnte deshalb nicht misslingen; die Pruefung mass nichts. Die neuen Inhalte geben nur den fachlichen Kern der Norm wieder und lassen offen, wem der Nutzen zufaellt. Der Rahmen nennt ein System, weil jede Anforderung einen Gegenstand braucht, aber keine Rolle, weil nur Ebene (a) eine solche verlangt. Vorschlag des Modells, vom Verfasser gegen den Normtext geprueft und uebernommen. |
+| 02.09.2026 | Rahmen und drei Referenzinhalte fuer K6 in Abschnitt 6 festgelegt; die bisherigen Inhalte aus Teil B werden verworfen. Abschnitt 7 um zwei Einschraenkungen ergaenzt | Die bisherigen Referenzinhalte enthielten Rolle, Systemnamen und Verbindlichkeitsstufe bereits. Ein Versuch konnte deshalb nicht misslingen; die Pruefung mass nichts. Die neuen Inhalte geben nur den fachlichen Kern der Norm wieder und lassen offen, wem der Nutzen zufaellt. Der Rahmen nennt ein System, weil jede Anforderung einen Gegenstand braucht, aber keine Rolle, weil nur Ebene (a) eine solche verlangt. Vorschlag des Modells, vom Verfasser gegen den Normtext geprueft und uebernommen. |
 
