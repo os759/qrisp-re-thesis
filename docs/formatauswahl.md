@@ -304,6 +304,25 @@ Ein Versuch gilt als gelungen, wenn der Satz alle
 Pflichtbestandteile des Ansatzes besetzt und keine Angabe enthaelt,
 die die Quelle nicht hergibt.
 
+Rahmen und Referenzinhalte fuer K6, festgelegt am 31.08.2026:
+
+Rahmen, gilt fuer alle drei Inhalte gleich: Das betrachtete System
+ist eine Software-Bibliothek (englisch: the library). Sie wird von
+entwickelnden Personen beim Programmieren verwendet (englisch:
+developers). Der Rahmen nennt keine Verbindlichkeitsstufe und
+keinen Nutzniesser der einzelnen Anforderung.
+
+| Art | Norm | Referenzinhalt |
+|---|---|---|
+| funktional | 9.6.12 a | The inputs are checked for validity before they are processed. |
+| leistungsbezogen | 9.6.14 | 95 % of the transactions are processed in less than 1 s. |
+| sicherheitsbezogen | 9.6.18 c 5 | The integrity of data in critical variables is checked. |
+
+Die Inhalte geben nur den fachlichen Kern der jeweiligen Art
+wieder. Sie stehen in der Aussageform, damit kein Schluesselwort
+mitgeliefert wird. Die Norm formuliert das Leistungsbeispiel mit
+shall; das Modalverb wurde entfernt.
+
 Offenlegung: Die Grenzen 80 und 40 Prozent sind eine Setzung des
 Verfassers und folgen aus keiner Quelle. Sie trennen "nahezu
 durchgaengig" von "mehrheitlich" und dieses von "ueberwiegend
@@ -350,6 +369,16 @@ Faellen formuliert: drei Versuche je bewerteter Ebene.
 - Die typabhaengige Wirkung der Qualitaetsregeln von Ebene (d) wird
   dadurch nicht bei K6 erfasst. Sie wird bei K3 beruecksichtigt,
   weil dort die Nachweisbarkeit bewertet wird.
+- Der Rahmen fuer K6 nennt ein System, aber keinen Nutzniesser.
+  Ebene (b) erhaelt einen Pflichtbestandteil damit aus dem Rahmen,
+  Ebene (a) nicht. Begruendung: Jede Anforderung braucht einen
+  Gegenstand, nur die User Story zusaetzlich eine Rolle. Der
+  Einwand, die Pruefung beguenstige Ebene (b), ist in Kapitel 7 zu
+  benennen.
+- K6 und K9 treffen dieselbe Schwachstelle, die Rolle. Sie messen
+  sie an verschiedenen Quellen: K9 an zwoelf Pull Requests, K6 an
+  drei Inhalten aus der Norm. Die Noten sind daher nicht
+  unabhaengig voneinander.
 
 ## 8. Offene Punkte
 
@@ -391,4 +420,5 @@ Noch offen:
 | 30.08.2026 | R9 (pauschale Rollenangabe) und R10 (Bezugspunkt der Modalitaet) ergaenzt | Beide Fragen waren bei der Messung faktisch entschieden, aber nicht schriftlich festgelegt. Ohne Festlegung waere die Gegenpruefung der acht offenen Faelle an einem anderen Massstab erfolgt als Teil A. |
 | 30.08.2026 | Abschnitt 6 um die Umrechnung der Schwellen auf zwoelf Faelle ergaenzt; Abschnitt 8 auf den tatsaechlichen Stand gebracht | Die Prozentgrenzen 80 und 40 fallen auf keinen ganzen Fall. Ohne Umrechnung waere die Notenvergabe nicht eindeutig. |
 | 31.08.2026 | K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt. Die Anwendbarkeit steht jetzt bei K6 in Abschnitt 2; in Abschnitt 6 heisst es entsprechend "je bewerteter Ebene". Abschnitt 7 um zwei Einschraenkungen ergaenzt; Abschnitt 8 fortgeschrieben, die Uebertragung in die Bewertung heisst jetzt Schritt 4c | K6 ist ueber einen Formulierungsversuch definiert. Nur die Ebenen (a) und (b) geben Satzbestandteile und deren Reihenfolge vor. Ebene (c) legt allein die Bedeutung von Schluesselwoertern fest, Ebene (d) beurteilt eine bereits formulierte Anforderung. In Teil B uebernahmen die Versuche fuer (c) und (d) deshalb den Satzbau der Ebene (b); ihre 3 von 3 waren keine Leistung dieser Ebenen. Nach R3 ist n. a. keine schlechte Note. Die Festlegung erfolgt vor der Wiederholung der Messung (R2). |
+| 31.08.2026 | Rahmen und drei Referenzinhalte fuer K6 in Abschnitt 6 festgelegt; die bisherigen Inhalte aus Teil B werden verworfen. Abschnitt 7 um zwei Einschraenkungen ergaenzt | Die bisherigen Referenzinhalte enthielten Rolle, Systemnamen und Verbindlichkeitsstufe bereits. Ein Versuch konnte deshalb nicht misslingen; die Pruefung mass nichts. Die neuen Inhalte geben nur den fachlichen Kern der Norm wieder und lassen offen, wem der Nutzen zufaellt. Der Rahmen nennt ein System, weil jede Anforderung einen Gegenstand braucht, aber keine Rolle, weil nur Ebene (a) eine solche verlangt. Vorschlag des Modells, vom Verfasser gegen den Normtext geprueft und uebernommen. |
 
