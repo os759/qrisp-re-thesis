@@ -8,7 +8,7 @@ Stichprobe: docs/sample_formulation_probe.md
 Bearbeitet von: Omar Assad Salem (Verfasser)
 Schreibwerkzeug: ChatGPT, siehe Abschnitt "Methodischer Status"
 Begonnen: 26.08.2026
-Zuletzt geaendert: 30.08.2026
+Zuletzt geaendert: 02.09.2026
 Sprache der Anforderungssaetze: Englisch (C1).
 
 
@@ -500,81 +500,105 @@ Schwelle:
 
 ## Teil B: Messung fuer K6
 
-Drei Referenzinhalte mal vier Ebenen, also zwoelf Saetze. Alle Ebenen
-tragen denselben fachlichen Inhalt, damit der Vergleich fair ist.
+Drei Referenzinhalte mal zwei bewertete Ebenen, also sechs Saetze.
+Fuer die Ebenen (c) und (d) ist K6 nicht anwendbar. Die Festlegung
+dazu steht in docs/formatauswahl.md, Abschnitt 2 bei K6 und in der
+Aenderungshistorie zum 31.08.2026.
 
-### Festlegung der Referenzinhalte
+### Verworfene erste Fassung vom 26.08.2026
 
-Die drei Referenzinhalte wurden am 26.08.2026 vor den
-Formulierungsversuchen in Teil B konstruiert. Das ist im
-Protokoll-Template ausdruecklich als moegliche Herkunft vorgesehen.
+Die erste Fassung von Teil B benutzte drei konstruierte
+Referenzinhalte der Form "For a user, it is mandatory that the
+software ...". Sie enthielten Rolle, Systemname und
+Verbindlichkeitsstufe bereits fertig. Jede Ebene musste sie nur
+uebernehmen; ein Versuch konnte nicht misslingen. Alle vier Ebenen
+erreichten 3 von 3. Diese Fassung wurde am 02.09.2026 verworfen. Ihr
+Wortlaut bleibt ueber die Versionsgeschichte des Repositorys
+nachvollziehbar.
 
-Die fachlichen Kerne stammen unmittelbar aus ISO/IEC/IEEE 29148:2018:
-- 9.6.12 nennt unter anderem Validitaetspruefungen von Eingaben als
-  funktionalen Inhalt.
-- 9.6.14 verlangt messbare Leistungsanforderungen und gibt als
-  Zahlenbeispiel 95 Prozent der Transaktionen in weniger als einer
-  Sekunde an.
-- 9.6.18 c nennt fuer Security unter anderem die
-  Integritaetspruefung kritischer Variablen.
+### Rahmen und Referenzinhalte
 
-Damit K6 die Eignung fuer die drei Anforderungsarten prueft und nicht
-erneut die Quellvollstaendigkeit von K9 misst, enthalten alle drei
-konstruierten Referenzinhalte zusaetzlich dieselben neutralen
-Metainformationen: Rolle `user`, Systemname `software` und eine
-verbindliche Muss-Stufe. Diese Ergaenzungen sind Teil der
-konstruierten Referenzinhalte und werden nicht der Norm zugeschrieben.
+Massgeblich ist die Festlegung vom 02.09.2026 in
+docs/formatauswahl.md, Abschnitt 6. Sie wurde vor den
+Formulierungsversuchen getroffen (R2).
 
-### Die drei Referenzinhalte
+Rahmen, fuer alle drei Inhalte gleich: Das betrachtete System ist
+eine Software-Bibliothek (`the library`). Sie wird von entwickelnden
+Personen beim Programmieren verwendet (`developers`). Der Rahmen
+nennt keine Verbindlichkeitsstufe und keinen Nutzniesser der
+einzelnen Anforderung.
 
-| Art | Bezug zur Norm | Inhalt in einem Satz | Herkunft |
-|---|---|---|---|
-| funktional | 29148 Abschn. 9.6.12 | For a user, it is mandatory that the software validates each input before processing. | konstruiert aus 9.6.12, Validitaetspruefung von Eingaben |
-| leistungsbezogen | 29148 Abschn. 9.6.14 | For a user, it is mandatory that the software processes 95 % of transactions in less than 1 s. | konstruiert aus dem messbaren Zahlenbeispiel in 9.6.14 |
-| sicherheitsbezogen | 29148 Abschn. 9.6.18 c | For a user, it is mandatory that the software checks data integrity for critical variables. | konstruiert aus 9.6.18 c, Integritaetspruefung kritischer Variablen |
+| Art | Bezug zur Norm | Referenzinhalt |
+|---|---|---|
+| funktional | 29148 Abschn. 9.6.12 a | The inputs are checked for validity before they are processed. |
+| leistungsbezogen | 29148 Abschn. 9.6.14 | 95 % of the transactions are processed in less than 1 s. |
+| sicherheitsbezogen | 29148 Abschn. 9.6.18 c 5 | The integrity of data in critical variables is checked. |
+
+Die Inhalte geben nur den fachlichen Kern der jeweiligen Art wieder.
+Sie stehen in der Aussageform. Die Norm formuliert das
+Leistungsbeispiel mit `shall`; das Modalverb wurde entfernt.
 
 ### Versuche
 
-| Ebene | funktional | leistungsbezogen | sicherheitsbezogen |
+Die sechs Saetze stammen vom Verfasser. Claude hat sie anschliessend
+unabhaengig gegengeprueft und allen sechs Einstufungen zugestimmt.
+
+| Nr. | Ebene | Art | Satz |
 |---|---|---|---|
-| (a) User Story | As a user, I want the software to validate each input before processing. | As a user, I want the software to process 95 % of transactions in less than 1 s. | As a user, I want the software to check data integrity for critical variables. |
-| (b) EARS | The software shall validate each input before processing. | The software shall process 95 % of transactions in less than 1 s. | The software shall check data integrity for critical variables. |
-| (c) Modalitaet | The software MUST validate each input before processing. | The software MUST process 95 % of transactions in less than 1 s. | The software MUST check data integrity for critical variables. |
-| (d) Qualitaetsregeln | The software shall validate each input before processing. | The software shall process 95 % of transactions in less than 1 s. | The software shall check data integrity for critical variables. |
+| 1 | (a) User Story | funktional | As a developer, I want inputs to be checked for validity before they are processed. |
+| 2 | (b) EARS | funktional | The library shall check inputs for validity before processing them. |
+| 3 | (a) User Story | leistungsbezogen | As a developer, I want 95 % of transactions to be processed in less than 1 s. |
+| 4 | (b) EARS | leistungsbezogen | The library shall process 95 % of transactions in less than 1 s. |
+| 5 | (a) User Story | sicherheitsbezogen | As a developer, I want the integrity of data in critical variables to be checked. |
+| 6 | (b) EARS | sicherheitsbezogen | The library shall check the integrity of data in critical variables. |
 
-Ein Versuch gilt als gelungen, wenn der Satz alle
-Pflichtbestandteile der Ebene besetzt und keine Angabe enthaelt, die
-der Referenzinhalt nicht hergibt.
+Ein Versuch gilt als gelungen, wenn der Satz alle Pflichtbestandteile
+der Ebene besetzt und keine Angabe enthaelt, die Rahmen oder
+Referenzinhalt nicht hergeben. Das Wort `shall` ist Formbestandteil
+des EARS-Musters und zaehlt nicht als hinzugefuegte Angabe.
 
-Bewertung der Versuche:
-- Ebene (a): alle drei gelungen. Rolle und Means sind jeweils
-  vorhanden; kein Ends wird hinzuerfunden. Die Ebene bildet die
-  Modalitaet nicht selbst ab, verlangt sie aber auch nicht als
-  Pflichtbestandteil.
-- Ebene (b): alle drei gelungen. Systemname und Systemreaktion sind
-  jeweils vorhanden; das Ubiquitous-Muster reicht aus, weil kein
-  Ausloeser Bestandteil des Referenzinhalts ist.
-- Ebene (c): alle drei gelungen. Die Referenzinhalte kennzeichnen die
-  Anforderungen ausdruecklich als verbindlich; `MUST` bildet diese
-  Stufe ab.
-- Ebene (d): alle drei gelungen. Die Saetze sind jeweils singular,
-  positiv und ohne vage offene Formulierung; die Leistungsanforderung
-  ist quantitativ messbar. Ebene (d) verlangt keine zusaetzlichen
-  Satzbestandteile.
+| Nr. | Pflichtbestandteil 1 | Pflichtbestandteil 2 | hinzugefuegt | Ergebnis |
+|---|---|---|---|---|
+| 1 | Rolle: a developer | Means: inputs to be checked for validity before they are processed | keine | gelungen |
+| 2 | Systemname: the library | Systemreaktion: check inputs for validity before processing them | keine | gelungen |
+| 3 | Rolle: a developer | Means: 95 % of transactions to be processed in less than 1 s | keine | gelungen |
+| 4 | Systemname: the library | Systemreaktion: process 95 % of transactions in less than 1 s | keine | gelungen |
+| 5 | Rolle: a developer | Means: the integrity of data in critical variables to be checked | keine | gelungen |
+| 6 | Systemname: the library | Systemreaktion: check the integrity of data in critical variables | keine | gelungen |
+
+Anmerkungen zu einzelnen Versuchen, ohne Wirkung auf das Ergebnis:
+
+- Nr. 1, 3 und 5 stehen im Passiv und nennen das System nicht. Wer
+  die Handlung ausfuehrt, bleibt offen. Die Erfolgsregel verbietet
+  nur Hinzufuegungen, nicht Auslassungen. Der Unterschied zu Ebene
+  (b), die das System jedes Mal nennt, gehoert zu K1.
+- Nr. 2 enthaelt mit `before processing them` eine Zeitangabe im
+  Systemreaktionsteil. Sie liesse sich auch als Ausloeser lesen und
+  mit dem Event-driven-Muster abbilden. Beide Fassungen sind
+  vertretbar; gewaehlt wurde das Ubiquitous-Muster.
+- Zu Nr. 5 war vorab geprueft worden, ob die Rolle eine hinzugefuegte
+  Angabe ist, weil 29148 Abschn. 9.6.18 c nicht sagt, wem der Schutz
+  zugutekommt. Der Rahmen nennt entwickelnde Personen ausdruecklich;
+  damit liegt keine Hinzufuegung vor. In dieselbe Richtung weist R9,
+  die allerdings fuer K9 formuliert ist und hier nicht gebraucht wird.
 
 ### Auswertung Teil B
 
 | Ebene | gelungen | von 3 | Note K6 |
 |---|---:|---:|---:|
-| (a) | 3 | 3 | 2 |
-| (b) | 3 | 3 | 2 |
-| (c) | 3 | 3 | 2 |
-| (d) | 3 | 3 | 2 |
+| (a) User Story | 3 | 3 | 2 |
+| (b) EARS | 3 | 3 | 2 |
+| (c) Modalitaet | - | - | n. a. |
+| (d) Qualitaetsregeln | - | - | n. a. |
 
-Eine Empfindlichkeitspruefung nach R8 entfaellt fuer Teil B. Die
-K6-Skala ist in Faellen formuliert, nicht in Prozent; es gibt keine
-alternative Schwelle. Teil B ist ohnehin neu aufzusetzen, weil alle
-vier Ebenen 3 von 3 erreichen und K6 dadurch nicht unterscheidet. 
+Empfindlichkeitspruefung nach R8: Die K6-Skala ist in Faellen
+formuliert, nicht in Prozent; eine andere Schwelle gibt es nicht. Bei
+3 von 3 bleibt die Note in jedem Fall 2. Empfindlich ist dagegen die
+Regelanwendung. Wuerde eine vom Rahmen gelieferte Rolle nicht als
+belegt gelten, faellt Ebene (a) auf 0 von 3 und damit auf Note 0.
+Ebene (b) bliebe bei 3 von 3, weil die Systemreaktion aus dem
+Referenzinhalt selbst stammt. Dieser Sprung ist in Kapitel 7 zu
+berichten.
 
 ## Beobachtungen fuer Kapitel 7
 
@@ -606,24 +630,30 @@ vier Ebenen 3 von 3 erreichen und K6 dadurch nicht unterscheidet.
 - Bei sehr knappen PRs wie PR 75 oder PR 413 reicht der Titel fuer
   einen groben Means-/Verhaltenshinweis, aber nicht fuer alle
   Pflichtbestandteile einer vollstaendig gedeckten Ebene.
-- Teil B zeigt bei den bewusst vollstaendig konstruierten
-  Referenzinhalten keine Unterscheidung zwischen den vier Ebenen:
-  alle erreichen 3/3. Das ist als Befund zu dokumentieren und nicht
-  nachtraeglich durch schwierigere Referenzinhalte zu veraendern.
-- Die Referenzinhalte fuer Teil B waren im urspruenglichen
-  Protokoll-Template noch nicht konkret festgelegt. Sie wurden am
-  26.08.2026 vor den Teil-B-Versuchen festgelegt. Diese zeitliche
-  Festlegung sollte in der Aenderungshistorie von
-  docs/formatauswahl.md dokumentiert werden, wenn die Messung
-  uebernommen wird.
+- Die erste Fassung von Teil B vom 26.08.2026 konnte nicht
+  misslingen: Die Referenzinhalte enthielten Rolle, Systemname und
+  Verbindlichkeitsstufe bereits. Alle vier Ebenen erreichten 3/3.
+  Diese Fassung wurde am 02.09.2026 verworfen und durch Inhalte
+  ersetzt, die nur den fachlichen Kern der Norm wiedergeben.
+- Auch mit den neuen Referenzinhalten erreichen beide bewerteten
+  Ebenen 3 von 3. K6 unterscheidet die Ebenen (a) und (b) nicht.
+  Der Befund lautet: Keines der beiden Formate zeigt bei diesen drei
+  Anforderungsarten eine typabhaengige Schwaeche. Zugleich misst K6
+  in dieser Form vor allem, ob der Rahmen die Pflichtbestandteile
+  liefert; die Aussagekraft des Kriteriums ist entsprechend gering.
+- Beide bewerteten Ebenen beziehen je einen Pflichtbestandteil aus
+  dem Rahmen: Ebene (a) die Rolle, Ebene (b) den Systemnamen. Die
+  urspruengliche Annahme, nur Ebene (b) profitiere davon, ist durch
+  die Messung widerlegt. Nach R4 gilt die Messung; der Widerspruch
+  wird dokumentiert.
 - Rollenverteilung zwischen Verfasser und Werkzeugen: siehe Abschnitt
   "Methodischer Status". Die Einstufungen stammen vom Verfasser und
   beruhen auf den dort genannten Quellen.
 - Die Gegenpruefung durch ein zweites Modell ist fuer alle zwoelf
-  Faelle erfolgt. Sie fuehrte zu fuenf Aenderungen (PR 371, 408, 533,
+  Faelle erfolgt. Sie fuehrte zu fuenf Aenderungen (PR 371, 408, 533, 
   577, 622), alle bei Ebene (c). Die Zahlen fuer Teil A gelten damit
-  als abgeschlossen. Die Zahlen fuer Teil B bleiben vorlaeufig, weil
-  Teil B neu aufzusetzen ist.
+  als abgeschlossen. Teil B wurde am 02.09.2026 neu aufgesetzt und
+  gegengeprueft; seine Zahlen gelten ebenfalls als abgeschlossen.
 
 ## Aenderungen nach erneuter Quellenpruefung am 27.08.2026
 
@@ -683,15 +713,14 @@ Einstufungen hat der Verfasser uebernommen.
 ## Abschluss
 
 Inhaltlich ausgefuellt am: 26.08.2026
-Zuletzt geaendert: 30.08.2026
+Zuletzt geaendert: 02.09.2026
 Dauer: nicht dokumentiert; kein Wert wird geschaetzt.
-Ergebnisse uebertragen nach docs/formatauswahl.md am: noch nicht
-erfolgt.
+Ergebnisse uebertragen nach docs/formatauswahl.md am: 02.09.2026
+(Noten fuer K6). Die Noten fuer K9 werden in Schritt 4c uebertragen.
 
 Status: Teil A vollstaendig ausgefuellt und vollstaendig unabhaengig
 gegengeprueft (vier Faelle am 27.08.2026, acht am 30.08.2026). Bei
 PR 711 blieben Rolle und Systemreaktion ungeprueft, weil die
-Diff-Ansicht dem gegenpruefenden Modell nicht zugaenglich war. Teil B ist neu aufzusetzen, weil die drei
-Referenzinhalte Rolle, Systemname und Modalitaet bereits enthalten
-und K6 dadurch nicht unterscheidet. Die Auswertungszahlen sind
-vorlaeufig.
+Diff-Ansicht dem gegenpruefenden Modell nicht zugaenglich war. Teil B
+wurde am 02.09.2026 mit neuen Referenzinhalten neu aufgesetzt und
+gegengeprueft. Die Auswertungszahlen gelten als abgeschlossen.

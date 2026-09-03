@@ -369,12 +369,14 @@ Faellen formuliert: drei Versuche je bewerteter Ebene.
 - Die typabhaengige Wirkung der Qualitaetsregeln von Ebene (d) wird
   dadurch nicht bei K6 erfasst. Sie wird bei K3 beruecksichtigt,
   weil dort die Nachweisbarkeit bewertet wird.
-- Der Rahmen fuer K6 nennt ein System, aber keinen Nutzniesser.
-  Ebene (b) erhaelt einen Pflichtbestandteil damit aus dem Rahmen,
-  Ebene (a) nicht. Begruendung: Jede Anforderung braucht einen
-  Gegenstand, nur die User Story zusaetzlich eine Rolle. Der
-  Einwand, die Pruefung beguenstige Ebene (b), ist in Kapitel 7 zu
-  benennen.
+- Der Rahmen fuer K6 nennt ein System und eine Personengruppe, aber
+  keinen Nutzniesser der einzelnen Anforderung. Beide bewerteten
+  Ebenen beziehen daraus je einen Pflichtbestandteil: Ebene (a) die
+  Rolle, Ebene (b) den Systemnamen. Die urspruengliche Annahme, nur
+  Ebene (b) profitiere vom Rahmen, ist durch die Messung vom
+  02.09.2026 widerlegt; nach R4 gilt die Messung. Der Einwand, K6
+  messe damit vor allem den Rahmen und nicht die Formate, ist in
+  Kapitel 7 zu benennen.
 - K6 und K9 treffen dieselbe Schwachstelle, die Rolle. Sie messen
   sie an verschiedenen Quellen: K9 an zwoelf Pull Requests, K6 an
   drei Inhalten aus der Norm. Die Noten sind daher nicht
@@ -393,13 +395,11 @@ Erledigt seit dem 23.08.2026:
 - K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt
   (31.08.2026, siehe Abschnitt 9). K6 wird nur noch fuer die
   Ebenen (a) und (b) gemessen.
+- Schritt 4b abgeschlossen: Teil B mit neuen Referenzinhalten neu
+  aufgesetzt und gegengeprueft. Ergebnis Ebene (a) 3 von 3 (Note 2),
+  Ebene (b) 3 von 3 (Note 2), Ebenen (c) und (d) nicht anwendbar.
 
 Noch offen:
-- Schritt 4b: Teil B der Formulierungsprobe neu aufsetzen. Die
-  bisherigen Referenzinhalte enthalten Rolle, Systemname und
-  Modalitaet bereits; dadurch erreichen auch die Ebenen (a) und (b)
-  je 3 von 3 und K6 unterscheidet nicht. Neue Referenzinhalte sind
-  nach R2 vor der Messung festzulegen.
 - Schritt 4c: Uebertragung in die Bewertung der vier Ebenen. Die
   Noten fuer K1 bis K5, K7, K8 und K10 sind noch nicht vergeben.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
@@ -421,4 +421,5 @@ Noch offen:
 | 30.08.2026 | Abschnitt 6 um die Umrechnung der Schwellen auf zwoelf Faelle ergaenzt; Abschnitt 8 auf den tatsaechlichen Stand gebracht | Die Prozentgrenzen 80 und 40 fallen auf keinen ganzen Fall. Ohne Umrechnung waere die Notenvergabe nicht eindeutig. |
 | 31.08.2026 | K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt. Die Anwendbarkeit steht jetzt bei K6 in Abschnitt 2; in Abschnitt 6 heisst es entsprechend "je bewerteter Ebene". Abschnitt 7 um zwei Einschraenkungen ergaenzt; Abschnitt 8 fortgeschrieben, die Uebertragung in die Bewertung heisst jetzt Schritt 4c | K6 ist ueber einen Formulierungsversuch definiert. Nur die Ebenen (a) und (b) geben Satzbestandteile und deren Reihenfolge vor. Ebene (c) legt allein die Bedeutung von Schluesselwoertern fest, Ebene (d) beurteilt eine bereits formulierte Anforderung. In Teil B uebernahmen die Versuche fuer (c) und (d) deshalb den Satzbau der Ebene (b); ihre 3 von 3 waren keine Leistung dieser Ebenen. Nach R3 ist n. a. keine schlechte Note. Die Festlegung erfolgt vor der Wiederholung der Messung (R2). |
 | 02.09.2026 | Rahmen und drei Referenzinhalte fuer K6 in Abschnitt 6 festgelegt; die bisherigen Inhalte aus Teil B werden verworfen. Abschnitt 7 um zwei Einschraenkungen ergaenzt | Die bisherigen Referenzinhalte enthielten Rolle, Systemnamen und Verbindlichkeitsstufe bereits. Ein Versuch konnte deshalb nicht misslingen; die Pruefung mass nichts. Die neuen Inhalte geben nur den fachlichen Kern der Norm wieder und lassen offen, wem der Nutzen zufaellt. Der Rahmen nennt ein System, weil jede Anforderung einen Gegenstand braucht, aber keine Rolle, weil nur Ebene (a) eine solche verlangt. Vorschlag des Modells, vom Verfasser gegen den Normtext geprueft und uebernommen. |
+| 02.09.2026 | Teil B der Formulierungsprobe mit den neuen Referenzinhalten durchgefuehrt und gegengeprueft; Noten fuer K6 vergeben (Ebene (a) 2, Ebene (b) 2, Ebenen (c) und (d) n. a.). Der widerlegte Satz in Abschnitt 7 berichtigt, Abschnitt 8 fortgeschrieben | Beide bewerteten Ebenen erreichen 3 von 3. Die Annahme, nur Ebene (b) beziehe einen Pflichtbestandteil aus dem Rahmen, hat sich nicht bestaetigt: Ebene (a) bezieht die Rolle ebenso aus dem Rahmen. Nach R4 gilt die Messung; der Widerspruch wird dokumentiert statt aufgeloest. Empfindlichkeit nach R8: Ohne Anerkennung der Rahmenrolle faellt Ebene (a) auf 0 von 3. |
 
