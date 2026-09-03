@@ -35,6 +35,16 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 - Claude darf Pull-Request-Seiten selbst oeffnen, um Bewertungen
   gegenzupruefen. Es sagt dann ausdruecklich, welche Seiten es
   geoeffnet hat und welche nicht.
+- Soll eine Zeile hinzukommen, sagt Claude ausdruecklich "anhaengen,
+  nichts ersetzen", und nennt die Zeile darueber als Anker. In Paket C
+  Schritt 4b hat eine Ersetzungsanweisung zweimal eine Tabellenzeile
+  geloescht (02.09.2026).
+- Kommt ein Wortlaut in einer Datei mehrfach vor, warnt Claude vorher
+  und nennt die gemeinte Stelle mit Zeilennummer. In Paket C Schritt 4b
+  blieb "Zuletzt geaendert" an der zweiten Stelle stehen.
+- Ein Pruefbefehl darf nicht nach Formulierungen suchen, die auch im
+  neuen Text vorkommen. Sonst meldet er neu geschriebenen Text als
+  Rest.
 
 ## Umgebung
 
@@ -113,8 +123,9 @@ Arbeitspaket D, Teil 3 (Aufbereitung und Tests) abgeschlossen:
 - Entscheidungen D5 bis D8 in docs/entscheidungen.md
 - docs/ki-protokoll.md fuer Teil 2 und Teil 3 nachgetragen
 
-Arbeitspaket C (Formatauswahl), Schritte 1 bis 3 und Schritt 4a
-erledigt (4a = Gegenpruefung und Auswertung Teil A):
+Arbeitspaket C (Formatauswahl), Schritte 1 bis 3 sowie 4a und 4b
+erledigt (4a = Gegenpruefung und Auswertung Teil A, 4b = Messung
+fuer K6):
 - Vorentscheidungen C1 bis C4 in docs/entscheidungen.md
 - docs/formatauswahl.md: zehn Kriterien K1 bis K10, dreistufige ordinale Skala, zehn Bewertungsregeln R1 bis R10
   (R9 und R10 ergaenzt am 30.08.2026),
@@ -132,6 +143,15 @@ erledigt (4a = Gegenpruefung und Auswertung Teil A):
   gegengeprueft. Fuenf Aenderungen, alle bei Ebene (c):
   PR 371 (27.08.), PR 408, 533, 577, 622 (30.08.)
 - Auswertung Teil A abgeschlossen
+- Schritt 4b: K6 fuer die Ebenen (c) und (d) als nicht anwendbar
+  festgelegt (31.08.2026); Rahmen und drei Referenzinhalte aus 29148
+  Abschn. 9.6.12 a, 9.6.14 und 9.6.18 c 5 festgelegt (02.09.2026),
+  jeweils vor der Messung
+- Teil B des Protokolls neu gefasst: sechs Formulierungsversuche,
+  alle gelungen. K6: Ebene (a) 3 von 3 (Note 2), Ebene (b) 3 von 3
+  (Note 2), Ebenen (c) und (d) n. a.
+- docs/ki-protokoll.md um die Zeilen fuer den 30.08.2026 und den
+  02.-03.09.2026 ergaenzt
 
 ## Datensaetze (alle lokal, nicht im Repository)
 
@@ -307,9 +327,9 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Aktuell
 
-Paket C, Schritt 4a abgeschlossen. Die Gegenpruefung der
-Formulierungsprobe ist fertig, Teil A ist ausgewertet. Schritt 4b
-(Teil B, Messung fuer K6) ist offen.
+Paket C, Schritt 4b abgeschlossen. Teil A und Teil B der
+Formulierungsprobe sind gemessen, gegengeprueft und ausgewertet.
+Offen sind die Schritte 4c, 5 und 6.
 
 Messergebnis K9, Stand 30.08.2026:
 - Ebene (a) User Story: 4 von 12 gedeckt (33,3 %), Note 0.
@@ -322,18 +342,27 @@ Messergebnis K9, Stand 30.08.2026:
 Die Noten von (a) und (b) haengen an je einem einzigen Fall. Die
 Note von (c) nicht: dafuer fehlen fuenf Faelle.
 
+Messergebnis K6, Stand 02.09.2026:
+- Ebene (a) User Story: 3 von 3 gelungen, Note 2.
+- Ebene (b) EARS: 3 von 3 gelungen, Note 2.
+- Ebenen (c) und (d): K6 nicht anwendbar.
+- K6 unterscheidet die Ebenen (a) und (b) nicht. Beide beziehen je
+  einen Pflichtbestandteil aus dem Rahmen: (a) die Rolle, (b) den
+  Systemnamen. Wuerde die Rahmenrolle nicht anerkannt, faellt (a)
+  auf 0 von 3. Beides gehoert nach Kapitel 7.
+
 Naechste Schritte in dieser Reihenfolge:
-1. Teil B des Protokolls neu aufsetzen (K6). Bisheriges Problem:
-   Die drei Referenzinhalte enthalten Rolle, Systemname und
-   Modalitaet bereits; alle vier Ebenen erreichen 3 von 3 und K6
-   unterscheidet nicht. Dabei klaeren, ob K6 fuer die Ebenen (c)
-   und (d) ueberhaupt anwendbar ist.
-2. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung,
-   als C5 in docs/entscheidungen.md.
+1. Schritt 4c: Noten fuer K1 bis K5, K7, K8 und K10 je Ebene
+   vergeben. Diese Noten stammen aus der Literatur, nicht aus einer
+   Messung. Erst danach ist die Entscheidungsmatrix vollstaendig
+   und E2 anwendbar.
+2. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung, als
+   C5 in docs/entscheidungen.md. Dabei den Konflikt shall gegen
+   must entscheiden. Nach E1 darf Ebene (c) nicht "verpflichtend"
+   werden.
 3. Schritt 6: Abschnitt zur Formatauswahl in thesis/thesis.tex,
-   Kapitel 4.
-4. docs/ki-protokoll.md um eine Zeile fuer den 30.08.2026
-   ergaenzen.
+   Kapitel 4. Dabei Z. 127-132 ersetzen und den Platzhalter zum
+   Verweis auf die Entscheidungsmatrix fuellen.
 Danach Paket E.
 
 ## Getroffene Entscheidungen
@@ -514,6 +543,17 @@ Aus der Formulierungsprobe (Stand 30.08.2026, Commit ecf4a40):
 - Das EARS-Muster Ubiquitous passt fuer die meisten Faelle; WHEN
   bei PR 622, WHILE bei PR 577.
 
+Aus Teil B der Formulierungsprobe (Stand 02.09.2026, Commit a56bb5e):
+- Beide bewerteten Ebenen koennen alle drei Anforderungsarten
+  ausdruecken: funktional, leistungsbezogen, sicherheitsbezogen.
+  Eine typabhaengige Schwaeche zeigt sich bei keiner von beiden.
+- K6 ist fuer die Ebenen (c) und (d) nicht anwendbar. Beide geben
+  keine Satzbestandteile vor: (c) regelt nur die Verbindlichkeit,
+  (d) beurteilt eine bereits fertige Formulierung.
+- Die User-Story-Saetze nennen das System nicht, weil sie im Passiv
+  stehen. Die EARS-Saetze nennen es jedes Mal. Dieser Unterschied
+  gehoert zu K1 und ist bei der Formatentscheidung zu beachten.
+
 ## Zugangsdaten
 
 - GitHub-Token qrisp-thesis-readonly, im Passwortmanager und in
@@ -534,15 +574,9 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Paket C Schritt 4b: Teil B des Protokolls neu aufsetzen. Die
-  Referenzinhalte enthalten Rolle, Systemname und Modalitaet bereits;
-  dadurch erreichen alle vier Ebenen 3 von 3 und K6 unterscheidet
-  nicht.
-- Paket C Schritt 4: R9 und R10 auf alle zwoelf Faelle anwenden, auch
-  auf die vier bereits gegengeprueften. R9 haelt fest, dass ein
-  pauschales "users" als Rolle zaehlt und der Fall zusaetzlich als
-  generische Rolle gekennzeichnet wird. R10 verlangt, dass sich die
-  Modalitaet auf die rekonstruierte Anforderung bezieht.
+- Paket C Schritt 4c: Noten fuer K1 bis K5, K7, K8 und K10 je Ebene
+  vergeben. Ohne sie ist die Entscheidungsmatrix unvollstaendig und
+  E2 nicht anwendbar.
 - Paket C Schritt 5: Rollenzuweisung und Formatentscheidung
 - Paket C Schritt 6: Abschnitt zur Formatauswahl in Kapitel 4;
   dabei Z. 127-132 in thesis.tex ersetzen (kuendigt eine deutsche
@@ -682,6 +716,12 @@ e78f491 29148 Abschn. 9.6 und Anhang C.1 in Notiz und Matrix
 6be91a8 Ziehungsskript und Stichprobe fuer die Formulierungsprobe
 076c396 Regeln R9 und R10, Formulierungsprobe aufgenommen
 ecf4a40 Gegenpruefung der Formulierungsprobe abgeschlossen
+7ba386e Stand nach Abschluss von Paket C Schritt 4a
+ecd907c K6 fuer die Ebenen (c) und (d) nicht anwendbar, Schritt 4c ergaenzt
+bf3f137 Rahmen und drei Referenzinhalte fuer K6 festgelegt
+98c3ca4 Datum der K6-Referenzinhalte auf 02.09.2026 korrigiert
+a56bb5e Teil B neu aufgesetzt, K6 mit Note 2 fuer die Ebenen (a) und (b)
+2951149 KI-Protokoll um Paket C Schritt 4a und 4b ergaenzt
 
 ## Aufruf des Ziehungsskripts
 
@@ -714,8 +754,8 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Stand 30.08.2026, Ende W4. Paket D war drei Tage vor Plan fertig.
-Paket C laeuft seit 23.08.; Schritt 4a von 6 ist abgeschlossen, es
-fehlen Schritt 4b (Teil B), Schritt 5 und Schritt 6. Paket E
-hat noch nicht begonnen und liegt hinter dem Plan fuer W4.
-Bis zur Abgabe am 01.11.2026 verbleiben rund neun Wochen.
+Stand 03.09.2026, W5. Paket D war drei Tage vor Plan fertig.
+Paket C laeuft seit 23.08.; die Schritte 4a und 4b sind
+abgeschlossen, es fehlen Schritt 4c, Schritt 5 und Schritt 6.
+Paket E hat noch nicht begonnen und liegt hinter dem Plan fuer W4.
+Bis zur Abgabe am 01.11.2026 verbleiben rund acht Wochen.
