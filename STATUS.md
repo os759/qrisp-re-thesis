@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 30.08.2026
+Letzte Aktualisierung: 03.09.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -358,8 +358,11 @@ Naechste Schritte in dieser Reihenfolge:
    und E2 anwendbar.
 2. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung, als
    C5 in docs/entscheidungen.md. Dabei den Konflikt shall gegen
-   must entscheiden. Nach E1 darf Ebene (c) nicht "verpflichtend"
-   werden.
+   must entscheiden. Nach E1 duerfen die Ebenen (a) und (c) nicht
+   "verpflichtend" werden, weil beide bei K9 die Note 0 haben.
+   Ebene (d) ist nicht betroffen: K9 ist dort n. a., und nach R3
+   wird n. a. nie wie 0 behandelt. Fuer "verpflichtend" bleiben
+   damit nur die Ebenen (b) und (d).
 3. Schritt 6: Abschnitt zur Formatauswahl in thesis/thesis.tex,
    Kapitel 4. Dabei Z. 127-132 ersetzen und den Platzhalter zum
    Verweis auf die Entscheidungsmatrix fuellen.
@@ -554,6 +557,16 @@ Aus Teil B der Formulierungsprobe (Stand 02.09.2026, Commit a56bb5e):
   stehen. Die EARS-Saetze nennen es jedes Mal. Dieser Unterschied
   gehoert zu K1 und ist bei der Formatentscheidung zu beachten.
 
+Folge fuer Schritt 5, aus E1 und den Messwerten:
+- Ebene (a) und Ebene (c) haben bei K9 die Note 0. Nach E1 kann
+  keine von beiden die Rolle "verpflichtend" erhalten; "optional"
+  bleibt fuer beide moeglich.
+- Ebene (d) ist nicht ausgeschlossen, weil K9 dort n. a. ist und
+  n. a. nach R3 nie wie 0 wirkt.
+- Fuer "verpflichtend" kommen damit nur die Ebenen (b) und (d) in
+  Frage. Das steht vor Schritt 5 fest und ist keine Vorwegnahme der
+  Entscheidung, sondern deren Rahmen.
+
 ## Zugangsdaten
 
 - GitHub-Token qrisp-thesis-readonly, im Passwortmanager und in
@@ -597,8 +610,6 @@ Inhaltlich offen:
   welcher Reihenfolge sie zu lesen ist (Paket I).
 - src/analyze/draw_sample.py hat keine Tests. Weicht von D4 ab.
   Entweder Tests ergaenzen oder die Ausnahme begruenden.
-- Paket C: docs/ki-protokoll.md um eine Zeile fuer den 30.08.2026
-  ergaenzen (Regeln R9/R10, Gegenpruefung der acht Faelle)
 - PR 711: Rolle und Systemreaktion sind die einzigen zwei Felder der
   Stichprobe, die nicht unabhaengig gegengeprueft wurden. Die
   Diff-Ansicht war dem gegenpruefenden Modell nicht zugaenglich.
