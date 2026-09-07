@@ -327,9 +327,21 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Aktuell
 
-Paket C, Schritt 4b abgeschlossen. Teil A und Teil B der
+Paket C, Schritt 4c begonnen. Teil A und Teil B der
 Formulierungsprobe sind gemessen, gegengeprueft und ausgewertet.
-Offen sind die Schritte 4c, 5 und 6.
+Von den acht Literaturnoten ist K1 vergeben (04.09.2026, siehe
+docs/formatauswahl.md Abschnitt 10). Offen sind K2 bis K5, K7, K8
+und K10 sowie die Schritte 5 und 6.
+
+Verfahren seit 04.09.2026 (C2a): Das Modell legt je Zelle die
+Belegstelle, einen Notenvorschlag und das Gegenargument vor. Der
+Verfasser liest die Belegstelle in der Quelle nach und vergibt die
+Note. Vorgegangen wird kriterienweise ueber alle vier Ebenen.
+
+Volltexte, die dem Modell am 04.09.2026 vorlagen und die es selbst
+gelesen hat: Mavin 2009, Mavin/Wilkinson 2010, Wilkinson/Mavin 2018,
+Lucassen 2016, RFC 2119, RFC 8174, ISO/IEC/IEEE 29148 Abschn. 5.2.4
+bis 5.2.7.
 
 Messergebnis K9, Stand 30.08.2026:
 - Ebene (a) User Story: 4 von 12 gedeckt (33,3 %), Note 0.
@@ -352,10 +364,14 @@ Messergebnis K6, Stand 02.09.2026:
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Schritt 4c: Noten fuer K1 bis K5, K7, K8 und K10 je Ebene
-   vergeben. Diese Noten stammen aus der Literatur, nicht aus einer
-   Messung. Erst danach ist die Entscheidungsmatrix vollstaendig
-   und E2 anwendbar.
+1. Schritt 4c fortsetzen: Noten fuer K2 bis K5, K7, K8 und K10 je
+   Ebene vergeben. K1 ist erledigt. Diese Noten stammen aus der
+   Literatur, nicht aus einer Messung. Erst danach ist die
+   Entscheidungsmatrix vollstaendig und E2 anwendbar.
+   Offen vor K2: die Auslegungsregel R11 zur Skalenstufe 2 und die
+   Frage, ob Ebene (c) nur an den Schluesselwoertern aus 29148
+   Abschn. 5.2.4 gemessen wird oder auch am Aufbausatz desselben
+   Abschnitts.
 2. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung, als
    C5 in docs/entscheidungen.md. Dabei den Konflikt shall gegen
    must entscheiden. Nach E1 duerfen die Ebenen (a) und (c) nicht
@@ -417,6 +433,11 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - C2 Die Entscheidungsmatrix stuetzt sich auf Literatur plus eine
   Formulierungsprobe von Hand an zwoelf echten Pull Requests. Kein
   Sprachmodell trifft die Bewertung.
+- C2a (04.09.2026) praezisiert C2: Bei den Literaturnoten darf das
+  Modell Belegstellen und Notenvorschlaege liefern. Die Note vergibt
+  der Verfasser nach Pruefung an der Quelle. An der Formulierungsprobe
+  bleibt kein Sprachmodell beteiligt. Die Praezisierung gilt nur fuer
+  Paket C; sonst gilt der Abschnitt "Zusammenarbeit im Chat".
 - C3 Faellt die Wahl auf eine Kombination mehrerer Ebenen, gilt sie als
   ein festgelegtes Zielformat und wird vollstaendig spezifiziert.
 - C4 Zehn Kriterien K1 bis K10, dreistufige ordinale Skala mit n. a.

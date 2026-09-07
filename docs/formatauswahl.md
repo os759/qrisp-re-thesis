@@ -400,8 +400,14 @@ Erledigt seit dem 23.08.2026:
   Ebene (b) 3 von 3 (Note 2), Ebenen (c) und (d) nicht anwendbar.
 
 Noch offen:
-- Schritt 4c: Uebertragung in die Bewertung der vier Ebenen. Die
-  Noten fuer K1 bis K5, K7, K8 und K10 sind noch nicht vergeben.
+- Schritt 4c: K1 ist am 04.09.2026 vergeben (Abschnitt 10). Offen
+  sind die Noten fuer K2 bis K5, K7, K8 und K10.
+- R11 (Auslegung der Skalenstufe 2) vorgeschlagen, noch nicht
+  entschieden.
+- Offen: ob Ebene (c) nur an den Schluesselwoertern aus 29148
+  Abschn. 5.2.4 gemessen wird oder auch am Aufbausatz desselben
+  Abschnitts. Abschnitt 1 ordnet der Ebene (c) nur die
+  Schluesselwoerter zu.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -422,4 +428,84 @@ Noch offen:
 | 31.08.2026 | K6 fuer die Ebenen (c) und (d) als nicht anwendbar festgelegt. Die Anwendbarkeit steht jetzt bei K6 in Abschnitt 2; in Abschnitt 6 heisst es entsprechend "je bewerteter Ebene". Abschnitt 7 um zwei Einschraenkungen ergaenzt; Abschnitt 8 fortgeschrieben, die Uebertragung in die Bewertung heisst jetzt Schritt 4c | K6 ist ueber einen Formulierungsversuch definiert. Nur die Ebenen (a) und (b) geben Satzbestandteile und deren Reihenfolge vor. Ebene (c) legt allein die Bedeutung von Schluesselwoertern fest, Ebene (d) beurteilt eine bereits formulierte Anforderung. In Teil B uebernahmen die Versuche fuer (c) und (d) deshalb den Satzbau der Ebene (b); ihre 3 von 3 waren keine Leistung dieser Ebenen. Nach R3 ist n. a. keine schlechte Note. Die Festlegung erfolgt vor der Wiederholung der Messung (R2). |
 | 02.09.2026 | Rahmen und drei Referenzinhalte fuer K6 in Abschnitt 6 festgelegt; die bisherigen Inhalte aus Teil B werden verworfen. Abschnitt 7 um zwei Einschraenkungen ergaenzt | Die bisherigen Referenzinhalte enthielten Rolle, Systemnamen und Verbindlichkeitsstufe bereits. Ein Versuch konnte deshalb nicht misslingen; die Pruefung mass nichts. Die neuen Inhalte geben nur den fachlichen Kern der Norm wieder und lassen offen, wem der Nutzen zufaellt. Der Rahmen nennt ein System, weil jede Anforderung einen Gegenstand braucht, aber keine Rolle, weil nur Ebene (a) eine solche verlangt. Vorschlag des Modells, vom Verfasser gegen den Normtext geprueft und uebernommen. |
 | 02.09.2026 | Teil B der Formulierungsprobe mit den neuen Referenzinhalten durchgefuehrt und gegengeprueft; Noten fuer K6 vergeben (Ebene (a) 2, Ebene (b) 2, Ebenen (c) und (d) n. a.). Der widerlegte Satz in Abschnitt 7 berichtigt, Abschnitt 8 fortgeschrieben | Beide bewerteten Ebenen erreichen 3 von 3. Die Annahme, nur Ebene (b) beziehe einen Pflichtbestandteil aus dem Rahmen, hat sich nicht bestaetigt: Ebene (a) bezieht die Rolle ebenso aus dem Rahmen. Nach R4 gilt die Messung; der Widerspruch wird dokumentiert statt aufgeloest. Empfindlichkeit nach R8: Ohne Anerkennung der Rahmenrolle faellt Ebene (a) auf 0 von 3. |
+| 04.09.2026 | Abschnitt 10 (Entscheidungsmatrix) angelegt; Note fuer K1 je Ebene vergeben. Abschnitt 8 fortgeschrieben | Schritt 4c begonnen. Die Noten stammen aus den Volltexten der sieben gelesenen Quellen. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 
+
+
+## 10. Entscheidungsmatrix (in Arbeit)
+
+Diese Tabelle wird in Schritt 4c Kriterium fuer Kriterium gefuellt.
+Die Noten fuer K6 und K9 stammen aus einer Messung (Abschnitt 6 und
+docs/formatprobe_protokoll.md), alle uebrigen aus der Literatur.
+
+| Kriterium | (a) User Story | (b) EARS | (c) Modalitaet | (d) Qualitaetsregeln | vergeben am |
+|---|---|---|---|---|---|
+| K1 Eindeutigkeit | 1 | 2 | 1 | 2 | 04.09.2026 |
+| K2 Formale Struktur | offen | offen | offen | offen | - |
+| K3 Verifizierbarkeit | offen | offen | offen | offen | - |
+| K4 Maschinelle Verarbeitbarkeit | offen | offen | offen | offen | - |
+| K5 Eignung fuer LLM-Ausgaben | offen | offen | offen | offen | - |
+| K6 Eignung fuer die drei Anforderungsarten | TRAGE EIN | TRAGE EIN | TRAGE EIN | TRAGE EIN | 02.09.2026 |
+| K7 Verstaendlichkeit fuer das Qrisp-Team | offen | offen | offen | offen | - |
+| K8 Automatische Validierbarkeit | offen | offen | offen | offen | - |
+| K9 Deckung durch die Quelldaten | TRAGE EIN | TRAGE EIN | TRAGE EIN | TRAGE EIN | 30.08.2026 |
+| K10 Kombinierbarkeit mit anderen Ebenen | offen | offen | offen | offen | - |
+
+### Begruendungen und Belege je Zelle
+
+#### K1 Eindeutigkeit, vergeben am 04.09.2026
+
+Ebene (a) User Story, Note 1.
+Beleg: Lucassen et al. 2016, Abschn. 2 (Begriffsmodell; ueber 80
+syntaktische Varianten), Abschn. 2.3 (drei Bestandteile des Means, im
+Uebrigen freier Text), Abschn. 3.1.6 (Unambiguous als eigenes
+Kriterium).
+Begruendung: Die Schablone trennt Rolle, Means und End und legt fuer
+das Means drei grammatische Bestandteile fest; damit ist mindestens
+ein Teil des Satzes einer festen Lesart zugeordnet. Der uebrige Text
+bleibt frei formulierbar, und die Quelle behandelt Eindeutigkeit als
+davon getrenntes Kriterium.
+Gegenargument, fuehrt zu 0: Die Schablone ordnet den Satz, nennt aber
+keine Formulierung, die sie ausschliesst.
+
+Ebene (b) EARS, Note 2.
+Beleg: Mavin et al. 2009, Abschn. 2 mit Fussnote 1 (Mehrdeutigkeit als
+eins von acht Problemen, unterschieden nach lexikalisch, referenziell,
+syntaktisch), Abschn. 4.1 (feste Klauselreihenfolge nach zeitlicher
+Logik, drei Auslegungsregeln), Abschn. 5 Tabelle 1 (ersetzte
+Formulierungen), Abschn. 6 (Mehrdeutigkeit reduziert, nicht beseitigt).
+Begruendung: EARS legt Bestandteile und deren Reihenfolge fest und
+gibt an, unter welcher Bedingung die Systemreaktion gilt; damit ist die
+Lesart des ganzen Satzes geregelt, nicht nur eines Satzglieds. Die
+Quelle fuehrt Mehrdeutigkeit als ausdruecklich adressiertes Problem und
+zeigt an Beispielen, welche Formulierungen ersetzt werden.
+Gegenargument, fuehrt zu 1: Abschn. 6 stellt selbst fest, dass
+Mehrdeutigkeit nur reduziert wurde.
+
+Ebene (c) Normative Modalitaet, Note 1.
+Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Verbindlichkeitsstufen),
+RFC 8174 Abschn. 2 (besondere Bedeutung nur bei durchgaengiger
+Grossschreibung; klein geschrieben gewoehnliche englische Woerter).
+Begruendung: Fuer das Modalwort ist die Lesart durch ein geschlossenes
+Vokabular und die Grossschreibungsregel eindeutig festgelegt. Fuer den
+uebrigen Satz trifft die Konvention keine Aussage, sodass die Zahl der
+Lesarten dort unveraendert bleibt.
+Gegenargument, fuehrt zu 2: Innerhalb ihrer Reichweite ist die Regel
+vollstaendig und ohne Bedingung.
+Nicht n. a. nach R3, weil Ebene (c) Lesarten sehr wohl regelt, nur eng.
+
+Ebene (d) Qualitaets- und Sprachregeln, Note 2.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.5 (Unambiguous als eines
+der neun Merkmale), Abschn. 5.2.7 (normativ formuliert, acht
+Aufzaehlungspunkte mit benannten Wortklassen); Mavin/Wilkinson 2010,
+Abschn. "Testing the Hypothesis"; Lucassen et al. 2016, Tab. 1 und
+Abschn. 3.1.6.
+Begruendung: Abschnitt 5.2.7 ist die einzige der vier Ebenen, die
+einzelne Formulierungen namentlich ausschliesst, und zwar in
+normativer Form. Der Pruefmassstab von K1 ist damit woertlich erfuellt.
+Gegenargument, fuehrt zu 1: Die Regeln nennen Wortklassen, aber kein
+Verfahren, das Eindeutigkeit herstellt. Sie erkennen Verstoesse, sie
+verhindern sie nicht.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.

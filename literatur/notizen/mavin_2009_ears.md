@@ -61,7 +61,9 @@ Reliabilitaetspruefung.
 - EARS belegt Ebene (b) des Vier-Ebenen-Modells: Satz- und
   Syntaxmuster, keine Qualitaetsmerkmale, keine Modalitaetsstufen
 - EARS verwendet ausschliesslich shall und stuetzt damit 29148
-  Abschn. 5.2.7 gegen die RFC-2119-Konvention
+  Abschn. 5.2.4 gegen die RFC-2119-Konvention
+  (berichtigt am 04.09.2026: die Schluesselwortkonvention steht in
+  5.2.4, nicht in 5.2.7; 5.2.7 enthaelt die sprachlichen Kriterien)
 - Gehoert nach Abschnitt 2.2.2; Konsequenzen fuer die Pipeline in
   Kapitel 4
 - Verhaeltnis zu 29148: komplementaer, nicht konkurrierend

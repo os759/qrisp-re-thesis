@@ -653,6 +653,49 @@ Paket H moeglichst andere Pull Requests umfasst.
 Status: festgelegt, Regeln und Stichprobengroesse noch zu bestimmen.
 Bezug: FF2, Limitationen.
 
+### 2026-09-04 C2a Praezisierung zu C2: Rolle des Sprachmodells bei den Noten
+
+C2 haelt fest, dass an der Formulierungsprobe kein Sprachmodell
+beteiligt ist. Fuer die Noten, die aus der Literatur stammen (K1 bis
+K5, K7, K8 und K10), wird die Rolle des Modells hier praezisiert.
+
+Das Sprachmodell darf zu jeder Zelle der Entscheidungsmatrix die
+Belegstelle mit Abschnittsangabe, einen Notenvorschlag und eine
+Begruendung liefern. Es nennt zusaetzlich das Gegenargument, das zu
+einer anderen Note fuehren wuerde. Die Note selbst vergibt der
+Verfasser, nachdem er die Belegstelle in der Quelle nachgelesen hat.
+Ein Vorschlag wird uebernommen, geaendert oder verworfen; alle drei
+Ausgaenge sind moeglich.
+
+Fuer die Formulierungsprobe bleibt C2 unveraendert. Dort war und
+bleibt kein Sprachmodell beteiligt. Die Einstufungen der zwoelf Pull
+Requests stammen vollstaendig vom Verfasser.
+
+Begruendung: Ohne diese Praezisierung widersprechen sich C2 und
+docs/ki-protokoll.md, weil das Protokoll die Vorschlagstaetigkeit des
+Modells ausweist.
+
+Verworfene Alternative: die Belegstellen ohne Notenvorschlag vorlegen.
+Das haette den Ankereffekt vermieden, aber den Aufwand verdoppelt.
+
+Einschraenkung fuer Kapitel 7: Ein Notenvorschlag wirkt als Anker. Die
+zuerst genannte Zahl kann das eigene Urteil beeinflussen. Diese
+Bedrohung der Konstruktvaliditaet ist auszuweisen. Bei den gemessenen
+Kriterien K6 und K9 besteht sie nicht, weil dort kein Modellvorschlag
+vorlag.
+
+Reichweite: Diese Praezisierung betrifft ausschliesslich die
+Entscheidungsmatrix in Paket C. Fuer die uebrige Zusammenarbeit gilt
+unveraendert der Hinweis zur Arbeitsteilung in docs/ki-protokoll.md
+und der Abschnitt "Zusammenarbeit im Chat" in STATUS.md. Dort darf das
+Modell Vorschlaege zu Vorgehen, Code, Text und Recherche machen; der
+Verfasser prueft und entscheidet.
+
+Status: festgelegt am 04.09.2026. Die Note fuer K1 war zu diesem
+Zeitpunkt bereits vergeben. Der Nachtrag erfolgte danach, wie schon
+bei R9 und R10 am 30.08.2026.
+Bezug: FF2, Limitationen.
+
 ### 2026-08-23 C3 Eine Kombination mehrerer Ebenen gilt als ein Format
 
 Die Projektanweisung verlangt zu pruefen, ob eine Kombination
