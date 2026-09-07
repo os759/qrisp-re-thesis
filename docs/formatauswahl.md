@@ -445,10 +445,8 @@ Erledigt seit dem 23.08.2026:
   Ebene (b) 3 von 3 (Note 2), Ebenen (c) und (d) nicht anwendbar.
 
 Noch offen:
-- Schritt 4c: K1 ist am 04.09.2026 vergeben (Abschnitt 10). Offen
-  sind die Noten fuer K2 bis K5, K7, K8 und K10.
-- Die gemessenen Noten fuer K6 und K9 sind noch nicht in die Tabelle
-  in Abschnitt 10 uebertragen.
+- Schritt 4c: K1, K2, K6 und K9 stehen in Abschnitt 10. Offen sind
+  die Noten fuer K3 bis K5, K7, K8 und K10.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -472,7 +470,7 @@ Noch offen:
 | 04.09.2026 | Abschnitt 10 (Entscheidungsmatrix) angelegt; Note fuer K1 je Ebene vergeben. Abschnitt 8 fortgeschrieben | Schritt 4c begonnen. Die Noten stammen aus den Volltexten der sieben gelesenen Quellen. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 07.09.2026 | R11 ergaenzt: Auslegung der Skalenstufe 2 | Abschnitt 3 knuepft Stufe 2 an eine ausdrueckliche Regel, nicht an deren Wirkung. Ohne die Klarstellung waeren Normen ohne Wirksamkeitsstudie strukturell benachteiligt, und eine Quelle, die ihre Restprobleme offen berichtet, stuende schlechter da als eine, die schweigt. Nach der Vergabe von K1 formuliert; alle vier K1-Noten wurden geprueft, keine aendert sich. |
 | 07.09.2026 | Zuordnung von 29148 Abschn. 5.2.4 auf drei Ebenen in Abschnitt 1 festgelegt; Ebene (c) wird nur an den Schluesselwoertern gemessen. Abschnitt 7 um eine Einschraenkung ergaenzt | Der Abschnitt enthaelt Aufbausatz, Schluesselwoerter und sprachliche Vorgaben nebeneinander. Eine Erweiterung der Ebene (c) um den Aufbausatz haette die bereits festgelegten Pflichtbestandteile veraendert und die vorliegende K9-Messung entwertet (R2). Figure 1 wurde dabei erstmals eingesehen; sie zeigt ein Satzmuster mit benannten Bestandteilen und stuetzt die Zuordnung zu Ebene (b). |
-
+| 07.09.2026 | Noten fuer K2 je Ebene vergeben; die Vorfrage n. a. gegen 0 fuer die Ebenen (c) und (d) zugunsten von n. a. entschieden. Die gemessenen Noten fuer K6 und K9 aus Abschnitt 6 und dem Protokoll in die Tabelle uebertragen | Erste Anwendung von R11: Die Erprobungsbefunde zu AQUSA und zur Musterabgrenzung bei EARS stehen in der Begruendung, nicht in der Note. Die Vorfrage folgt der Vergabebedingung der Skala und derselben Erwaegung wie bei K6 am 31.08.2026; das Gegenargument ist in Abschnitt 10 festgehalten. Vorschlag des Modells nach C2a. |
 
 
 ## 10. Entscheidungsmatrix (in Arbeit)
@@ -484,14 +482,14 @@ docs/formatprobe_protokoll.md), alle uebrigen aus der Literatur.
 | Kriterium | (a) User Story | (b) EARS | (c) Modalitaet | (d) Qualitaetsregeln | vergeben am |
 |---|---|---|---|---|---|
 | K1 Eindeutigkeit | 1 | 2 | 1 | 2 | 04.09.2026 |
-| K2 Formale Struktur | offen | offen | offen | offen | - |
+| K2 Formale Struktur | 1 | 2 | n. a. | n. a. | 07.09.2026 |
 | K3 Verifizierbarkeit | offen | offen | offen | offen | - |
 | K4 Maschinelle Verarbeitbarkeit | offen | offen | offen | offen | - |
 | K5 Eignung fuer LLM-Ausgaben | offen | offen | offen | offen | - |
-| K6 Eignung fuer die drei Anforderungsarten | TRAGE EIN | TRAGE EIN | TRAGE EIN | TRAGE EIN | 02.09.2026 |
+| K6 Eignung fuer die drei Anforderungsarten | 2 | 2 | n. a. | n. a. | 02.09.2026 |
 | K7 Verstaendlichkeit fuer das Qrisp-Team | offen | offen | offen | offen | - |
 | K8 Automatische Validierbarkeit | offen | offen | offen | offen | - |
-| K9 Deckung durch die Quelldaten | TRAGE EIN | TRAGE EIN | TRAGE EIN | TRAGE EIN | 30.08.2026 |
+| K9 Deckung durch die Quelldaten | 0 | 1 | 0 | n. a. | 30.08.2026 |
 | K10 Kombinierbarkeit mit anderen Ebenen | offen | offen | offen | offen | - |
 
 ### Begruendungen und Belege je Zelle
@@ -549,6 +547,94 @@ normativer Form. Der Pruefmassstab von K1 ist damit woertlich erfuellt.
 Gegenargument, fuehrt zu 1: Die Regeln nennen Wortklassen, aber kein
 Verfahren, das Eindeutigkeit herstellt. Sie erkennen Verstoesse, sie
 verhindern sie nicht.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.
+
+#### K2 Formale Struktur, vergeben am 07.09.2026
+
+Vorfrage, entschieden am 07.09.2026: Fuer die Ebenen (c) und (d) wird
+n. a. vergeben und nicht 0. Massgeblich ist die Vergabebedingung der
+Skala: n. a. gilt, wenn das Kriterium eine Eigenschaft betrifft, die
+die Ebene ihrem Zweck nach nicht regelt. Beide Ebenen regeln keine
+Satzbestandteile. Die Entscheidung folgt derselben Erwaegung, mit der
+K6 fuer diese beiden Ebenen als nicht anwendbar festgelegt wurde.
+Gegenargument, festgehalten fuer Kapitel 7: 29148 Abschn. 5.2.4 zeigt,
+dass eine Schluesselwortkonvention mit einem Aufbausatz verbunden
+werden kann; RFC 2119 verzichtet darauf. Zudem hat die Zuordnung vom
+07.09.2026 den Aufbausatz aus den Ebenen (c) und (d) herausgenommen.
+Das n. a. ist damit auch ein Ergebnis dieser Zuordnung.
+Abgrenzung zu K1: Dort wurde fuer Ebene (c) ausdruecklich nicht n. a.
+vergeben, weil sie Lesarten regelt, nur eng. Bei K2 regelt sie nichts.
+
+Ebene (a) User Story, Note 1.
+Beleg: Lucassen et al. 2016, Abschn. 2 mit Abb. 1 (Begriffsmodell aus
+einer Rolle, einem Means, null oder mehr Ends und einem Format),
+Abschn. 2.1 (Format: eine vorab vereinbarte Schablone, gewaehlt aus
+vielen bestehenden), Abschn. 2.3 (drei Bestandteile des Means),
+Abschn. 2 Einleitung (ueber 80 syntaktische Varianten), Abschn. 3.2.2
+(Uniform: massgeblich ist die im Datensatz haeufigste Form),
+Abschn. 4.7 (das Werkzeug ermittelt die haeufigste Form je Datensatz).
+Begruendung: Das Begriffsmodell benennt vier Bestandteile und legt
+fuer das Means drei grammatische Elemente fest; ein Satz in der
+verbreiteten Schablone ist damit ohne Deutung zerlegbar. Die Schablone
+selbst gibt der Ansatz jedoch nicht vor, sondern verweist auf ueber 80
+Varianten und bestimmt die massgebliche Form je Datensatz nach
+Haeufigkeit.
+Gegenargument, fuehrt zu 2: Well-formed, Atomic und Minimal legen
+normativ fest, welche Bestandteile ein Satz enthalten muss und was er
+nicht enthalten darf; in der verbreiteten Form steht auch die
+Reihenfolge fest.
+Hinweis nach R11: Die Genauigkeit von AQUSA beim Kriterium Well-formed
+von 42,3 Prozent ist ein Erprobungsbefund und traegt die Note nicht.
+Die Note stuetzt sich allein darauf, dass der Ansatz die Schablone
+offenlaesst.
+
+Ebene (b) EARS, Note 2.
+Beleg: Mavin et al. 2009, Abschn. 4.1 (generische Syntax aus
+optionalen Vorbedingungen, optionalem Ausloeser, Systemname, shall und
+Systemreaktion; die Klauselreihenfolge wird ausdruecklich fuer
+bedeutsam erklaert, weil sie der zeitlichen Logik folgt), Abschn. 4.2
+bis 4.6 (je eine Satzform mit festem Schluesselwort), Abschn. 4.7
+(Kombination komplexer Muster); Mavin/Wilkinson 2010, Abschnitt
+"EARS Templates".
+Begruendung: EARS benennt vier Bestandteile und erklaert ihre
+Reihenfolge ausdruecklich fuer verbindlich. Jedes der fuenf Muster
+gibt zusaetzlich eine eigene Satzform mit festem Schluesselwort vor.
+Gegenargument, fuehrt zu 1: Vorbedingung und Ausloeser sind optional,
+und Mavin/Wilkinson 2010 berichten, dass die Abgrenzung zwischen
+Ubiquitous und Event-driven schwierig sein kann.
+Hinweis nach R11: Der zweite Teil dieses Einwands ist ein
+Erprobungsbefund und traegt die Note nicht. Der erste Teil betrifft
+die Reichweite der Regel: Optionale Satzteile heben eine festgelegte
+Reihenfolge nicht auf, sie entfallen nur.
+
+Ebene (c) Normative Modalitaet, n. a.
+Beleg: RFC 2119 Abschn. 1 bis 5 und RFC 8174 Abschn. 2 treffen keine
+Aussage zum Satzbau. Siehe literatur/notizen/bradner_1997_rfc2119.md.
+Begruendung: Ebene (c) legt allein die Bedeutung von
+Schluesselwoertern fest und regelt ihrem Zweck nach weder
+Satzbestandteile noch deren Reihenfolge.
+Gegenargument, fuehrt zu 0: siehe Vorfrage.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, n. a.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.7 (sprachliche Kriterien
+und acht Klassen zu vermeidender Ausdruecke), Abschn. 5.2.8.1 und
+5.2.8.2 (Attribute wie Kennung, Versionsnummer, Eigner, Prioritaet,
+Risiko, Begruendung, Schwierigkeitsgrad); Lucassen et al. 2016 Tab. 1;
+Mavin/Wilkinson 2010, Abschnitt "Testing the Hypothesis".
+Begruendung: Ebene (d) beurteilt eine bereits formulierte Anforderung;
+Abschn. 5.2.7 nennt zu vermeidende Wortklassen, Abschn. 5.2.8 nennt
+Attribute neben dem Satz. Weder das eine noch das andere sind
+Satzbestandteile oder eine Reihenfolge.
+Gegenargument, fuehrt zu 0: siehe Vorfrage. Die Attribute aus 5.2.8
+sind benannte Felder mit fester Bedeutung, stehen aber neben dem Satz
+und nicht in ihm. Fuer K4 sind sie erheblich, fuer K2 nicht.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell in dieser Runde nicht vor.
+Sein Vorschlag zu Ebene (c) stuetzt sich auf die Lesenotiz. Die
+uebrigen Belegstellen hat es im Volltext gelesen.
 
 Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
 den Quellen geprueft und uebernommen.
