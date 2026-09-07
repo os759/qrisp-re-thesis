@@ -760,6 +760,48 @@ und ist erst nach der Bewertung in Paket H belastbar.
 Status: festgelegt vor jeder Bewertung.
 Bezug: FF2, Limitationen.
 
+## 2026-09-07 Paket C: Nachtrag zum Testumfang
+
+### 2026-09-07 D4a Praezisierung zu D4: keine Tests fuer das Ziehungsskript
+
+src/analyze/draw_sample.py erhaelt keine automatischen Tests. Die
+Abweichung von D4 wird begruendet statt behoben.
+
+Begruendung: D4 verlangt Tests dort, wo ein Fehler still Daten
+verfaelscht. Der Bezugsfall sind Skripte, die wiederholt Daten
+erzeugen. Das Ziehungsskript ist einmal gelaufen, am 25.08.2026. Sein
+Ergebnis liegt fest und ist dokumentiert: die zwoelf gezogenen
+Nummern, der Startwert 20260823 und die SHA-256-Pruefsumme der
+Eingabedatei stehen in docs/sample_formulation_probe.md. Die Ziehung
+ist deterministisch; dieselbe Eingabedatei und derselbe Startwert
+erzeugen dieselbe Auswahl.
+
+Was die Reproduzierbarkeit sichert: Das Skript liegt im Repository.
+Die Eingabedatei ist ueber ihre Pruefsumme eindeutig bestimmt. Der
+Startwert ist dokumentiert. Eine vorhandene Ausgabedatei wird nur mit
+--overwrite ueberschrieben.
+
+Wiederholungslauf am 07.09.2026: Das Skript wurde mit derselben
+Eingabedatei und demselben Startwert erneut ausgefuehrt, mit --output
+auf einen Pfad ausserhalb des Repositorys. Die zwoelf gezogenen
+Zeilen sind mit docs/sample_formulation_probe.md identisch. Auch die
+Kennzahlen des Laufs stimmen ueberein: 476 Datensaetze gelesen, 31
+Bot-Beitraege und 50 offene Vorgaenge ausgeschlossen, 395 in der
+Grundgesamtheit. Die Reproduzierbarkeit der Ziehung ist damit nicht
+nur belegt, sondern gezeigt.
+
+Alternative verworfen: vier automatische Tests mit erfundenen Daten.
+Sie haetten die Abweichung von D4 formal beendet, am dokumentierten
+Ergebnis aber nichts geaendert. Der Wiederholungslauf leistet den
+Nachweis der Reproduzierbarkeit mit geringerem Aufwand.
+
+Einschraenkung fuer Kapitel 7: Der Nachweis erfolgte von Hand und ist
+nicht automatisiert. Er wiederholt sich nicht, wenn das Skript spaeter
+geaendert wird.
+
+Status: festgelegt.
+Bezug: Reproduzierbarkeit.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C

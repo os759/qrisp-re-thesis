@@ -31,6 +31,24 @@ vier Ebenen getrennt.
   Abschn. 5.2.5 bis 5.2.8, ergaenzt um die acht Sprachprobleme aus
   Big EARS und die 13 QUS-Kriterien
 
+Zuordnung von ISO/IEC/IEEE 29148 Abschn. 5.2.4, festgelegt am
+07.09.2026: Der Abschnitt enthaelt drei verschiedene Regelarten und
+faellt deshalb auf drei Ebenen. Der Aufbausatz und die Beispielsyntax
+in Figure 1 gehoeren zu Ebene (b), die Schluesselwoerter zu Ebene (c),
+die sprachlichen Vorgaben (positive Formulierung, Aktiv statt Passiv,
+Vermeidung von "shall be able to") zu Ebene (d). Ebene (c) wird
+ausschliesslich an den Schluesselwoertern gemessen.
+
+Ebene (b) stuetzt sich damit auf zwei Quellen. Figure 1 gibt die
+Bestandteile [Condition] [Subject] [Action] [Object] [Constraint of
+Action] vor, in einer kurzen Variante auch ohne Condition. EARS
+benennt dieselben Pflichtbestandteile, unterscheidet zusaetzlich fuenf
+Muster und legt die Reihenfolge der Klauseln fest. EARS ist die
+spezifischere der beiden Festlegungen und bleibt der bewertete
+Vertreter der Ebene (b). Die Pflichtbestandteile Systemname und
+Systemreaktion aendern sich dadurch nicht; die Messung fuer K9 bleibt
+gueltig.
+
 Sprache der erzeugten Anforderungen: Englisch (Entscheidung C1).
 
 ## 2. Kriterienkatalog
@@ -243,6 +261,28 @@ etwas anderes zaehlen als das, was sie zu zaehlen vorgibt.
 Diese Regel wurde bei PR 371 bereits angewandt und wird hier
 nachgetragen, damit sie auf alle zwoelf Faelle gleich wirkt.
 
+R11 Auslegung der Skalenstufe 2. Stufe 2 bemisst sich nach dem
+Vorhandensein und der Reichweite einer ausdruecklichen Regel des
+Ansatzes, nicht nach einem empirischen Wirksamkeitsnachweis. Note 1
+wird vergeben, wenn die Regel selbst nach Reichweite oder Bedingungen
+unvollstaendig ist. Berichtete Restprobleme einer Erprobung fuehren
+fuer sich genommen nicht zu Note 1; sie werden in der Begruendung der
+Zelle vermerkt und in Kapitel 7 aufgegriffen.
+Begruendung: Die Vergabebedingung in Abschnitt 3 nennt eine
+ausdrueckliche Regel oder einen Mechanismus, nicht deren Wirkung. Zwei
+der vier Ebenen stuetzen sich auf Normen, zu denen keine
+Wirksamkeitsstudie vorliegt. Verlangte Stufe 2 einen solchen Nachweis,
+koennten diese Ebenen sie nie erreichen, und eine Quelle, die ihre
+Restprobleme offen berichtet, stuende schlechter da als eine, die
+dazu schweigt.
+Verhaeltnis zur Stufe 1: Die Wendung "nur fuer einen Teil der Faelle
+wirksam" in Abschnitt 3 bezieht sich auf die Reichweite der Regel,
+nicht auf ein Messergebnis Dritter.
+Verhaeltnis zu R4: R4 betrifft die Formulierungsprobe dieser Arbeit.
+Befunde fremder Autoren bleiben davon unberuehrt.
+Nachtraeglichkeit: R11 wurde nach der Vergabe von K1 formuliert. Alle
+vier K1-Noten wurden daraufhin geprueft; keine aendert sich.
+
 ## 5. Entscheidungsverfahren
 
 Statt einer Gesamtnote wird jeder Ebene eine Rolle zugewiesen.
@@ -381,6 +421,11 @@ Faellen formuliert: drei Versuche je bewerteter Ebene.
   sie an verschiedenen Quellen: K9 an zwoelf Pull Requests, K6 an
   drei Inhalten aus der Norm. Die Noten sind daher nicht
   unabhaengig voneinander.
+- Ebene (b) stuetzt sich auf zwei Quellen: EARS und den Aufbausatz
+  aus 29148 Abschn. 5.2.4 einschliesslich Figure 1. Bewertet wird
+  EARS als die spezifischere Festlegung. Die Aufteilung von
+  Abschn. 5.2.4 auf drei Ebenen ist eine Zuordnung des Verfassers und
+  steht so nicht in der Norm.
 
 ## 8. Offene Punkte
 
@@ -402,12 +447,8 @@ Erledigt seit dem 23.08.2026:
 Noch offen:
 - Schritt 4c: K1 ist am 04.09.2026 vergeben (Abschnitt 10). Offen
   sind die Noten fuer K2 bis K5, K7, K8 und K10.
-- R11 (Auslegung der Skalenstufe 2) vorgeschlagen, noch nicht
-  entschieden.
-- Offen: ob Ebene (c) nur an den Schluesselwoertern aus 29148
-  Abschn. 5.2.4 gemessen wird oder auch am Aufbausatz desselben
-  Abschnitts. Abschnitt 1 ordnet der Ebene (c) nur die
-  Schluesselwoerter zu.
+- Die gemessenen Noten fuer K6 und K9 sind noch nicht in die Tabelle
+  in Abschnitt 10 uebertragen.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -429,6 +470,8 @@ Noch offen:
 | 02.09.2026 | Rahmen und drei Referenzinhalte fuer K6 in Abschnitt 6 festgelegt; die bisherigen Inhalte aus Teil B werden verworfen. Abschnitt 7 um zwei Einschraenkungen ergaenzt | Die bisherigen Referenzinhalte enthielten Rolle, Systemnamen und Verbindlichkeitsstufe bereits. Ein Versuch konnte deshalb nicht misslingen; die Pruefung mass nichts. Die neuen Inhalte geben nur den fachlichen Kern der Norm wieder und lassen offen, wem der Nutzen zufaellt. Der Rahmen nennt ein System, weil jede Anforderung einen Gegenstand braucht, aber keine Rolle, weil nur Ebene (a) eine solche verlangt. Vorschlag des Modells, vom Verfasser gegen den Normtext geprueft und uebernommen. |
 | 02.09.2026 | Teil B der Formulierungsprobe mit den neuen Referenzinhalten durchgefuehrt und gegengeprueft; Noten fuer K6 vergeben (Ebene (a) 2, Ebene (b) 2, Ebenen (c) und (d) n. a.). Der widerlegte Satz in Abschnitt 7 berichtigt, Abschnitt 8 fortgeschrieben | Beide bewerteten Ebenen erreichen 3 von 3. Die Annahme, nur Ebene (b) beziehe einen Pflichtbestandteil aus dem Rahmen, hat sich nicht bestaetigt: Ebene (a) bezieht die Rolle ebenso aus dem Rahmen. Nach R4 gilt die Messung; der Widerspruch wird dokumentiert statt aufgeloest. Empfindlichkeit nach R8: Ohne Anerkennung der Rahmenrolle faellt Ebene (a) auf 0 von 3. |
 | 04.09.2026 | Abschnitt 10 (Entscheidungsmatrix) angelegt; Note fuer K1 je Ebene vergeben. Abschnitt 8 fortgeschrieben | Schritt 4c begonnen. Die Noten stammen aus den Volltexten der sieben gelesenen Quellen. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
+| 07.09.2026 | R11 ergaenzt: Auslegung der Skalenstufe 2 | Abschnitt 3 knuepft Stufe 2 an eine ausdrueckliche Regel, nicht an deren Wirkung. Ohne die Klarstellung waeren Normen ohne Wirksamkeitsstudie strukturell benachteiligt, und eine Quelle, die ihre Restprobleme offen berichtet, stuende schlechter da als eine, die schweigt. Nach der Vergabe von K1 formuliert; alle vier K1-Noten wurden geprueft, keine aendert sich. |
+| 07.09.2026 | Zuordnung von 29148 Abschn. 5.2.4 auf drei Ebenen in Abschnitt 1 festgelegt; Ebene (c) wird nur an den Schluesselwoertern gemessen. Abschnitt 7 um eine Einschraenkung ergaenzt | Der Abschnitt enthaelt Aufbausatz, Schluesselwoerter und sprachliche Vorgaben nebeneinander. Eine Erweiterung der Ebene (c) um den Aufbausatz haette die bereits festgelegten Pflichtbestandteile veraendert und die vorliegende K9-Messung entwertet (R2). Figure 1 wurde dabei erstmals eingesehen; sie zeigt ein Satzmuster mit benannten Bestandteilen und stuetzt die Zuordnung zu Ebene (b). |
 
 
 
