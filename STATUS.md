@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 03.09.2026
+Letzte Aktualisierung: 08.09.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -327,11 +327,27 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Aktuell
 
-Paket C, Schritt 4c begonnen. Teil A und Teil B der
-Formulierungsprobe sind gemessen, gegengeprueft und ausgewertet.
-Von den acht Literaturnoten ist K1 vergeben (04.09.2026, siehe
-docs/formatauswahl.md Abschnitt 10). Offen sind K2 bis K5, K7, K8
-und K10 sowie die Schritte 5 und 6.
+Paket C, Schritt 4c abgeschlossen am 08.09.2026. Die
+Entscheidungsmatrix in docs/formatauswahl.md Abschnitt 10 ist
+vollstaendig: alle zehn Kriterien sind je Ebene vergeben, jede Zelle
+mit Belegstelle, Begruendung und Gegenargument. Damit ist E2
+anwendbar. Offen sind die Schritte 5 und 6.
+
+Seit dem 07.09.2026 gilt zusaetzlich R11: Die Skalenstufe 2 bemisst
+sich am Vorhandensein und an der Reichweite einer ausdruecklichen
+Regel, nicht an einem empirischen Wirksamkeitsnachweis. Berichtete
+Restprobleme einer Erprobung fuehren fuer sich genommen nicht zu
+Note 1. Alle vier K1-Noten wurden daraufhin geprueft, keine aendert
+sich.
+
+Ebenfalls seit dem 07.09.2026: ISO/IEC/IEEE 29148 Abschn. 5.2.4 ist
+auf drei Ebenen aufgeteilt. Aufbausatz und Figure 1 gehoeren zu
+Ebene (b), die Schluesselwoerter zu Ebene (c), die sprachlichen
+Vorgaben zu Ebene (d). Ebene (c) wird ausschliesslich an den
+Schluesselwoertern gemessen. Ebene (b) stuetzt sich damit auf zwei
+Quellen; bewertet wird EARS als die spezifischere. Die
+Pflichtbestandteile aendern sich nicht, die K9-Messung bleibt
+gueltig.
 
 Verfahren seit 04.09.2026 (C2a): Das Modell legt je Zelle die
 Belegstelle, einen Notenvorschlag und das Gegenargument vor. Der
@@ -342,6 +358,14 @@ Volltexte, die dem Modell am 04.09.2026 vorlagen und die es selbst
 gelesen hat: Mavin 2009, Mavin/Wilkinson 2010, Wilkinson/Mavin 2018,
 Lucassen 2016, RFC 2119, RFC 8174, ISO/IEC/IEEE 29148 Abschn. 5.2.4
 bis 5.2.7.
+
+Am 07. und 08.09.2026 lagen die Volltexte von RFC 2119 und RFC 8174
+nicht vor. Die Vorschlaege zu Ebene (c) in den Runden K2 bis K5, K7,
+K8 und K10 stuetzen sich insoweit auf
+literatur/notizen/bradner_1997_rfc2119.md. Das ist in
+docs/formatauswahl.md Abschnitt 10 in jedem Block vermerkt. Wer die
+Zellen der Ebene (c) gegenpruefen will, sollte die beiden
+RFC-Volltexte beilegen.
 
 Messergebnis K9, Stand 30.08.2026:
 - Ebene (a) User Story: 4 von 12 gedeckt (33,3 %), Note 0.
@@ -364,22 +388,14 @@ Messergebnis K6, Stand 02.09.2026:
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Schritt 4c fortsetzen: Noten fuer K2 bis K5, K7, K8 und K10 je
-   Ebene vergeben. K1 ist erledigt. Diese Noten stammen aus der
-   Literatur, nicht aus einer Messung. Erst danach ist die
-   Entscheidungsmatrix vollstaendig und E2 anwendbar.
-   Offen vor K2: die Auslegungsregel R11 zur Skalenstufe 2 und die
-   Frage, ob Ebene (c) nur an den Schluesselwoertern aus 29148
-   Abschn. 5.2.4 gemessen wird oder auch am Aufbausatz desselben
-   Abschnitts.
-2. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung, als
+1. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung, als
    C5 in docs/entscheidungen.md. Dabei den Konflikt shall gegen
    must entscheiden. Nach E1 duerfen die Ebenen (a) und (c) nicht
    "verpflichtend" werden, weil beide bei K9 die Note 0 haben.
    Ebene (d) ist nicht betroffen: K9 ist dort n. a., und nach R3
    wird n. a. nie wie 0 behandelt. Fuer "verpflichtend" bleiben
    damit nur die Ebenen (b) und (d).
-3. Schritt 6: Abschnitt zur Formatauswahl in thesis/thesis.tex,
+2. Schritt 6: Abschnitt zur Formatauswahl in thesis/thesis.tex,
    Kapitel 4. Dabei Z. 127-132 ersetzen und den Platzhalter zum
    Verweis auf die Entscheidungsmatrix fuellen.
 Danach Paket E.
@@ -389,6 +405,12 @@ Danach Paket E.
 Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 
 - Repository privat. Nach Abgabe umstellbar.
+- R11 (07.09.2026): Skalenstufe 2 bemisst sich am Vorhandensein und
+  an der Reichweite einer Regel, nicht an einem Wirksamkeitsnachweis.
+- Zuordnung von 29148 Abschn. 5.2.4 auf drei Ebenen (07.09.2026);
+  Ebene (c) wird nur an den Schluesselwoertern gemessen.
+- D4a (07.09.2026): keine automatischen Tests fuer draw_sample.py.
+  Stattdessen Wiederholungslauf am 08.09.2026, Ergebnis identisch.
 - Evaluation nach Exposé-Variante, ergaenzt um Selbstbewertung.
   Werkzeug bis Ende Woche 8 bewertbar, Git-Tag thesis-v1.0.
 - FF3: API-Modell von OpenAI oder Anthropic. Dasselbe Modell als
@@ -483,9 +505,24 @@ Vier-Ebenen-Modell, Stand nach sieben gelesenen Quellen:
 - (b) Satz- und Syntaxmuster: EARS (Mavin et al. 2009, 2010)
 - (c) Modalitaet: shall nach EARS und 29148; RFC 2119/8174 als
   Modalitaetskonvention, nicht als Alternative dazu
-- (d) Qualitaets- und Sprachregeln: 29148 Abschn. 5.2.5-5.2.7,
+- (d) Qualitaets- und Sprachregeln: 29148 Abschn. 5.2.5-5.2.8,
   ergaenzt um die acht NL-Probleme aus Big EARS und die 13
   QUS-Kriterien
+
+Ergebnis der vollstaendigen Entscheidungsmatrix, Stand 08.09.2026.
+Die Noten je Zelle stehen in docs/formatauswahl.md Abschnitt 10 und
+werden hier nicht wiederholt. Die Befunde in Kurzform:
+- Ebene (d) erreicht bei K3, K7 und K10 die Note 2 und steht mit
+  keiner anderen Ebene im Widerspruch. Sie ist ein Querschnitt, kein
+  Konkurrent.
+- Die Ebenen (a) und (b) schliessen einander im Satz aus. Nur eine
+  von beiden kann die Satzform stellen.
+- Ebene (c) erreicht bei K8 die Note 2. Ihre Zelle bei K10 haengt an
+  der noch offenen Wahl zwischen RFC 2119 und den Schluesselwoertern
+  aus 29148 Abschn. 5.2.4.
+- K4 und K6 unterscheiden die Ebenen (a) und (b) nicht.
+- K5 und K9 sind nicht unabhaengig, ebenso wenig K6 und K9. Alles
+  drei ist in Abschnitt 7 der formatauswahl.md vermerkt.
 
 Zur Norm:
 - 29148 Abschn. 5.2.5 neun Merkmale einzelner Anforderungen, 5.2.6 fuenf
@@ -608,10 +645,9 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Paket C Schritt 4c: Noten fuer K1 bis K5, K7, K8 und K10 je Ebene
-  vergeben. Ohne sie ist die Entscheidungsmatrix unvollstaendig und
-  E2 nicht anwendbar.
-- Paket C Schritt 5: Rollenzuweisung und Formatentscheidung
+- Paket C Schritt 5: Rollenzuweisung und Formatentscheidung. Dabei
+  faellt die Wahl der Modalitaetskonvention; danach kann die Zelle
+  K10 fuer Ebene (c) mit Datum berichtigt werden.
 - Paket C Schritt 6: Abschnitt zur Formatauswahl in Kapitel 4;
   dabei Z. 127-132 in thesis.tex ersetzen (kuendigt eine deutsche
   Konvention an, widerspricht C1)
@@ -754,6 +790,12 @@ bf3f137 Rahmen und drei Referenzinhalte fuer K6 festgelegt
 98c3ca4 Datum der K6-Referenzinhalte auf 02.09.2026 korrigiert
 a56bb5e Teil B neu aufgesetzt, K6 mit Note 2 fuer die Ebenen (a) und (b)
 2951149 KI-Protokoll um Paket C Schritt 4a und 4b ergaenzt
+cfe44ca Entscheidungen vor K2: R11, Zuordnung 29148 Abschn. 5.2.4, D4a
+c062d92 Entscheidungsmatrix K2 vergeben, K6 und K9 uebertragen
+c8b48b5 Entscheidungsmatrix K3 und K4 vergeben, Vorbehalt zu K4 in Abschnitt 7
+b3367ae Quattrocchi 2026 und Paiva 2026 geprueft und aufgenommen
+a2f3e48 Entscheidungsmatrix K5 vergeben, Vorbehalt zu K5 in Abschnitt 7
+cb856ca Entscheidungsmatrix K7, K8 und K10 vergeben, Schritt 4c abgeschlossen
 
 ## Aufruf des Ziehungsskripts
 
