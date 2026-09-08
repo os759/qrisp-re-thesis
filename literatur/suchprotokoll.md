@@ -45,6 +45,8 @@ ACM, IEEE und Springer steht noch aus (Phase 2).
 | 06.08.2026 | IEEE Xplore (HLB) | 10.1109/RE.2009.9 | keine, DOI-Direktzugriff | 1 | 1  | 1 | Direktbeschaffung der EARS-Primaerquelle ueber DOI-Resolver (L05). |
 | 06.08.2026 | IEEE Xplore (HLB) | "Easy Approach to Requirements Syntax" | Feld: Document Title | - | -  | 2 | Vorwaertssuche nach Folgearbeiten. Aufgenommen: Wilkinson/Mavin 2018 (L15) und Mavin/Wilkinson 2010 (L14). Titelabweichung bei L14: Xplore fuehrt "Requirements Engineering", das Papier selbst "Requirements Syntax". |
 | 10.08.2026 | Springer Nature Link | 10.1007/s00766-016-0250-x | keine, DOI-Direktzugriff | 1 | 1 | 1 | Beschaffung der Primaerquelle zu User Stories und deren Qualitaetskriterien (FF2, Ebene Darstellungsperspektive). Open Access, CC BY 4.0 - PDF darf ins Repository (L16). |
+| 08.09.2026 | Web, gezielt | Titelpruefung dreier von ChatGPT genannter Arbeiten zu LLM und Anforderungsformaten | - | - | 3 | 2 | Quattrocchi et al. 2026 (L17) und Paiva et al. 2026 (L18) bestaetigt. Ein dritter Titel zu EARS und leichtgewichtigen Modellen war in drei Suchen nicht auffindbar und wird nicht aufgenommen, bis eine DOI oder arXiv-Nummer vorliegt. |
+
 
 ## Phase 2: Systematische Suche (noch nicht begonnen)
 
