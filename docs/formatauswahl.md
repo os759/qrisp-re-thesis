@@ -426,6 +426,11 @@ Faellen formuliert: drei Versuche je bewerteter Ebene.
   EARS als die spezifischere Festlegung. Die Aufteilung von
   Abschn. 5.2.4 auf drei Ebenen ist eine Zuordnung des Verfassers und
   steht so nicht in der Norm.
+- K4 ist eine eigene Setzung, gestuetzt auf die Slotstruktur von
+  EARS. Ein aus einem Bewerber abgeleitetes Kriterium beguenstigt
+  diesen Bewerber. Die Note fuer Ebene (b) ist daher nur begrenzt
+  aussagekraeftig und wird in Kapitel 7 als Bedrohung der
+  Konstruktvaliditaet ausgewiesen.
 
 ## 8. Offene Punkte
 
@@ -445,8 +450,8 @@ Erledigt seit dem 23.08.2026:
   Ebene (b) 3 von 3 (Note 2), Ebenen (c) und (d) nicht anwendbar.
 
 Noch offen:
-- Schritt 4c: K1, K2, K6 und K9 stehen in Abschnitt 10. Offen sind
-  die Noten fuer K3 bis K5, K7, K8 und K10.
+- Schritt 4c: K1 bis K4, K6 und K9 stehen in Abschnitt 10. Offen sind
+  die Noten fuer K5, K7, K8 und K10.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -471,6 +476,8 @@ Noch offen:
 | 07.09.2026 | R11 ergaenzt: Auslegung der Skalenstufe 2 | Abschnitt 3 knuepft Stufe 2 an eine ausdrueckliche Regel, nicht an deren Wirkung. Ohne die Klarstellung waeren Normen ohne Wirksamkeitsstudie strukturell benachteiligt, und eine Quelle, die ihre Restprobleme offen berichtet, stuende schlechter da als eine, die schweigt. Nach der Vergabe von K1 formuliert; alle vier K1-Noten wurden geprueft, keine aendert sich. |
 | 07.09.2026 | Zuordnung von 29148 Abschn. 5.2.4 auf drei Ebenen in Abschnitt 1 festgelegt; Ebene (c) wird nur an den Schluesselwoertern gemessen. Abschnitt 7 um eine Einschraenkung ergaenzt | Der Abschnitt enthaelt Aufbausatz, Schluesselwoerter und sprachliche Vorgaben nebeneinander. Eine Erweiterung der Ebene (c) um den Aufbausatz haette die bereits festgelegten Pflichtbestandteile veraendert und die vorliegende K9-Messung entwertet (R2). Figure 1 wurde dabei erstmals eingesehen; sie zeigt ein Satzmuster mit benannten Bestandteilen und stuetzt die Zuordnung zu Ebene (b). |
 | 07.09.2026 | Noten fuer K2 je Ebene vergeben; die Vorfrage n. a. gegen 0 fuer die Ebenen (c) und (d) zugunsten von n. a. entschieden. Die gemessenen Noten fuer K6 und K9 aus Abschnitt 6 und dem Protokoll in die Tabelle uebertragen | Erste Anwendung von R11: Die Erprobungsbefunde zu AQUSA und zur Musterabgrenzung bei EARS stehen in der Begruendung, nicht in der Note. Die Vorfrage folgt der Vergabebedingung der Skala und derselben Erwaegung wie bei K6 am 31.08.2026; das Gegenargument ist in Abschnitt 10 festgehalten. Vorschlag des Modells nach C2a. |
+| 07.09.2026 | Noten fuer K3 je Ebene vergeben. Abschnitt 8 fortgeschrieben | Ebene (d) erhaelt als einzige die 2, weil 29148 Abschn. 5.2.5 die Nachweisbarkeit als eigenes Merkmal fuehrt und Abschn. 5.2.7 sie operationalisiert. Damit liegt Ebene (d) erstmals ueber Ebene (b). Zweite Anwendung von R11: die in Big EARS berichtete Restuntestbarkeit traegt die Note nicht. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
+| 07.09.2026 | Noten fuer K4 je Ebene vergeben; Abschnitt 7 um den Vorbehalt zu K4 ergaenzt. Abschnitt 8 fortgeschrieben | K4 ist eine eigene Setzung, gestuetzt auf die Slotstruktur von EARS. Der Vorbehalt wurde nach R2 vor der Notenvergabe festgehalten. Erstmals ist keine Zelle nicht anwendbar. Ebene (a) erreicht dieselbe Note wie Ebene (b), weil Lucassen ein formales Begriffsmodell mitliefert. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 
 
 ## 10. Entscheidungsmatrix (in Arbeit)
@@ -483,8 +490,8 @@ docs/formatprobe_protokoll.md), alle uebrigen aus der Literatur.
 |---|---|---|---|---|---|
 | K1 Eindeutigkeit | 1 | 2 | 1 | 2 | 04.09.2026 |
 | K2 Formale Struktur | 1 | 2 | n. a. | n. a. | 07.09.2026 |
-| K3 Verifizierbarkeit | offen | offen | offen | offen | - |
-| K4 Maschinelle Verarbeitbarkeit | offen | offen | offen | offen | - |
+| K3 Verifizierbarkeit | 1 | 1 | n. a. | 2 | 07.09.2026 |
+| K4 Maschinelle Verarbeitbarkeit | 2 | 2 | 1 | 1 | 07.09.2026 |
 | K5 Eignung fuer LLM-Ausgaben | offen | offen | offen | offen | - |
 | K6 Eignung fuer die drei Anforderungsarten | 2 | 2 | n. a. | n. a. | 02.09.2026 |
 | K7 Verstaendlichkeit fuer das Qrisp-Team | offen | offen | offen | offen | - |
@@ -635,6 +642,156 @@ Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
 RFC 8174 lagen dem vorschlagenden Modell in dieser Runde nicht vor.
 Sein Vorschlag zu Ebene (c) stuetzt sich auf die Lesenotiz. Die
 uebrigen Belegstellen hat es im Volltext gelesen.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.
+
+#### K3 Verifizierbarkeit, vergeben am 07.09.2026
+
+Ebene (a) User Story, Note 1.
+Beleg: Lucassen et al. 2016, Abschn. 1 (drei Bestandteile einer User
+Story: Text, Gespraeche, Akzeptanzkriterien; INVEST wird dort als
+hochgradig qualitativ bezeichnet), Abschn. 3.1.3 (Minimal: eine Story
+enthaelt nichts ausser Rolle, Means und Ends; Hinweise zum Testen
+gehoeren in gesonderte Notizen), Tab. 1 (keines der 13 Kriterien
+betrifft die Nachweisbarkeit).
+Begruendung: Der Ansatz zaehlt Akzeptanzkriterien ausdruecklich zu den
+drei Bestandteilen einer User Story. Im Anforderungstext selbst duerfen
+sie nach dem Kriterium Minimal jedoch nicht stehen, und keines der 13
+Qualitaetskriterien prueft die Nachweisbarkeit.
+Gegenargument, fuehrt zu 0: Bewertet wird der Anforderungstext. Fuer
+ihn erzwingt der Ansatz keine ueberpruefbare Angabe; die
+Akzeptanzkriterien liegen ausserhalb und bleiben ungeprueft.
+
+Ebene (b) EARS, Note 1.
+Beleg: Mavin et al. 2009, Abschn. 2 (Untestability als eines von acht
+Problemen: Anforderungen, deren Erfuellung sich nach der Umsetzung
+nicht als wahr oder falsch nachweisen laesst), Abschn. 4.1 (die Syntax
+verlangt eine Systemreaktion); Mavin/Wilkinson 2010, Abschnitt
+"Residual Problems".
+Begruendung: Die Syntax erzwingt eine Systemreaktion und damit ein
+beobachtbares Verhalten, und Untestbarkeit ist eines der acht
+Probleme, die EARS ausdruecklich angeht. Eine Regel, die eine messbare
+Groesse oder ein Abnahmekriterium verlangt, enthaelt der Ansatz nicht.
+Gegenargument, fuehrt zu 2: Die Beseitigung der Untestbarkeit ist ein
+erklaertes Ziel des Ansatzes, und die Bestandteile Vorbedingung,
+Ausloeser und Systemreaktion benennen genau die Angaben, gegen die
+geprueft wird.
+Hinweis nach R11: Die in Mavin/Wilkinson 2010 berichtete
+Restuntestbarkeit durch unquantifizierbare Woerter ist ein
+Erprobungsbefund und traegt die Note nicht. Die Note stuetzt sich
+allein darauf, dass eine Quantifizierungsregel fehlt.
+
+Ebene (c) Normative Modalitaet, n. a.
+Beleg: RFC 2119 und RFC 8174 treffen keine Aussage zur
+Nachweisbarkeit. Siehe literatur/notizen/bradner_1997_rfc2119.md.
+Begruendung: Die Konvention legt allein die Verbindlichkeitsstufe fest
+und regelt ihrem Zweck nach nicht, woran die Erfuellung ueberprueft
+wird. Das folgt der Vorfrage vom 07.09.2026.
+Gegenargument, fuehrt zu 0: Die Verbindlichkeitsstufe entscheidet mit
+darueber, ob etwas ueberhaupt nachzuweisen ist; die Konvention
+beruehrt die Nachweisbarkeit damit mittelbar.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.5, Merkmal Verifiable (die
+Anforderung ist so aufgebaut und formuliert, dass ihre Umsetzung
+nachgewiesen werden kann; Messbarkeit verbessert die Nachweisbarkeit);
+Abschn. 5.2.7 (acht Klassen unbestimmter Ausdruecke, ausdruecklich mit
+der Ueberpruefbarkeit begruendet).
+Begruendung: Der Standard fuehrt die Nachweisbarkeit als eigenes
+Merkmal jeder einzelnen Anforderung und begruendet die Liste
+unzulaessiger Ausdruecke ausdruecklich mit der Ueberpruefbarkeit. Damit
+liegt eine ausdrueckliche und weitgehend operationalisierte Regel vor.
+Gegenargument, fuehrt zu 1: Messbarkeit wird nur als verbessernd
+bezeichnet, nicht verlangt. Die Regeln sagen zudem, was zu vermeiden
+ist, nicht, welche Angabe eine Anforderung enthalten muss.
+
+Befund: Erstmals liegt Ebene (d) ueber Ebene (b). Die Ebenen ergaenzen
+einander; die Matrix bestaetigt nicht durchgaengig EARS. Fuer die
+Rollenzuweisung in Schritt 5 vorgemerkt.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell auch in dieser Runde nicht
+vor. Sein Vorschlag zu Ebene (c) stuetzt sich auf die Lesenotiz.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.
+
+#### K4 Maschinelle Verarbeitbarkeit, vergeben am 07.09.2026
+
+Vorbehalt, festgehalten vor der Notenvergabe: K4 ist nach Abschnitt 2
+eine eigene Setzung, gestuetzt auf die Slotstruktur von EARS. Ein aus
+einem Bewerber abgeleitetes Kriterium beguenstigt diesen Bewerber.
+Die Note fuer Ebene (b) ist daher nur begrenzt aussagekraeftig. Der
+Vorbehalt steht in Abschnitt 7 und gehoert nach Kapitel 7.
+
+Ebene (a) User Story, Note 2.
+Beleg: Lucassen et al. 2016, Abschn. 2 mit Abb. 1 (Begriffsmodell als
+Klassendiagramm), Abschn. 2.3 (Means aus Subjekt, Handlungsverb,
+direktem Objekt, optional indirektem Objekt und Adjektiv), Abschn. 3.2
+Absatz "Notation" (eine User Story wird formal als Viertupel aus
+Rolle, Means, Ends und Format definiert, das Means als Fuenftupel),
+Abschn. 4.3 (die zerlegte Story wird als Objekt mit Rolle, Means und
+Ends gespeichert).
+Begruendung: Der Ansatz benennt die Bestandteile nicht nur, sondern
+definiert sie formal als Tupel mit festen Feldern. Damit besteht eine
+ausdrueckliche Zuordnung von Satzteil zu Feldname bis hinunter zur
+grammatischen Ebene des Means.
+Gegenargument, fuehrt zu 1: Das Format ist selbst eines der vier
+Felder und wird nicht festgelegt. Ohne Kenntnis der verwendeten
+Schablone bestimmt der Ansatz allein nicht, wo Rolle, Means und Ends
+im Text beginnen.
+
+Ebene (b) EARS, Note 2.
+Beleg: Mavin et al. 2009, Abschn. 4.1 (generische Syntax mit benannten
+Platzhaltern fuer Vorbedingungen, Ausloeser, Systemname und
+Systemreaktion), Abschn. 4.2 bis 4.6 (je eine Satzform mit festem
+Schluesselwort); Wilkinson/Mavin 2018, Tab. I (die Bestandteile einer
+EARS-Anforderung werden einzeln benannt und getrennt untersucht).
+Begruendung: Die generische Syntax besteht aus benannten Platzhaltern,
+die im Satz durch feste Schluesselwoerter voneinander abgegrenzt sind.
+Wilkinson/Mavin 2018 behandeln diese Bestandteile bereits als einzeln
+adressierbare Teile.
+Gegenargument, fuehrt zu 1: Die Quellen benennen Satzteile, definieren
+aber kein Datenmodell und keine Feldnamen. Die Abbildung auf
+Datenfelder ist eine Ergaenzung dieser Arbeit, nicht eine Regel des
+Ansatzes.
+
+Ebene (c) Normative Modalitaet, Note 1.
+Beleg: RFC 2119 Abschn. 1 bis 5 (geschlossenes Vokabular aus fuenf
+Verbindlichkeitsstufen), RFC 8174 Abschn. 2 (die Bedeutung gilt nur
+bei durchgaengiger Grossschreibung). Siehe
+literatur/notizen/bradner_1997_rfc2119.md.
+Begruendung: Das Schluesselwort laesst sich verlustfrei auf ein
+einzelnes Feld mit fuenf zulaessigen Werten abbilden, und die
+Grossschreibungsregel grenzt es im Text eindeutig ab. Der Ansatz deckt
+damit genau ein Feld ab und nicht den Satz.
+Gegenargument, fuehrt zu n. a.: Ebene (c) bringt keinen Satz hervor;
+die Leitfrage spricht von einem nach dem Ansatz formulierten Satz.
+Nicht n. a. nach R3, weil die Ebene sehr wohl etwas Abbildbares
+regelt, nur eng. Das entspricht der Erwaegung bei K1.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 1.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.8.1 und 5.2.8.2 (Attribute
+wie Kennung, Versionsnummer, Eigner, Prioritaet, Risiko, Begruendung,
+Schwierigkeitsgrad).
+Begruendung: Der Standard benennt Attribute als Felder mit fester
+Bedeutung, die eine Anforderung begleiten. Sie stehen jedoch neben dem
+Satz, und eine Zuordnung von Satzteil zu Feldname gibt der Ansatz
+nicht vor.
+Gegenargument, fuehrt zu 2: Fuer die Ausgabe der Pipeline sind gerade
+diese Attribute die Felder neben dem Anforderungstext; ihre Benennung
+ist normativ verankert und vollstaendig uebernehmbar.
+
+Befund: Erstmals ist keine Zelle nicht anwendbar. Ebene (a) erreicht
+dieselbe Note wie Ebene (b), obwohl sie bei K2 schwaecher lag. Grund
+ist das formale Begriffsmodell bei Lucassen, das Mavin nicht bietet.
+K4 unterscheidet die Ebenen (a) und (b) damit nicht, ebenso wenig wie
+K6. Fuer Kapitel 7 vorgemerkt.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell weiterhin nicht vor. Sein
+Vorschlag zu Ebene (c) stuetzt sich auf die Lesenotiz.
 
 Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
 den Quellen geprueft und uebernommen.
