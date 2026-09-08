@@ -802,9 +802,304 @@ geaendert wird.
 Status: festgelegt.
 Bezug: Reproduzierbarkeit.
 
+## 2026-09-08 Paket C: Formatentscheidung
+
+### 2026-09-08 C5 Rollenzuweisung der vier Ebenen und Zielformat
+
+Grundlage ist die vollstaendige Entscheidungsmatrix in
+docs/formatauswahl.md Abschnitt 10 sowie die Formulierungsprobe in
+docs/formatprobe_protokoll.md. Das Entscheidungsverfahren steht in
+docs/formatauswahl.md Abschnitt 5.
+
+#### 1 Rollenzuweisung
+
+Jeder der vier Ebenen wird eine Rolle zugewiesen: verpflichtend,
+optional oder nicht verwendet. Es wird nicht addiert und nicht
+gewichtet (Regel R5). Die Zuweisung erfolgt kriterienweise.
+
+| Ebene | Rolle |
+|---|---|
+| (a) Darstellungsperspektive: User Story | nicht verwendet |
+| (b) Satz- und Syntaxmuster: EARS | verpflichtend |
+| (c) Normative Modalitaet | nicht verwendet |
+| (d) Qualitaets-, Sprach- und Attributregeln | verpflichtend, im Ausschnitt nach Abschnitt 4 |
+
+Ebene (b) EARS, verpflichtend. Ebene (b) ist die einzige Satzebene mit
+einer K9-Note ueber 0, also die einzige, deren Pflichtbestandteile die
+Pull Requests mehrheitlich hergeben (9 von 12). Sie erreicht zusaetzlich
+bei K2 formale Struktur, K5 Eignung fuer Modellausgaben und K8
+automatische Validierbarkeit jeweils die Note 2.
+
+Ebene (a) User Story, nicht verwendet. Die Ebenen (a) und (b) schliessen
+einander im Satz aus; nur eine von beiden kann die Satzform stellen
+(Befund zu K10). Ebene (b) ist in keinem Kriterium schlechter und in
+sechs Kriterien besser. Ausschlaggebend ist K9: die von Ebene (a)
+verlangte Rolle ist in 4 von 12 Faellen belegt, davon zwei nur pauschal.
+
+Ebene (c) Normative Modalitaet, nicht verwendet. Zweck dieser Ebene ist
+die Unterscheidung mehrerer Verbindlichkeitsstufen; die Messung ergibt
+0 von 12 belegten Stufen. Eine Abstufung waere daher in jedem Fall
+erfunden, was Ausschlussregel E1 verhindern soll. Die Verwendung des
+Wortes shall folgt aus Ebene (b) und ist keine Aussage ueber die
+Verbindlichkeit in der Quelle; siehe Abschnitt 3.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, verpflichtend. Diese
+Ebene erreicht bei K10 Kombinierbarkeit als einzige die Note 2 und
+kollidiert mit keiner anderen Ebene, weil sie einen fertigen Satz
+beurteilt statt eine Satzform vorzuschreiben. Sie erreicht bei K3
+Verifizierbarkeit als einzige die Note 2 und traegt damit die
+Nachweisbarkeit, die weder Ebene (a) noch Ebene (b) erzwingt. Sie ist
+durch E1 nicht ausgeschlossen, weil K9 dort nicht anwendbar ist und
+nicht anwendbar nach Regel R3 nie wie 0 wirkt.
+
+Anwendung von E2: E2 greift nur bei aehnlichem Profil und war hier
+nicht erforderlich, weil Ebene (b) Ebene (a) in jedem Kriterium
+mindestens erreicht. Zur Kontrolle angewandt fuehrt E2 zum selben
+Ergebnis, da es zuerst K9 heranzieht.
+
+Reihenfolge nach R7: Alle vier Ebenen waren am 08.09.2026 einzeln
+bewertet. Die Kombination wurde erst danach geprueft.
+
+#### 2 Wahl der Schluesselwortkonvention
+
+Es gilt die Konvention nach ISO/IEC/IEEE 29148:2018 Abschn. 5.2.4.
+Verbindliche Anforderungen verwenden shall. Von must wird abgesehen.
+RFC 2119 wird nicht als Modalitaetskonvention uebernommen.
+
+Begruendung: Ebene (b) EARS ist verpflichtend und verwendet
+ausschliesslich shall; die Konvention nach 29148 ist damit
+widerspruchsfrei, die nach RFC 2119 nicht, weil sie MUST und SHALL
+gleichsetzt und fuenf Stufen kennt. RFC 2119 Abschn. 6 verlangt
+ausserdem eine Abwaegung, welche Stufe angemessen ist; diese Abwaegung
+ist aus Quelldaten ohne belegte Stufe nicht zu treffen.
+
+Ergaenzender Grund: RFC 2119 haelt im Abstract fest, dass die Wirkung
+seiner Schluesselwoerter von der Verbindlichkeitsstufe des Dokuments
+abhaengt, in dem sie stehen. Ein rekonstruiertes Anforderungsdokument
+ist kein verabschiedeter Standard. Dieser Vorbehalt entfaellt mit der
+Wahl von 29148.
+
+Folge fuer die Matrix: Der bei K10 fuer Ebene (c) vermerkte Konflikt
+ist damit aufgeloest. Die Zelle behaelt die Note 1, weil sie die Ebene
+als Ganzes bewertet und die Matrix auf dem Stand bleiben soll, auf dem
+sie in diese Entscheidung eingegangen ist. Die Aufloesung ist als
+datierter Nachtrag bei der Zelle und in docs/formatauswahl.md
+Abschnitt 9 vermerkt.
+
+#### 3 Die Verbindlichkeit wird gesetzt, nicht rekonstruiert
+
+Alle rekonstruierten Anforderungen verwenden einheitlich shall. Diese
+Einheitlichkeit ist eine dokumentierte Konvention dieser Arbeit und
+keine aus der Quelle gewonnene Eigenschaft.
+
+Begruendung: Die Formulierungsprobe hat in keinem der zwoelf Faelle
+eine explizite Verbindlichkeitsstufe gefunden. Ohne Konvention muesste
+die Pipeline je Anforderung eine Stufe waehlen und dabei erfinden. Mit
+Konvention steht in der Ausgabe eine offengelegte Festlegung.
+
+Das Wort shall ist ein Formbestandteil des EARS-Musters. Es darf weder
+in der Ausgabe noch in der Arbeit als Beleg fuer eine in der Quelle
+dokumentierte Verbindlichkeit gelesen werden. Dieselbe Festlegung gilt
+bereits fuer die Formulierungsprobe, siehe
+docs/formatprobe_protokoll.md, Abschnitt "Pflichtbestandteile je
+Ebene".
+
+Umsetzung: Das Ausgabeschema der Pipeline fuehrt ein Feld, das
+festhaelt, dass die Verbindlichkeit gesetzt und nicht belegt ist. Die
+genaue Form des Feldes wird in Paket E festgelegt.
+
+#### 4 Ausschnitt der Ebene (d)
+
+Ebene (d) umfasst in docs/formatauswahl.md Abschnitt 1 die
+Normabschnitte 5.2.5 bis 5.2.8 sowie die acht Sprachprobleme aus Big
+EARS und die 13 QUS-Kriterien. Verpflichtend gilt davon ein
+begruendeter Ausschnitt.
+
+Verpflichtend, geprueft an jedem einzelnen Anforderungssatz:
+
+1. ISO/IEC/IEEE 29148 Abschn. 5.2.7 vollstaendig. Das umfasst den
+   Grundsatz, dass eine Anforderung das Was und nicht das Wie
+   beschreibt, sowie die neun Klassen unbestimmter oder mehrdeutiger
+   Ausdruecke.
+2. Fuenf der neun Merkmale aus Abschn. 5.2.5: eindeutig (Unambiguous),
+   vollstaendig (Complete), einzelbezogen (Singular), nachweisbar
+   (Verifiable), vorlagenkonform (Conforming).
+3. Drei Attribute aus Abschn. 5.2.8.2 als Pflichtfelder neben dem Satz:
+   Identification, Rationale, Type.
+
+Nicht Teil des Zielformats, mit Begruendung:
+
+| Ausgeschlossen | Begruendung |
+|---|---|
+| Necessary (5.2.5) | Der Standard verlangt zu beurteilen, ob ohne die Anforderung eine Luecke in Faehigkeit oder Eigenschaft entstuende. Das setzt Kenntnis des tatsaechlichen Bedarfs voraus. |
+| Feasible (5.2.5) | Der Standard nennt Kosten, Termine und Technik als Massstab. Diese Angaben enthaelt die Pull-Request-Historie nicht. |
+| Correct (5.2.5) | Der Standard verlangt eine zutreffende Wiedergabe des Bedarfs, aus dem die Anforderung hervorging. Der Bedarf ist nicht dokumentiert. Das verwandte Anliegen wird durch die Belegstaerke-Systematik erfasst. |
+| Appropriate (5.2.5) | Der Standard meint damit zwei Dinge: die passende Abstraktionsebene und den Verzicht auf Entwurfsvorgaben. Nur das Zweite ist an einem Satz pruefbar, und es ist bereits durch Abschn. 5.2.7 abgedeckt. Eine Aufnahme ergaebe einen zweiten Namen fuer dieselbe Pruefung. |
+| Abschn. 5.2.6, fuenf Merkmale der Anforderungsmenge | Diese Merkmale gelten fuer die Menge, nicht fuer den einzelnen Satz. Sie werden als Bewertungskriterien der Evaluation in Paket H herangezogen. |
+| Fuenf weitere Attribute aus 5.2.8.2 | Version Number, Owner, Stakeholder Priority, Risk und Difficulty sind aus der Historie nicht belegbar. Owner waere zudem eine personenbezogene Angabe und widerspraeche der Datenminimierung. |
+| 13 QUS-Kriterien | Sie sind auf User Stories definiert und setzen Bestandteile wie die Rolle voraus. Ebene (a) wird nicht verwendet. |
+| Acht Sprachprobleme aus Big EARS | Sie sind ein Instrument zur Bewertung vorhandener Anforderungen, kein Regelwerk fuer deren Erzeugung. Sie sind Kandidaten fuer den Bewertungsbogen in Paket H. |
+
+Die Zuordnung der neun Merkmale aus Abschn. 5.2.5 auf am Satz pruefbar
+und nicht pruefbar ist eine Einordnung des Verfassers und steht so
+nicht im Standard.
+
+Anhang C.1 des Standards ist normativ und schliesst eine
+Konformitaetsbehauptung bei Verwendung eines Ausschnitts aus. Die
+Arbeit orientiert sich an dem Standard und behauptet keine
+Konformitaet. Der Ausschnitt ist mit diesem Eintrag begruendet und
+dokumentiert.
+
+#### 5 Umgang mit der Rolleninformation
+
+Wo die Quelle einen Nutzniesser oder eine Rolle nennt, wird diese
+Angabe im Attribut Rationale nach Abschn. 5.2.8.2 festgehalten.
+
+Begruendung: Der Standard beschreibt Rationale als die Begruendung,
+warum die Anforderung gebraucht wird, mit Verweis auf die stuetzenden
+Belege. Wer eine Anforderung braucht und wozu, ist genau diese
+Begruendung. Ein eigenes Feld waere eine Setzung ohne Beleg in einer
+Quelle.
+
+Offen fuer Paket E: Ob zusaetzlich ein eigenes Feld gefuehrt wird, das
+die Rolle getrennt auszaehlbar macht, wird beim Entwurf des
+Ausgabeschemas entschieden. Dafuer spraeche, dass die Deckungsquote der
+Rolle ein Messwert fuer FF1 ist. Die Frage betrifft ein Ausgabefeld und
+keine Formatregel; sie kann ohne Aenderung dieser Entscheidung
+beantwortet werden.
+
+#### 6 Das Zielformat
+
+Nach Entscheidung C3 gilt eine Kombination mehrerer Ebenen als ein
+festgelegtes Zielformat und wird benannt und vollstaendig
+spezifiziert.
+
+Bezeichnung: EARS-Satzform mit Qualitaetsregeln nach ISO/IEC/IEEE
+29148, kurz EARS+29148.
+
+Sprache: Englisch (Entscheidung C1).
+
+Satzform. Die generische Syntax besteht aus einer optionalen
+Vorbedingung, einem optionalen Ausloeser, dem Systemnamen, dem Wort
+shall und der Systemreaktion. Die Reihenfolge der Klauseln ist
+verbindlich. Pflichtbestandteile sind Systemname, shall und
+Systemreaktion.
+
+| Muster | Schluesselwort | Aufbau |
+|---|---|---|
+| Ubiquitous | keines | The <System> shall <Systemreaktion>. |
+| State-driven | While, Nebenform During | While <Zustand>, the <System> shall <Systemreaktion>. |
+| Event-driven | When | When <Ausloeser>, the <System> shall <Systemreaktion>. |
+| Unwanted behaviour | If ... then | If <unerwuenschte Bedingung>, then the <System> shall <Systemreaktion>. |
+| Optional feature | Where | Where <Merkmal vorhanden>, the <System> shall <Systemreaktion>. |
+
+Eine Kombination mehrerer Muster zu komplexen Anforderungen ist
+zulaessig.
+
+Systemname. Der Systemname wird der Quelle entnommen, sofern sie eine
+Komponente benennt. Andernfalls wird Qrisp verwendet. Diese Regel ist
+eine Festlegung dieser Arbeit und wird in Paket E an den Daten
+ueberprueft.
+
+Modalwort. Durchgehend shall, ohne Abstufung, als gesetzte Konvention
+nach Abschnitt 3.
+
+Qualitaetsregeln je Satz. Der Ausschnitt nach Abschnitt 4.
+
+Pflichtfelder neben dem Satz. Identification, Rationale und Type nach
+Abschn. 5.2.8.2. Diese drei Felder sind der formatbezogene Teil des
+Ausgabeschemas. Das vollstaendige Ausgabeschema der Pipeline wird in
+Paket E festgelegt und enthaelt weitere Felder, unter anderem
+Quellreferenz, Quellausschnitt und Belegstaerke.
+
+Nicht Bestandteil des Zielformats. Die User-Story-Satzform, die
+Abstufung der Verbindlichkeit nach RFC 2119, die Merkmale der
+Anforderungsmenge nach Abschn. 5.2.6, die 13 QUS-Kriterien und die
+acht Sprachprobleme aus Big EARS.
+
+Maschinell pruefbarer Teil. Ein Programm kann pruefen: das Vorliegen
+eines der fuenf Muster anhand seines Schluesselworts, die
+Klauselreihenfolge, das Vorhandensein von shall, das Fehlen anderer
+Modalwoerter sowie die Wortklassen aus Abschn. 5.2.7. Nicht maschinell
+pruefbar sind die inhaltlichen Merkmale aus Abschn. 5.2.5.
+
+#### 7 Verworfene Alternativen
+
+User Story als Satzform. Verworfen wegen K9: die verlangte Rolle ist in
+4 von 12 Faellen belegt. Ein Pflichtbestandteil ohne Beleg zwingt das
+Modell zum Erfinden.
+
+RFC 2119 als Modalitaetskonvention. Verworfen wegen des Widerspruchs zu
+EARS und wegen der nicht entscheidbaren Sparsamkeitsregel. Der Ansatz
+bleibt in Kapitel 2 als Grundlage dargestellt und ist nicht widerlegt,
+sondern fuer diesen Anwendungsfall nicht geeignet.
+
+Mischform aus (a) und (b) je nach Deckung. Verworfen, weil die Ausgabe
+dann zwei Satzformen enthielte. Das erschwert die automatische
+Formatpruefung und widerspricht C3, das ein einheitliches Zielformat
+verlangt.
+
+Ebene (d) vollstaendig. Verworfen, weil vier der neun Merkmale aus
+Abschn. 5.2.5 aus der Pull-Request-Historie nicht beurteilbar sind und
+die QUS-Kriterien ohne Ebene (a) gegenstandslos waeren.
+
+#### 8 Einschraenkungen fuer Kapitel 7
+
+- Die Note fuer Ebene (b) bei K9 haengt an einem einzigen Fall. Bei
+  einem zusaetzlich gedeckten Fall waere sie 2 statt 1. Bei Ebene (a)
+  gilt dasselbe in umgekehrter Richtung.
+- EARS ist nach seinen Urhebern fuer hochrangige
+  Stakeholder-Anforderungen entwickelt und erprobt. Pull-Request-Inhalte
+  liegen auf Implementierungsebene. Die Uebertragung ist begruendet,
+  aber nicht durch eine Quelle belegt.
+- Das durchgehende shall kann von einer lesenden Person als Aussage
+  ueber die Verbindlichkeit missverstanden werden. Der Vermerk in der
+  Arbeit und im Datensatz faengt dieses Risiko nicht vollstaendig auf.
+- Die Rolle geht als eigenstaendiger Satzbestandteil verloren. Sie wird
+  nur noch im Attribut Rationale gefuehrt.
+- Die Rollenbezeichnungen in docs/formatauswahl.md Abschnitt 5 sind fuer
+  Satzmuster formuliert. Fuer Ebene (d) bedeutet verpflichtend, dass
+  jede Anforderung gegen die Regeln geprueft wird, nicht dass sie einem
+  Satzmuster folgt.
+- Fuer Ebene (c) fallen die Rollen optional und nicht verwendet
+  zusammen, weil die Quelle den Bestandteil in keinem Fall hergibt. Das
+  Entscheidungsverfahren unterscheidet an dieser Stelle nichts mehr.
+- Die Verwendung eines Ausschnitts des Standards schliesst nach dessen
+  Anhang C.1 eine Konformitaetsbehauptung aus.
+- Die Zuordnung der neun Merkmale aus Abschn. 5.2.5 auf pruefbar und
+  nicht pruefbar ist eine eigene Einordnung.
+
+#### 9 Herkunft dieser Entscheidung
+
+Die Rollenzuweisung und die Teilentscheidungen hat der Verfasser am
+08.09.2026 getroffen. Grundlage sind die Noten der Entscheidungsmatrix,
+die der Verfasser zwischen dem 04. und 08.09.2026 selbst vergeben hat,
+sowie die Messungen zu K6 und K9, die er selbst durchgefuehrt hat.
+
+Das Sprachmodell hat nach Entscheidung C2a je Ebene einen
+Rollenvorschlag, eine Begruendung und ein Gegenargument vorgelegt. Drei
+Punkte gingen ueber die vorliegende Matrix hinaus: die Rolle nicht
+verwendet fuer Ebene (c), die gesetzte Verbindlichkeitskonvention und
+die Wahl von 29148 gegenueber RFC 2119. Der Verfasser hat sie als
+eigene Einschaetzung bestaetigt.
+
+Das Modell hat ISO/IEC/IEEE 29148 Abschn. 5.2.4 bis 5.2.8 sowie
+RFC 2119 und RFC 8174 im Volltext gelesen. Die Volltexte von Mavin et
+al. 2009, Mavin und Wilkinson 2010 und Lucassen et al. 2016 lagen ihm
+nicht vor. Die Angaben zu EARS und zu User Stories stammen insoweit aus
+den Lesenotizen unter literatur/notizen/ und aus den Abschnitten 2.2.2
+und 2.2.3 der Arbeit.
+
+Ein Notenvorschlag und ein Rollenvorschlag wirken als Anker. Diese
+Bedrohung der Konstruktvaliditaet ist bereits in C2a benannt und gilt
+hier fort.
+
+Status: festgelegt.
+Bezug: FF2, FF1, Limitationen.
+
 ## Offene Entscheidungen
 
-- Anforderungsformat (FF2), Paket C
+- Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
 - API-Modell und lokales Modell (FF3), Paket E und F
 - Ausschnitt des Sicherheitsrasters (FF4), Paket G
 - Umfang gegenueber dem Qrisp-Team: Was gehoert zur Arbeit, was ist

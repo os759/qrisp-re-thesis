@@ -461,13 +461,21 @@ Erledigt seit dem 23.08.2026:
 - Schritt 4c abgeschlossen: alle zehn Kriterien sind in Abschnitt 10
   vergeben (04.09. bis 08.09.2026).
 
+Erledigt am 08.09.2026:
+- Schritt 5 abgeschlossen: Rollenzuweisung, Wahl der
+  Schluesselwortkonvention und Zielformat, festgehalten als C5 in
+  docs/entscheidungen.md. Ergebnis: die Ebenen (b) EARS und (d)
+  Qualitaetsregeln sind verpflichtend, die Ebenen (a) und (c) werden
+  nicht verwendet. Das Zielformat heisst EARS+29148.
+- Konflikt shall gegen must entschieden: es gilt 29148 Abschn. 5.2.4.
+  Die Zelle K10 fuer Ebene (c) bleibt bei Note 1; die Begruendung
+  steht im Nachtrag zu dieser Zelle.
+- Fuenf Berichtigungen in Abschnitt 10 nach Gegenpruefung an den
+  Volltexten von RFC 2119, RFC 8174 und 29148 Abschn. 5.2.5 bis
+  5.2.8. Keine Note aendert sich.
+
 Noch offen:
-- Die Zelle K10 fuer Ebene (c) haengt an der noch offenen Wahl
-  zwischen RFC 2119 und den Schluesselwoertern aus 29148
-  Abschn. 5.2.4. Sie kann nach Schritt 5 mit Datum berichtigt werden.
-- Rollenzuweisung und Formatentscheidung (Schritt 5)
-- Konflikt shall gegen must: wird bei der Rollenzuweisung der
-  Ebene (c) entschieden
+- Schritt 6: Abschnitt zur Formatauswahl in Kapitel 4 der Arbeit.
 
 ## 9. Aenderungshistorie
 
@@ -494,6 +502,8 @@ Noch offen:
 | 08.09.2026 | Noten fuer K5 je Ebene vergeben; Abschnitt 7 um den Vorbehalt zu K5 ergaenzt. Zwei neuere Arbeiten zu Sprachmodellen im Requirements Engineering geprueft und in die Literaturmatrix aufgenommen (L17, L18), fuer die Matrix aber nicht verwendet. Abschnitt 8 fortgeschrieben | Empirische Arbeiten zum Verhalten von Sprachmodellen decken die vier Ebenen nicht gleichmaessig ab; eine teils empirisch, teils strukturell begruendete Zeile waere nicht vergleichbar. Ein dritter, von ChatGPT genannter Titel zu EARS war nicht auffindbar und wurde nicht aufgenommen. Die Noten stuetzen sich auf die drei Ersatzgroessen des Kriteriums und sind bis Paket E vorlaeufig. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 08.09.2026 | Noten fuer K7 je Ebene vergeben | Die Ebenen (b) und (d) verlangen einer lesenden Person am wenigsten ab: EARS begruendet den geringen Schulungsaufwand ausdruecklich (Mavin 2009 Abschn. 2), die Norm fuehrt Verstaendlichkeit als eigenes Merkmal (29148 Abschn. 5.2.6). Der Abzug bei Ebene (a) beruht allein auf dem zweiten Pruefpunkt, dem Abstand zur Ausdrucksweise in den Pull Requests; dieser Punkt ist eine eigene Setzung und in Abschnitt 10 als solche ausgewiesen. Die Zeile steht unter dem Vorbehalt aus Abschnitt 2 und wird erst nach Paket H belastbar. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 08.09.2026 | Noten fuer K8 und K10 je Ebene vergeben; Schritt 4c damit abgeschlossen. Abschnitt 8 fortgeschrieben | Beide Kriterien wurden auf Wunsch des Verfassers in einer Runde vorgelegt; das weicht von C2a ab und ist in Abschnitt 10 vermerkt. Ebene (c) erreicht bei K8 erstmals die 2. Bei K10 ist Ebene (d) die einzige ohne Konflikt, waehrend die Ebenen (a) und (b) einander im Satz ausschliessen. Die Zelle K10 fuer Ebene (c) haengt an der in Schritt 5 zu treffenden Wahl der Modalitaetskonvention. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
+| 08.09.2026 | Fuenf Berichtigungen in Abschnitt 10 nach Gegenpruefung an den Volltexten. K7 und K8 sprachen bei Ebene (c) von fuenf Schluesselwoertern statt von fuenf Stufen mit elf Woertern. Bei K7 fehlte RFC 8174 Abschn. 1 als Fundstelle. Bei K8 war Abschn. 6 im Gegenargument verwendet, aber nicht belegt, und eine eigene Bewertung war als Quellenaussage lesbar. Bei K1 Ebene (d) stand "acht" statt "neun" Aufzaehlungspunkte in 29148 Abschn. 5.2.7. Keine Note aendert sich | Die Volltexte von RFC 2119 und RFC 8174 lagen dem vorschlagenden Modell erstmals vor; die Zellen der Ebene (c) stuetzten sich bis dahin auf die Lesenotiz. Beim Nachlesen von 29148 Abschn. 5.2.5 bis 5.2.8 fiel zusaetzlich die falsche Zahl bei K1 auf. Die Lesenotiz zu RFC 2119 enthielt selbst keinen Fehler; die Ungenauigkeit entstand beim Verkuerzen in die Zelle |
+| 08.09.2026 | Schritt 5 abgeschlossen und als C5 in docs/entscheidungen.md festgehalten. Abschnitt 8 fortgeschrieben. Die Zelle K10 fuer Ebene (c) bleibt entgegen dem dort vermerkten Vorbehalt bei Note 1; der Vorbehalt wurde durch einen datierten Nachtrag ersetzt | Die Matrix soll auf dem Stand bleiben, auf dem sie in die Entscheidung eingegangen ist. Eine nachtraegliche Anhebung haette sie vom Ergebnis der Entscheidung abhaengig gemacht, die sie stuetzen soll. Die Note 1 bewertet die Ebene als Ganzes, und diese enthaelt den inneren Konflikt; dass er durch die Wahl einer Auspraegung aufloesbar ist, stand bereits im Gegenargument der Zelle |
 
 
 ## 10. Entscheidungsmatrix (in Arbeit)
@@ -560,7 +570,7 @@ Nicht n. a. nach R3, weil Ebene (c) Lesarten sehr wohl regelt, nur eng.
 
 Ebene (d) Qualitaets- und Sprachregeln, Note 2.
 Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.5 (Unambiguous als eines
-der neun Merkmale), Abschn. 5.2.7 (normativ formuliert, acht
+der neun Merkmale), Abschn. 5.2.7 (normativ formuliert, neun
 Aufzaehlungspunkte mit benannten Wortklassen); Mavin/Wilkinson 2010,
 Abschn. "Testing the Hypothesis"; Lucassen et al. 2016, Tab. 1 und
 Abschn. 3.1.6.
@@ -570,6 +580,13 @@ normativer Form. Der Pruefmassstab von K1 ist damit woertlich erfuellt.
 Gegenargument, fuehrt zu 1: Die Regeln nennen Wortklassen, aber kein
 Verfahren, das Eindeutigkeit herstellt. Sie erkennen Verstoesse, sie
 verhindern sie nicht.
+Berichtigt am 08.09.2026: Zuvor stand hier "acht Aufzaehlungspunkte".
+Abschn. 5.2.7 fuehrt unter der Einleitung "The following are types of
+unbounded or ambiguous terms" neun Spiegelstriche. Der vierte fasst
+zwei Wortklassen zusammen; wer Wortklassen zaehlt, kommt auf zehn.
+Die Zahl acht laesst sich in keiner Zaehlweise begruenden. Die Note
+bleibt 2, weil sie sich darauf stuetzt, dass Formulierungen namentlich
+ausgeschlossen werden, und nicht auf deren Anzahl.
 
 Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
 den Quellen geprueft und uebernommen.
@@ -939,19 +956,28 @@ und Event-driven auseinanderzuhalten, ist ein Erprobungsbefund und
 traegt die Note nicht.
 
 Ebene (c) Normative Modalitaet, Note 1.
-Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Schluesselwoerter, die als
-gewoehnliche englische Woerter erscheinen, aber festgelegte
-Bedeutungen tragen); RFC 8174 Abschn. 2 (die Bedeutung gilt nur bei
-durchgaengiger Grossschreibung).
-Begruendung: Das Vokabular besteht aus fuenf gelaeufigen englischen
+Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Verbindlichkeitsstufen,
+ausgedrueckt durch elf Schluesselwoerter, die als gewoehnliche
+englische Woerter erscheinen, aber festgelegte Bedeutungen tragen);
+RFC 8174 Abschn. 1 (Grund der Klarstellung) und Abschn. 2 (die
+Bedeutung gilt nur bei durchgaengiger Grossschreibung).
+Begruendung: Das Vokabular besteht aus gelaeufigen englischen
 Woertern, es ist also nichts Fremdes zu lernen. Genau darin liegt die
 Falle: Wer die Konvention nicht kennt, liest SHOULD als
 unverbindliche Empfehlung, und RFC 8174 wurde eigens erlassen, weil
 die Unterscheidung nach Gross- und Kleinschreibung nicht eindeutig
 war.
-Gegenargument, fuehrt zu 2: Fuenf Woerter sind der kleinste
-Lernaufwand aller vier Ebenen, und die Grossschreibung macht
-sichtbar, dass eine Konvention gilt.
+Gegenargument, fuehrt zu 2: Fuenf Bedeutungen sind ein geringer
+Lernaufwand, und die Grossschreibung macht sichtbar, dass eine
+Konvention gilt.
+Berichtigt am 08.09.2026: Zuvor stand hier "fuenf Schluesselwoerter".
+RFC 2119 definiert fuenf Verbindlichkeitsstufen, benennt sie aber mit
+elf Woertern: MUST, REQUIRED, SHALL, MUST NOT, SHALL NOT, SHOULD,
+RECOMMENDED, SHOULD NOT, NOT RECOMMENDED, MAY, OPTIONAL. Da K7 die
+Zahl der zu lernenden Schluesselwoerter und Regeln misst, war die
+Angabe erheblich. Die Note bleibt 1. Das Gegenargument wurde
+abgeschwaecht, weil sich der Anspruch auf den kleinsten Lernaufwand
+aller vier Ebenen mit elf Woertern nicht halten laesst.
 
 Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
 Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.6, Merkmal Comprehensible
@@ -1005,16 +1031,26 @@ EARS existiert nicht; die maschinelle Pruefbarkeit ist aus der Syntax
 abgeleitet, aber nicht gezeigt.
 
 Ebene (c) Normative Modalitaet, Note 2.
-Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Schluesselwoerter); RFC 8174
-Abschn. 2 (die Bedeutung gilt nur bei durchgaengiger
-Grossschreibung).
+Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Verbindlichkeitsstufen,
+ausgedrueckt durch elf Schluesselwoerter), Abschn. 6
+(Sparsamkeitsregel); RFC 8174 Abschn. 2 (die Bedeutung gilt nur bei
+durchgaengiger Grossschreibung).
 Begruendung: Das Vokabular ist geschlossen und durch die
 Grossschreibungsregel im Fliesstext eindeutig abgegrenzt. Eine
 einfache Suche genuegt, um festzustellen, ob und welche Stufe
 verwendet wurde.
 Gegenargument, fuehrt zu 1: Ein Programm findet das Schluesselwort,
-kann aber die Sparsamkeitsregel aus Abschn. 6 nicht pruefen, und
-diese Regel ist der inhaltliche Kern der Konvention.
+kann aber die Sparsamkeitsregel aus Abschn. 6 nicht pruefen. Diese
+Regel fuer inhaltlich zentral zu halten, ist eine Einordnung des
+Verfassers; der Standard selbst fuehrt Abschn. 6 als Hinweis zur
+Anwendung ("Guidance in the use of these Imperatives").
+Berichtigt am 08.09.2026: Drei Punkte. Erstens stand hier "fuenf
+Schluesselwoerter"; richtig sind fuenf Stufen mit elf Woertern.
+Zweitens war Abschn. 6 im Gegenargument verwendet, aber nicht in der
+Belegzeile genannt. Drittens war die Wendung "der inhaltliche Kern
+der Konvention" als Quellenaussage lesbar und ist jetzt als eigene
+Einordnung gekennzeichnet. Die Note bleibt 2: ein Vokabular aus elf
+Woertern ist ebenso geschlossen wie eines aus fuenf.
 
 Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 1.
 Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.7 (Klassen unbestimmter
@@ -1076,9 +1112,14 @@ fuenf Stufen statt einer. Er ist aufloesbar, sobald eine der beiden
 Konventionen gewaehlt wird.
 Gegenargument, fuehrt zu 2: In der Auspraegung nach 29148 ist
 Ebene (c) mit den Ebenen (b) und (d) widerspruchsfrei.
-Vorbehalt: Die Note haelt fest, dass die Wahl noch aussteht. Faellt
-sie in Schritt 5, kann die Zelle mit Datum berichtigt werden; die
-Aenderung waere dann nach R2 in Abschnitt 9 zu vermerken.
+Nachtrag vom 08.09.2026: Die Wahl ist in C5 gefallen. Es gilt die
+Konvention nach 29148 Abschn. 5.2.4; damit ist der Konflikt
+aufgeloest. Die Note bleibt dennoch bei 1, weil sie die Ebene als
+Ganzes bewertet und diese den inneren Konflikt enthaelt. Eine
+nachtraegliche Anhebung haette die Matrix vom Ergebnis der
+Entscheidung abhaengig gemacht, die sie stuetzen soll. Die Ebene (c)
+hat in C5 die Rolle "nicht verwendet"; die Note dieser Zelle hat auf
+die Rollenzuweisung nicht eingewirkt.
 
 Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
 Beleg: 29148 Abschn. 5.2.4 NOTE 2 (User Stories zugelassen),
