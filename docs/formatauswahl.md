@@ -458,10 +458,13 @@ Erledigt seit dem 23.08.2026:
 - Schritt 4b abgeschlossen: Teil B mit neuen Referenzinhalten neu
   aufgesetzt und gegengeprueft. Ergebnis Ebene (a) 3 von 3 (Note 2),
   Ebene (b) 3 von 3 (Note 2), Ebenen (c) und (d) nicht anwendbar.
+- Schritt 4c abgeschlossen: alle zehn Kriterien sind in Abschnitt 10
+  vergeben (04.09. bis 08.09.2026).
 
 Noch offen:
-- Schritt 4c: K1 bis K6 und K9 stehen in Abschnitt 10. Offen sind die
-  Noten fuer K7, K8 und K10.
+- Die Zelle K10 fuer Ebene (c) haengt an der noch offenen Wahl
+  zwischen RFC 2119 und den Schluesselwoertern aus 29148
+  Abschn. 5.2.4. Sie kann nach Schritt 5 mit Datum berichtigt werden.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -489,6 +492,8 @@ Noch offen:
 | 07.09.2026 | Noten fuer K3 je Ebene vergeben. Abschnitt 8 fortgeschrieben | Ebene (d) erhaelt als einzige die 2, weil 29148 Abschn. 5.2.5 die Nachweisbarkeit als eigenes Merkmal fuehrt und Abschn. 5.2.7 sie operationalisiert. Damit liegt Ebene (d) erstmals ueber Ebene (b). Zweite Anwendung von R11: die in Big EARS berichtete Restuntestbarkeit traegt die Note nicht. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 07.09.2026 | Noten fuer K4 je Ebene vergeben; Abschnitt 7 um den Vorbehalt zu K4 ergaenzt. Abschnitt 8 fortgeschrieben | K4 ist eine eigene Setzung, gestuetzt auf die Slotstruktur von EARS. Der Vorbehalt wurde nach R2 vor der Notenvergabe festgehalten. Erstmals ist keine Zelle nicht anwendbar. Ebene (a) erreicht dieselbe Note wie Ebene (b), weil Lucassen ein formales Begriffsmodell mitliefert. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 08.09.2026 | Noten fuer K5 je Ebene vergeben; Abschnitt 7 um den Vorbehalt zu K5 ergaenzt. Zwei neuere Arbeiten zu Sprachmodellen im Requirements Engineering geprueft und in die Literaturmatrix aufgenommen (L17, L18), fuer die Matrix aber nicht verwendet. Abschnitt 8 fortgeschrieben | Empirische Arbeiten zum Verhalten von Sprachmodellen decken die vier Ebenen nicht gleichmaessig ab; eine teils empirisch, teils strukturell begruendete Zeile waere nicht vergleichbar. Ein dritter, von ChatGPT genannter Titel zu EARS war nicht auffindbar und wurde nicht aufgenommen. Die Noten stuetzen sich auf die drei Ersatzgroessen des Kriteriums und sind bis Paket E vorlaeufig. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
+| 08.09.2026 | Noten fuer K7 je Ebene vergeben | Die Ebenen (b) und (d) verlangen einer lesenden Person am wenigsten ab: EARS begruendet den geringen Schulungsaufwand ausdruecklich (Mavin 2009 Abschn. 2), die Norm fuehrt Verstaendlichkeit als eigenes Merkmal (29148 Abschn. 5.2.6). Der Abzug bei Ebene (a) beruht allein auf dem zweiten Pruefpunkt, dem Abstand zur Ausdrucksweise in den Pull Requests; dieser Punkt ist eine eigene Setzung und in Abschnitt 10 als solche ausgewiesen. Die Zeile steht unter dem Vorbehalt aus Abschnitt 2 und wird erst nach Paket H belastbar. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
+| 08.09.2026 | Noten fuer K8 und K10 je Ebene vergeben; Schritt 4c damit abgeschlossen. Abschnitt 8 fortgeschrieben | Beide Kriterien wurden auf Wunsch des Verfassers in einer Runde vorgelegt; das weicht von C2a ab und ist in Abschnitt 10 vermerkt. Ebene (c) erreicht bei K8 erstmals die 2. Bei K10 ist Ebene (d) die einzige ohne Konflikt, waehrend die Ebenen (a) und (b) einander im Satz ausschliessen. Die Zelle K10 fuer Ebene (c) haengt an der in Schritt 5 zu treffenden Wahl der Modalitaetskonvention. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 
 
 ## 10. Entscheidungsmatrix (in Arbeit)
@@ -505,10 +510,10 @@ docs/formatprobe_protokoll.md), alle uebrigen aus der Literatur.
 | K4 Maschinelle Verarbeitbarkeit | 2 | 2 | 1 | 1 | 07.09.2026 |
 | K5 Eignung fuer LLM-Ausgaben | 1 | 2 | 1 | n. a. | 08.09.2026 |
 | K6 Eignung fuer die drei Anforderungsarten | 2 | 2 | n. a. | n. a. | 02.09.2026 |
-| K7 Verstaendlichkeit fuer das Qrisp-Team | offen | offen | offen | offen | - |
-| K8 Automatische Validierbarkeit | offen | offen | offen | offen | - |
+| K7 Verstaendlichkeit fuer das Qrisp-Team | 1 | 2 | 1 | 2 | 08.09.2026 |
+| K8 Automatische Validierbarkeit | 1 | 2 | 2 | 1 | 08.09.2026 |
 | K9 Deckung durch die Quelldaten | 0 | 1 | 0 | n. a. | 30.08.2026 |
-| K10 Kombinierbarkeit mit anderen Ebenen | offen | offen | offen | offen | - |
+| K10 Kombinierbarkeit mit anderen Ebenen | 1 | 1 | 1 | 2 | 08.09.2026 |
 
 ### Begruendungen und Belege je Zelle
 
@@ -887,3 +892,219 @@ Ebene (c) stuetzt sich auf die Lesenotiz.
 
 Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
 den Quellen geprueft und uebernommen.
+
+#### K7 Verstaendlichkeit fuer das Qrisp-Team, vergeben am 08.09.2026
+
+Vorbehalt aus Abschnitt 2: Dieses Kriterium wird nur ersatzweise
+bewertet und wird erst durch die Bewertung in Paket H belastbar. Der
+zweite Pruefpunkt, der Abstand zur Ausdrucksweise in den Pull
+Requests, ist eine eigene Setzung ohne Beleg in einer Quelle und wird
+je Zelle gesondert ausgewiesen.
+
+Ebene (a) User Story, Note 1.
+Beleg: Lucassen et al. 2016, Abschn. 1 (Schablone "As a ..., I want
+..., so that ..."; User Stories sind die am haeufigsten verwendete
+Anforderungsnotation in agilen Projekten), Abschn. 2.2 (die Rolle ist
+ein Stakeholder oder eine Persona aus der Anwendungsdomaene).
+Begruendung: Drei Signalphrasen in Alltagsenglisch ohne Fachvokabular
+verlangen einer lesenden Person kaum Vorwissen ab. Die Schablone
+setzt jedoch zwingend eine Rolle aus der Anwendungsdomaene voraus,
+waehrend die Pull Requests des Projekts entwicklerzentriert sind und
+keinen Nutzniesser nennen.
+Gegenargument, fuehrt zu 2: Nach dem ersten Pruefpunkt, der Zahl der
+zu lernenden Schluesselwoerter und Regeln, schneidet Ebene (a) am
+besten ab; die weite Verbreitung der Schablone belegt ihre
+Zugaenglichkeit.
+Ausweis der eigenen Setzung: Der Abzug beruht allein auf dem zweiten
+Pruefpunkt und ist damit gesetzt, nicht belegt.
+
+Ebene (b) EARS, Note 2.
+Beleg: Mavin et al. 2009, Abschn. 2 (nichttextuelle Notationen
+erfordern eine Uebersetzung, erzeugen eine Sprachbarriere und
+verursachen Schulungsaufwand; Anforderungsautoren suchen weder hohe
+Formalitaet noch aufwendige Schulung), Abschn. 4.1 bis 4.6 (fuenf
+Muster, je ein Schluesselwort, shall, festgelegte
+Klauselreihenfolge).
+Begruendung: Der Ansatz ist ausdruecklich mit dem Ziel entworfen,
+ohne Schulung und ohne Uebersetzung lesbar zu bleiben, und begruendet
+die Ablehnung formaler Notationen genau damit. Die Satzform nennt das
+System als Handelnden, so wie die Pull Requests ueber die Bibliothek
+sprechen.
+Gegenargument, fuehrt zu 1: Zu lernen sind fuenf Muster, das
+Modalwort shall und die verbindliche Klauselreihenfolge; das ist mehr
+als bei Ebene (a). Das Wort shall ist in der Sprache der Pull
+Requests unueblich.
+Hinweis nach R11: Die in Big EARS berichtete Schwierigkeit, Ubiquitous
+und Event-driven auseinanderzuhalten, ist ein Erprobungsbefund und
+traegt die Note nicht.
+
+Ebene (c) Normative Modalitaet, Note 1.
+Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Schluesselwoerter, die als
+gewoehnliche englische Woerter erscheinen, aber festgelegte
+Bedeutungen tragen); RFC 8174 Abschn. 2 (die Bedeutung gilt nur bei
+durchgaengiger Grossschreibung).
+Begruendung: Das Vokabular besteht aus fuenf gelaeufigen englischen
+Woertern, es ist also nichts Fremdes zu lernen. Genau darin liegt die
+Falle: Wer die Konvention nicht kennt, liest SHOULD als
+unverbindliche Empfehlung, und RFC 8174 wurde eigens erlassen, weil
+die Unterscheidung nach Gross- und Kleinschreibung nicht eindeutig
+war.
+Gegenargument, fuehrt zu 2: Fuenf Woerter sind der kleinste
+Lernaufwand aller vier Ebenen, und die Grossschreibung macht
+sichtbar, dass eine Konvention gilt.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.6, Merkmal Comprehensible
+(die Anforderungsmenge ist so geschrieben, dass klar wird, was vom
+Gegenstand erwartet wird und wie er zum Gesamtsystem steht);
+Abschn. 5.2.7 (Klassen unbestimmter Ausdruecke, die zu vermeiden
+sind).
+Begruendung: Die Norm fuehrt die Verstaendlichkeit als eigenes
+Merkmal und untersagt Ausdruecke, die das Verstehen erschweren. Die
+Regeln richten sich an den Verfasser, nicht an den Leser; eine
+lesende Person muss nichts lernen.
+Gegenargument, fuehrt zu 1: Das Merkmal Comprehensible gilt nach
+5.2.6 fuer die Anforderungsmenge, waehrend K7 nach dem Lesen eines
+einzelnen Satzes fragt. Die Norm sagt zudem, was zu vermeiden ist,
+und nicht, wie ein verstaendlicher Satz aussieht.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell nicht vor.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.
+
+#### K8 Automatische Validierbarkeit, vergeben am 08.09.2026
+
+Ebene (a) User Story, Note 1.
+Beleg: Lucassen et al. 2016, Abschn. 4 (AQUSA prueft die
+syntaktischen und einige pragmatische Kriterien; die semantischen
+bleiben in Version 1 ausgeklammert), Abschn. 4.2 (der Zerleger sucht
+nach bekannten Signalphrasen), Abschn. 4.7 (die massgebliche Form
+wird je Datensatz aus der Haeufigkeit bestimmt).
+Begruendung: Es liegt ein veroeffentlichtes Werkzeug vor, das die
+Formatkonformitaet je Kriterium prueft; ein Mechanismus ist damit
+zweifelsfrei vorhanden. Er ist jedoch bedingt, weil der Ansatz kein
+festes Muster vorgibt und deshalb gegen eine je Datensatz abgeleitete
+Form geprueft wird.
+Gegenargument, fuehrt zu 2: Dies ist die einzige der vier Ebenen mit
+einem tatsaechlich gebauten und veroeffentlichten Pruefwerkzeug.
+Hinweis nach R11: Die gemessenen Werte von AQUSA sind
+Erprobungsbefunde und tragen die Note nicht.
+
+Ebene (b) EARS, Note 2.
+Beleg: Mavin et al. 2009, Abschn. 4.1 (feste Klauselreihenfolge,
+shall als einziges Modalwort), Abschn. 4.2 bis 4.6 (fuenf Muster mit
+je einem festen Schluesselwort).
+Begruendung: Fuenf Schluesselwoerter und ein Modalwort bilden ein
+geschlossenes Vokabular, das ein Programm unmittelbar suchen kann.
+Die festgelegte Klauselreihenfolge macht zusaetzlich pruefbar, ob ein
+Satz dem Muster folgt und nicht nur die Woerter enthaelt.
+Gegenargument, fuehrt zu 1: Ein veroeffentlichtes Pruefwerkzeug fuer
+EARS existiert nicht; die maschinelle Pruefbarkeit ist aus der Syntax
+abgeleitet, aber nicht gezeigt.
+
+Ebene (c) Normative Modalitaet, Note 2.
+Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Schluesselwoerter); RFC 8174
+Abschn. 2 (die Bedeutung gilt nur bei durchgaengiger
+Grossschreibung).
+Begruendung: Das Vokabular ist geschlossen und durch die
+Grossschreibungsregel im Fliesstext eindeutig abgegrenzt. Eine
+einfache Suche genuegt, um festzustellen, ob und welche Stufe
+verwendet wurde.
+Gegenargument, fuehrt zu 1: Ein Programm findet das Schluesselwort,
+kann aber die Sparsamkeitsregel aus Abschn. 6 nicht pruefen, und
+diese Regel ist der inhaltliche Kern der Konvention.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 1.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.7 (Klassen unbestimmter
+Ausdruecke mit Beispielen), Abschn. 5.2.5 (neun Merkmale, darunter
+notwendig, umsetzbar und korrekt).
+Begruendung: Die Wortklassen aus 5.2.7 lassen sich in Suchregeln
+ueberfuehren, ein Mechanismus ist also vorhanden. Er reicht aber nur
+so weit: Die Liste ist mit Beispielen versehen und nicht
+abschliessend, und Merkmale wie notwendig, umsetzbar oder korrekt
+sind maschinell nicht pruefbar.
+Gegenargument, fuehrt zu 2: Fuer den Zweck des Kriteriums genuegt,
+dass die sprachlichen Regeln pruefbar sind; die uebrigen Merkmale
+betreffen den Inhalt und nicht die Formkonformitaet.
+
+Befund: Ebene (c) erreicht hier erstmals die 2. Der Verdacht, sie
+falle in der Matrix durchgehend zurueck, ist damit ausgeraeumt.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell nicht vor.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.
+
+#### K10 Kombinierbarkeit mit anderen Ebenen, vergeben am 08.09.2026
+
+Ebene (a) User Story, Note 1.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.4 NOTE 2 (im agilen Umfeld
+koennen alternative Formulierungen wie User Stories verwendet
+werden); Lucassen et al. 2016 Tab. 1 (Minimal: eine Story enthaelt
+nichts ausser Rolle, Means und Ends), Abschn. 1 (Schablonenform).
+Begruendung: Die Norm laesst User Stories ausdruecklich zu, sodass
+die Verbindung mit Ebene (d) belegt moeglich ist. Die Schablone
+besetzt jedoch den ganzen Satz und laesst nach dem Kriterium Minimal
+keinen Platz fuer die Klauseln der Ebene (b) oder ein Modalwort der
+Ebene (c).
+Gegenargument, fuehrt zu 2: Ebene (a) ist die einzige, deren
+Vertraeglichkeit von einer Norm ausdruecklich bestaetigt wird; die
+Unvereinbarkeit mit Ebene (b) betrifft nur den einzelnen Satz.
+
+Ebene (b) EARS, Note 1.
+Beleg: Mavin et al. 2009, Abschn. 4.1 (shall als einziges Modalwort,
+keine Abstufung); 29148 Abschn. 5.2.4 (shall fuer verbindliche
+Anforderungen, von must wird abgeraten); RFC 2119 Abschn. 1 bis 5
+(fuenf Stufen, MUST und SHALL gleichgesetzt).
+Begruendung: Mit Ebene (d) ist EARS vertraeglich, weil es dieselbe
+Satzstruktur und dasselbe Modalwort verwendet, das die Norm vorsieht.
+Zu Ebene (c) in der Auspraegung nach RFC 2119 besteht ein
+Widerspruch, weil EARS nur shall kennt und keine Abstufung.
+Gegenargument, fuehrt zu 2: Der Widerspruch besteht nicht zur
+Ebene (c) als solcher, sondern nur zu einer ihrer beiden
+Auspraegungen; mit den Schluesselwoertern aus 29148 Abschn. 5.2.4 ist
+EARS widerspruchsfrei.
+
+Ebene (c) Normative Modalitaet, Note 1.
+Beleg: RFC 2119 Abschn. 1 bis 5; 29148 Abschn. 5.2.4.
+Begruendung: Der bekannte Konflikt liegt innerhalb der Ebene: 29148
+raet von must ab, RFC 2119 setzt MUST und SHALL gleich und kennt
+fuenf Stufen statt einer. Er ist aufloesbar, sobald eine der beiden
+Konventionen gewaehlt wird.
+Gegenargument, fuehrt zu 2: In der Auspraegung nach 29148 ist
+Ebene (c) mit den Ebenen (b) und (d) widerspruchsfrei.
+Vorbehalt: Die Note haelt fest, dass die Wahl noch aussteht. Faellt
+sie in Schritt 5, kann die Zelle mit Datum berichtigt werden; die
+Aenderung waere dann nach R2 in Abschnitt 9 zu vermerken.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
+Beleg: 29148 Abschn. 5.2.4 NOTE 2 (User Stories zugelassen),
+Abschn. 5.2.5 bis 5.2.7 (Merkmale und sprachliche Kriterien, auf jede
+Formulierung anwendbar), Anhang C.1 (Anpassung und Konformitaet).
+Begruendung: Die Regeln beurteilen einen fertigen Satz und schreiben
+keine Satzform vor; sie kollidieren deshalb mit keiner Satzform. Die
+Norm nennt User Stories sogar ausdruecklich als zulaessige
+Alternative.
+Gegenargument, fuehrt zu 1: Anhang C.1 ist normativ und schliesst
+eine Konformitaetsbehauptung bei Verwendung eines Ausschnitts aus;
+die Verbindung mit einem nicht genormten Format ist eine Anpassung,
+die nach diesem Anhang zu begruenden und zu dokumentieren ist.
+
+Befund fuer Schritt 5: Ebene (d) ist die einzige ohne Konflikt und
+damit ein Querschnitt, kein Konkurrent. Die Ebenen (a) und (b)
+schliessen einander im Satz aus; nur eine von beiden kann die
+Satzform stellen. Ebene (c) haengt an der offenen Wahl zwischen
+RFC 2119 und 29148 Abschn. 5.2.4.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell nicht vor.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen. K8 und K10 wurden auf Wunsch
+des Verfassers in einer Runde vorgelegt; das weicht von C2a ab, wo
+ein Kriterium je Runde vorgesehen ist. Die Belegstellen wurden
+dennoch je Kriterium und je Ebene einzeln vorgelegt und einzeln
+nachgelesen.
