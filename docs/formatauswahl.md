@@ -431,6 +431,16 @@ Faellen formuliert: drei Versuche je bewerteter Ebene.
   diesen Bewerber. Die Note fuer Ebene (b) ist daher nur begrenzt
   aussagekraeftig und wird in Kapitel 7 als Bedrohung der
   Konstruktvaliditaet ausgewiesen.
+- K5 wird nicht an Quellen zum Verhalten von Sprachmodellen bemessen.
+  Alle vier bewerteten Ansaetze sind aelter als deren Einsatz im
+  Requirements Engineering. Neuere empirische Arbeiten dazu bestehen,
+  decken die vier Ebenen aber nicht gleichmaessig ab. Eine Note aus
+  solchen Quellen waere fuer eine Ebene empirisch und fuer die
+  uebrigen strukturell begruendet und damit nicht vergleichbar. Die
+  Noten beruhen deshalb auf strukturellen Ersatzgroessen: Zahl der
+  Pflichtbestandteile, Zahl zulaessiger Schreibvarianten, Umgang mit
+  dem Fall, dass keine Anforderung vorliegt. Sie sind vorlaeufig und
+  werden nach der Prompt-Entwicklung in Paket E ueberprueft.
 
 ## 8. Offene Punkte
 
@@ -450,8 +460,8 @@ Erledigt seit dem 23.08.2026:
   Ebene (b) 3 von 3 (Note 2), Ebenen (c) und (d) nicht anwendbar.
 
 Noch offen:
-- Schritt 4c: K1 bis K4, K6 und K9 stehen in Abschnitt 10. Offen sind
-  die Noten fuer K5, K7, K8 und K10.
+- Schritt 4c: K1 bis K6 und K9 stehen in Abschnitt 10. Offen sind die
+  Noten fuer K7, K8 und K10.
 - Rollenzuweisung und Formatentscheidung (Schritt 5)
 - Konflikt shall gegen must: wird bei der Rollenzuweisung der
   Ebene (c) entschieden
@@ -478,6 +488,7 @@ Noch offen:
 | 07.09.2026 | Noten fuer K2 je Ebene vergeben; die Vorfrage n. a. gegen 0 fuer die Ebenen (c) und (d) zugunsten von n. a. entschieden. Die gemessenen Noten fuer K6 und K9 aus Abschnitt 6 und dem Protokoll in die Tabelle uebertragen | Erste Anwendung von R11: Die Erprobungsbefunde zu AQUSA und zur Musterabgrenzung bei EARS stehen in der Begruendung, nicht in der Note. Die Vorfrage folgt der Vergabebedingung der Skala und derselben Erwaegung wie bei K6 am 31.08.2026; das Gegenargument ist in Abschnitt 10 festgehalten. Vorschlag des Modells nach C2a. |
 | 07.09.2026 | Noten fuer K3 je Ebene vergeben. Abschnitt 8 fortgeschrieben | Ebene (d) erhaelt als einzige die 2, weil 29148 Abschn. 5.2.5 die Nachweisbarkeit als eigenes Merkmal fuehrt und Abschn. 5.2.7 sie operationalisiert. Damit liegt Ebene (d) erstmals ueber Ebene (b). Zweite Anwendung von R11: die in Big EARS berichtete Restuntestbarkeit traegt die Note nicht. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 07.09.2026 | Noten fuer K4 je Ebene vergeben; Abschnitt 7 um den Vorbehalt zu K4 ergaenzt. Abschnitt 8 fortgeschrieben | K4 ist eine eigene Setzung, gestuetzt auf die Slotstruktur von EARS. Der Vorbehalt wurde nach R2 vor der Notenvergabe festgehalten. Erstmals ist keine Zelle nicht anwendbar. Ebene (a) erreicht dieselbe Note wie Ebene (b), weil Lucassen ein formales Begriffsmodell mitliefert. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
+| 08.09.2026 | Noten fuer K5 je Ebene vergeben; Abschnitt 7 um den Vorbehalt zu K5 ergaenzt. Zwei neuere Arbeiten zu Sprachmodellen im Requirements Engineering geprueft und in die Literaturmatrix aufgenommen (L17, L18), fuer die Matrix aber nicht verwendet. Abschnitt 8 fortgeschrieben | Empirische Arbeiten zum Verhalten von Sprachmodellen decken die vier Ebenen nicht gleichmaessig ab; eine teils empirisch, teils strukturell begruendete Zeile waere nicht vergleichbar. Ein dritter, von ChatGPT genannter Titel zu EARS war nicht auffindbar und wurde nicht aufgenommen. Die Noten stuetzen sich auf die drei Ersatzgroessen des Kriteriums und sind bis Paket E vorlaeufig. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 
 
 ## 10. Entscheidungsmatrix (in Arbeit)
@@ -492,7 +503,7 @@ docs/formatprobe_protokoll.md), alle uebrigen aus der Literatur.
 | K2 Formale Struktur | 1 | 2 | n. a. | n. a. | 07.09.2026 |
 | K3 Verifizierbarkeit | 1 | 1 | n. a. | 2 | 07.09.2026 |
 | K4 Maschinelle Verarbeitbarkeit | 2 | 2 | 1 | 1 | 07.09.2026 |
-| K5 Eignung fuer LLM-Ausgaben | offen | offen | offen | offen | - |
+| K5 Eignung fuer LLM-Ausgaben | 1 | 2 | 1 | n. a. | 08.09.2026 |
 | K6 Eignung fuer die drei Anforderungsarten | 2 | 2 | n. a. | n. a. | 02.09.2026 |
 | K7 Verstaendlichkeit fuer das Qrisp-Team | offen | offen | offen | offen | - |
 | K8 Automatische Validierbarkeit | offen | offen | offen | offen | - |
@@ -792,6 +803,87 @@ K6. Fuer Kapitel 7 vorgemerkt.
 Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
 RFC 8174 lagen dem vorschlagenden Modell weiterhin nicht vor. Sein
 Vorschlag zu Ebene (c) stuetzt sich auf die Lesenotiz.
+
+Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
+den Quellen geprueft und uebernommen.
+
+#### K5 Eignung fuer LLM-Ausgaben, vergeben am 08.09.2026
+
+Vorbehalt, festgehalten vor der Notenvergabe: Die Noten dieser Zeile
+stuetzen sich nicht auf Quellen zum Verhalten von Sprachmodellen,
+sondern auf die drei strukturellen Ersatzgroessen des Kriteriums. Zur
+Begruendung und zu den geprueften neueren Arbeiten siehe Abschnitt 7.
+Die Zeile ist vorlaeufig und wird nach der Prompt-Entwicklung in
+Paket E ueberprueft.
+
+Ebene (a) User Story, Note 1.
+Beleg: Lucassen et al. 2016, Tab. 1 (Well-formed verlangt mindestens
+Rolle und Means; Minimal begrenzt den Satz auf Rolle, Means und
+Ends), Abschn. 2 Einleitung (ueber 80 syntaktische Varianten),
+Abschn. 3.2.2 (Uniform wird gegen die im Datensatz haeufigste Form
+gemessen).
+Begruendung: Zwei Pflichtbestandteile und die Begrenzung durch
+Minimal sind ein wirksamer Mechanismus zur Steuerung der Ausgabe. Der
+Ansatz legt jedoch keine Schablone fest, sondern laesst ueber 80
+Varianten zu, und kennt kein Muster fuer den Fall, dass keine
+Anforderung vorliegt.
+Gegenargument, fuehrt zu 0: Die geforderte Rolle ist der Bestandteil,
+den die Quelldaten am seltensten hergeben, gemessen 4 von 12. Ein
+Format, das einen unbelegten Bestandteil verlangt, draengt das Modell
+zum Erfinden.
+
+Ebene (b) EARS, Note 2.
+Beleg: Mavin et al. 2009, Abschn. 4.1 (zwei Pflichtbestandteile,
+Vorbedingung und Ausloeser optional), Abschn. 4.2 bis 4.6 (fuenf
+Muster mit je einem festen Schluesselwort; During ist die einzige
+zugelassene Nebenform zu While); Mavin/Wilkinson 2010, Abschnitt
+"Method" (zweistufiges Verfahren: jede Aussage wird zuerst als
+Anforderung, Ueberschrift, Information oder nicht anwendbar
+eingestuft und erst danach umformuliert).
+Begruendung: Zwei Pflichtbestandteile und ein geschlossener Satz von
+fuenf Mustern mit je einem festen Schluesselwort halten die Zahl
+zulaessiger Schreibvarianten sehr klein. Fuer den Fall, dass keine
+Anforderung vorliegt, liegt mit der Einstufung aus Big EARS ein
+ausdrueckliches Verfahren vor.
+Gegenargument, fuehrt zu 1: Die Einstufung stammt aus dem Verfahren
+in Big EARS, nicht aus der Syntax selbst. EARS als Format kennt kein
+Muster fuer eine Aussage, die keine Anforderung ist.
+
+Ebene (c) Normative Modalitaet, Note 1.
+Beleg: RFC 2119 Abschn. 1 bis 5 (geschlossenes Vokabular aus fuenf
+Stufen), Abschn. 6 (sparsamer Gebrauch gefordert); RFC 8174
+Abschn. 2 (Grossschreibung als Erkennungsmerkmal). Siehe
+literatur/notizen/bradner_1997_rfc2119.md.
+Begruendung: Ein geschlossenes Vokabular aus fuenf Werten mit
+eindeutiger Schreibweise ist fuer ein Sprachmodell leicht
+einzuhalten. Die Sparsamkeitsregel aus Abschn. 6 verlangt jedoch eine
+Abwaegung, die das Modell aus den Quelldaten nicht treffen kann.
+Gegenargument, fuehrt zu 0: Die Verbindlichkeitsstufe ist in keinem
+der zwoelf gemessenen Faelle belegt. Jede rekonstruierte Anforderung
+erforderte damit eine erfundene Stufe.
+Anmerkung: Die Stufe kann stattdessen durch eine dokumentierte
+Konvention gesetzt werden, etwa durchgehend shall nach EARS. Dann
+steht in der Ausgabe eine gesetzte, keine behauptete Verbindlichkeit.
+Darueber wird bei der Rollenzuweisung in Schritt 5 entschieden.
+
+Ebene (d) Qualitaets-, Sprach- und Attributregeln, n. a.
+Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.5 bis 5.2.8; Lucassen et
+al. 2016 Tab. 1; Mavin/Wilkinson 2010 (acht Sprachprobleme).
+Begruendung: Ebene (d) gibt weder ein Ausgabemuster noch
+Pflichtbestandteile vor; alle drei Pruefpunkte des Kriteriums setzen
+ein solches Muster voraus. Das folgt der Vorfrage vom 07.09.2026.
+Gegenargument, fuehrt zu einer Note: Die Liste unzulaessiger
+Ausdruecke aus Abschn. 5.2.7 laesst sich unmittelbar in eine
+Prompt-Anweisung uebersetzen. Ebene (d) ist damit fuer die Steuerung
+eines Sprachmodells einschlaegig, nur nicht ueber ein Satzmuster.
+
+Befund: Die Gegenargumente bei den Ebenen (a) und (c) stuetzen sich
+beide auf die Messung zu K9. K5 und K9 sind damit nicht unabhaengig,
+ebenso wie bereits K6 und K9. Fuer Kapitel 7 vorgemerkt.
+
+Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
+RFC 8174 lagen dem vorschlagenden Modell nicht vor. Sein Vorschlag zu
+Ebene (c) stuetzt sich auf die Lesenotiz.
 
 Herkunft der Noten: Vorschlag des Modells nach C2a, vom Verfasser an
 den Quellen geprueft und uebernommen.
