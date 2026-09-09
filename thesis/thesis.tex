@@ -124,12 +124,10 @@ negative Anforderungen und Formulierungen wie \emph{shall be able to}
 sollen nach Möglichkeit vermieden werden
 \cite[Abschn.~5.2.4]{iso29148}.
 
-Da diese Schlüsselwortkonvention für englischsprachige Anforderungen
-formuliert ist, muss für die in dieser Arbeit erzeugten
-deutschsprachigen Anforderungen gesondert festgelegt werden, wie eine
-verbindliche Anforderung sprachlich gekennzeichnet wird. Diese
-Entscheidung erfolgt beim Vergleich der Anforderungsansätze in
-Abschnitt~\ref{sec:anforderungsformate}.
+Diese Schlüsselwortkonvention ist für englischsprachige Anforderungen
+formuliert. In welcher Sprache die in dieser Arbeit rekonstruierten
+Anforderungen abgefasst werden und welcher Konvention sie folgen, wird
+in Abschnitt~\ref{sec:formatauswahl} festgelegt und begründet.
 
 \subsection{Merkmale einzelner Anforderungen}
 \label{subsec:merkmale-einzeln}
@@ -419,13 +417,16 @@ nicht-funktionalen und sicherheitsbezogenen Anforderungen eigens gesetzt
 werden müsste. Zum anderen bildet die Aufzählung sicherheitsbezogener
 Inhalte einen möglichen Baustein des Bewertungsrasters für die
 Gap-Analyse; dessen Auswahl erfolgt gesondert und wird dort begründet.
-Die Einschränkung liegt darin, dass die Software-Anforderungs\-%
-spezifikation ein abgegrenztes Softwareprodukt mit erwerbender und
-liefernder Seite voraussetzt \cite[Abschn.~8.5.1]{iso29148}. Qrisp ist
-demgegenüber eine offen entwickelte Programmbibliothek. Mehrere
-Inhaltsblöcke, etwa die Zahl gleichzeitig zu unterstützender
-Nutzender, Anforderungen an eine Datenhaltung oder
-Abrechnungsverfahren, treffen auf diesen Gegenstand nicht zu. Für die
+Die Einschränkung liegt nicht im Entwicklungsmodell. Der Standard
+bezieht die Software-Anforderungs\-spezifikation auf ein bestimmtes
+Softwareprodukt, ein Programm oder eine Menge von Programmen und nennt
+eine liefernde oder erwerbende Seite lediglich als mögliche Verfasser,
+nicht als Voraussetzung \cite[Abschn.~8.5.1]{iso29148}. Eine offen
+entwickelte Programmbibliothek ist davon nicht ausgeschlossen. Die
+Einschränkung liegt vielmehr im Gegenstand selbst: Mehrere
+Inhaltsblöcke, etwa die Zahl gleichzeitig zu unterstützender Nutzender,
+Anforderungen an eine Datenhaltung oder Abrechnungsverfahren, treffen
+auf eine Programmbibliothek ohne eigenen Betrieb nicht zu. Für die
 Gap-Analyse folgt daraus, dass eine Kategorie für nicht einschlägige
 Erwartungen vorzusehen ist; die genannten Blöcke belegen, dass eine
 solche Kategorie nicht lediglich vorsorglich eingeführt wird. Zu
@@ -439,9 +440,6 @@ mit ISO/IEC/IEEE~29148 nicht beansprucht.
 
 \section{Anforderungsformate}
 \label{sec:anforderungsformate}
-
-\textbf{[Noch zu ergänzen: User Stories, EARS, die
-Spezifikationsvorlagen aus ISO/IEC/IEEE 29148.]}
 
 \subsection{Normative Schlüsselwörter nach RFC 2119}
 \label{subsec:rfc2119}
@@ -505,8 +503,7 @@ von \emph{must} wegen möglicher Fehldeutungen ab
 Beide Konventionen können daher nicht unverändert nebeneinander
 angewendet werden. Welche Festlegung für die in dieser Arbeit erzeugten
 Anforderungen gilt, wird in der Entscheidungsmatrix in
-Abschnitt~\textbf{[Noch zu ergänzen: Verweis auf die Entscheidungsmatrix]}
-begründet festgelegt.
+Abschnitt~\ref{subsec:bewertungsergebnis} begründet festgelegt.
 
 \subsection{Easy Approach to Requirements Syntax (EARS)}
 \label{sec:ears}
@@ -568,11 +565,13 @@ unterscheiden, welche Satzteile besetzt sind
       \textless system name\textgreater{} shall
       \textless system response\textgreater \\
     Event-driven & WHEN &
-      WHEN \textless trigger\textgreater{} the
+      WHEN \textless optional preconditions\textgreater{}
+      \textless trigger\textgreater{} the
       \textless system name\textgreater{} shall
       \textless system response\textgreater \\
     Unwanted behaviour & IF \dots{} THEN &
-      IF \textless trigger\textgreater, THEN the
+      IF \textless optional preconditions\textgreater{}
+      \textless trigger\textgreater, THEN the
       \textless system name\textgreater{} shall
       \textless system response\textgreater \\
     Optional feature & WHERE &
@@ -680,9 +679,9 @@ Vorbedingung, Auslöser, System und Systemreaktion aufzuführen sind. EARS
 verwendet dabei durchgängig \textit{shall} und kennt keine weiteren
 Modalitäten \cite[Abschn.~4.1]{mavin2009ears}. Es steht damit auf
 derselben Seite wie die Schlüsselwortkonvention aus
-Abschnitt~\ref{subsec:sprachkriterien} \cite[Abschn.~5.2.7]{iso29148}
-und nicht auf derjenigen der in
-Abschnitt~\ref{subsec:rfc2119} dargestellten Konvention.. EARS und die
+Abschnitt~\ref{subsec:anforderungsaufbau}
+\cite[Abschn.~5.2.4]{iso29148} und nicht auf derjenigen der in
+Abschnitt~\ref{subsec:rfc2119} dargestellten Konvention. EARS und die
 Qualitätskriterien der Norm sind daher nach Einschätzung des Verfassers
 nicht als konkurrierende Alternativen, sondern als aufeinander
 beziehbare Festlegungen unterschiedlicher Art zu betrachten.
@@ -926,9 +925,594 @@ Entwicklungsartefakten.]}
 \chapter{Konzeption der Pipeline}
 \label{cha:konzeption}
 
-\textbf{[Noch zu ergänzen: Formatauswahl, Architektur, Datenmodell,
-Prompt-Design, Klassifikationsraster, Modellwahl,
-Evaluationskonzept.]}
+\textbf{[Noch zu ergänzen: Architektur, Datenmodell, Prompt-Design,
+Klassifikationsraster, Modellwahl, Evaluationskonzept.]}
+
+
+\section{Auswahl des Anforderungsformats}
+\label{sec:formatauswahl}
+
+Dieser Abschnitt beantwortet die zweite Forschungsfrage. Er legt
+offen, nach welchen Kriterien, auf welcher Beleggrundlage und nach
+welchen Regeln das Format der rekonstruierten Anforderungen gewählt
+wurde.
+
+\subsection{Ausgangslage und Auswahlverfahren}
+\label{subsec:auswahlverfahren}
+
+Die in Kapitel~\ref{cha:grundlagen} dargestellten Ansätze lassen sich
+nicht als vier Alternativen desselben Typs gegenüberstellen. RFC~2119
+legt ausschließlich die Bedeutung einzelner Schlüsselwörter fest und
+trifft keine Aussage über den Aufbau eines Anforderungssatzes
+\cite[Abschn.~1--5]{rfc2119}. Der Easy Approach to Requirements Syntax
+gibt umgekehrt eine Satzsyntax mit fester Klauselreihenfolge vor, ohne
+Qualitätsmerkmale oder Verbindlichkeitsstufen zu regeln
+\cite[Abschn.~4.1]{mavin2009ears}. Die User Story beschreibt eine
+Anforderung aus der Perspektive einer Rolle und gliedert sie in Rolle,
+Means und Ends \cite[Abschn.~2]{lucassen2016qus}.
+ISO/IEC/IEEE~29148 schließlich formuliert Qualitäts-, Sprach- und
+Attributregeln, die eine bereits vorliegende Anforderung beurteilen,
+und lässt alternative Formulierungen wie User Stories ausdrücklich zu
+\cite[Abschn.~5.2.4 NOTE~2 und 5.2.5--5.2.8]{iso29148}.
+
+Für die vorliegende Arbeit werden die vier Ansätze deshalb vier
+Ebenen einer Anforderung zugeordnet: (a)~der Darstellungsperspektive
+beziehungsweise Anforderungsart, (b)~dem Satz- und Syntaxmuster,
+(c)~der normativen Modalität und (d)~den Qualitäts-, Sprach- und
+Attributregeln. Diese Einteilung ist eine Setzung des Verfassers. Sie
+stützt sich auf die genannten Belegstellen, wird aber in keiner der
+Quellen selbst so formuliert.
+
+Aus der Einteilung folgt das Verfahren. Die Auswahl kann nicht darin
+bestehen, einen der vier Ansätze zu wählen und die übrigen zu
+verwerfen, denn die Ebenen schließen einander nicht grundsätzlich aus.
+Sie muss vielmehr für jede Ebene gesondert bestimmen, welche Rolle
+diese im Zielformat einnimmt. Ob eine Verbindung mehrerer Ebenen
+geeigneter ist als die Wahl einer einzigen, wird dabei zu einer eigenen
+Prüffrage und ist als Kriterium~K10 in den Katalog aufgenommen.
+
+Bewertet wird jede Ebene anhand von zehn Kriterien. Acht davon
+ergeben sich aus der Zielsetzung der Arbeit und der zweiten
+Forschungsfrage. Zwei weitere wurden im Verlauf der Bearbeitung
+ergänzt, weil ohne sie zwei für das Ergebnis wesentliche Fragen
+unbeantwortet geblieben wären: ob die Quelldaten die verlangten
+Satzbestandteile überhaupt hergeben, und ob sich Ebenen verbinden
+lassen. Tabelle~\ref{tab:kriterienkatalog} führt die Kriterien mit
+ihrer Leitfrage und ihrer Herkunft auf.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Kriterien der Formatauswahl mit Leitfrage und Herkunft}
+  \label{tab:kriterienkatalog}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.6cm}%
+                    >{\raggedright\arraybackslash}p{5.6cm}%
+                    >{\raggedright\arraybackslash}p{4.0cm}@{}}
+    \toprule
+    \textbf{Kriterium} & \textbf{Leitfrage} & \textbf{Herkunft} \\
+    \midrule
+    K1 Eindeutigkeit &
+    Schränkt der Ansatz die Zahl möglicher Lesarten ein? &
+    29148 Abschn.~5.2.5 und 5.2.7; EARS \\
+    K2 Formale Struktur &
+    Gibt der Ansatz feste, benannte Satzbestandteile und ihre
+    Reihenfolge vor? &
+    EARS Abschn.~4.1; Begriffsmodell der User Story; 29148
+    Abschn.~5.2.4 \\
+    K3 Verifizierbarkeit &
+    Erzwingt der Ansatz Angaben, an denen die Erfüllung überprüfbar
+    ist? &
+    29148 Abschn.~5.2.5, 9.6.14 und 9.6.19 \\
+    K4 Maschinelle Verarbeitbarkeit &
+    Lässt sich ein Satz verlustfrei in Datenfelder überführen? &
+    eigene Setzung, gestützt auf die Klauselstruktur von EARS \\
+    K5 Eignung für Modellausgaben &
+    Wie viele Pflichtbestandteile und Schreibvarianten muss ein
+    Sprachmodell treffen, um dem Muster zu genügen? &
+    eigene Setzung; RFC~2119 Abschn.~6; QUS \\
+    K6 Eignung für die drei Anforderungsarten &
+    Lässt sich eine Anforderung jeder der drei Arten gleich gut
+    formulieren? &
+    29148 Abschn.~9.6.12 bis 9.6.18 \\
+    K7 Verständlichkeit &
+    Wie viel Vorwissen braucht eine entwickelnde Person, um einen Satz
+    richtig zu lesen? &
+    Mavin et al.\ Abschn.~2; teils eigene Setzung \\
+    K8 Automatische Validierbarkeit &
+    Kann ein Programm feststellen, ob ein Satz dem Ansatz entspricht? &
+    QUS und AQUSA; RFC~8174; 29148 Abschn.~5.2.7 \\
+    K9 Deckung durch die Quelldaten &
+    Verlangt der Ansatz Bestandteile, die sich aus einem Pull Request
+    belegen lassen? &
+    eigene Setzung, gestützt auf die Erhebung \\
+    K10 Kombinierbarkeit &
+    Lässt sich der Ansatz mit den anderen Ebenen widerspruchsfrei
+    verbinden? &
+    RFC~2119; 29148 Abschn.~5.2.4 NOTE~2; EARS \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Die Bewertungsskala ist ordinal. Sie kennt eine Rangfolge, aber keine
+gleichen Abstände zwischen den Stufen. Der Wert~2 wird vergeben, wenn
+der Ansatz eine ausdrückliche Regel oder einen Mechanismus für das
+Kriterium enthält und diese Regel mit Quelle und Abschnitt belegbar
+ist. Der Wert~1 steht für eine vorhandene, aber nach Reichweite oder
+Bedingungen unvollständige Regel, der Wert~0 für das Fehlen einer
+solchen Regel. Betrifft ein Kriterium eine Eigenschaft, die eine Ebene
+ihrem Zweck nach nicht regelt, wird es als nicht anwendbar geführt.
+Die Beschränkung auf drei Stufen ist eine methodische Setzung des
+Verfassers: Aus Textstellen in Normen und Aufsätzen lässt sich
+ablesen, ob eine Regel vorhanden, unvollständig oder abwesend ist;
+feinere Stufen täuschten eine Genauigkeit vor, die die Quellen nicht
+hergeben.
+
+Für die Vergabe gelten mehrere vorab festgelegte Regeln. Jede Note
+verlangt einen Beleg, und der Beleg wird vor der Note gesucht, nicht
+umgekehrt. Der Wert \emph{nicht anwendbar} wird nie wie eine Null
+behandelt und nie verrechnet. Widerspricht eine eigene Messung der
+Literatur, gilt die Messung, und der Widerspruch wird ausgewiesen
+statt stillschweigend aufgelöst. Der Wert~2 bemisst sich nach dem
+Vorhandensein und der Reichweite einer Regel, nicht nach einem
+empirischen Wirksamkeitsnachweis; andernfalls könnten die auf Normen
+gestützten Ebenen ihn nie erreichen, und eine Quelle, die ihre
+Restprobleme offen berichtet, stünde schlechter da als eine, die dazu
+schweigt.
+
+Aus den Einzelnoten wird bewusst keine Gesamtnote gebildet. Die
+Kriterien K2, K4 und K8 hängen voneinander ab: Ein Ansatz mit strenger
+Satzstruktur lässt sich zugleich besser in Datenfelder überführen und
+besser maschinell prüfen. Eine Summenbildung würde dieselbe
+Eigenschaft dreifach belohnen. Da die Skala zudem keine gleichen
+Abstände kennt, wäre eine Summe auch der Sache nach nicht zulässig.
+An die Stelle einer Gesamtnote tritt deshalb eine kriterienweise
+begründete Zuweisung von Rollen, die in
+Abschnitt~\ref{subsec:rollenzuweisung} dargestellt wird.
+
+\subsection{Empirische Grundlage der gemessenen Kriterien}
+\label{subsec:formulierungsprobe}
+
+Acht der zehn Kriterien lassen sich aus der Literatur beantworten,
+weil sie Eigenschaften der Ansätze selbst betreffen. Zwei Kriterien
+tun das nicht. K9 fragt, ob die Pull-Request-Historie die von einem
+Ansatz verlangten Pflichtbestandteile hergibt; K6 fragt, ob sich mit
+einem Ansatz funktionale, leistungsbezogene und sicherheitsbezogene
+Anforderungen gleichermaßen formulieren lassen. Beide Fragen richten
+sich an das Material und wurden deshalb gemessen. Die Messung erfolgte
+in einer zweiteiligen Formulierungsprobe.
+
+Für K9 wurden zwölf Pull Requests gezogen und vollständig gelesen,
+jeweils in der Diskussions- und in der Dateiansicht. Die Ziehung
+erfolgte am 25.~August 2026 aus dem aufbereiteten Datensatz mit
+476~Vorgängen. Ausgeschlossen wurden 31~von Programmen erzeugte
+Einträge sowie 50~zum Erhebungszeitpunkt noch offene Vorgänge, sodass
+395~Vorgänge als Grundgesamtheit verblieben. Gezogen wurde geschichtet,
+um sicherzustellen, dass auch schwierige Fälle in die Messung eingehen
+und nicht nur gut dokumentierte Vorgänge. Tabelle~\ref{tab:schichtung}
+führt die sechs Schichten auf. Die Ziehung ist mit demselben
+Zufallsstartwert und derselben Eingabedatei wiederholbar; Startwert,
+Prüfsumme der Eingabe und Stand des verwendeten Skripts sind in
+\texttt{docs/sample\_formulation\_probe.md} festgehalten.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Schichtung der Stichprobe für die Formulierungsprobe}
+  \label{tab:schichtung}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{7.4cm}rr@{}}
+    \toprule
+    \textbf{Schicht} & \textbf{verfügbar} & \textbf{gezogen} \\
+    \midrule
+    zusammengeführt, mit Kommentaren      & 125 & 3 \\
+    zusammengeführt, ohne Kommentare      & 109 & 2 \\
+    ohne Zusammenführung geschlossen      &  56 & 2 \\
+    ohne Beschreibungstext                &  51 & 2 \\
+    großer Änderungsumfang, gekürzt       &  51 & 2 \\
+    ohne Codeänderung                     &   3 & 1 \\
+    \midrule
+    Grundgesamtheit                       & 395 & 12 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Zu jedem Fall wurde festgehalten, ob sich die Pflichtbestandteile der
+Ebenen~(a), (b) und~(c) aus Titel, Beschreibung, Kommentaren und
+Änderungsdiff belegen lassen, ohne eine Angabe zu ergänzen, die die
+Quelle nicht enthält. Als Fundstellen zugelassen waren ausschließlich
+diese vier Inhalte; Commit-Nachrichten und verlinkte Vorgänge blieben
+ausgeschlossen.
+
+Tabelle~\ref{tab:deckung} zeigt das Ergebnis. Berichtet wird nach der
+vorab festgelegten Regel nicht nur die Note, sondern auch der
+gemessene Wert.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Deckung der Pflichtbestandteile durch die Quelldaten,
+           gemessen an zwölf Pull Requests}
+  \label{tab:deckung}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.0cm}rr@{}}
+    \toprule
+    \textbf{Ebene} & \textbf{gedeckte Fälle} & \textbf{Note K9} \\
+    \midrule
+    (a) Darstellungsperspektive: User Story & 4 von 12 & 0 \\
+    (b) Satz- und Syntaxmuster: EARS        & 9 von 12 & 1 \\
+    (c) Normative Modalität                 & 0 von 12 & 0 \\
+    (d) Qualitäts- und Sprachregeln         & n.\,a.   & n.\,a. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Bei Ebene~(a) scheiterten die nicht gedeckten Fälle überwiegend am
+Bestandteil Rolle: Pull Requests richten sich an andere Entwickelnde
+und benennen den Nutznießer einer Änderung meist nicht. Zwei der vier
+gedeckten Fälle nennen eine Personengruppe nur pauschal. Bei Ebene~(c)
+war in keinem einzigen Fall eine Verbindlichkeitsstufe für die
+rekonstruierte Anforderung selbst belegt. Modalaussagen kommen zwar
+mehrfach vor, betreffen aber das Vorgehen im Pull Request, eine andere
+Anforderung oder ein benachbartes Bauteil und belegen daher keine
+Stufe.
+
+Für K6 wurden je Ebene drei Anforderungen formuliert, eine je Art. Als
+Vorlage dienten drei Referenzinhalte aus den Inhaltsvorgaben der
+ISO/IEC/IEEE~29148, aufgeführt in Tabelle~\ref{tab:referenzinhalte}.
+Sie geben nur den fachlichen Kern der jeweiligen Art wieder und stehen
+in der Aussageform, damit mit dem Inhalt kein Schlüsselwort
+mitgeliefert wird; im Leistungsbeispiel formuliert die Norm mit
+\emph{shall}, das Modalverb wurde entfernt. Der funktionale
+Referenzinhalt führt die Aufzählung und die Einleitung des betreffenden
+Abschnitts zusammen; die Angabe, dass die Prüfung vor der Verarbeitung
+erfolgt, ist eine Konkretisierung des Verfassers. Da alle Ebenen
+denselben Referenzinhalt erhielten, wirkt sie sich auf den Vergleich
+zwischen ihnen nicht aus. Ein einheitlicher Rahmen
+legte fest, dass das betrachtete System eine von entwickelnden
+Personen verwendete Programmbibliothek ist. Er nennt weder eine
+Verbindlichkeitsstufe noch einen Nutznießer der einzelnen Anforderung.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Referenzinhalte der Formulierungsprobe, entnommen den
+           Inhaltsvorgaben für eine Software-Anforderungsspezifikation
+           \cite[Abschn.~9.6.12 a, 9.6.14 und 9.6.18 c 5]{iso29148}}
+  \label{tab:referenzinhalte}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.8cm}%
+                    >{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\raggedright\arraybackslash}p{7.0cm}@{}}
+    \toprule
+    \textbf{Art} & \textbf{Abschnitt} & \textbf{Referenzinhalt} \\
+    \midrule
+    funktional &
+    9.6.12 a &
+    The inputs are checked for validity before they are processed. \\
+    leistungs\-bezogen &
+    9.6.14 &
+    95\,\% of the transactions are processed in less than 1\,s. \\
+    sicherheits\-bezogen &
+    9.6.18 c 5 &
+    The integrity of data in critical variables is checked. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Ein Versuch galt als gelungen, wenn der Satz alle Pflichtbestandteile
+der Ebene besetzt und keine Angabe enthält, die Rahmen oder
+Referenzinhalt nicht hergeben. Für die Ebenen~(a) und~(b) gelangen
+jeweils alle drei Versuche; beide erhalten damit bei K6 die Note~2.
+Für die Ebenen~(c) und~(d) ist das Kriterium nicht anwendbar, da nur
+(a) und (b) Satzbestandteile und deren Reihenfolge vorgeben: Ebene~(c)
+legt allein die Bedeutung von Schlüsselwörtern fest, Ebene~(d)
+beurteilt eine bereits formulierte Anforderung.
+
+Die Schwellen beider Kriterien standen vor der Messung fest. Bei K9
+führen 80~Prozent und mehr zur Note~2, 40 bis unter 80~Prozent zur
+Note~1 und darunter zur Note~0. Bei zwölf Fällen entspricht ein Fall
+8,33~Prozentpunkten, sodass tatsächlich die Grenzen 83,3 und
+41,7~Prozent wirksam sind; dieser Versatz ist eine Folge der
+Stichprobengröße und wird in Kapitel~\ref{cha:diskussion} aufgegriffen.
+Die Grenzen selbst folgen aus keiner Quelle, sondern sind eine Setzung
+des Verfassers; sie trennen eine nahezu durchgängige von einer
+mehrheitlichen und diese von einer überwiegend fehlenden Deckung.
+
+Beide gemessenen Noten wurden deshalb auf ihre Empfindlichkeit
+geprüft. Bei Ebene~(b) läge die Note bei einem einzigen zusätzlich
+gedeckten Fall nicht mehr bei~1, sondern bei~2; bei Ebene~(a) fiele
+sie umgekehrt bereits bei einem Fall weniger nicht weiter, da sie
+schon die unterste Stufe erreicht. Empfindlicher als die Schwelle ist
+die Auslegung der Regeln: Würde eine nur pauschal genannte
+Personengruppe nicht als belegte Rolle gelten, sänke die Deckung der
+Ebene~(a) von vier auf zwei Fälle. Bei K6 wäre die Wirkung noch
+deutlicher; würde eine vom Rahmen gelieferte Rolle nicht als belegt
+gelten, fiele Ebene~(a) von drei auf null gelungene Versuche und damit
+von Note~2 auf Note~0, während Ebene~(b) unverändert bliebe, weil ihre
+Systemreaktion dem Referenzinhalt selbst entstammt. Beide Befunde
+werden in Kapitel~\ref{cha:diskussion} berichtet.
+
+\subsection{Ergebnis der Bewertung}
+\label{subsec:bewertungsergebnis}
+
+Tabelle~\ref{tab:entscheidungsmatrix} führt die vergebenen Noten auf.
+Die Noten für K6 und K9 stammen aus der in
+Abschnitt~\ref{subsec:formulierungsprobe} beschriebenen Messung, alle
+übrigen aus der Literatur.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Entscheidungsmatrix der Formatauswahl}
+  \label{tab:entscheidungsmatrix}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.4cm}cccc@{}}
+    \toprule
+    \textbf{Kriterium} & \textbf{(a)} & \textbf{(b)} & \textbf{(c)} &
+    \textbf{(d)} \\
+    \midrule
+    K1 Eindeutigkeit                        & 1 & 2 & 1 & 2 \\
+    K2 Formale Struktur                     & 1 & 2 & n.\,a. & n.\,a. \\
+    K3 Verifizierbarkeit                    & 1 & 1 & n.\,a. & 2 \\
+    K4 Maschinelle Verarbeitbarkeit         & 2 & 2 & 1 & 1 \\
+    K5 Eignung für Modellausgaben           & 1 & 2 & 1 & n.\,a. \\
+    K6 Eignung für die drei Anforderungsarten & 2 & 2 & n.\,a. & n.\,a. \\
+    K7 Verständlichkeit                     & 1 & 2 & 1 & 2 \\
+    K8 Automatische Validierbarkeit         & 1 & 2 & 2 & 1 \\
+    K9 Deckung durch die Quelldaten         & 0 & 1 & 0 & n.\,a. \\
+    K10 Kombinierbarkeit                    & 1 & 1 & 1 & 2 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize
+  (a)~User Story \quad (b)~EARS \quad (c)~Normative Modalität \quad
+  (d)~Qualitäts-, Sprach- und Attributregeln
+\end{table}
+
+Die Tabelle ist nicht spaltenweise zu summieren. Der Wert
+\emph{nicht anwendbar} bedeutet, dass eine Ebene die betreffende
+Eigenschaft ihrem Zweck nach nicht regelt, und nicht, dass sie darin
+versagt. Die vollständigen Einzelbegründungen mit Belegstelle und
+Gegenargument stehen in
+\textbf{[Noch zu ergänzen: Verweis auf den Anhang mit den
+Einzelbegründungen]}.
+
+Vier Muster prägen das Bild. Erstens erreicht Ebene~(b) in keinem
+Kriterium eine schlechtere Note als Ebene~(a) und in sechs Kriterien
+eine bessere, nämlich bei K1, K2, K5, K7, K8 und K9. In den übrigen
+vier Kriterien sind beide gleichauf. Ein Vergleich der beiden
+Satzebenen fällt damit eindeutig aus, ohne dass Noten gegeneinander
+aufgerechnet werden müssten.
+
+Zweitens schließen die Ebenen~(a) und~(b) einander im Satz aus. Beide
+geben Pflichtbestandteile vor, und diese Mengen sind nicht miteinander
+vereinbar: Eine wohlgeformte User Story verlangt zwingend die Nennung
+einer Rolle \cite[Tab.~1]{lucassen2016qus}, während die Muster des EARS
+als Pflichtbestandteile den Systemnamen, \emph{shall} und die
+Systemreaktion vorsehen und für eine Rolle keinen Platz enthalten
+\cite[Abschn.~4.1]{mavin2009ears}. Ein einzelner Satz kann nicht beiden
+Bestandteilsmengen zugleich genügen. Die Begründung stützt sich dabei
+auf die verlangten Bestandteile und nicht auf deren Stellung im Satz,
+denn von der Schablone der User Story sind über achtzig syntaktische
+Varianten verbreitet \cite[Abschn.~2]{lucassen2016qus}. Nur eine der
+beiden Ebenen kann die Satzform stellen.
+
+Drittens ist Ebene~(d) die einzige Ebene ohne Konflikt mit einer
+anderen. Sie schreibt keine Satzform vor, sondern beurteilt eine
+bereits formulierte Anforderung, und lässt alternative Formulierungen
+ausdrücklich zu \cite[Abschn.~5.2.4 NOTE~2]{iso29148}. Entsprechend
+erhält sie als einzige bei K10 die Note~2.
+
+Viertens fällt Ebene~(c) bei K9 auf die Note~0. Ihr einziger
+Pflichtbestandteil, die Verbindlichkeitsstufe, ist in keinem der zwölf
+untersuchten Fälle belegt. Zugleich erreicht sie bei K8 die Note~2,
+weil ihr Vokabular geschlossen und durch die Großschreibungsregel
+eindeutig abgegrenzt ist \cite[Abschn.~2]{rfc8174}. Eine Ebene kann
+also maschinell gut prüfbar und dennoch für das vorliegende Material
+ohne Grundlage sein.
+
+\subsection{Rollenzuweisung und gewähltes Zielformat}
+\label{subsec:rollenzuweisung}
+
+An die Stelle einer Gesamtnote tritt die Zuweisung einer Rolle je
+Ebene. Eine Ebene ist \emph{verpflichtend}, wenn jede rekonstruierte
+Anforderung ihr folgt; sie ist \emph{optional}, wenn sie nur dort
+angewendet wird, wo die Quelle die nötigen Bestandteile hergibt; sie
+gilt als \emph{nicht verwendet}, wenn sie im Zielformat nicht vorkommt.
+Die Zuweisung wird kriterienweise begründet.
+
+Vorab gilt eine Ausschlussregel: Eine Ebene, deren Pflichtbestandteile
+in weniger als vierzig Prozent der Stichprobe belegt sind, kann nicht
+verpflichtend werden. Wäre sie es, müsste ein Sprachmodell in der
+Mehrzahl der Fälle einen Bestandteil ergänzen, den die Quelle nicht
+enthält. Das widerspräche dem Grundsatz, dass jede rekonstruierte
+Anforderung auf einen Quellausschnitt zurückführbar bleibt. Die Regel
+trifft die Ebenen~(a) und~(c); für Ebene~(d) greift sie nicht, weil K9
+dort nicht anwendbar ist und ein nicht anwendbares Kriterium nicht wie
+eine Null wirkt.
+
+Ebene~(b) wird verpflichtend. Sie ist die einzige Satzebene, deren
+Pflichtbestandteile die Quelldaten mehrheitlich hergeben, und sie
+erreicht bei formaler Struktur, Eignung für Modellausgaben und
+automatischer Validierbarkeit jeweils die Note~2. Damit weist sie
+genau die strukturellen Eigenschaften auf, auf die eine automatisierte
+Erzeugung und eine anschließende maschinelle Prüfung angewiesen sind.
+Ob ein Sprachmodell ein solches Muster tatsächlich zuverlässiger
+einhält als ein anderes Format, ist damit nicht gezeigt; diese Frage
+wird erst in Kapitel~\ref{cha:evaluation} gemessen.
+
+Ebene~(a) wird nicht verwendet. Da nur eine der beiden Satzebenen die
+Satzform stellen kann und Ebene~(b) in keinem Kriterium schlechter
+abschneidet, entfällt die User Story als Satzmuster. Ausschlaggebend
+ist der Bestandteil Rolle: Pull Requests richten sich an andere
+Entwickelnde und benennen den Nutznießer einer Änderung meist nicht.
+Wo die Quelle dennoch eine Rolle oder einen Nutznießer nennt, geht
+diese Angabe nicht verloren, sondern wird im Attribut Rationale
+festgehalten, das der Standard für die Begründung einer Anforderung
+vorsieht \cite[Abschn.~5.2.8.2]{iso29148}.
+
+Ebene~(c) wird nicht verwendet. Zweck dieser Ebene ist die
+Unterscheidung mehrerer Verbindlichkeitsstufen; die Messung ergab null
+belegte Stufen in zwölf Fällen. Jede Abstufung wäre daher gesetzt und
+nicht rekonstruiert. Damit ist zugleich der in
+Abschnitt~\ref{subsec:rfc2119} benannte Widerspruch zwischen den
+Schlüsselwortkonventionen zu entscheiden: Für die vorliegende Arbeit
+gilt die Konvention der ISO/IEC/IEEE~29148, die verbindliche
+Anforderungen mit \emph{shall} kennzeichnet und von \emph{must}
+abrät \cite[Abschn.~5.2.4]{iso29148}. Sie ist mit dem verpflichtenden
+Satzmuster widerspruchsfrei, da EARS ausschließlich \emph{shall}
+verwendet \cite[Abschn.~4.1]{mavin2009ears}. Die Konvention nach
+RFC~2119 wäre es nicht, da sie \emph{MUST} und \emph{SHALL}
+gleichsetzt und fünf Stufen kennt \cite[Abschn.~1--5]{rfc2119};
+überdies verlangt sie eine Abwägung, welche Stufe angemessen ist
+\cite[Abschn.~6]{rfc2119}, und diese Abwägung ist ohne belegte Stufe
+nicht zu treffen.
+
+Daraus folgt eine Festlegung, die als solche kenntlich bleiben muss:
+Alle rekonstruierten Anforderungen verwenden einheitlich \emph{shall}.
+Diese Einheitlichkeit ist eine Konvention der vorliegenden Arbeit und
+keine aus der Quelle gewonnene Eigenschaft. Das Wort ist
+Formbestandteil des EARS-Musters und darf weder in der Ausgabe der
+Pipeline noch in dieser Arbeit als Beleg dafür gelesen werden, dass
+die untersuchte Historie eine Anforderung als zwingend ausgewiesen
+hätte. Die Ausgabe der Pipeline führt dazu ein eigenes Feld, das die
+Verbindlichkeit ausdrücklich als gesetzt kennzeichnet.
+
+Ebene~(d) wird verpflichtend, allerdings in einem begründeten
+Ausschnitt. Verbindlich sind erstens die sprachlichen Kriterien des
+Standards vollständig, also der Grundsatz, dass eine Anforderung das
+Was und nicht das Wie beschreibt, sowie die dort benannten Klassen
+unbestimmter und mehrdeutiger Ausdrücke \cite[Abschn.~5.2.7]{iso29148}.
+Verbindlich sind zweitens fünf der neun Merkmale einzelner
+Anforderungen: eindeutig, vollständig, einzelbezogen, nachweisbar und
+vorlagenkonform \cite[Abschn.~5.2.5]{iso29148}. Verbindlich sind
+drittens drei Attribute als Pflichtfelder neben dem Anforderungssatz:
+Identifikation, Begründung und Typ. Der Standard führt Attribute
+ausdrücklich als Beispiele auf und schreibt kein bestimmtes Paket vor
+\cite[Abschn.~5.2.8.2]{iso29148}; die Auswahl gerade dieser drei ist
+eine Festlegung der vorliegenden Arbeit. Sie stützt sich darauf, dass
+sich diese drei als einzige der aufgeführten Attribute aus der
+untersuchten Historie belegen lassen.
+
+Die übrigen Bestandteile der Ebene bleiben außen vor. Die Merkmale
+\emph{notwendig}, \emph{umsetzbar} und \emph{korrekt} verlangen
+Kenntnis des tatsächlichen Bedarfs oder der zeitlichen, technischen und
+wirtschaftlichen Randbedingungen; beides enthält die untersuchte
+Historie nicht. Das Merkmal \emph{angemessen} betrifft zwei Dinge, die
+passende Abstraktionsebene und den Verzicht auf Entwurfsvorgaben; nur
+das Zweite ist an einem einzelnen Satz prüfbar und bereits durch die
+sprachlichen Kriterien abgedeckt. Die Merkmale einer Anforderungsmenge
+gelten nicht für den einzelnen Satz und werden stattdessen als
+Bewertungskriterien der Evaluation in Kapitel~\ref{cha:evaluation}
+herangezogen \cite[Abschn.~5.2.6]{iso29148}. Die Qualitätskriterien
+des Quality-User-Story-Rahmenwerks setzen Bestandteile der User Story
+voraus \cite[Abschn.~3]{lucassen2016qus} und verlieren mit Ebene~(a)
+ihren Gegenstand. Die acht Sprachprobleme aus der Erprobung von EARS
+schließlich sind ein Instrument zur Beurteilung vorhandener
+Anforderungen \cite[Abschn.~3]{mavin2010bigears} und kein Regelwerk für
+deren Erzeugung; sie kommen im Bewertungsbogen der Evaluation zum
+Tragen. Welche der neun Merkmale am Satz selbst prüfbar sind, ist eine
+Einordnung des Verfassers und steht so nicht im Standard.
+
+Das gewählte Zielformat verbindet damit zwei Ebenen und wird im
+Folgenden als EARS+29148 bezeichnet. Es ist wie folgt festgelegt. Die
+Anforderungen werden in englischer Sprache formuliert. Jeder
+Anforderungssatz folgt einem der fünf EARS-Muster nach
+Tabelle~\ref{tab:ears-muster}; Pflichtbestandteile sind der Systemname,
+das Wort \emph{shall} und die Systemreaktion, während Vorbedingung und
+Auslöser vom jeweiligen Muster abhängen. Die Klauselreihenfolge ist
+verbindlich, eine Kombination mehrerer Muster zulässig. Als Systemname
+dient die in der Quelle benannte Komponente, ersatzweise das Framework
+selbst. Jeder Satz wird gegen den oben festgelegten Ausschnitt der
+Qualitäts- und Sprachregeln geprüft. Neben dem Satz führt jede
+Anforderung mindestens die drei genannten Pflichtfelder; das
+vollständige Ausgabeschema der Pipeline wird in
+Abschnitt~\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zum
+Datenmodell]} festgelegt und enthält darüber hinaus die Quellreferenz,
+den Quellausschnitt und die Belegstärke.
+
+Von diesem Zielformat lässt sich ein Teil programmatisch prüfen: das
+Vorliegen eines der fünf Muster anhand seines Schlüsselworts, die
+Reihenfolge der Klauseln, das Vorhandensein von \emph{shall}, das
+Fehlen anderer Modalverben sowie die benannten Wortklassen der
+sprachlichen Kriterien. Die inhaltlichen Merkmale einzelner
+Anforderungen sind einer solchen Prüfung nicht zugänglich; sie
+verbleiben bei der menschlichen Bewertung in
+Kapitel~\ref{cha:evaluation}. Diese Aufgabenteilung folgt einem in der
+Literatur belegten Grundsatz: Ein Werkzeug übernimmt die maschinell
+entscheidbaren Prüfungen und meldet dabei eher zu viele als zu wenige
+Auffälligkeiten, während die urteilsabhängigen Prüfungen beim Menschen
+verbleiben \cite[Abschn.~4]{lucassen2016qus}.
+
+\subsection{Grenzen der Formatauswahl}
+\label{subsec:formatauswahl-grenzen}
+
+Die vorgestellte Auswahl unterliegt mehreren Einschränkungen, die
+zusammen mit den Ergebnissen zu lesen sind.
+
+Die schwerwiegendste betrifft die Übertragbarkeit des gewählten
+Satzmusters. Die Urheber des EARS erheben ausdrücklich keinen Anspruch
+auf allgemeine Anwendbarkeit über alle Ebenen der Systemzerlegung
+hinweg und bezeichnen ihr Verfahren als am besten geeignet für die
+Formulierung hochrangiger Stakeholder-Anforderungen
+\cite[Abschn.~2]{mavin2009ears}. Die hier untersuchten Pull Requests
+liegen demgegenüber auf der Ebene der Implementierung. Sie beschreiben
+Änderungen an einzelnen Modulen, nicht Erwartungen von Beteiligten an
+ein System als Ganzes. Die Anwendung des Musters auf dieses Material
+ist damit eine begründete Übertragung, jedoch keine durch die Quelle
+gedeckte Anwendung. Ob sie trägt, entscheidet erst die Bewertung durch
+das Qrisp-Team in Kapitel~\ref{cha:evaluation}.
+
+Auch die Belastbarkeit der beiden gemessenen Kriterien ist begrenzt.
+Die Stichprobe umfasst zwölf Fälle; ein einziger zusätzlich gedeckter
+Fall würde die Note der Ebene~(b) bei K9 von~1 auf~2 anheben. Die
+Schwellen von 80 und 40~Prozent sind gesetzt und folgen aus keiner
+Quelle, und bei zwölf Fällen sind tatsächlich 83,3 und 41,7~Prozent
+wirksam. Empfindlicher als die Schwellen ist die Auslegung der Regeln,
+insbesondere die Frage, ob eine nur pauschal genannte Personengruppe
+als belegte Rolle gilt. Die Deckungsquote der Ebene~(a) hängt von
+dieser Auslegung unmittelbar ab.
+
+Die aus der Literatur vergebenen Noten stehen unter einem anderen
+Vorbehalt. Die Skala misst nach der in
+Abschnitt~\ref{subsec:auswahlverfahren} festgelegten Regel das
+Vorhandensein und die Reichweite einer Regel, nicht deren nachgewiesene
+Wirkung. Für keinen der vier Ansätze liegt eine unabhängige
+Wirksamkeitsstudie vor: Die Erprobung des EARS beruht auf 36
+Ausgangsanforderungen aus einer einzigen Domäne und auf einer Bewertung
+durch die Autoren selbst, die die Einstufung von Vagheit ausdrücklich
+als ermessensabhängig bezeichnen
+\cite[Abschn.~6]{mavin2009ears}. Die Auswertung des
+Quality-User-Story-Rahmenwerks beruht auf Datensätzen überwiegend
+niederländischer Softwareanbieter
+\cite[Abschn.~5.2]{lucassen2016qus}. Für die Normabschnitte existiert
+keine Wirksamkeitsuntersuchung. Besonders vorläufig ist die Zeile zu
+K7: Wie viel Vorwissen eine entwickelnde Person tatsächlich benötigt,
+lässt sich erst durch die Bewertung in Kapitel~\ref{cha:evaluation}
+bestimmen; bis dahin beruht die Note auf ersatzweise herangezogenen
+Merkmalen.
+
+Grenzen weist ferner das Entscheidungsverfahren selbst auf. Die drei
+Rollenbezeichnungen wurden für Satzmuster formuliert. Für Ebene~(d)
+bedeutet \emph{verpflichtend} deshalb nicht, dass jede Anforderung
+einem Muster folgt, sondern dass sie gegen die festgelegten Regeln
+geprüft wird. Für Ebene~(c) fallen \emph{optional} und \emph{nicht
+verwendet} zusammen, weil die Quelle den betreffenden Bestandteil in
+keinem einzigen Fall hergibt; das Verfahren unterscheidet an dieser
+Stelle nichts mehr. Schließlich beruht die Zuordnung der neun Merkmale
+einzelner Anforderungen auf am Satz prüfbare und nicht prüfbare
+Merkmale auf einer Einordnung des Verfassers und nicht auf einer
+Festlegung des Standards.
+
+Nicht zuletzt ist festzuhalten, was das gewählte Format nicht leistet.
+Das durchgehende \emph{shall} ist eine Konvention und kein Befund; eine
+lesende Person, die den Methodenteil nicht kennt, kann es dennoch als
+Aussage über die Verbindlichkeit missverstehen. Der Nutznießer einer
+Anforderung entfällt als eigenständiger Satzbestandteil und wird nur
+noch im Attribut Begründung geführt, soweit die Quelle ihn überhaupt
+nennt. Und da die Arbeit lediglich einen begründet gewählten Ausschnitt
+der Inhaltsvorgaben heranzieht, wird eine Konformität mit
+ISO/IEC/IEEE~29148 nicht beansprucht; der Standard schließt eine solche
+Behauptung bei Anpassung seiner Vorgaben ausdrücklich aus
+\cite[Anhang~C.1]{iso29148}.
+
+Aus diesen Einschränkungen folgt nicht, dass die Auswahl beliebig wäre.
+Sie beruht auf zehn vorab festgelegten Kriterien, auf belegten
+Einzelnoten und auf zwei am Material erhobenen Messungen. Sie zeigt
+jedoch, dass die Entscheidung für EARS+29148 eine begründete Wahl unter
+Unsicherheit ist und keine aus den Quellen ableitbare Notwendigkeit.
 
 
 \chapter{Implementierung}

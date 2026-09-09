@@ -873,6 +873,14 @@ gleichsetzt und fuenf Stufen kennt. RFC 2119 Abschn. 6 verlangt
 ausserdem eine Abwaegung, welche Stufe angemessen ist; diese Abwaegung
 ist aus Quelldaten ohne belegte Stufe nicht zu treffen.
 
+Praezisiert am 09.09.2026: Die Formulierung "widerspruchsfrei, die nach
+RFC 2119 nicht" ist zu stark. RFC 2119 verlangt weder die Verwendung
+aller fuenf Stufen noch beider Ausdruecke und fordert in Abschn. 6
+einen sparsamen Gebrauch; eine dokumentierte Beschraenkung auf SHALL
+waere moeglich. Tragend ist deshalb nicht eine Unvereinbarkeit, sondern
+dass die Konvention ohne einen einzigen belegten Fall ihren Zweck
+verliert. Die Entscheidung selbst bleibt unveraendert.
+
 Ergaenzender Grund: RFC 2119 haelt im Abstract fest, dass die Wirkung
 seiner Schluesselwoerter von der Verbindlichkeitsstufe des Dokuments
 abhaengt, in dem sie stehen. Ein rekonstruiertes Anforderungsdokument
