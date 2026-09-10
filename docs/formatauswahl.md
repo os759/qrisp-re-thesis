@@ -504,6 +504,7 @@ Noch offen:
 | 08.09.2026 | Noten fuer K8 und K10 je Ebene vergeben; Schritt 4c damit abgeschlossen. Abschnitt 8 fortgeschrieben | Beide Kriterien wurden auf Wunsch des Verfassers in einer Runde vorgelegt; das weicht von C2a ab und ist in Abschnitt 10 vermerkt. Ebene (c) erreicht bei K8 erstmals die 2. Bei K10 ist Ebene (d) die einzige ohne Konflikt, waehrend die Ebenen (a) und (b) einander im Satz ausschliessen. Die Zelle K10 fuer Ebene (c) haengt an der in Schritt 5 zu treffenden Wahl der Modalitaetskonvention. Vorschlag des Modells nach C2a, vom Verfasser an den Quellen geprueft und uebernommen. |
 | 08.09.2026 | Fuenf Berichtigungen in Abschnitt 10 nach Gegenpruefung an den Volltexten. K7 und K8 sprachen bei Ebene (c) von fuenf Schluesselwoertern statt von fuenf Stufen mit elf Woertern. Bei K7 fehlte RFC 8174 Abschn. 1 als Fundstelle. Bei K8 war Abschn. 6 im Gegenargument verwendet, aber nicht belegt, und eine eigene Bewertung war als Quellenaussage lesbar. Bei K1 Ebene (d) stand "acht" statt "neun" Aufzaehlungspunkte in 29148 Abschn. 5.2.7. Keine Note aendert sich | Die Volltexte von RFC 2119 und RFC 8174 lagen dem vorschlagenden Modell erstmals vor; die Zellen der Ebene (c) stuetzten sich bis dahin auf die Lesenotiz. Beim Nachlesen von 29148 Abschn. 5.2.5 bis 5.2.8 fiel zusaetzlich die falsche Zahl bei K1 auf. Die Lesenotiz zu RFC 2119 enthielt selbst keinen Fehler; die Ungenauigkeit entstand beim Verkuerzen in die Zelle |
 | 08.09.2026 | Schritt 5 abgeschlossen und als C5 in docs/entscheidungen.md festgehalten. Abschnitt 8 fortgeschrieben. Die Zelle K10 fuer Ebene (c) bleibt entgegen dem dort vermerkten Vorbehalt bei Note 1; der Vorbehalt wurde durch einen datierten Nachtrag ersetzt | Die Matrix soll auf dem Stand bleiben, auf dem sie in die Entscheidung eingegangen ist. Eine nachtraegliche Anhebung haette sie vom Ergebnis der Entscheidung abhaengig gemacht, die sie stuetzen soll. Die Note 1 bewertet die Ebene als Ganzes, und diese enthaelt den inneren Konflikt; dass er durch die Wahl einer Auspraegung aufloesbar ist, stand bereits im Gegenargument der Zelle |
+| 10.09.2026 | Zwei Berichtigungen in Abschnitt 10: Bei K2 und K3 Ebene (d) stand fuer 29148 Abschn. 5.2.7 die Zahl acht statt neun Aufzaehlungspunkte. Keine Note aendert sich | Die Berichtigung vom 08.09.2026 hatte nur K1 erfasst. Die Abweichung fiel dem Modell (Claude) beim Kuerzen fuer Anhang A auf; es hat den Normtext erneut eingesehen. Der Verfasser hat die neun Aufzaehlungspunkte in Abschn. 5.2.7 selbst nachgezaehlt |
 
 
 ## 10. Entscheidungsmatrix (in Arbeit)
@@ -659,7 +660,7 @@ Gegenargument, fuehrt zu 0: siehe Vorfrage.
 
 Ebene (d) Qualitaets-, Sprach- und Attributregeln, n. a.
 Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.7 (sprachliche Kriterien
-und acht Klassen zu vermeidender Ausdruecke), Abschn. 5.2.8.1 und
+und neun Aufzaehlungspunkte zu vermeidender Ausdruecke), Abschn. 5.2.8.1 und
 5.2.8.2 (Attribute wie Kennung, Versionsnummer, Eigner, Prioritaet,
 Risiko, Begruendung, Schwierigkeitsgrad); Lucassen et al. 2016 Tab. 1;
 Mavin/Wilkinson 2010, Abschnitt "Testing the Hypothesis".
@@ -670,6 +671,9 @@ Satzbestandteile oder eine Reihenfolge.
 Gegenargument, fuehrt zu 0: siehe Vorfrage. Die Attribute aus 5.2.8
 sind benannte Felder mit fester Bedeutung, stehen aber neben dem Satz
 und nicht in ihm. Fuer K4 sind sie erheblich, fuer K2 nicht.
+Berichtigt am 10.09.2026: Im Beleg stand zuvor die Zahl acht.
+Abschn. 5.2.7 fuehrt neun Aufzaehlungspunkte, siehe die Berichtigung
+bei K1 Ebene (d). Die Einstufung n. a. bleibt.
 
 Einschraenkung zur Belegpruefung: Die Volltexte von RFC 2119 und
 RFC 8174 lagen dem vorschlagenden Modell in dieser Runde nicht vor.
@@ -729,7 +733,7 @@ Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
 Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.5, Merkmal Verifiable (die
 Anforderung ist so aufgebaut und formuliert, dass ihre Umsetzung
 nachgewiesen werden kann; Messbarkeit verbessert die Nachweisbarkeit);
-Abschn. 5.2.7 (acht Klassen unbestimmter Ausdruecke, ausdruecklich mit
+Abschn. 5.2.7 (neun Aufzaehlungspunkte unbestimmter Ausdruecke, ausdruecklich mit
 der Ueberpruefbarkeit begruendet).
 Begruendung: Der Standard fuehrt die Nachweisbarkeit als eigenes
 Merkmal jeder einzelnen Anforderung und begruendet die Liste
@@ -738,6 +742,9 @@ liegt eine ausdrueckliche und weitgehend operationalisierte Regel vor.
 Gegenargument, fuehrt zu 1: Messbarkeit wird nur als verbessernd
 bezeichnet, nicht verlangt. Die Regeln sagen zudem, was zu vermeiden
 ist, nicht, welche Angabe eine Anforderung enthalten muss.
+Berichtigt am 10.09.2026: Im Beleg stand zuvor die Zahl acht.
+Abschn. 5.2.7 fuehrt neun Aufzaehlungspunkte, siehe die Berichtigung
+bei K1 Ebene (d). Die Note bleibt 2.
 
 Befund: Erstmals liegt Ebene (d) ueber Ebene (b). Die Ebenen ergaenzen
 einander; die Matrix bestaetigt nicht durchgaengig EARS. Fuer die
