@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 08.09.2026
+Letzte Aktualisierung: 10.09.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -327,11 +327,18 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Aktuell
 
-Paket C, Schritt 4c abgeschlossen am 08.09.2026. Die
-Entscheidungsmatrix in docs/formatauswahl.md Abschnitt 10 ist
-vollstaendig: alle zehn Kriterien sind je Ebene vergeben, jede Zelle
-mit Belegstelle, Begruendung und Gegenargument. Damit ist E2
-anwendbar. Offen sind die Schritte 5 und 6.
+Paket C, Schritte 5 und 6 abgeschlossen am 09.09.2026. Die
+Rollenzuweisung und die Formatentscheidung stehen als C5 in
+docs/entscheidungen.md, der Abschnitt 4.1 steht in
+thesis/thesis.tex. Ergebnis: die Ebenen (b) EARS und (d)
+Qualitaetsregeln sind verpflichtend, die Ebenen (a) und (c) werden
+nicht verwendet. Das Zielformat heisst EARS+29148.
+
+Offen bleibt aus Paket C nur noch der Anhang mit den gekuerzten
+Einzelbegruendungen der Entscheidungsmatrix (Weg C, entschieden am
+09.09.2026) sowie die beiden Platzhalter in Abschnitt 4.1. Der
+Anhang wird in einem neuen Chat geschrieben, weil dieser zu lang
+geworden war. Paket C gilt erst danach als abgeschlossen.
 
 Seit dem 07.09.2026 gilt zusaetzlich R11: Die Skalenstufe 2 bemisst
 sich am Vorhandensein und an der Reichweite einer ausdruecklichen
@@ -359,13 +366,18 @@ gelesen hat: Mavin 2009, Mavin/Wilkinson 2010, Wilkinson/Mavin 2018,
 Lucassen 2016, RFC 2119, RFC 8174, ISO/IEC/IEEE 29148 Abschn. 5.2.4
 bis 5.2.7.
 
-Am 07. und 08.09.2026 lagen die Volltexte von RFC 2119 und RFC 8174
-nicht vor. Die Vorschlaege zu Ebene (c) in den Runden K2 bis K5, K7,
-K8 und K10 stuetzen sich insoweit auf
-literatur/notizen/bradner_1997_rfc2119.md. Das ist in
-docs/formatauswahl.md Abschnitt 10 in jedem Block vermerkt. Wer die
-Zellen der Ebene (c) gegenpruefen will, sollte die beiden
-RFC-Volltexte beilegen.
+Erledigt am 08.09.2026: Die Zellen der Ebene (c) wurden an den
+Volltexten von RFC 2119 und RFC 8174 gegengeprueft. Die Lesenotiz
+literatur/notizen/bradner_1997_rfc2119.md enthielt keinen Fehler.
+Vier Ungenauigkeiten entstanden erst beim Verkuerzen in die Zellen
+und sind berichtigt; keine Note aendert sich. Am 09.09.2026 wurden
+zusaetzlich Mavin et al. 2009 und Lucassen et al. 2016 im Volltext
+geprueft. Damit sind alle Belegstellen der Matrix und des
+Abschnitts 4.1 an den Quellen kontrolliert. Am 10.09.2026 kam
+Mavin/Wilkinson 2010 hinzu; dabei wurde ein falscher
+Abschnittsverweis in Abschnitt 4.1 berichtigt. Damit liegt zu jeder
+in Kapitel 2 und Abschnitt 4.1 zitierten Quelle der Volltext vor
+und ist geprueft.
 
 Messergebnis K9, Stand 30.08.2026:
 - Ebene (a) User Story: 4 von 12 gedeckt (33,3 %), Note 0.
@@ -388,16 +400,15 @@ Messergebnis K6, Stand 02.09.2026:
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Schritt 5: Rollenzuweisung je Ebene und Formatentscheidung, als
-   C5 in docs/entscheidungen.md. Dabei den Konflikt shall gegen
-   must entscheiden. Nach E1 duerfen die Ebenen (a) und (c) nicht
-   "verpflichtend" werden, weil beide bei K9 die Note 0 haben.
-   Ebene (d) ist nicht betroffen: K9 ist dort n. a., und nach R3
-   wird n. a. nie wie 0 behandelt. Fuer "verpflichtend" bleiben
-   damit nur die Ebenen (b) und (d).
-2. Schritt 6: Abschnitt zur Formatauswahl in thesis/thesis.tex,
-   Kapitel 4. Dabei Z. 127-132 ersetzen und den Platzhalter zum
-   Verweis auf die Entscheidungsmatrix fuellen.
+1. Anhang A: gekuerzte Einzelbegruendungen der Entscheidungsmatrix,
+   40 Zellen mit Belegstelle, Kernbegruendung und Gegenargument.
+   Quelle ist docs/formatauswahl.md Abschnitt 10. Dafuer ist in
+   thesis/thesis.tex vor dem Literaturverzeichnis ein \appendix
+   einzufuegen. In zwei Durchgaengen: K1 bis K5, dann K6 bis K10.
+2. Die beiden Platzhalter in Abschnitt 4.1 fuellen: der Verweis auf
+   den Anhang in 4.1.3 und der Verweis auf den Abschnitt zum
+   Datenmodell in 4.1.4. Der zweite kann erst in Paket E fallen.
+3. Damit ist Paket C abgeschlossen.
 Danach Paket E.
 
 ## Getroffene Entscheidungen
@@ -469,6 +480,18 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   literatur/ muessen daher ohne Kenntnis der Projektanweisung
   verstaendlich sein.
 - Erst Quelltext committen, dann abrufen oder aufbereiten.
+- C5 (09.09.2026): Rollenzuweisung und Zielformat EARS+29148.
+  Ebenen (b) und (d) verpflichtend, (a) und (c) nicht verwendet.
+  Schluesselwortkonvention nach 29148 Abschn. 5.2.4; RFC 2119
+  nicht uebernommen. Die Verbindlichkeit wird als Konvention
+  gesetzt und nicht rekonstruiert. Ausschnitt der Ebene (d):
+  5.2.7 vollstaendig, fuenf der neun Merkmale aus 5.2.5, drei
+  Attribute aus 5.2.8.2. Rolleninformation ins Attribut Rationale.
+- Weg C (09.09.2026): Die Notentabelle steht in Kapitel 4, die
+  Einzelbegruendungen kommen gekuerzt in einen Anhang.
+- K10 fuer Ebene (c) bleibt bei Note 1 (09.09.2026). Die Matrix
+  soll nicht vom Ergebnis der Entscheidung abhaengen, die sie
+  stuetzt. Der Vorbehalt ist durch einen datierten Nachtrag ersetzt.
 
 ## LaTeX-Konventionen
 
@@ -566,6 +589,16 @@ Zu User Stories:
 - Vier Bestandteile im Begriffsmodell, drei Bestandteile des Konzepts.
   Ueber 80 syntaktische Varianten.
 - QUS: 13 Kriterien, getrennt nach Einzelstory und Menge.
+Formatentscheidung, Stand 09.09.2026 (Einzelheiten in C5):
+- (a) nicht verwendet, (b) verpflichtend, (c) nicht verwendet,
+  (d) verpflichtend im Ausschnitt.
+- Zielformat EARS+29148: englischsprachiger EARS-Satz mit
+  durchgehendem shall, geprueft gegen 29148 Abschn. 5.2.7 und
+  fuenf Merkmale aus 5.2.5, mit den Pflichtfeldern Identification,
+  Rationale und Type.
+- Maschinell pruefbar sind Muster, Klauselreihenfolge, shall, das
+  Fehlen anderer Modalverben und die Wortklassen aus 5.2.7. Die
+  inhaltlichen Merkmale aus 5.2.5 sind es nicht.
 - AQUSA erreicht mikro-gemittelt 93,8 Prozent Trefferquote bei 72,2
   Prozent Genauigkeit an 1023 Stories aus 18 Datensaetzen.
 - Perfect Recall Condition: belegter Grundsatz fuer die Arbeitsteilung
@@ -645,12 +678,16 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Paket C Schritt 5: Rollenzuweisung und Formatentscheidung. Dabei
-  faellt die Wahl der Modalitaetskonvention; danach kann die Zelle
-  K10 fuer Ebene (c) mit Datum berichtigt werden.
-- Paket C Schritt 6: Abschnitt zur Formatauswahl in Kapitel 4;
-  dabei Z. 127-132 in thesis.tex ersetzen (kuendigt eine deutsche
-  Konvention an, widerspricht C1)
+- Paket C, Anhang A: gekuerzte Einzelbegruendungen der
+  Entscheidungsmatrix. Dafuer \appendix in thesis/thesis.tex
+  einfuegen. Erst danach ist Paket C abgeschlossen.
+- Zwei Platzhalter in Abschnitt 4.1: Verweis auf Anhang A (4.1.3)
+  und Verweis auf den Abschnitt zum Datenmodell (4.1.4, faellt in
+  Paket E).
+- Platzhalter in thesis.tex Abschn. 2.2 veraltet: er kuendigt User
+  Stories und EARS an, die inzwischen als 2.2.2 und 2.2.3
+  geschrieben sind. Nur die Spezifikationsvorlagen aus 29148
+  fehlen dort noch.
 - Phase 2 der systematischen Literatursuche (S1, S2, S4), nach
   Schritt 4 von Paket C
 - INVEST: Lucassen loest das S als Scalable auf. Gegen Wake 2003 pruefen.
@@ -796,6 +833,8 @@ c8b48b5 Entscheidungsmatrix K3 und K4 vergeben, Vorbehalt zu K4 in Abschnitt 7
 b3367ae Quattrocchi 2026 und Paiva 2026 geprueft und aufgenommen
 a2f3e48 Entscheidungsmatrix K5 vergeben, Vorbehalt zu K5 in Abschnitt 7
 cb856ca Entscheidungsmatrix K7, K8 und K10 vergeben, Schritt 4c abgeschlossen
+d63c549 Paket C Schritt 5, Formatentscheidung C5
+20d4761 Abschnitt 4.1 Auswahl des Anforderungsformats
 
 ## Aufruf des Ziehungsskripts
 
@@ -828,8 +867,11 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Stand 03.09.2026, W5. Paket D war drei Tage vor Plan fertig.
-Paket C laeuft seit 23.08.; die Schritte 4a und 4b sind
-abgeschlossen, es fehlen Schritt 4c, Schritt 5 und Schritt 6.
-Paket E hat noch nicht begonnen und liegt hinter dem Plan fuer W4.
-Bis zur Abgabe am 01.11.2026 verbleiben rund acht Wochen.
+Stand 09.09.2026, W6. Paket D war drei Tage vor Plan fertig.
+Paket C laeuft seit 23.08.; die Schritte 1 bis 6 sind abgeschlossen,
+es fehlt nur noch der Anhang. Paket E hat noch nicht begonnen und
+liegt rund zwei Wochen hinter dem Plan fuer W4. Der Kontrollpunkt
+fuer das lokale Modell in W6 ist damit nicht zu halten. Bis zur
+Abgabe am 01.11.2026 verbleiben rund sieben Wochen. Vorschlag:
+Anhang A und Paket E parallel beginnen, da der Anhang keine neue
+Recherche erfordert.
