@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 10.09.2026
+Letzte Aktualisierung: 11.09.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -45,6 +45,12 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 - Ein Pruefbefehl darf nicht nach Formulierungen suchen, die auch im
   neuen Text vorkommen. Sonst meldet er neu geschriebenen Text als
   Rest.
+- Umfangsangaben fuer LaTeX-Text nennt Claude erst nach einer
+  Testuebersetzung. In Paket C Anhang A lag die Schaetzung vorab
+  deutlich zu niedrig (10.09.2026).
+- Git-Befehle mit Pfaden wie thesis/thesis.tex setzen den
+  Repository-Stamm als Arbeitsverzeichnis voraus. Wer im Ordner
+  thesis/ steht, schreibt thesis.tex (11.09.2026).
 
 ## Umgebung
 
@@ -334,11 +340,15 @@ thesis/thesis.tex. Ergebnis: die Ebenen (b) EARS und (d)
 Qualitaetsregeln sind verpflichtend, die Ebenen (a) und (c) werden
 nicht verwendet. Das Zielformat heisst EARS+29148.
 
-Offen bleibt aus Paket C nur noch der Anhang mit den gekuerzten
-Einzelbegruendungen der Entscheidungsmatrix (Weg C, entschieden am
-09.09.2026) sowie die beiden Platzhalter in Abschnitt 4.1. Der
-Anhang wird in einem neuen Chat geschrieben, weil dieser zu lang
-geworden war. Paket C gilt erst danach als abgeschlossen.
+Anhang A, Durchgang 1 abgeschlossen am 11.09.2026: Vorspann und die
+gekuerzten Einzelbegruendungen zu K1 bis K5 stehen in
+thesis/thesis.tex, nach dem Literaturverzeichnis (siehe C6 in
+docs/entscheidungen.md). Die Uebersetzung laeuft ohne Fehler und
+ohne undefinierte Verweise. Der Verfasser hat den Entwurf gelesen
+und vollstaendig an den Quellen geprueft. Offen bleiben aus Paket C:
+Durchgang 2 (K6 bis K10), der Platzhalter fuer den Anhangverweis in
+4.1.3 und die Ueberschrift von Abschnitt 10 in formatauswahl.md.
+Paket C gilt erst danach als abgeschlossen.
 
 Seit dem 07.09.2026 gilt zusaetzlich R11: Die Skalenstufe 2 bemisst
 sich am Vorhandensein und an der Reichweite einer ausdruecklichen
@@ -400,16 +410,20 @@ Messergebnis K6, Stand 02.09.2026:
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Anhang A: gekuerzte Einzelbegruendungen der Entscheidungsmatrix,
-   40 Zellen mit Belegstelle, Kernbegruendung und Gegenargument.
-   Quelle ist docs/formatauswahl.md Abschnitt 10. Dafuer ist in
-   thesis/thesis.tex vor dem Literaturverzeichnis ein \appendix
-   einzufuegen. In zwei Durchgaengen: K1 bis K5, dann K6 bis K10.
-2. Die beiden Platzhalter in Abschnitt 4.1 fuellen: der Verweis auf
-   den Anhang in 4.1.3 und der Verweis auf den Abschnitt zum
-   Datenmodell in 4.1.4. Der zweite kann erst in Paket E fallen.
-3. Damit ist Paket C abgeschlossen.
-Danach Paket E.
+1. Anhang A, Durchgang 2: K6 bis K10 nach denselben Kuerzungsregeln
+   (C6). Quelle ist docs/formatauswahl.md Abschnitt 10; fuer K6 und
+   K9 zusaetzlich docs/formatprobe_protokoll.md, weil Abschnitt 10
+   dort keine Einzelbegruendungen enthaelt. Der Text ersetzt den
+   Platzhalter am Ende von Anhang A.
+2. Platzhalter in 4.1.3 fuellen: Verweis auf Anhang A mit dem Label
+   cha:anhang-einzelbegruendungen. Der Satz spricht bisher von den
+   vollstaendigen Einzelbegruendungen; der Anhang enthaelt sie
+   gekuerzt. Der Platzhalter zum Datenmodell in 4.1.4 bleibt bis
+   Paket E offen.
+3. Ueberschrift "## 10. Entscheidungsmatrix (in Arbeit)" in
+   docs/formatauswahl.md anpassen.
+4. Damit ist Paket C abgeschlossen. 
+5. Danach Paket E.
 
 ## Getroffene Entscheidungen
 
@@ -487,8 +501,10 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   gesetzt und nicht rekonstruiert. Ausschnitt der Ebene (d):
   5.2.7 vollstaendig, fuenf der neun Merkmale aus 5.2.5, drei
   Attribute aus 5.2.8.2. Rolleninformation ins Attribut Rationale.
-- Weg C (09.09.2026): Die Notentabelle steht in Kapitel 4, die
-  Einzelbegruendungen kommen gekuerzt in einen Anhang.
+- Weg C (09.09.2026, C6): Die Notentabelle steht in Kapitel 4, die
+  Einzelbegruendungen kommen gekuerzt in Anhang A. Anhang A steht
+  nach dem Literaturverzeichnis (10.09.2026). Kuerzungsregeln und
+  Form eines Eintrags stehen in C6.
 - K10 fuer Ebene (c) bleibt bei Note 1 (09.09.2026). Die Matrix
   soll nicht vom Ergebnis der Entscheidung abhaengen, die sie
   stuetzt. Der Vorbehalt ist durch einen datierten Nachtrag ersetzt.
@@ -499,7 +515,7 @@ Zitierschluessel in thesis.bib: iso29148, mavin2009ears, mavin2010bigears,
 wilkinson2018mitigation, lucassen2016qus.
 Zitierschluessel in online.bib: rfc2119, rfc8174.
 
-Labels in thesis.tex (Stand 10.08.2026, vollstaendig):
+Labels in thesis.tex (Stand 11.09.2026, vollstaendig):
 cha:einleitung · cha:grundlagen · cha:verwandte-arbeiten · cha:konzeption ·
 cha:implementierung · cha:evaluation · cha:diskussion · cha:fazit
 sec:anforderungsqualitaet · sec:anforderungsformate · sec:llm-grundlagen ·
@@ -510,6 +526,15 @@ subsec:anforderungsattribute · subsec:rfc2119 · subsec:userstories
 subsec:srs-inhalte (neu 23.08.2026)
 tab:29148-srs-inhalte (Tabelle 2.1) · tab:ears-muster (2.2) ·
 tab:qus-kriterien (2.3) · tab:aqusa (2.4)
+Abschnitt 4.1 (seit 09.09.2026): sec:formatauswahl ·
+subsec:auswahlverfahren · subsec:formulierungsprobe ·
+subsec:bewertungsergebnis · subsec:rollenzuweisung ·
+subsec:formatauswahl-grenzen · tab:kriterienkatalog ·
+tab:schichtung · tab:deckung · tab:referenzinhalte ·
+tab:entscheidungsmatrix
+Anhang A (seit 11.09.2026): cha:anhang-einzelbegruendungen ·
+sec:anhang-k1 bis sec:anhang-k5; Durchgang 2 fuegt sec:anhang-k6
+bis sec:anhang-k10 an.
 
 Tabellenspalten in Markdown-Dateien:
 suchprotokoll.md: | Datum | Portal | Suchstring | Filter | Treffer |
@@ -678,12 +703,17 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Paket C, Anhang A: gekuerzte Einzelbegruendungen der
-  Entscheidungsmatrix. Dafuer \appendix in thesis/thesis.tex
-  einfuegen. Erst danach ist Paket C abgeschlossen.
-- Zwei Platzhalter in Abschnitt 4.1: Verweis auf Anhang A (4.1.3)
-  und Verweis auf den Abschnitt zum Datenmodell (4.1.4, faellt in
-  Paket E).
+- Paket C, Anhang A Durchgang 2: K6 bis K10. Erst danach ist
+  Paket C abgeschlossen.
+- Zwei Platzhalter in Abschnitt 4.1: Verweis auf Anhang A (4.1.3;
+  dabei "vollstaendigen" durch "gekuerzten" ersetzen) und Verweis
+  auf den Abschnitt zum Datenmodell (4.1.4, faellt in Paket E).
+- Abschn. 2.2.3 und Lesenotiz zu Mavin/Wilkinson 2010: Die Aussage,
+  Bewertende und Umformulierende seien dieselbe Personengruppe,
+  steht so nicht im Volltext. Belegt sind nur die Festlegung der
+  Komplexitaetsschwelle durch die Autoren (Fussnote 3) und die
+  Umformulierung durch eine fachuebergreifende Ingenieursgruppe
+  (Abschnitt Method). Pruefen und gegebenenfalls abschwaechen.
 - Platzhalter in thesis.tex Abschn. 2.2 veraltet: er kuendigt User
   Stories und EARS an, die inzwischen als 2.2.2 und 2.2.3
   geschrieben sind. Nur die Spezifikationsvorlagen aus 29148
@@ -735,6 +765,18 @@ Technisch und redaktionell:
   thesis.tex Z. 263-269 (12,7pt) · Z. 288-295 (12,9pt) ·
   Z. 444-445 (14,5pt) · Z. 912 (1,4pt)
   Neu: Underfull hbox Z. 355 (badness 1546), Beschriftung Tabelle 2.1
+  Neu 11.09.2026: fuenf Overfull hboxen in Anhang A, alle in
+  Beleg-Zeilen mit mehreren Zitaten. Zeilen und Breiten:
+  thesis.tex Z. 1625-1635 (9,76654pt) ·
+  Z. 1686-1693 (9,05933pt) ·
+  Z. 1695-1706 (12,99223pt) ·
+  Z. 1752-1762 (9,21904pt) ·
+  Z. 1876-1886 (15,40123pt)
+  Achtung: Die Zeilenangaben der aelteren Eintraege oben stimmen mit
+  dem Log vom 11.09.2026 nicht mehr ueberein. In Woche 12 neu erheben.
+- Literaturverzeichnis beginnt ohne Seitenumbruch unter dem Fazit und
+  fehlt im Inhaltsverzeichnis (Befund 10.09.2026). Eine Behebung
+  aendert die Vorlagenstruktur und braucht Abstimmung; Paket I.
 - Demo-Dateien der Vorlage in thesis/figures/ vor Abgabe entfernen
 
 
@@ -835,6 +877,9 @@ a2f3e48 Entscheidungsmatrix K5 vergeben, Vorbehalt zu K5 in Abschnitt 7
 cb856ca Entscheidungsmatrix K7, K8 und K10 vergeben, Schritt 4c abgeschlossen
 d63c549 Paket C Schritt 5, Formatentscheidung C5
 20d4761 Abschnitt 4.1 Auswahl des Anforderungsformats
+e2187b8 29148 Abschn. 5.2.7 bei K2 und K3 auf neun Aufzaehlungspunkte berichtigt
+7db9ae1 Anhang A, Einzelbegruendungen K1 bis K5 (Durchgang 1)
+7861f29 Anhang A, fehlende Zeile im Vorspann ergaenzt
 
 ## Aufruf des Ziehungsskripts
 
@@ -867,11 +912,11 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Stand 09.09.2026, W6. Paket D war drei Tage vor Plan fertig.
-Paket C laeuft seit 23.08.; die Schritte 1 bis 6 sind abgeschlossen,
-es fehlt nur noch der Anhang. Paket E hat noch nicht begonnen und
-liegt rund zwei Wochen hinter dem Plan fuer W4. Der Kontrollpunkt
-fuer das lokale Modell in W6 ist damit nicht zu halten. Bis zur
-Abgabe am 01.11.2026 verbleiben rund sieben Wochen. Vorschlag:
-Anhang A und Paket E parallel beginnen, da der Anhang keine neue
-Recherche erfordert.
+Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig.
+Paket C laeuft seit 23.08.; die Schritte 1 bis 6 und Anhang A
+Durchgang 1 sind abgeschlossen. Es fehlen Durchgang 2 und zwei
+kleine Nacharbeiten. Paket E hatte am 09.09.2026 noch nicht
+begonnen und lag rund zwei Wochen hinter dem Plan fuer W4. Der
+Kontrollpunkt fuer das lokale Modell in W6 ist nicht zu halten. Bis
+zur internen Abgabe am 30.10.2026 verbleiben sieben Wochen.
+Vorschlag: Durchgang 2 zuegig abschliessen, danach sofort Paket E.

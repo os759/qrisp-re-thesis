@@ -1105,6 +1105,77 @@ hier fort.
 Status: festgelegt.
 Bezug: FF2, FF1, Limitationen.
 
+## 2026-09-09 Paket C: Umfang der Matrix in der Arbeit
+
+### 2026-09-09 C6 Notentabelle in Kapitel 4, Einzelbegruendungen gekuerzt in Anhang A
+
+Die Entscheidungsmatrix steht als Notentabelle in Abschnitt 4.1.3.
+Die Einzelbegruendungen zu den vierzig Zellen stehen gekuerzt in
+Anhang A. Die vollstaendige Fassung bleibt in docs/formatauswahl.md
+Abschnitt 10 (Weg C).
+
+Begruendung: Die Formatauswahl beantwortet FF2. Eine Notentabelle
+ohne einsehbare Begruendung ist als Beleg schwach. Die
+Arbeitsunterlage wird zwar mit dem Repository abgegeben, ist aber
+nicht Teil des Dokuments; eine pruefende Person muesste sie
+gesondert oeffnen. Die ungekuerzten Begruendungen wuerden als Anhang
+wie Rohmaterial wirken.
+
+Alternativen verworfen:
+- Weg A, nur die Notentabelle und Fliesstext zu den ausschlaggebenden
+  Kriterien: Die Einzelbegruendungen waeren im Dokument nicht
+  nachvollziehbar.
+- Weg B, alle Einzelbegruendungen ungekuerzt als Anhang: nach
+  damaliger Schaetzung fuenfzehn bis zwanzig Seiten Rohmaterial.
+
+Herkunft: Die Gegenueberstellung der drei Wege und die Empfehlung fuer
+Weg C stammen aus einem Chat mit einem Sprachmodell. Entschieden hat
+der Verfasser am 09.09.2026. Den Wortlaut der Gegenueberstellung hat
+er am 10.09.2026 im Folgechat wiedergegeben.
+
+Nachtrag 10.09.2026, Platzierung: Anhang A steht nach dem
+Literaturverzeichnis. STATUS.md hatte die Platzierung davor
+vorgesehen. Das Literaturverzeichnis beginnt in der Vorlage mit
+\section* und bildet kein eigenes Kapitel. Nach einem \appendix
+wuerde es deshalb zu einem Teil von Anhang A. Das zeigte eine
+Testuebersetzung des Modells mit Ersatzpaketen fuer babel-german,
+bibtopic und soul. Das PDF des Verfassers bestaetigte, dass das
+Literaturverzeichnis schon jetzt ohne Seitenumbruch an das letzte
+Kapitel anschliesst. Die Abweichung hat der Verfasser am 10.09.2026
+entschieden. Die Vorlage bleibt unveraendert.
+
+Nachtrag 10.09.2026, Form und Kuerzungsregeln (vom Verfasser
+freigegeben):
+- Je Kriterium ein \section mit Label sec:anhang-kN. Je Zelle ein
+  Eintrag in einer description-Liste mit Beleg, Begruendung und
+  Gegenargument samt der Note, zu der es fuehren wuerde.
+- Vorbemerkungen tragen die Vorfrage zu K2 und die Vorbehalte zu K4
+  und K5.
+1. Noten und Fundstellen kommen unveraendert aus Abschnitt 10.
+   Ergaenzungen nur mit Freigabe. Mit dem Entwurf uebernommen wurden
+   zwei zusaetzliche Abschnittsangaben zu Mavin/Wilkinson 2010: bei
+   K2 Ebene (b) ausdruecklich freigegeben, bei K5 Ebene (d).
+2. Klammer-Erlaeuterungen im Beleg entfallen; noetiger Inhalt wandert
+   in die Begruendung.
+3. Begruendung ein Satz, hoechstens zwei.
+4. Gegenargument ein Satz mit der Note, zu der es fuehren wuerde.
+5. Hinweise zur Stufe 2 (R11) bleiben als ein Satz, wo Abschnitt 10
+   sie fuehrt.
+6. Es entfallen Befund-Absaetze, Vermerke zur Belegpruefung,
+   Herkunftszeilen und Berichtigungsvermerke.
+7. Keine internen Kuerzel wie R11, C5, "Paket E" oder Pfade zu
+   Lesenotizen; stattdessen Verweise auf Abschnitte der Arbeit.
+8. Messwerte erhalten einen Verweis auf Tabelle tab:deckung oder
+   Abschnitt 4.1.2.
+Eine Kuerzung aus Platzgruenden ist nicht vorgesehen (Verfasser,
+10.09.2026). Der Vorspann enthaelt einen Satz zur Herkunft der Noten:
+Das Sprachmodell hat Belegstellen, Notenvorschlaege und
+Gegenargumente vorgelegt; die Noten hat der Verfasser zwischen dem
+04. und 08.09.2026 nach Pruefung an den Originalquellen vergeben.
+
+Status: festgelegt.
+Bezug: FF2, Nachvollziehbarkeit, formale Fertigstellung.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
