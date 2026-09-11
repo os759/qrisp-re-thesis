@@ -1554,4 +1554,340 @@ Limitationen.]}
 \btPrintCited
 \end{btSect}
 
+\appendix
+
+\chapter{Einzelbegründungen der Entscheidungsmatrix}
+\label{cha:anhang-einzelbegruendungen}
+
+Dieser Anhang gibt die Einzelbegründungen zu den Noten der
+Entscheidungsmatrix aus Tabelle~\ref{tab:entscheidungsmatrix} in
+gekürzter Form wieder. Die vollständigen Begründungen einschließlich
+ihrer Änderungshistorie sind in der Arbeitsunterlage
+\path{docs/formatauswahl.md}, Abschnitt~10, des mit der Arbeit
+abgegebenen Repositorys dokumentiert; die Noten beider Fassungen
+stimmen überein. Die Leitfragen der Kriterien sind in
+Tabelle~\ref{tab:kriterienkatalog} aufgeführt.
+
+Zu jeder Zelle werden drei Angaben gemacht. Die Belegstelle bezeichnet
+den Quelleninhalt, auf den sich die Note stützt. Begründung und
+Gegenargument sind Einschätzungen des Verfassers; das Gegenargument
+nennt den stärksten Einwand gegen die vergebene Note und die Note, zu
+der er führen würde. Stützt sich ein Einwand auf Restprobleme, die eine
+Quelle aus einer Erprobung berichtet, lässt er die Note nach der in
+Abschnitt~\ref{subsec:auswahlverfahren} dargestellten Auslegung der
+Stufe~2 unberührt; er wird dennoch aufgeführt. Der Wert \emph{nicht
+anwendbar} ist keine schlechte Note, sondern zeigt an, dass eine Ebene
+die betreffende Eigenschaft ihrem Zweck nach nicht regelt. Die Noten für
+K6 und K9 beruhen auf der in Abschnitt~\ref{subsec:formulierungsprobe}
+Belegstellen, Notenvorschläge und Gegenargumente hat ein Sprachmodell
+vorgelegt; die Noten hat der Verfasser nach Prüfung an den Quellen
+vergeben.
+
+
+\section{K1 Eindeutigkeit}
+\label{sec:anhang-k1}
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~2, 2.3 und 3.1.6]{lucassen2016qus}.
+  \emph{Begründung:} Die Schablone trennt Rolle, Means und Ends und legt
+  für das Means drei grammatische Bestandteile fest, sodass zumindest
+  ein Teil des Satzes einer festen Lesart zugeordnet ist. Der übrige
+  Text bleibt frei formulierbar, und Eindeutigkeit wird als gesondertes
+  Qualitätskriterium geführt.
+  \emph{Gegenargument (spräche für Note~0):} Die Schablone ordnet den
+  Satz, benennt aber keine Formulierung, die sie ausschließt.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~2, 4.1, 5 und 6]{mavin2009ears}.
+  \emph{Begründung:} EARS legt die Bestandteile eines Satzes und ihre
+  Reihenfolge fest und bestimmt, unter welcher Bedingung die
+  Systemreaktion gilt; damit ist die Lesart des ganzen Satzes geregelt
+  und nicht nur die eines Satzglieds. Die Quelle führt Mehrdeutigkeit
+  als ausdrücklich adressiertes Problem und zeigt an Beispielen, welche
+  Formulierungen ersetzt werden.
+  \emph{Gegenargument (spräche für Note~1):} Nach Angabe der Autoren
+  wurde Mehrdeutigkeit in ihrer Erprobung nur verringert, nicht
+  beseitigt \cite[Abschn.~6]{mavin2009ears}.
+
+  \item[(c) Normative Modalität, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1--5]{rfc2119}; \cite[Abschn.~2]{rfc8174}.
+  \emph{Begründung:} Für das Modalwort ist die Lesart durch ein
+  geschlossenes Vokabular und die Regel der durchgängigen
+  Großschreibung eindeutig festgelegt. Für den übrigen Satz trifft die
+  Konvention keine Aussage.
+  \emph{Gegenargument (spräche für Note~2):} Innerhalb ihrer Reichweite
+  ist die Regel vollständig und an keine Bedingung geknüpft. Als nicht
+  anwendbar wird das Kriterium nicht geführt, weil die Ebene Lesarten
+  regelt, wenn auch nur für ein einzelnes Wort.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~5.2.5 und 5.2.7]{iso29148};
+  \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears};
+  \cite[Tab.~1 und Abschn.~3.1.6]{lucassen2016qus}.
+  \emph{Begründung:} Abschnitt~5.2.7 des Standards führt in neun
+  Aufzählungspunkten Wortklassen auf, die in Anforderungen zu vermeiden
+  sind. Die Ebene schließt damit als einzige der vier Ebenen einzelne
+  Formulierungen namentlich und in normativer Form aus.
+  \emph{Gegenargument (spräche für Note~1):} Die Regeln benennen
+  Wortklassen, aber kein Verfahren, das Eindeutigkeit herstellt; sie
+  machen Verstöße erkennbar, verhindern sie aber nicht.
+\end{description}
+
+
+\section{K2 Formale Struktur}
+\label{sec:anhang-k2}
+
+Für die Ebenen~(c) und~(d) wird das Kriterium als nicht anwendbar
+geführt und nicht mit~0 bewertet, weil beide ihrem Zweck nach keine
+Satzbestandteile regeln. Dieselbe Erwägung liegt der Nichtanwendbarkeit
+von K6 für diese Ebenen zugrunde. Dagegen spricht, dass ISO/IEC/IEEE~29148
+eine Schlüsselwortkonvention mit einem Aufbausatz verbindet
+\cite[Abschn.~5.2.4]{iso29148} und dass die Zuordnung dieses Aufbausatzes
+zu Ebene~(b) eine Setzung des Verfassers ist. Die Einstufung als nicht
+anwendbar ist insoweit auch eine Folge dieser Zuordnung.
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~2 mit Abb.~1, 2.1, 2.3, 3.2.2 und
+  4.7]{lucassen2016qus}.
+  \emph{Begründung:} Das Begriffsmodell benennt vier Bestandteile und
+  legt für das Means drei grammatische Elemente fest, sodass ein Satz in
+  der verbreiteten Schablone ohne Deutung zerlegbar ist. Die Schablone
+  selbst gibt der Ansatz jedoch nicht vor; er verweist auf über achtzig
+  syntaktische Varianten und bestimmt die maßgebliche Form je Datensatz
+  nach ihrer Häufigkeit.
+  \emph{Gegenargument (spräche für Note~2):} Die Kriterien Well-formed,
+  Atomic und Minimal (Tabelle~\ref{tab:qus-kriterien}) legen fest, welche
+  Bestandteile ein Satz enthalten muss und welche nicht; in der
+  verbreiteten Form steht auch die Reihenfolge fest.
+  \emph{Hinweis zur Stufe~2:} Die geringe Genauigkeit der selbsttätigen
+  Prüfung beim Kriterium Well-formed (Tabelle~\ref{tab:aqusa}) ist ein
+  Erprobungsbefund und trägt die Note nicht. Diese stützt sich allein
+  darauf, dass der Ansatz die Schablone offenlässt.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~4.1--4.7]{mavin2009ears};
+  \cite[Abschn.~EARS Templates]{mavin2010bigears}.
+  \emph{Begründung:} EARS benennt vier Bestandteile und erklärt ihre
+  Reihenfolge ausdrücklich für bedeutsam, weil sie der zeitlichen Logik
+  folgt. Jedes der fünf Muster gibt zusätzlich eine eigene Satzform mit
+  festem Schlüsselwort vor.
+  \emph{Gegenargument (spräche für Note~1):} Vorbedingung und Auslöser
+  sind optional, und die Abgrenzung zwischen den Mustern Ubiquitous und
+  Event-driven kann nach Angabe der Autoren der Folgearbeit schwierig
+  sein \cite[Abschn.~Lessons Learned Applying EARS]{mavin2010bigears}.
+  \emph{Hinweis zur Stufe~2:} Der zweite Teil des Einwands ist ein
+  Erprobungsbefund und trägt die Note nicht. Der erste Teil betrifft die
+  Reichweite der Regel; optionale Satzteile heben die festgelegte
+  Reihenfolge jedoch nicht auf, sie entfallen nur.
+
+  \item[(c) Normative Modalität, nicht anwendbar.]
+  \emph{Beleg:} \cite[Abschn.~1--5]{rfc2119} und
+  \cite[Abschn.~2]{rfc8174} treffen keine Aussage zum Satzbau.
+  \emph{Begründung:} Die Ebene legt allein die Bedeutung von
+  Schlüsselwörtern fest und regelt weder Satzbestandteile noch deren
+  Reihenfolge.
+  \emph{Gegenargument (spräche für Note~0):} siehe die Vorbemerkung zu
+  diesem Kriterium.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, nicht anwendbar.]
+  \emph{Beleg:} \cite[Abschn.~5.2.7, 5.2.8.1 und 5.2.8.2]{iso29148};
+  \cite[Tab.~1]{lucassen2016qus};
+  \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}.
+  \emph{Begründung:} Die Ebene beurteilt eine bereits formulierte
+  Anforderung. Abschnitt~5.2.7 nennt zu vermeidende Wortklassen,
+  Abschnitt~5.2.8 Attribute neben dem Satz; beides sind weder
+  Satzbestandteile noch eine Reihenfolge.
+  \emph{Gegenargument (spräche für Note~0):} siehe die Vorbemerkung zu
+  diesem Kriterium. Die Attribute sind zwar benannte Felder mit fester
+  Bedeutung, stehen aber neben dem Satz und nicht in ihm; erheblich
+  werden sie erst für K4.
+\end{description}
+
+
+\section{K3 Verifizierbarkeit}
+\label{sec:anhang-k3}
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1, 3.1.3 und Tab.~1]{lucassen2016qus}.
+  \emph{Begründung:} Der Ansatz zählt Akzeptanzkriterien ausdrücklich zu
+  den drei Bestandteilen einer User Story. Im Anforderungstext selbst
+  dürfen sie nach dem Kriterium Minimal jedoch nicht stehen, und keines
+  der dreizehn Qualitätskriterien prüft die Nachweisbarkeit.
+  \emph{Gegenargument (spräche für Note~0):} Bewertet wird der
+  Anforderungstext, und für ihn erzwingt der Ansatz keine überprüfbare
+  Angabe; die Akzeptanzkriterien liegen außerhalb und bleiben
+  ungeprüft.
+
+  \item[(b) EARS, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~2 und 4.1]{mavin2009ears};
+  \cite[Abschn.~Residual Problems]{mavin2010bigears}.
+  \emph{Begründung:} Die Syntax erzwingt eine Systemreaktion und damit
+  ein beobachtbares Verhalten, und Untestbarkeit gehört zu den acht
+  Problemen, die EARS ausdrücklich adressiert. Eine Regel, die eine
+  messbare Größe oder ein Abnahmekriterium verlangt, enthält der Ansatz
+  jedoch nicht.
+  \emph{Gegenargument (spräche für Note~2):} Die Beseitigung der
+  Untestbarkeit ist ein erklärtes Ziel des Ansatzes, und Vorbedingung,
+  Auslöser und Systemreaktion benennen genau die Angaben, gegen die
+  geprüft wird.
+  \emph{Hinweis zur Stufe~2:} Die in der Folgearbeit berichtete
+  verbleibende Untestbarkeit durch nicht quantifizierbare Wörter ist ein
+  Erprobungsbefund und trägt die Note nicht. Diese stützt sich allein
+  darauf, dass eine Regel zur Quantifizierung fehlt.
+
+  \item[(c) Normative Modalität, nicht anwendbar.]
+  \emph{Beleg:} \cite{rfc2119} und \cite{rfc8174} treffen keine Aussage
+  darüber, woran die Erfüllung einer Anforderung überprüft wird.
+  \emph{Begründung:} Die Konvention legt allein die
+  Verbindlichkeitsstufe fest und regelt ihrem Zweck nach nicht die
+  Nachweisbarkeit.
+  \emph{Gegenargument (spräche für Note~0):} Die Verbindlichkeitsstufe
+  entscheidet mit darüber, ob etwas überhaupt nachzuweisen ist; die
+  Konvention berührt die Nachweisbarkeit damit mittelbar.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~5.2.5 und 5.2.7]{iso29148}.
+  \emph{Begründung:} Der Standard führt die Nachweisbarkeit als eigenes
+  Merkmal jeder einzelnen Anforderung und begründet die Liste zu
+  vermeidender Ausdrücke ausdrücklich damit, dass diese die
+  Überprüfung erschweren oder unmöglich machen. Damit liegt eine
+  ausdrückliche und weitgehend operationalisierte Regel vor.
+  \emph{Gegenargument (spräche für Note~1):} Messbarkeit wird nur als
+  förderlich für die Nachweisbarkeit bezeichnet, nicht verlangt, und die
+  Regeln nennen, was zu vermeiden ist, nicht, welche Angabe eine
+  Anforderung enthalten muss.
+\end{description}
+
+
+\section{K4 Maschinelle Verarbeitbarkeit}
+\label{sec:anhang-k4}
+
+Das Kriterium ist eine eigene Setzung, gestützt auf die Klauselstruktur
+von EARS (Tabelle~\ref{tab:kriterienkatalog}). Ein aus einem der
+bewerteten Ansätze abgeleitetes Kriterium begünstigt diesen Ansatz; die
+Note der Ebene~(b) ist daher nur begrenzt aussagekräftig. Dieser
+Vorbehalt wurde vor der Notenvergabe festgehalten und wird in
+Kapitel~\ref{cha:diskussion} als Bedrohung der Konstruktvalidität
+aufgegriffen.
+
+\begin{description}
+  \item[(a) User Story, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~2 mit Abb.~1, 2.3, 3.2 und
+  4.3]{lucassen2016qus}.
+  \emph{Begründung:} Der Ansatz definiert eine User Story formal als
+  Viertupel aus Rolle, Means, Ends und Format und das Means seinerseits
+  als Fünftupel. Damit besteht eine ausdrückliche Zuordnung von Satzteil
+  zu Feld bis hinunter zur grammatischen Ebene des Means.
+  \emph{Gegenargument (spräche für Note~1):} Das Format ist selbst eines
+  der Felder und wird nicht festgelegt. Ohne Kenntnis der verwendeten
+  Schablone bestimmt der Ansatz allein nicht, wo Rolle, Means und Ends im
+  Text beginnen.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~4.1--4.6]{mavin2009ears};
+  \cite[Tab.~I]{wilkinson2018mitigation}.
+  \emph{Begründung:} Die generische Syntax besteht aus benannten
+  Platzhaltern, die im Satz durch feste Schlüsselwörter voneinander
+  abgegrenzt sind. Eine spätere Arbeit derselben Autoren behandelt diese
+  Bestandteile bereits als einzeln adressierbare Teile.
+  \emph{Gegenargument (spräche für Note~1):} Die Quellen benennen
+  Satzteile, definieren aber weder ein Datenmodell noch Feldnamen; die
+  Abbildung auf Datenfelder ist eine Ergänzung der vorliegenden Arbeit.
+
+  \item[(c) Normative Modalität, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1--5]{rfc2119}; \cite[Abschn.~2]{rfc8174}.
+  \emph{Begründung:} Das Schlüsselwort lässt sich verlustfrei auf ein
+  einzelnes Feld mit fünf zulässigen Stufen abbilden, und die Regel der
+  Großschreibung grenzt es im Text eindeutig ab. Abgedeckt ist damit
+  genau ein Feld, nicht der Satz.
+  \emph{Gegenargument (spräche für nicht anwendbar):} Die Ebene bringt
+  keinen Satz hervor, während die Leitfrage von einem nach dem Ansatz
+  formulierten Satz spricht. Als nicht anwendbar wird das Kriterium
+  dennoch nicht geführt, weil die Ebene etwas Abbildbares regelt, wenn
+  auch eng.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~5.2.8.1 und 5.2.8.2]{iso29148}.
+  \emph{Begründung:} Der Standard benennt Attribute wie Kennung,
+  Versionsnummer, Eigner, Priorität, Risiko, Begründung und
+  Schwierigkeitsgrad als Felder mit fester Bedeutung, die eine
+  Anforderung begleiten. Sie stehen jedoch neben dem Satz, und eine
+  Zuordnung von Satzteil zu Feld gibt der Ansatz nicht vor.
+  \emph{Gegenargument (spräche für Note~2):} Für die Ausgabe der
+  Pipeline sind gerade diese Attribute die Felder neben dem
+  Anforderungstext; ihre Benennung ist im Standard festgelegt und
+  vollständig übernehmbar.
+\end{description}
+
+
+\section{K5 Eignung für Modellausgaben}
+\label{sec:anhang-k5}
+
+Die Noten dieses Kriteriums stützen sich nicht auf Untersuchungen zum
+Verhalten von Sprachmodellen, sondern auf drei strukturelle
+Ersatzgrößen: die Zahl der Pflichtbestandteile, die Zahl zulässiger
+Schreibvarianten und das Vorhandensein eines Musters für den Fall, dass
+keine Anforderung vorliegt. Sie sind vorläufig und werden nach der
+Entwicklung der Prompts überprüft.
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Tab.~1, Abschn.~2 und 3.2.2]{lucassen2016qus}.
+  \emph{Begründung:} Zwei Pflichtbestandteile und die Begrenzung durch
+  das Kriterium Minimal sind ein wirksamer Mechanismus zur Steuerung der
+  Ausgabe. Der Ansatz legt jedoch keine Schablone fest, lässt über
+  achtzig Varianten zu und kennt kein Muster für den Fall, dass keine
+  Anforderung vorliegt.
+  \emph{Gegenargument (spräche für Note~0):} Die Ebene ist nur in vier
+  von zwölf gemessenen Fällen gedeckt, überwiegend wegen der fehlenden
+  Rolle (Tabelle~\ref{tab:deckung}). Ein Format, das einen unbelegten
+  Bestandteil verlangt, drängt ein Modell zum Erfinden.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~4.1--4.6]{mavin2009ears};
+  \cite[Abschn.~Method]{mavin2010bigears}.
+  \emph{Begründung:} Zwei Pflichtbestandteile und ein geschlossener Satz
+  von fünf Mustern mit festgelegten Schlüsselwörtern halten die Zahl
+  zulässiger Schreibvarianten sehr klein. Für den Fall, dass keine
+  Anforderung vorliegt, beschreibt die Folgearbeit ein ausdrückliches
+  Verfahren: Jede Aussage wird vor der Umformulierung als Anforderung,
+  Überschrift, Information oder für das betrachtete System nicht
+  anwendbar eingestuft.
+  \emph{Gegenargument (spräche für Note~1):} Diese Einstufung gehört zum
+  Verfahren der Folgearbeit und nicht zur Syntax; EARS als Format kennt
+  kein Muster für eine Aussage, die keine Anforderung ist.
+
+  \item[(c) Normative Modalität, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1--6]{rfc2119}; \cite[Abschn.~2]{rfc8174}.
+  \emph{Begründung:} Ein geschlossenes Vokabular aus fünf Stufen mit
+  eindeutiger Schreibweise ist für ein Sprachmodell leicht einzuhalten.
+  Die in Abschnitt~6 von RFC~2119 geforderte sparsame Verwendung
+  verlangt jedoch eine Abwägung, die ein Modell aus den Quelldaten nicht
+  treffen kann.
+  \emph{Gegenargument (spräche für Note~0):} Eine Verbindlichkeitsstufe
+  ist in keinem der zwölf gemessenen Fälle belegt
+  (Tabelle~\ref{tab:deckung}); jede rekonstruierte Anforderung erforderte
+  damit eine erfundene Stufe.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, nicht anwendbar.]
+  \emph{Beleg:} \cite[Abschn.~5.2.5--5.2.8]{iso29148};
+  \cite[Tab.~1]{lucassen2016qus};
+  \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}.
+  \emph{Begründung:} Die Ebene gibt weder ein Ausgabemuster noch
+  Pflichtbestandteile vor, während alle drei Ersatzgrößen ein solches
+  Muster voraussetzen.
+  \emph{Gegenargument (spräche für eine Note):} Die Liste zu vermeidender
+  Ausdrücke aus Abschnitt~5.2.7 lässt sich unmittelbar in eine Anweisung
+  an ein Sprachmodell übersetzen. Für dessen Steuerung ist die Ebene
+  damit einschlägig, nur nicht über ein Satzmuster.
+\end{description}
+
+
+\textbf{[Noch zu ergänzen: Einzelbegründungen zu K6 bis K10,
+Durchgang~2.]}
+
+
 \end{document}
