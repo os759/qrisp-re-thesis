@@ -496,7 +496,15 @@ Schwelle:
 - Die Noten der Ebenen (a) und (b) haengen damit an je einem
   einzigen Pull Request. Das gehoert nach Kapitel 7.
 - Ohne R10 waere Ebene (c) bei 4 von 12 und erhielte ebenfalls
-  Note 0. R10 veraendert die Zahl, nicht die Entscheidung.
+  Note 0.
+- Berichtigt am 11.09.2026: Der zuvor hier stehende Satz "R10
+  veraendert die Zahl, nicht die Entscheidung" ist zu stark. Er zaehlt
+  nur die vier Faelle, die nach der schriftlichen Festlegung von R10
+  geaendert wurden. PR 371 wurde bereits am 27.08.2026 nach demselben
+  Grundsatz geaendert. Ohne diesen Grundsatz insgesamt stuende Ebene
+  (c) bei 5 von 12 und erhielte Note 1; nach E1 waere sie dann nicht
+  mehr von der Rolle "verpflichtend" ausgeschlossen. Die Regel bleibt
+  unveraendert, die Empfindlichkeit gehoert nach Kapitel 7.
 
 ## Teil B: Messung fuer K6
 

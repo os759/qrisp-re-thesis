@@ -474,8 +474,16 @@ Erledigt am 08.09.2026:
   Volltexten von RFC 2119, RFC 8174 und 29148 Abschn. 5.2.5 bis
   5.2.8. Keine Note aendert sich.
 
-Noch offen:
-- Schritt 6: Abschnitt zur Formatauswahl in Kapitel 4 der Arbeit.
+Erledigt am 09.09.2026:
+- Schritt 6: Abschnitt 4.1 der Arbeit geschrieben.
+
+Erledigt am 11.09.2026:
+- Anhang A der Arbeit: Einzelbegruendungen zu allen zehn Kriterien in
+  gekuerzter Form, nach den Regeln in C6.
+- Sieben Berichtigungen des Wortlauts in Abschnitt 10, siehe
+  Abschnitt 9. Keine Note aendert sich.
+
+Damit ist Paket C abgeschlossen.
 
 ## 9. Aenderungshistorie
 
@@ -505,13 +513,16 @@ Noch offen:
 | 08.09.2026 | Fuenf Berichtigungen in Abschnitt 10 nach Gegenpruefung an den Volltexten. K7 und K8 sprachen bei Ebene (c) von fuenf Schluesselwoertern statt von fuenf Stufen mit elf Woertern. Bei K7 fehlte RFC 8174 Abschn. 1 als Fundstelle. Bei K8 war Abschn. 6 im Gegenargument verwendet, aber nicht belegt, und eine eigene Bewertung war als Quellenaussage lesbar. Bei K1 Ebene (d) stand "acht" statt "neun" Aufzaehlungspunkte in 29148 Abschn. 5.2.7. Keine Note aendert sich | Die Volltexte von RFC 2119 und RFC 8174 lagen dem vorschlagenden Modell erstmals vor; die Zellen der Ebene (c) stuetzten sich bis dahin auf die Lesenotiz. Beim Nachlesen von 29148 Abschn. 5.2.5 bis 5.2.8 fiel zusaetzlich die falsche Zahl bei K1 auf. Die Lesenotiz zu RFC 2119 enthielt selbst keinen Fehler; die Ungenauigkeit entstand beim Verkuerzen in die Zelle |
 | 08.09.2026 | Schritt 5 abgeschlossen und als C5 in docs/entscheidungen.md festgehalten. Abschnitt 8 fortgeschrieben. Die Zelle K10 fuer Ebene (c) bleibt entgegen dem dort vermerkten Vorbehalt bei Note 1; der Vorbehalt wurde durch einen datierten Nachtrag ersetzt | Die Matrix soll auf dem Stand bleiben, auf dem sie in die Entscheidung eingegangen ist. Eine nachtraegliche Anhebung haette sie vom Ergebnis der Entscheidung abhaengig gemacht, die sie stuetzen soll. Die Note 1 bewertet die Ebene als Ganzes, und diese enthaelt den inneren Konflikt; dass er durch die Wahl einer Auspraegung aufloesbar ist, stand bereits im Gegenargument der Zelle |
 | 10.09.2026 | Zwei Berichtigungen in Abschnitt 10: Bei K2 und K3 Ebene (d) stand fuer 29148 Abschn. 5.2.7 die Zahl acht statt neun Aufzaehlungspunkte. Keine Note aendert sich | Die Berichtigung vom 08.09.2026 hatte nur K1 erfasst. Die Abweichung fiel dem Modell (Claude) beim Kuerzen fuer Anhang A auf; es hat den Normtext erneut eingesehen. Der Verfasser hat die neun Aufzaehlungspunkte in Abschn. 5.2.7 selbst nachgezaehlt |
+| 11.09.2026 | Ueberschrift von Abschnitt 10 auf abgeschlossen gesetzt, Abschnitt 8 fortgeschrieben. Sieben Berichtigungen des Wortlauts in Abschnitt 10 bei K7, K8 und K10: vier statt fuenf Schluesselwoerter, weil das Muster Ubiquitous ohne Schluesselwort auskommt; statt der Behauptung, ein Pruefwerkzeug fuer EARS existiere nicht, heisst es jetzt, in den ausgewerteten Quellen sei keines beschrieben; die Wiedergabe von 29148 Abschn. 5.2.7 folgt enger dem Normtext; bei K10 Ebene (d) ist der Umfang der vollstaendigen Konformitaet nach Abschn. 4.2 ergaenzt. Keine Note aendert sich | Die Abweichungen fielen beim Kuerzen der Begruendungen fuer Anhang A auf. Eine Nichtexistenz laesst sich durch keine Quelle belegen. Anhang C.1 regelt das Anpassen der Inhaltsvorgaben; welche Abschnitte die vollstaendige Konformitaet umfasst, steht in Abschn. 4.2. Das Modell hat den Normtext und Mavin/Wilkinson 2010 dafuer eingesehen; der Verfasser hat die Stellen nachgelesen |
 
 
-## 10. Entscheidungsmatrix (in Arbeit)
+## 10. Entscheidungsmatrix (abgeschlossen)
 
-Diese Tabelle wird in Schritt 4c Kriterium fuer Kriterium gefuellt.
-Die Noten fuer K6 und K9 stammen aus einer Messung (Abschnitt 6 und
-docs/formatprobe_protokoll.md), alle uebrigen aus der Literatur.
+Die Tabelle wurde in Schritt 4c Kriterium fuer Kriterium gefuellt und
+ist seit dem 08.09.2026 vollstaendig. Die Noten fuer K6 und K9 stammen
+aus einer Messung (Abschnitt 6 und docs/formatprobe_protokoll.md), alle
+uebrigen aus der Literatur. Die Einzelbegruendungen stehen gekuerzt in
+Anhang A der Arbeit; die Noten beider Fassungen stimmen ueberein.
 
 | Kriterium | (a) User Story | (b) EARS | (c) Modalitaet | (d) Qualitaetsregeln | vergeben am |
 |---|---|---|---|---|---|
@@ -947,7 +958,7 @@ Beleg: Mavin et al. 2009, Abschn. 2 (nichttextuelle Notationen
 erfordern eine Uebersetzung, erzeugen eine Sprachbarriere und
 verursachen Schulungsaufwand; Anforderungsautoren suchen weder hohe
 Formalitaet noch aufwendige Schulung), Abschn. 4.1 bis 4.6 (fuenf
-Muster, je ein Schluesselwort, shall, festgelegte
+Muster, davon vier mit je einem Schluesselwort, shall, festgelegte
 Klauselreihenfolge).
 Begruendung: Der Ansatz ist ausdruecklich mit dem Ziel entworfen,
 ohne Schulung und ohne Uebersetzung lesbar zu bleiben, und begruendet
@@ -993,7 +1004,7 @@ Gegenstand erwartet wird und wie er zum Gesamtsystem steht);
 Abschn. 5.2.7 (Klassen unbestimmter Ausdruecke, die zu vermeiden
 sind).
 Begruendung: Die Norm fuehrt die Verstaendlichkeit als eigenes
-Merkmal und untersagt Ausdruecke, die das Verstehen erschweren. Die
+Merkmal und untersagt unbestimmte und mehrdeutige Ausdruecke. Die
 Regeln richten sich an den Verfasser, nicht an den Leser; eine
 lesende Person muss nichts lernen.
 Gegenargument, fuehrt zu 1: Das Merkmal Comprehensible gilt nach
@@ -1027,15 +1038,16 @@ Erprobungsbefunde und tragen die Note nicht.
 
 Ebene (b) EARS, Note 2.
 Beleg: Mavin et al. 2009, Abschn. 4.1 (feste Klauselreihenfolge,
-shall als einziges Modalwort), Abschn. 4.2 bis 4.6 (fuenf Muster mit
-je einem festen Schluesselwort).
-Begruendung: Fuenf Schluesselwoerter und ein Modalwort bilden ein
-geschlossenes Vokabular, das ein Programm unmittelbar suchen kann.
+shall als einziges Modalwort), Abschn. 4.2 bis 4.6 (fuenf Muster,
+davon vier mit je einem festen Schluesselwort).
+Begruendung: Vier Schluesselwoerter und ein Modalwort bilden ein
+geschlossenes Vokabular, das ein Programm unmittelbar suchen kann;
+das Muster Ubiquitous ist am Fehlen eines Schluesselworts erkennbar.
 Die festgelegte Klauselreihenfolge macht zusaetzlich pruefbar, ob ein
 Satz dem Muster folgt und nicht nur die Woerter enthaelt.
-Gegenargument, fuehrt zu 1: Ein veroeffentlichtes Pruefwerkzeug fuer
-EARS existiert nicht; die maschinelle Pruefbarkeit ist aus der Syntax
-abgeleitet, aber nicht gezeigt.
+Gegenargument, fuehrt zu 1: In den ausgewerteten Quellen ist kein
+Pruefwerkzeug fuer EARS beschrieben; die maschinelle Pruefbarkeit ist
+aus der Syntax abgeleitet, aber nicht gezeigt.
 
 Ebene (c) Normative Modalitaet, Note 2.
 Beleg: RFC 2119 Abschn. 1 bis 5 (fuenf Verbindlichkeitsstufen,
@@ -1063,11 +1075,11 @@ Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 1.
 Beleg: ISO/IEC/IEEE 29148:2018 Abschn. 5.2.7 (Klassen unbestimmter
 Ausdruecke mit Beispielen), Abschn. 5.2.5 (neun Merkmale, darunter
 notwendig, umsetzbar und korrekt).
-Begruendung: Die Wortklassen aus 5.2.7 lassen sich in Suchregeln
-ueberfuehren, ein Mechanismus ist also vorhanden. Er reicht aber nur
-so weit: Die Liste ist mit Beispielen versehen und nicht
-abschliessend, und Merkmale wie notwendig, umsetzbar oder korrekt
-sind maschinell nicht pruefbar.
+Begruendung: Die neun Klassen unbestimmter Ausdruecke aus 5.2.7
+lassen sich in Suchregeln ueberfuehren, ein Mechanismus ist also
+vorhanden. Er reicht aber nur so weit: Die Wortbeispiele je Klasse
+sind nicht abschliessend, und Merkmale wie notwendig, umsetzbar oder
+korrekt sind maschinell nicht pruefbar.
 Gegenargument, fuehrt zu 2: Fuer den Zweck des Kriteriums genuegt,
 dass die sprachlichen Regeln pruefbar sind; die uebrigen Merkmale
 betreffen den Inhalt und nicht die Formkonformitaet.
@@ -1131,15 +1143,18 @@ die Rollenzuweisung nicht eingewirkt.
 Ebene (d) Qualitaets-, Sprach- und Attributregeln, Note 2.
 Beleg: 29148 Abschn. 5.2.4 NOTE 2 (User Stories zugelassen),
 Abschn. 5.2.5 bis 5.2.7 (Merkmale und sprachliche Kriterien, auf jede
-Formulierung anwendbar), Anhang C.1 (Anpassung und Konformitaet).
+Formulierung anwendbar), Abschn. 4.2 (Umfang der vollstaendigen
+Konformitaet), Anhang C.1 (Anpassung und Konformitaet).
 Begruendung: Die Regeln beurteilen einen fertigen Satz und schreiben
 keine Satzform vor; sie kollidieren deshalb mit keiner Satzform. Die
 Norm nennt User Stories sogar ausdruecklich als zulaessige
 Alternative.
-Gegenargument, fuehrt zu 1: Anhang C.1 ist normativ und schliesst
-eine Konformitaetsbehauptung bei Verwendung eines Ausschnitts aus;
-die Verbindung mit einem nicht genormten Format ist eine Anpassung,
-die nach diesem Anhang zu begruenden und zu dokumentieren ist.
+Gegenargument, fuehrt zu 1: Vollstaendige Konformitaet setzt nach
+Abschn. 4.2 voraus, dass die Abschnitte 5.2.4 bis 5.2.7 gemeinsam
+eingehalten werden; fuer die Inhaltsvorgaben schliesst Anhang C.1 ein
+Anpassen bei vollstaendiger Konformitaet ausdruecklich aus. Eine
+Verbindung, die nur einen Teil dieser Vorgaben uebernimmt, gibt den
+Anspruch auf Konformitaet auf.
 
 Befund fuer Schritt 5: Ebene (d) ist die einzige ohne Konflikt und
 damit ein Querschnitt, kein Konkurrent. Die Ebenen (a) und (b)
