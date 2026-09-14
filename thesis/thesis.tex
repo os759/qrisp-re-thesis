@@ -1887,8 +1887,354 @@ Entwicklung der Prompts überprüft.
 \end{description}
 
 
-\textbf{[Noch zu ergänzen: Einzelbegründungen zu K6 bis K10,
-Durchgang~2.]}
+\section{K6 Eignung für die drei Anforderungsarten}
+\label{sec:anhang-k6}
+
+Die Noten dieses Kriteriums stammen nicht aus der Literatur, sondern aus
+der in Abschnitt~\ref{subsec:formulierungsprobe} beschriebenen Messung.
+Der Verfasser hat die sechs Sätze der
+Tabelle~\ref{tab:anhang-k6-versuche} selbst formuliert und selbst
+eingestuft; ein Sprachmodell hat den Rahmen und die Referenzinhalte
+vorgeschlagen und die Einstufungen anschließend gegengeprüft, jedoch
+keine Note vorgeschlagen. Die vollständige Dokumentation der Messung
+steht in \path{docs/formatprobe_protokoll.md}.
+
+Für die Ebenen~(c) und~(d) wird das Kriterium als nicht anwendbar
+geführt, weil ein Formulierungsversuch dort den Satzbau einer anderen
+Ebene übernehmen müsste. Dagegen spricht, dass die beiden gemessenen
+Kriterien damit nur dort greifen, wo eine Ebene ein Satzmuster vorgibt;
+Ebene~(d) hat deshalb weder bei K6 noch bei K9 eine gemessene Note.
+Beide bewerteten Ebenen beziehen zudem je einen Pflichtbestandteil aus
+dem einheitlichen Rahmen der Probe, Ebene~(a) die Rolle und Ebene~(b)
+den Systemnamen; das Kriterium unterscheidet die beiden Ebenen daher
+nicht.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Formulierungsversuche der Probe für das Kriterium~K6}
+  \label{tab:anhang-k6-versuche}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\raggedright\arraybackslash}p{7.4cm}@{}}
+    \toprule
+    \textbf{Art} & \textbf{Ebene} & \textbf{Anforderungssatz} \\
+    \midrule
+    funktional & (a) User Story &
+    As a developer, I want inputs to be checked for validity before they
+    are processed. \\
+    funktional & (b) EARS &
+    The library shall check inputs for validity before processing
+    them. \\
+    \addlinespace
+    leistungs\-bezogen & (a) User Story &
+    As a developer, I want 95\,\% of transactions to be processed in
+    less than 1\,s. \\
+    leistungs\-bezogen & (b) EARS &
+    The library shall process 95\,\% of transactions in less than
+    1\,s. \\
+    \addlinespace
+    sicherheits\-bezogen & (a) User Story &
+    As a developer, I want the integrity of data in critical variables
+    to be checked. \\
+    sicherheits\-bezogen & (b) EARS &
+    The library shall check the integrity of data in critical
+    variables. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{description}
+  \item[(a) User Story, Note~2.]
+  \emph{Beleg:} drei von drei Versuchen gelungen
+  (Tabelle~\ref{tab:anhang-k6-versuche}).
+  \emph{Begründung:} In allen drei Versuchen sind Rolle und Means
+  besetzt, ohne dass eine Angabe hinzukommt, die Rahmen oder
+  Referenzinhalt nicht hergeben. Eine von der Anforderungsart abhängige
+  Schwäche zeigt sich bei keiner der drei Arten.
+  \emph{Gegenargument (spräche für Note~0):} Die Rolle stammt in allen
+  drei Sätzen aus dem Rahmen und nicht aus dem Referenzinhalt; würde sie
+  nicht als belegt gelten, gelänge kein einziger Versuch.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} drei von drei Versuchen gelungen
+  (Tabelle~\ref{tab:anhang-k6-versuche}).
+  \emph{Begründung:} In allen drei Versuchen sind Systemname und
+  Systemreaktion besetzt, wobei die Systemreaktion jeweils dem
+  Referenzinhalt selbst entstammt. Auch hier zeigt sich bei keiner der
+  drei Anforderungsarten eine Schwäche.
+  \emph{Gegenargument (spräche für Note~0):} Der Systemname stammt
+  ebenso aus dem Rahmen wie bei Ebene~(a) die Rolle; würde auch er nicht
+  als belegt gelten, gelänge gleichfalls kein Versuch.
+
+  \item[(c) Normative Modalität, nicht anwendbar.]
+  \emph{Beleg:} \cite[Abschn.~1--5]{rfc2119} und
+  \cite[Abschn.~2]{rfc8174} treffen keine Aussage zum Satzbau.
+  \emph{Begründung:} Die Ebene legt allein die Bedeutung von
+  Schlüsselwörtern fest; ein Formulierungsversuch müsste den Satzbau
+  einer anderen Ebene übernehmen und bewertete damit diese.
+  \emph{Gegenargument (spräche für eine Note):} siehe die Vorbemerkung
+  zu diesem Kriterium.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, nicht anwendbar.]
+  \emph{Beleg:} \cite[Abschn.~5.2.5--5.2.7]{iso29148}.
+  \emph{Begründung:} Die Ebene nennt Merkmale und sprachliche Kriterien,
+  aber keine Satzbestandteile, und beurteilt eine bereits formulierte
+  Anforderung.
+  \emph{Gegenargument (spräche für eine Note):} Ob die Qualitätsregeln
+  bei den drei Anforderungsarten unterschiedlich greifen, bleibt damit
+  ungemessen; dieser Gesichtspunkt geht nur mittelbar über K3 ein.
+\end{description}
+
+
+\section{K7 Verständlichkeit}
+\label{sec:anhang-k7}
+
+Dieses Kriterium wird nur ersatzweise bewertet und wird erst durch die
+Bewertung in Kapitel~\ref{cha:evaluation} belastbar. Sein zweiter
+Prüfpunkt, der Abstand zur Ausdrucksweise in den Pull Requests, ist eine
+Setzung des Verfassers ohne Beleg in einer Quelle; wo er eine Note
+trägt, ist das bei der betreffenden Zelle ausgewiesen.
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1 und 2.2]{lucassen2016qus}.
+  \emph{Begründung:} Drei Signalphrasen in Alltagsenglisch ohne
+  Fachvokabular verlangen einer lesenden Person kaum Vorwissen ab. Die
+  Schablone setzt jedoch eine Rolle aus der Anwendungsdomäne voraus,
+  während die Pull Requests des Projekts sich an andere Entwickelnde
+  richten und keinen Nutznießer benennen.
+  \emph{Gegenargument (spräche für Note~2):} Nach dem ersten Prüfpunkt,
+  der Zahl der zu lernenden Schlüsselwörter und Regeln, schneidet die
+  Ebene von allen vieren am besten ab.
+  \emph{Ausweis der eigenen Setzung:} Der Abzug beruht allein auf dem
+  zweiten Prüfpunkt und ist damit gesetzt, nicht belegt.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~2 und 4.1--4.6]{mavin2009ears}.
+  \emph{Begründung:} Der Ansatz lehnt formale und grafische Notationen
+  ausdrücklich wegen Übersetzungsfehlern, Sprachbarriere und
+  Schulungsaufwand ab und ist darauf angelegt, ohne Schulung lesbar zu
+  bleiben. Seine Satzform nennt das System als Handelnden, so wie die
+  Pull Requests über die Bibliothek sprechen.
+  \emph{Gegenargument (spräche für Note~1):} Zu lernen sind fünf Muster
+  mit vier Schlüsselwörtern, das Wort \emph{shall} und die verbindliche
+  Klauselreihenfolge; \emph{shall} ist in der Sprache der Pull Requests
+  unüblich.
+  \emph{Hinweis zur Stufe~2:} Die in der Folgearbeit berichtete
+  Schwierigkeit, die Muster Ubiquitous und Event-driven auseinander zu
+  halten, ist ein Erprobungsbefund und trägt die Note nicht
+  \cite[Abschn.~Lessons Learned Applying EARS]{mavin2010bigears}.
+
+  \item[(c) Normative Modalität, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1--5]{rfc2119};
+  \cite[Abschn.~1 und 2]{rfc8174}.
+  \emph{Begründung:} Die fünf Verbindlichkeitsstufen werden mit elf
+  geläufigen englischen Wörtern ausgedrückt, sodass dem Wortschatz nach
+  nichts Fremdes zu lernen ist. Genau darin liegt die Falle: Wer die
+  Konvention nicht kennt, liest \emph{SHOULD} als unverbindliche
+  Empfehlung, und RFC~8174 wurde eigens erlassen, weil die
+  Unterscheidung nach Groß- und Kleinschreibung nicht eindeutig war.
+  \emph{Gegenargument (spräche für Note~2):} Fünf Bedeutungen sind ein
+  überschaubarer Lernaufwand, und die durchgängige Großschreibung macht
+  sichtbar, dass überhaupt eine Konvention gilt.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~5.2.6 und 5.2.7]{iso29148}.
+  \emph{Begründung:} Der Standard führt die Verständlichkeit als eigenes
+  Merkmal und untersagt unbestimmte und mehrdeutige Ausdrücke. Die
+  Regeln richten sich an die verfassende Person und nicht an die
+  lesende; diese muss nichts lernen.
+  \emph{Gegenargument (spräche für Note~1):} Das Merkmal gilt nach
+  Abschnitt~5.2.6 für die Menge der Anforderungen, während das Kriterium
+  nach dem Lesen eines einzelnen Satzes fragt; überdies sagt der
+  Standard, was zu vermeiden ist, und nicht, wie ein verständlicher Satz
+  aussieht.
+\end{description}
+
+
+\section{K8 Automatische Validierbarkeit}
+\label{sec:anhang-k8}
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~4, 4.2 und 4.7]{lucassen2016qus}.
+  \emph{Begründung:} Mit AQUSA liegt ein veröffentlichtes Werkzeug vor,
+  das die Formatkonformität je Kriterium prüft; ein Mechanismus ist
+  damit zweifelsfrei vorhanden. Er ist jedoch an eine Bedingung
+  geknüpft, weil der Ansatz keine feste Schablone vorgibt und deshalb
+  gegen eine je Datensatz aus der Häufigkeit bestimmte Form geprüft
+  wird.
+  \emph{Gegenargument (spräche für Note~2):} Dies ist die einzige der
+  vier Ebenen mit einem tatsächlich gebauten und veröffentlichten
+  Prüfwerkzeug.
+  \emph{Hinweis zur Stufe~2:} Die gemessene Leistungsfähigkeit dieses
+  Werkzeugs (Tabelle~\ref{tab:aqusa}) ist ein Erprobungsbefund und trägt
+  die Note nicht.
+
+  \item[(b) EARS, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~4.1--4.6]{mavin2009ears}.
+  \emph{Begründung:} Die Schlüsselwörter der vier bedingten Muster und
+  das Modalwort \emph{shall} bilden ein geschlossenes Vokabular, das ein
+  Programm unmittelbar suchen kann, und das fünfte Muster ist am Fehlen
+  eines Schlüsselworts erkennbar. Die festgelegte Klauselreihenfolge
+  macht zusätzlich prüfbar, ob ein Satz dem Muster folgt und nicht nur
+  dessen Wörter enthält.
+  \emph{Gegenargument (spräche für Note~1):} In den ausgewerteten
+  Quellen ist kein Prüfwerkzeug für den Ansatz beschrieben; die
+  maschinelle Prüfbarkeit ist aus der Syntax abgeleitet, aber nicht
+  gezeigt.
+
+  \item[(c) Normative Modalität, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~1--6]{rfc2119}; \cite[Abschn.~2]{rfc8174}.
+  \emph{Begründung:} Das Vokabular ist geschlossen und durch die Regel
+  der durchgängigen Großschreibung im Fließtext eindeutig abgegrenzt,
+  sodass eine einfache Suche genügt, um festzustellen, ob und welche
+  Stufe verwendet wurde.
+  \emph{Gegenargument (spräche für Note~1):} Ein Programm findet das
+  Schlüsselwort, kann aber die in Abschnitt~6 geforderte sparsame
+  Verwendung nicht prüfen; diese Regel für inhaltlich zentral zu halten,
+  ist allerdings eine Einordnung des Verfassers, da die Quelle den
+  Abschnitt als Hinweis zur Anwendung führt.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~5.2.5 und 5.2.7]{iso29148}.
+  \emph{Begründung:} Die neun Klassen unbestimmter Ausdrücke lassen sich
+  in Suchregeln überführen, ein Mechanismus ist also vorhanden. Er
+  reicht aber nur so weit: Die Wortbeispiele je Klasse sind nicht
+  abschließend, und Merkmale wie notwendig, umsetzbar oder korrekt sind
+  maschinell nicht prüfbar.
+  \emph{Gegenargument (spräche für Note~2):} Für den Zweck des
+  Kriteriums genügt, dass die sprachlichen Regeln prüfbar sind; die
+  übrigen Merkmale betreffen den Inhalt und nicht die Formkonformität.
+\end{description}
+
+
+\section{K9 Deckung durch die Quelldaten}
+\label{sec:anhang-k9}
+
+Die Noten dieses Kriteriums stammen aus der in
+Abschnitt~\ref{subsec:formulierungsprobe} beschriebenen Messung an zwölf
+Pull Requests; Tabelle~\ref{tab:deckung} führt die gemessenen Werte auf.
+Als gedeckt gilt ein Fall, wenn sich jeder Pflichtbestandteil der Ebene
+aus Titel, Beschreibung, Kommentaren oder Änderungsdiff belegen lässt,
+bei Ebene~(a) also Rolle und Means, bei Ebene~(b) Systemname und
+Systemreaktion und bei Ebene~(c) die Verbindlichkeitsstufe. Bei zwölf
+Fällen sind die Schwellen von zehn gedeckten Fällen für die Note~2 und
+von fünf für die Note~1 wirksam.
+
+Die Messung hat der Verfasser durchgeführt; ein Sprachmodell hat alle
+zwölf Fälle unabhängig gegengeprüft. Die fünf Einstufungen, die daraufhin
+geändert wurden, betrafen sämtlich Ebene~(c). Die vollständige
+Dokumentation steht in \path{docs/formatprobe_protokoll.md}.
+
+\begin{description}
+  \item[(a) User Story, Note~0.]
+  \emph{Beleg:} vier von zwölf Fällen gedeckt
+  (Tabelle~\ref{tab:deckung}).
+  \emph{Begründung:} Alle acht nicht gedeckten Fälle scheitern allein am
+  Bestandteil Rolle, während das Means in allen zwölf Fällen belegt ist.
+  Zwei der vier gedeckten Fälle nennen eine Personengruppe nur pauschal;
+  ohne sie wären zwei von zwölf Fällen gedeckt, und die Note bliebe
+  bei~0.
+  \emph{Gegenargument (spräche für Note~1):} Zur nächsten Schwelle fehlt
+  ein einziger Fall.
+
+  \item[(b) EARS, Note~1.]
+  \emph{Beleg:} neun von zwölf Fällen gedeckt
+  (Tabelle~\ref{tab:deckung}).
+  \emph{Begründung:} In den drei nicht gedeckten Fällen fehlt entweder
+  ein eindeutig benanntes Bauteil oder eine konkrete Handlung. In zwei
+  von ihnen lag der Änderungstext nur teilweise vor, und nicht sichtbare
+  Einzelheiten wurden nicht ergänzt.
+  \emph{Gegenargument (spräche für Note~2):} Zur nächsten Schwelle fehlt
+  ein einziger Fall.
+
+  \item[(c) Normative Modalität, Note~0.]
+  \emph{Beleg:} kein Fall von zwölf gedeckt
+  (Tabelle~\ref{tab:deckung}).
+  \emph{Begründung:} Modalaussagen kommen in fünf Fällen vor, betreffen
+  dort aber das Vorgehen im Pull Request, eine andere Anforderung oder
+  ein benachbartes Bauteil. Als Beleg gilt eine Stufe nur, wenn sich die
+  Aussage auf die rekonstruierte Anforderung selbst bezieht.
+  \emph{Gegenargument (spräche für Note~1):} Ohne diese Einschränkung
+  wären fünf von zwölf Fällen gedeckt und die Note läge bei~1, sodass
+  auch die oben genannte Ausschlussregel nicht mehr griffe; die fünf
+  Einstufungen gehen sämtlich auf die Gegenprüfung durch ein
+  Sprachmodell zurück.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, nicht anwendbar.]
+  \emph{Beleg:} \cite[Abschn.~5.2.5--5.2.7]{iso29148}.
+  \emph{Begründung:} Die Ebene schreibt keine Satzbestandteile vor,
+  sondern Qualitäts- und Sprachregeln; ein Deckungsanteil ist für sie
+  nicht definiert.
+  \emph{Gegenargument (spräche für eine Note):} Der Standard sieht
+  Attribute neben dem Anforderungssatz vor
+  \cite[Abschn.~5.2.8.1]{iso29148}, und das gewählte Zielformat verlangt
+  drei von ihnen; ob die Quelldaten diese hergeben, wurde nicht
+  gemessen.
+\end{description}
+
+
+\section{K10 Kombinierbarkeit}
+\label{sec:anhang-k10}
+
+\begin{description}
+  \item[(a) User Story, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~5.2.4 NOTE~2]{iso29148};
+  \cite[Abschn.~1 und Tab.~1]{lucassen2016qus}.
+  \emph{Begründung:} Der Standard lässt User Stories ausdrücklich zu,
+  sodass die Verbindung mit Ebene~(d) belegt möglich ist. Die Schablone
+  besetzt jedoch den ganzen Satz und lässt nach dem Kriterium Minimal
+  keinen Platz für die Klauseln der Ebene~(b) oder ein Modalwort der
+  Ebene~(c).
+  \emph{Gegenargument (spräche für Note~2):} Die Ebene ist die einzige,
+  deren Verträglichkeit eine Norm ausdrücklich bestätigt, und die
+  Unvereinbarkeit mit Ebene~(b) betrifft nur den einzelnen Satz.
+
+  \item[(b) EARS, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~4.1]{mavin2009ears};
+  \cite[Abschn.~5.2.4]{iso29148}; \cite[Abschn.~1--5]{rfc2119}.
+  \emph{Begründung:} Mit Ebene~(d) ist der Ansatz verträglich, weil er
+  dasselbe Modalwort verwendet, das der Standard für verbindliche
+  Anforderungen vorsieht. Zur Ebene~(c) in ihrer Ausprägung nach
+  RFC~2119 besteht dagegen ein Widerspruch, weil der Ansatz nur
+  \emph{shall} kennt und keine Abstufung.
+  \emph{Gegenargument (spräche für Note~2):} Der Widerspruch besteht
+  nicht zur Ebene~(c) als solcher, sondern nur zu einer ihrer beiden
+  Ausprägungen; mit den Schlüsselwörtern des Standards ist der Ansatz
+  widerspruchsfrei.
+
+  \item[(c) Normative Modalität, Note~1.]
+  \emph{Beleg:} \cite[Abschn.~1--5]{rfc2119};
+  \cite[Abschn.~5.2.4]{iso29148}.
+  \emph{Begründung:} Der Konflikt liegt innerhalb der Ebene selbst, denn
+  der Standard rät von \emph{must} ab, während RFC~2119 \emph{MUST} und
+  \emph{SHALL} gleichsetzt und fünf Stufen statt einer kennt. Er ist
+  auflösbar, sobald eine der beiden Konventionen gewählt wird.
+  \emph{Gegenargument (spräche für Note~2):} In der Ausprägung nach dem
+  Standard ist die Ebene mit den Ebenen~(b) und~(d) widerspruchsfrei.
+  \emph{Hinweis:} Diese Wahl ist inzwischen zugunsten der
+  Schlüsselwörter des Standards gefallen
+  (Abschnitt~\ref{subsec:rollenzuweisung}); die Note bleibt dennoch
+  bei~1, weil sie die Ebene als Ganzes bewertet und die Bewertung auf
+  dem Stand bleiben soll, auf dem sie in die Entscheidung eingegangen
+  ist.
+
+  \item[(d) Qualitäts-, Sprach- und Attributregeln, Note~2.]
+  \emph{Beleg:} \cite[Abschn.~5.2.4 NOTE~2 und
+  5.2.5--5.2.7]{iso29148}.
+  \emph{Begründung:} Die Regeln beurteilen einen fertigen Satz und
+  schreiben keine Satzform vor; sie kollidieren deshalb mit keiner
+  Satzform. Der Standard nennt User Stories sogar ausdrücklich als
+  zulässige alternative Formulierung.
+  \emph{Gegenargument (spräche für Note~1):} Vollständige Konformität
+  mit dem Standard setzt voraus, dass die Abschnitte~5.2.4 bis 5.2.7
+  gemeinsam eingehalten werden \cite[Abschn.~4.2]{iso29148}, und für die
+  Inhaltsvorgaben schließt er ein Anpassen bei vollständiger Konformität
+  ausdrücklich aus \cite[Anhang~C.1]{iso29148}; eine Verbindung, die nur
+  einen Teil dieser Vorgaben übernimmt, gibt den Anspruch auf
+  Konformität auf.
+\end{description}
 
 
 \end{document}
