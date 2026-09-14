@@ -1176,6 +1176,18 @@ Gegenargumente vorgelegt; die Noten hat der Verfasser zwischen dem
 Status: festgelegt.
 Bezug: FF2, Nachvollziehbarkeit, formale Fertigstellung.
 
+Nachtrag vom 11.09.2026 (Durchgang 2, K6 bis K10): Der Verfasser hat
+sieben Abweichungen vom Wortlaut in Abschnitt 10 freigegeben. Vier
+sind Berichtigungen; sie stehen in der Aenderungshistorie von
+docs/formatauswahl.md vom 11.09.2026 und sind dort in Abschnitt 10
+nachgezogen. Drei sind Ergaenzungen, die es in Abschnitt 10 nicht
+gibt: eine Vorbemerkung bei K6 und K9 zur Herkunft der gemessenen
+Noten, die Tabelle A.1 mit den sechs Formulierungsversuchen sowie je
+ein zusaetzliches Gegenargument bei K6 Ebene (b) und K9 Ebene (c).
+Grund: Der Vorspann von Anhang A beschreibt das Verfahren nach C2a,
+das fuer die beiden gemessenen Kriterien nicht gilt. Keine Note
+aendert sich.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

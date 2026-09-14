@@ -50,7 +50,11 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   deutlich zu niedrig (10.09.2026).
 - Git-Befehle mit Pfaden wie thesis/thesis.tex setzen den
   Repository-Stamm als Arbeitsverzeichnis voraus. Wer im Ordner
-  thesis/ steht, schreibt thesis.tex (11.09.2026).
+  thesis/ steht, schreibt thesis.tex (11.09.2026). 
+- Nach jeder Einfuegung in thesis.tex prueft vor dem Commit ein grep
+  mit Suchtext ohne Umlaute die Einfuegestelle. Eine abweichende
+  Zeilenzahl im git diff --stat ist ein Stoppsignal. In Paket C
+  Anhang A fehlte dadurch eine Zeile im Vorspann (11.09.2026).
 
 ## Umgebung
 
@@ -333,22 +337,29 @@ Schemavalidierung der LLM-Ausgaben (Paket E).
 
 ## Aktuell
 
-Paket C, Schritte 5 und 6 abgeschlossen am 09.09.2026. Die
-Rollenzuweisung und die Formatentscheidung stehen als C5 in
+Paket C, Schritt 5 abgeschlossen am 08.09.2026, Schritt 6 am
+09.09.2026. Die Rollenzuweisung und die Formatentscheidung stehen als C5 in
 docs/entscheidungen.md, der Abschnitt 4.1 steht in
 thesis/thesis.tex. Ergebnis: die Ebenen (b) EARS und (d)
 Qualitaetsregeln sind verpflichtend, die Ebenen (a) und (c) werden
 nicht verwendet. Das Zielformat heisst EARS+29148.
 
-Anhang A, Durchgang 1 abgeschlossen am 11.09.2026: Vorspann und die
-gekuerzten Einzelbegruendungen zu K1 bis K5 stehen in
-thesis/thesis.tex, nach dem Literaturverzeichnis (siehe C6 in
-docs/entscheidungen.md). Die Uebersetzung laeuft ohne Fehler und
-ohne undefinierte Verweise. Der Verfasser hat den Entwurf gelesen
-und vollstaendig an den Quellen geprueft. Offen bleiben aus Paket C:
-Durchgang 2 (K6 bis K10), der Platzhalter fuer den Anhangverweis in
-4.1.3 und die Ueberschrift von Abschnitt 10 in formatauswahl.md.
-Paket C gilt erst danach als abgeschlossen.
+Paket C ist am 11.09.2026 abgeschlossen. Anhang A enthaelt die
+gekuerzten Einzelbegruendungen zu allen zehn Kriterien, K1 bis K5 aus
+Durchgang 1 und K6 bis K10 aus Durchgang 2. Er steht nach dem
+Literaturverzeichnis; Abschnitt 4.1.3 verweist mit dem Label
+cha:anhang-einzelbegruendungen darauf. Die Uebersetzung laeuft ohne
+Fehler und ohne undefinierte Verweise, das Dokument hat 54 Seiten,
+Anhang A die Seiten 39 bis 50. Der Verfasser hat den Entwurf gelesen
+und geprueft.
+
+Anhang A enthaelt keine Note, die nicht schon in Abschnitt 10 von
+docs/formatauswahl.md oder im Formulierungsprotokoll steht. Bei K6
+und K9 geht er in drei Punkten ueber Abschnitt 10 hinaus, weil dort
+keine Einzelbegruendungen stehen: eine Vorbemerkung zur Herkunft der
+gemessenen Noten, die Tabelle A.1 mit den sechs
+Formulierungsversuchen sowie je ein zusaetzliches Gegenargument bei
+K6 Ebene (b) und K9 Ebene (c). Festgehalten im Nachtrag zu C6.
 
 Seit dem 07.09.2026 gilt zusaetzlich R11: Die Skalenstufe 2 bemisst
 sich am Vorhandensein und an der Reichweite einer ausdruecklichen
@@ -410,20 +421,11 @@ Messergebnis K6, Stand 02.09.2026:
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Anhang A, Durchgang 2: K6 bis K10 nach denselben Kuerzungsregeln
-   (C6). Quelle ist docs/formatauswahl.md Abschnitt 10; fuer K6 und
-   K9 zusaetzlich docs/formatprobe_protokoll.md, weil Abschnitt 10
-   dort keine Einzelbegruendungen enthaelt. Der Text ersetzt den
-   Platzhalter am Ende von Anhang A.
-2. Platzhalter in 4.1.3 fuellen: Verweis auf Anhang A mit dem Label
-   cha:anhang-einzelbegruendungen. Der Satz spricht bisher von den
-   vollstaendigen Einzelbegruendungen; der Anhang enthaelt sie
-   gekuerzt. Der Platzhalter zum Datenmodell in 4.1.4 bleibt bis
-   Paket E offen.
-3. Ueberschrift "## 10. Entscheidungsmatrix (in Arbeit)" in
-   docs/formatauswahl.md anpassen.
-4. Damit ist Paket C abgeschlossen. 
-5. Danach Paket E.
+1. Paket E in einem neuen Chat: Prompt-Entwurf und API-Modell. Das
+   Zielformat EARS+29148 aus C5 gibt die Ausgabestruktur vor.
+2. Nicht blockierend, aus Paket C uebernommen: die zehn Overfull
+   hboxen in Anhang A (Woche 12) und der Platzhalter zum Datenmodell
+   in 4.1.4, der in Paket E gefuellt wird.
 
 ## Getroffene Entscheidungen
 
@@ -494,7 +496,7 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   literatur/ muessen daher ohne Kenntnis der Projektanweisung
   verstaendlich sein.
 - Erst Quelltext committen, dann abrufen oder aufbereiten.
-- C5 (09.09.2026): Rollenzuweisung und Zielformat EARS+29148.
+- C5 (08.09.2026): Rollenzuweisung und Zielformat EARS+29148.
   Ebenen (b) und (d) verpflichtend, (a) und (c) nicht verwendet.
   Schluesselwortkonvention nach 29148 Abschn. 5.2.4; RFC 2119
   nicht uebernommen. Die Verbindlichkeit wird als Konvention
@@ -505,7 +507,7 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Einzelbegruendungen kommen gekuerzt in Anhang A. Anhang A steht
   nach dem Literaturverzeichnis (10.09.2026). Kuerzungsregeln und
   Form eines Eintrags stehen in C6.
-- K10 fuer Ebene (c) bleibt bei Note 1 (09.09.2026). Die Matrix
+- K10 fuer Ebene (c) bleibt bei Note 1 (08.09.2026). Die Matrix
   soll nicht vom Ergebnis der Entscheidung abhaengen, die sie
   stuetzt. Der Vorbehalt ist durch einen datierten Nachtrag ersetzt.
 
@@ -656,7 +658,14 @@ Aus der Formulierungsprobe (Stand 30.08.2026, Commit ecf4a40):
   "verpflichtend" erhalten. "optional" bleibt moeglich. Das ist in
   Schritt 5 zu entscheiden.
 - Ohne R10 stuende Ebene (c) bei 4 von 12 und erhielte ebenfalls
-  Note 0. Die Regel veraendert die Zahl, nicht die Entscheidung.
+  Note 0. Der frueher hier stehende Zusatz, die Regel veraendere nur
+  die Zahl und nicht die Entscheidung, ist am 11.09.2026 berichtigt
+  worden. Er zaehlt nur die vier Faelle nach der schriftlichen
+  Festlegung von R10; PR 371 wurde schon am 27.08.2026 nach demselben
+  Grundsatz geaendert. Ohne diesen Grundsatz insgesamt waeren 5 von
+  12 gedeckt, die Note laege bei 1, und E1 wuerde Ebene (c) nicht
+  mehr sperren. Die Regel bleibt unveraendert; die Empfindlichkeit
+  gehoert nach Kapitel 7.
 - Rollen sind seltener belegt als Systemverhalten. Ebene (a)
   scheitert meist am Rollenbestandteil.
 - Das EARS-Muster Ubiquitous passt fuer die meisten Faelle; WHEN
@@ -703,11 +712,16 @@ Extern, mit Vorlauf:
 - API-Budget fuer FF3, zu klaeren bis Woche 4
 
 Inhaltlich offen:
-- Paket C, Anhang A Durchgang 2: K6 bis K10. Erst danach ist
-  Paket C abgeschlossen.
-- Zwei Platzhalter in Abschnitt 4.1: Verweis auf Anhang A (4.1.3;
-  dabei "vollstaendigen" durch "gekuerzten" ersetzen) und Verweis
-  auf den Abschnitt zum Datenmodell (4.1.4, faellt in Paket E).
+- Ein Platzhalter in Abschnitt 4.1: Verweis auf den Abschnitt zum
+  Datenmodell (4.1.4, faellt in Paket E). Der Verweis auf Anhang A
+  in 4.1.3 ist am 11.09.2026 gesetzt.
+- K9 Ebene (c) ist empfindlicher als bisher dokumentiert: ohne den
+  Grundsatz von R10 waeren 5 von 12 Faellen gedeckt und die Note
+  laege bei 1. Gehoert nach Kapitel 7, zusammen mit dem Umstand,
+  dass die Noten der Ebenen (a) und (b) an je einem Fall haengen.
+- Abschnitt 4.1.5 spricht von einem "Ausschnitt der Inhaltsvorgaben"
+  von 29148. Der gewaehlte Ausschnitt stammt aber aus Abschn. 5.2,
+  nicht aus den Inhaltsvorgaben in Abschn. 9. Formulierung pruefen.
 - Abschn. 2.2.3 und Lesenotiz zu Mavin/Wilkinson 2010: Die Aussage,
   Bewertende und Umformulierende seien dieselbe Personengruppe,
   steht so nicht im Volltext. Belegt sind nur die Festlegung der
@@ -764,14 +778,19 @@ Technisch und redaktionell:
 - Overfull hboxen, Behebung in Woche 12: vorspann.tex Z. 4-16 (86,6pt) ·
   thesis.tex Z. 263-269 (12,7pt) · Z. 288-295 (12,9pt) ·
   Z. 444-445 (14,5pt) · Z. 912 (1,4pt)
-  Neu: Underfull hbox Z. 355 (badness 1546), Beschriftung Tabelle 2.1
-  Neu 11.09.2026: fuenf Overfull hboxen in Anhang A, alle in
-  Beleg-Zeilen mit mehreren Zitaten. Zeilen und Breiten:
-  thesis.tex Z. 1625-1635 (9,76654pt) ·
-  Z. 1686-1693 (9,05933pt) ·
-  Z. 1695-1706 (12,99223pt) ·
-  Z. 1752-1762 (9,21904pt) ·
-  Z. 1876-1886 (15,40123pt)
+    Neu 11.09.2026: zehn Overfull hboxen in Anhang A, alle in
+  Beleg-Zeilen mit mehreren Zitaten. Stand nach dem Lauf vom
+  11.09.2026 mit allen Aenderungen des Tages:
+  thesis.tex Z. 1626-1636 (9,76654pt) ·
+  Z. 1688-1695 (9,05933pt) ·
+  Z. 1697-1708 (12,99223pt) ·
+  Z. 1754-1764 (9,21904pt) ·
+  Z. 1878-1888 (15,40123pt) ·
+  Z. 1971-1978 (9,05933pt) ·
+  Z. 1980-1987 (15,40123pt) ·
+  Z. 2043-2053 (9,21904pt) ·
+  Z. 2101-2110 (9,21904pt) ·
+  Z. 2167-2176 (15,40123pt)
   Achtung: Die Zeilenangaben der aelteren Eintraege oben stimmen mit
   dem Log vom 11.09.2026 nicht mehr ueberein. In Woche 12 neu erheben.
 - Literaturverzeichnis beginnt ohne Seitenumbruch unter dem Fazit und
@@ -880,6 +899,11 @@ d63c549 Paket C Schritt 5, Formatentscheidung C5
 e2187b8 29148 Abschn. 5.2.7 bei K2 und K3 auf neun Aufzaehlungspunkte berichtigt
 7db9ae1 Anhang A, Einzelbegruendungen K1 bis K5 (Durchgang 1)
 7861f29 Anhang A, fehlende Zeile im Vorspann ergaenzt
+a5a9339 Uebergabe Anhang A Durchgang 1, Entscheidung C6, KI-Protokoll
+c73f63e Anhang A, Einzelbegruendungen K6 bis K10 (Durchgang 2)
+<hash> Verweis auf Anhang A in 4.1.3, zwei Berichtigungen zu EARS
+<hash> Abschnitt 10 abgeschlossen, sieben Berichtigungen, R10-Aussage
+<hash> Stand nach Abschluss von Paket C
 
 ## Aufruf des Ziehungsskripts
 
@@ -904,6 +928,8 @@ W3 17.-23.08. Extraktion, Formatauswahl                Paket D
 W4 24.-30.08. LLM-Extraktion mit API-Modell
 W5 31.08.-06.09. Prompt-Iteration, lokales Modell
 W6 07.-13.09. Modellvergleich (Kontrollpunkt lokales Modell)
+              tatsaechlich: Paket C abgeschlossen am 11.09.
+              Kontrollpunkt und Modellvergleich verschoben
 W7 14.-20.09. Klassifikation, Sicherheitsraster
 W8 21.-27.09. Gap-Analyse, Git-Tag thesis-v1.0, Evaluation starten
 W9 28.09.-04.10. Kapitel Implementierung
@@ -912,11 +938,18 @@ W11 12.-18.10. Diskussion, Fazit
 W12 19.-25.10. Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
-Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig.
-Paket C laeuft seit 23.08.; die Schritte 1 bis 6 und Anhang A
-Durchgang 1 sind abgeschlossen. Es fehlen Durchgang 2 und zwei
-kleine Nacharbeiten. Paket E hatte am 09.09.2026 noch nicht
-begonnen und lag rund zwei Wochen hinter dem Plan fuer W4. Der
-Kontrollpunkt fuer das lokale Modell in W6 ist nicht zu halten. Bis
-zur internen Abgabe am 30.10.2026 verbleiben sieben Wochen.
-Vorschlag: Durchgang 2 zuegig abschliessen, danach sofort Paket E.
+Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig. Paket C
+lief vom 23.08. bis zum 11.09.2026 und ist abgeschlossen: Schritte 1
+bis 6, Anhang A mit beiden Durchgaengen, der Verweis in 4.1.3 und
+die Ueberschrift von Abschnitt 10 in docs/formatauswahl.md. Paket E
+hat noch nicht begonnen und liegt rund zwei Wochen hinter dem Plan
+fuer W4. Der Kontrollpunkt fuer das lokale Modell in W6 ist nicht zu
+halten. Bis zur internen Abgabe am 30.10.2026 verbleiben sieben
+Wochen; verbindlicher Abgabetermin ist der 01.11.2026.
+
+Vorschlag: Paket E sofort beginnen, dort zuerst Datenmodell und
+Prompt-Entwurf, weil beide ohne lokale Inferenz auskommen. Die
+Einrichtung des lokalen Modells parallel in W7 anstossen, damit
+Einrichtungsprobleme frueh sichtbar werden; erfahrungsgemaess ist das
+der Schritt mit dem groessten Risiko. Der Wochenplan ab W4 stimmt
+nicht mehr und wird zu Beginn von Paket E neu aufgestellt.
