@@ -901,9 +901,8 @@ e2187b8 29148 Abschn. 5.2.7 bei K2 und K3 auf neun Aufzaehlungspunkte berichtigt
 7861f29 Anhang A, fehlende Zeile im Vorspann ergaenzt
 a5a9339 Uebergabe Anhang A Durchgang 1, Entscheidung C6, KI-Protokoll
 c73f63e Anhang A, Einzelbegruendungen K6 bis K10 (Durchgang 2)
-<hash> Verweis auf Anhang A in 4.1.3, zwei Berichtigungen zu EARS
-<hash> Abschnitt 10 abgeschlossen, sieben Berichtigungen, R10-Aussage
-<hash> Stand nach Abschluss von Paket C
+9db8601 Verweis auf Anhang A in 4.1.3, zwei Berichtigungen zu EARS
+feb68c6 Stand nach Abschluss von Paket C
 
 ## Aufruf des Ziehungsskripts
 
