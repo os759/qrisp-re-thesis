@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "requirement_schema_v1.json",
+  "title": "Reconstructed requirements for one pull request",
+  "description": "Output contract for the extraction step. One instance per pull request. Target format EARS+29148, decision C5. Schema version 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pull_number", "processing_status", "requirements"],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "pull_number": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Pull request number as stored in the prepared dataset."
+    },
+    "processing_status": {
+      "enum": ["requirements_found", "no_requirements_found", "input_unusable"],
+      "description": "no_requirements_found is a valid result and must be distinguishable from a failed run."
+    },
+    "status_reason": {
+      "type": ["string", "null"],
+      "maxLength": 600,
+      "description": "Required whenever processing_status is not requirements_found."
+    },
+    "requirements": {
+      "type": "array",
+      "maxItems": 25,
+      "items": { "$ref": "#/$defs/requirement" }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "processing_status": { "const": "requirements_found" } },
+        "required": ["processing_status"]
+      },
+      "then": { "properties": { "requirements": { "minItems": 1 } } },
+      "else": {
+        "properties": {
+          "requirements": { "maxItems": 0 },
+          "status_reason": { "type": "string", "minLength": 5 }
+        },
+        "required": ["status_reason"]
+      }
+    }
+  ],
+  "$defs": {
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "ears_pattern",
+        "system_name",
+        "type",
+        "security_relevant",
+        "rationale",
+        "source",
+        "source_excerpt",
+        "evidence_strength",
+        "modality_set_by_convention"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^QR-[0-9]{4}-[0-9]{2}$",
+          "description": "QR-<pull number, four digits>-<running number within the pull request>. Unique and never reused, 29148 clause 5.2.8.2."
+        },
+        "text": {
+          "type": "string",
+          "minLength": 15,
+          "maxLength": 600,
+          "pattern": "shall",
+          "description": "The requirement sentence in English, EARS syntax, decision C5 section 6."
+        },
+        "ears_pattern": {
+          "enum": [
+            "ubiquitous",
+            "state_driven",
+            "event_driven",
+            "unwanted_behaviour",
+            "optional_feature",
+            "complex"
+          ]
+        },
+        "system_name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "description": "Taken from the source where it names a component, otherwise Qrisp. Decision C5 section 6."
+        },
+        "type": {
+          "enum": [
+            "functional_performance",
+            "interface",
+            "process",
+            "quality_non_functional",
+            "usability_quality_in_use"
+          ],
+          "description": "Attribute Type, value set from 29148 clause 5.2.8.3."
+        },
+        "security_relevant": {
+          "type": "boolean",
+          "description": "Separate from type, because 29148 clause 5.2.8.3 subsumes security under quality. Needed for FF4."
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 800,
+          "description": "Attribute Rationale, 29148 clause 5.2.8.2: why the requirement is needed. Carries the beneficiary as prose, decision C5 section 5."
+        },
+        "beneficiary": {
+          "type": ["string", "null"],
+          "maxLength": 120,
+          "description": "Optional. Role or beneficiary, only if the source names one. Null otherwise. Makes the coverage rate countable for FF1."
+        },
+        "component": {
+          "type": ["string", "null"],
+          "maxLength": 300,
+          "description": "Optional. Affected file path or module, as named in the source."
+        },
+        "verification": {
+          "type": ["string", "null"],
+          "maxLength": 600,
+          "description": "Optional. How fulfilment could be checked."
+        },
+        "source": { "$ref": "#/$defs/source" },
+        "source_excerpt": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 1200,
+          "description": "Verbatim excerpt from the prepared dataset. Must occur literally in the record named by source."
+        },
+        "evidence_strength": {
+          "enum": ["direct", "indirect", "insufficient"],
+          "description": "Provisional value set. The classification rules are open and are fixed in decision E6."
+        },
+        "uncertainties": {
+          "type": ["string", "null"],
+          "maxLength": 600,
+          "description": "Optional. What the model itself found unclear, in prose. No numeric confidence."
+        },
+        "missing_information": {
+          "type": ["string", "null"],
+          "maxLength": 600,
+          "description": "Optional. What the source does not say."
+        },
+        "modality_set_by_convention": {
+          "const": true,
+          "description": "Fixed marker. The word shall is a convention of this thesis and not evidence of a documented obligation. Decision C5 section 3."
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pull_number", "location"],
+      "properties": {
+        "pull_number": { "type": "integer", "minimum": 1 },
+        "location": {
+          "enum": ["title", "body", "issue_comment", "review_comment", "diff"]
+        },
+        "locator": {
+          "type": ["string", "null"],
+          "maxLength": 300,
+          "description": "Comment id for a comment, file path for a diff, null for title and body."
+        },
+        "html_url": {
+          "type": ["string", "null"],
+          "maxLength": 300,
+          "description": "Stable link, taken from the dataset. Never composed by the model."
+        }
+      }
+    }
+  }
+}

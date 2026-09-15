@@ -1188,11 +1188,158 @@ Grund: Der Vorspann von Anhang A beschreibt das Verfahren nach C2a,
 das fuer die beiden gemessenen Kriterien nicht gilt. Keine Note
 aendert sich.
 
+## 2026-09-15 Paket E: Datenmodell, Evaluationsform und Budget
+
+### 2026-09-15 E1 Datenmodell der strukturierten Ausgabe
+
+Die Ausgabe der Extraktion hat drei Ebenen. Die Lauf-Ebene mit Modell,
+Version, Parametern, Prompt-Version, Datum und Umgebung wird als
+Manifest gefuehrt, wie in Paket D. Die Vorgang-Ebene traegt je Pull
+Request den Verarbeitungsstand. Die Anforderungs-Ebene traegt die
+einzelnen rekonstruierten Anforderungen.
+
+Das Schema steht als config/requirement_schema_v1.json im Repository.
+Es ist in JSON Schema geschrieben, Entwurf 2020-12. Geprueft wird es
+mit dem Paket jsonschema 4.26.0.
+
+Verarbeitungsstand. Drei Werte: requirements_found,
+no_requirements_found, input_unusable. Bei den letzten beiden ist eine
+Begruendung Pflicht und die Liste muss leer sein. Grund: Ein Vorgang
+ohne Anforderung ist ein gueltiges Ergebnis und muss von einem
+gescheiterten Lauf unterscheidbar bleiben. Die Quote ist ein Messwert
+fuer FF1.
+
+Sechzehn Felder je Anforderung. Elf davon sind Pflicht. Herkunft:
+elf Felder aus der Aufgabenstellung zu Punkt 4, drei Attribute aus
+ISO/IEC/IEEE 29148 Abschn. 5.2.8.2 (Identification, Rationale, Type)
+nach Entscheidung C5, dazu zwei Felder aus C5 selbst.
+
+Wertemenge des Attributs Type. Sie wird aus 29148 Abschn. 5.2.8.3
+uebernommen: functional_performance, interface, process,
+quality_non_functional, usability_quality_in_use. Die Menge ist
+geschlossen.
+
+Sicherheitsbezug als eigenes Feld. Abschn. 5.2.8.3 fuehrt security als
+eine Eigenschaft unter Quality (Non-Functional). Eine eigene Art gibt
+es dort nicht. Fuer FF4 wird ein getrenntes Wahrheitsfeld
+security_relevant gefuehrt. Damit kann eine Anforderung zugleich
+funktional und sicherheitsrelevant sein. Die Trennung ist eine
+Festlegung dieser Arbeit und keine Vorgabe des Standards.
+
+Begruendung in einem Feld. Die in der Aufgabenstellung verlangte
+Begruendung und das Attribut Rationale nach Abschn. 5.2.8.2 werden in
+einem Feld gefuehrt. Der Standard beschreibt Rationale als den Grund,
+warum die Anforderung gebraucht wird, mit Verweis auf die stuetzenden
+Belege. Die Gleichsetzung ist eine Einordnung des Verfassers.
+
+Nutzniesser als eigenes Feld, optional. C5 Abschnitt 5 hatte das offen
+gelassen. Das Feld beneficiary wird gefuehrt, ist aber nicht Pflicht.
+Grund: Die Deckungsquote der Rolle ist ein Messwert fuer FF1. Die
+Rolleninformation bleibt zusaetzlich im Feld rationale, wie C5 es
+verlangt.
+
+Marker fuer die gesetzte Verbindlichkeit. Das Feld
+modality_set_by_convention hat den festen Wert true und laesst sich
+nicht abschalten. Es setzt C5 Abschnitt 3 um: Das Wort shall ist eine
+Konvention dieser Arbeit und kein Beleg fuer eine dokumentierte
+Verbindlichkeit.
+
+Keine erfundenen Zusatzfelder. Das Schema weist jedes Feld zurueck,
+das nicht vorgesehen ist. Eine vom Modell frei erzeugte Zahl, etwa
+eine Konfidenz, wird damit abgelehnt statt stillschweigend
+uebernommen.
+
+Belegstaerke. Die Wertemenge lautet direct, indirect, insufficient.
+Die Zuordnungsregeln sind noch offen und werden in E6 festgelegt.
+
+Regel zum Quellausschnitt. Jeder Ausschnitt muss woertlich in der
+benannten Quelle stehen. Bei einem Diff gilt das nach Entfernen der
+Zeichen am Zeilenanfang. Zeilen, die die Aenderung entfernt hat,
+zaehlen nicht als Quelle, weil sie nach der Aenderung nicht mehr im
+Code stehen. Diese Praezisierung ergab sich aus einem fehlgeschlagenen
+Probelauf am 15.09.2026; der erste Entwurf fand keinen einzigen
+Ausschnitt wieder.
+
+Pruefung. src/extract/validate_output.py prueft jede Ausgabe zweimal:
+gegen das Schema und gegen die Quelle. Die Schemapruefung allein kann
+ein erfundenes Zitat nicht erkennen. tests/test_schema_validation.py
+enthaelt 34 Tests dazu.
+
+Herkunft. Das Modell hat Schema, Pruefprogramm und Tests entworfen.
+Der Verfasser hat sie gelesen, ausgefuehrt und freigegeben. Beim
+ersten Testlauf fiel ein Test durch und deckte einen Fehler im Schema
+auf: eine leere Begruendung bei no_requirements_found wurde
+angenommen. Der Fehler ist behoben.
+
+Status: festgelegt.
+Bezug: FF1, FF2, Kapitel 4 Abschn. 4.1.4, Kapitel 5.
+
+### 2026-09-15 E2 Form der Evaluation
+
+Die Evaluation besteht aus einem Hauptteil und einem Nebenteil.
+
+Hauptteil: Selbstbewertung durch den Verfasser an einer neuen
+Stichprobe von rund zwanzig Pull Requests. Die Stichprobe wird mit
+src/analyze/draw_sample.py gezogen, mit einem anderen Startwert und
+unter Ausschluss der zwoelf Vorgaenge aus Paket C. Kriterien, Skala
+und Entscheidungsregeln werden vor der ersten Bewertung schriftlich
+festgelegt und danach nicht mehr geaendert.
+
+Nebenteil: Vergleich mit der Formulierungsprobe aus Paket C. Verglichen
+werden nicht Saetze, sondern Fundstellen. Fuer die zwoelf Vorgaenge
+liegt je eine von Hand erstellte Kreuztabelle vor, die angibt, ob
+Systemname und Systemreaktion belegt sind und wo. Geprueft wird, ob die
+Pipeline dieselben Stellen findet.
+
+Nicht verwendet wird Teil B der Formulierungsprobe. Die dortigen sechs
+Saetze beruhen auf konstruierten Referenzinhalten aus 29148 und haben
+keinen Bezug zu einem Pull Request.
+
+Der Nebenteil bleibt Zusatzbefund. Die zwoelf Vorgaenge waren die
+Grundlage der Formatentscheidung C5. Wer mit denselben Daten bewertet,
+mit denen er das Verfahren gebaut hat, prueft nicht unabhaengig. Der
+Hauptteil braucht daher eine ueberschneidungsfreie Stichprobe.
+
+Bewertung durch das Qrisp-Team und den Betreuer findet nach der Abgabe
+statt. Der Verfasser legt die Ergebnisse vor; der Betreuer entscheidet
+ueber eine Weitergabe an das Qrisp-Team.
+
+Abweichung vom Expose. Das Expose sieht die Bewertung durch Qrisp-Team
+und Betreuer waehrend der Bearbeitungszeit vor, mit dem Meilenstein M5
+in Woche 9. Diese Abweichung ist mit dem Betreuer abzustimmen. Stand
+15.09.2026: Abstimmung steht aus.
+
+Bedrohung der Validitaet. Der Verfasser bewertet eine Pipeline, die er
+selbst entworfen hat. Das ist eine Bedrohung der internen Validitaet
+und gehoert nach Kapitel 7. Gegenmassnahmen: vorab festgelegter
+Bewertungsbogen, ueberschneidungsfreie Stichprobe, maschinell erhobene
+Messwerte neben der Bewertung von Hand.
+
+Status: festgelegt, Abstimmung mit dem Betreuer offen.
+Bezug: FF1, FF2, Kapitel 6, Kapitel 7.
+
+### 2026-09-15 E3 API-Budget
+
+Fuer den Zugriff auf ein Modell ueber die Programmierschnittstelle
+stehen hoechstens 150 Euro zur Verfuegung.
+
+Folgen. Der Betrag begrenzt die Zahl der Laeufe, die Stichprobengroesse
+und die Zahl der Wiederholungen fuer FF3. Vor dem ersten
+kostenpflichtigen Lauf wird eine Kostenschaetzung erstellt und in
+experiments/ festgehalten. Nach jedem Lauf werden die tatsaechlichen
+Kosten nachgetragen.
+
+Status: festgelegt.
+Bezug: FF3, Kapitel 4 Modellwahl, Kapitel 5.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
 - API-Modell und lokales Modell (FF3), Paket E und F
 - Ausschnitt des Sicherheitsrasters (FF4), Paket G
+- Auswahlregel fuer die Modelleingabe (FF1), Paket E: E4
+- Budget der Kuerzungsstufe 3 (FF1), Paket E: E5
+- Regeln der Belegstaerke (FF1), Paket E: E6
 - Umfang gegenueber dem Qrisp-Team: Was gehoert zur Arbeit, was ist
   Weiterentwicklung? Mit Professor zu klaeren.
 
