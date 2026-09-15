@@ -1332,13 +1332,115 @@ Kosten nachgetragen.
 Status: festgelegt.
 Bezug: FF3, Kapitel 4 Modellwahl, Kapitel 5.
 
+### 2026-09-15 E4 Auswahlregel fuer die Modelleingabe
+
+Verarbeitet werden alle Pull Requests ausser zwei Gruppen.
+
+Ausgeschlossen: Beitraege von Programmen (31) und Vorgaenge mit
+outcome = open (50 nach Abzug der Bots). Es verbleiben 395 von 476.
+Dieselbe Regel verwendet bereits src/analyze/draw_sample.py; der Lauf
+vom 25.08.2026 nennt genau diese Zahlen. Grund fuer den Ausschluss
+offener Vorgaenge: Ihr Inhalt kann sich noch aendern, eine daraus
+rekonstruierte Anforderung waere nicht stabil.
+
+Ausdruecklich nicht ausgeschlossen werden drei Gruppen, die zunaechst
+dafuer in Betracht kamen:
+
+Entwuerfe (43 der 395). Die Markierung als Entwurf sagt nichts ueber
+den Inhalt; nahezu alle sind inzwischen abgeschlossen.
+
+Vorgaenge ohne Beschreibung (56 der 395). Titel und Diff bleiben eine
+Quelle. Nur 44 haben zusaetzlich keinen Kommentar, und nur 5 haben
+weder Beschreibung noch Kommentar noch Diff-Text.
+
+Vorgaenge ohne Codeaenderung (3 der 395).
+
+Statt eines Ausschlusses vorab wird ein unbrauchbarer Vorgang
+verarbeitet und im Datenmodell nach E1 mit processing_status =
+input_unusable vermerkt. Damit ist die Quote ein Ergebnis und kein
+blinder Fleck. Zaehlung am Datensatz vom 19.08.2026.
+
+Dependabot gesondert. Die 28 Dependabot-Beitraege werden in Paket G
+einmal getrennt auf sicherheitsbezogene Angaben gesichtet. Grund: Die
+unter "Ungepruefte Beobachtungen" vermerkte Frage aus D7 ist fuer FF4
+relevant. Das ist keine Aufnahme in den Hauptdurchlauf.
+
+Umgesetzt in config/model_input.toml und
+src/extract/build_prompt_input.py, geprueft durch sieben Tests in
+tests/test_prompt_input.py.
+
+Status: festgelegt.
+Bezug: FF1, FF4 mittelbar, Kapitel 4 und 5.
+
+### 2026-09-15 E5 Budget der Modelleingabe
+
+Ausgangspunkt ist ein Befund vom 15.09.2026. Die Kuerzungsstufen nach
+D1 gelten nur fuer den Diff einer Datei. Der Diff-Ausschnitt, den
+GitHub an einen Review-Kommentar anhaengt (diff_hunk), ist davon nicht
+erfasst. Gemessen ueber die 395 ausgewaehlten Vorgaenge umfasst er
+6 937 611 Zeichen und damit mehr als der gesamte bereits gekuerzte
+Diff mit 6 502 124 Zeichen. In Vorgang 403 entfallen 2 400 081 von
+2 431 359 Zeichen allein darauf. Ohne diff_hunk ueberschreitet kein
+Vorgang 50 000 Zeichen Text. Der Ausschnitt wiederholt ueberwiegend
+Code, der bereits im Diff der Datei steht.
+
+D1 wird nicht geaendert und der aufbereitete Datensatz nicht neu
+erzeugt. Grund: Seine Pruefsumme ist in STATUS.md dokumentiert, die
+Formulierungsprobe aus Paket C beruht auf genau dieser Datei, und
+Paket D ist abgeschlossen. Die Aufbereitung haelt fest, was GitHub
+geliefert hat. Das Budget der Modelleingabe ist ein eigener,
+nachgelagerter Schritt.
+
+Folge: Gekuerzt wird an zwei Stellen, in der Aufbereitung nach D1 und
+beim Bau der Modelleingabe nach E5. Beide Stellen sind in Kapitel 5
+getrennt darzustellen.
+
+Regeln. Der Diff-Ausschnitt eines Review-Kommentars wird auf 500
+Zeichen begrenzt. Ein Quellblock umfasst hoechstens 80 000 Zeichen.
+Befuellt wird in der Reihenfolge Titel, Beschreibung, Kommentare,
+Codeaenderungen; gekuerzt wird also zuerst der Code. Begruendung: Eine
+Anforderung steht in der Regel in Worten, nicht in Quelltext; die
+Belege aus Paket C stammen ueberwiegend aus Beschreibung und
+Kommentaren. Jede Kuerzung hinterlaesst eine sichtbare Zeile im Block.
+
+Wahl von 80 000. Bei 60 000 waeren 16 von 395 Vorgaengen betroffen,
+bei 80 000 sechs, bei 120 000 drei. 80 000 Zeichen entsprechen grob
+20 000 Token und passen bei aktuellen Modellen in einen Aufruf. Der
+Wert ist nicht kostengetrieben; die Kostenschaetzung nach E3 folgt,
+sobald das Modell feststeht.
+
+Keine Anmeldenamen im Quellblock. Statt des Logins wird
+author_association uebergeben. Der Name traegt zur Anforderung nichts
+bei, die Rolle schon. Zugleich geht kein personenbezogenes Datum an
+ein externes Modell. Ein Test sichert das ab.
+
+Trennung von Anweisung und Quelldaten. Der Quellblock enthaelt
+ausschliesslich Material aus dem Vorgang und keine Anweisung an das
+Modell. Das ist die erste Massnahme gegen Prompt Injection nach
+Kapitel 5.
+
+Messung am Datensatz vom 19.08.2026: 395 Bloecke, Median 11 920
+Zeichen, groesster Block 79 841 Zeichen, 79 Bloecke mit einer
+Kuerzung, davon 60 nur beim Review-Kontext.
+
+Herkunft. Das Modell hat Programm, Einstellungen und Tests entworfen.
+Der Verfasser hat sie gelesen, ausgefuehrt und freigegeben. Beim
+ersten Lauf ueberschritt ein Block das Budget um 141 Zeichen, weil die
+Schlusszeile ueber das Weggelassene nicht eingerechnet war. Behoben
+durch eine Ruecklage von 300 Zeichen, abgesichert durch zwei Tests.
+
+Status: festgelegt.
+Bezug: FF1, FF3 mittelbar, Kapitel 5.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
 - API-Modell und lokales Modell (FF3), Paket E und F
 - Ausschnitt des Sicherheitsrasters (FF4), Paket G
-- Auswahlregel fuer die Modelleingabe (FF1), Paket E: E4
-- Budget der Kuerzungsstufe 3 (FF1), Paket E: E5
+- Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
+  am 15.09.2026, siehe E4
+- Budget der Modelleingabe (FF1), Paket E: entschieden am
+  15.09.2026, siehe E5
 - Regeln der Belegstaerke (FF1), Paket E: E6
 - Umfang gegenueber dem Qrisp-Team: Was gehoert zur Arbeit, was ist
   Weiterentwicklung? Mit Professor zu klaeren.

@@ -44,4 +44,6 @@ thesis/thesis.pdf
 # --- Lizenzpflichtige Volltexte: nicht versionieren ---
 literatur/pdf/
 literatur/volltexte/
-data/processed/
+data/processed/*
+!data/processed/*.manifest.json
+!data/processed/.gitkeep

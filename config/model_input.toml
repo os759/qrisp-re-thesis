@@ -1,0 +1,19 @@
+# Settings for building the model input.
+# Work package E, decisions E4 and E5. Contains no credentials.
+
+[model_input]
+# Selection, decision E4.
+exclude_bots = true
+exclude_open = true
+include_drafts = true
+
+# Budget, decision E5.
+# Upper limit for the diff context that GitHub attaches to a review
+# comment. The full context repeats code that is already in the file
+# diff; across the 395 selected pull requests it amounted to more
+# characters than the whole truncated diff.
+max_diff_hunk_chars = 500
+# Upper limit for one assembled source block. Prose is kept first,
+# file diffs are cut first.
+max_input_chars_per_pull = 80000
+truncation_marker = "\n[... truncated ...]\n"
