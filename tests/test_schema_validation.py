@@ -12,6 +12,7 @@ Run from the project root: python -m pytest tests/ -v
 
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 from typing import Any
@@ -20,13 +21,17 @@ import pytest
 from jsonschema import Draft202012Validator
 
 from validate_output import (
+    check_record,
+    consistency_errors,
+    derive_evidence_strength,
     excerpt_errors,
     haystacks_for,
+    required_parts,
     schema_errors,
     strip_diff_markers,
 )
 
-SCHEMA_PATH = Path(__file__).resolve().parents[1] / "config" / "requirement_schema_v1.json"
+SCHEMA_PATH = Path(__file__).resolve().parents[1] / "config" / "requirement_schema_v2.json"
 
 
 @pytest.fixture(scope="module")
@@ -40,7 +45,7 @@ def validator() -> Draft202012Validator:
 def record() -> dict[str, Any]:
     """A minimal record that has to pass every check."""
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "pull_number": 42,
         "processing_status": "requirements_found",
         "status_reason": None,
@@ -56,13 +61,16 @@ def record() -> dict[str, Any]:
                 "beneficiary": None,
                 "component": None,
                 "verification": None,
-                "source": {
-                    "pull_number": 42,
-                    "location": "body",
-                    "locator": None,
-                    "html_url": None,
-                },
-                "source_excerpt": "inputs are not checked before they are used",
+                "source_form": "prescriptive",
+                "evidence": [
+                    {
+                        "location": "body",
+                        "locator": None,
+                        "html_url": None,
+                        "excerpt": "inputs are not checked before they are used",
+                        "supports": ["system_name", "system_response"],
+                    }
+                ],
                 "evidence_strength": "direct",
                 "uncertainties": None,
                 "missing_information": None,
@@ -103,7 +111,7 @@ def test_valid_record_passes(validator, record):
 
 @pytest.mark.parametrize("field", [
     "id", "text", "ears_pattern", "system_name", "type",
-    "security_relevant", "rationale", "source", "source_excerpt",
+    "security_relevant", "rationale", "evidence", "source_form",
     "evidence_strength", "modality_set_by_convention",
 ])
 def test_missing_mandatory_field_is_rejected(validator, record, field):
@@ -194,37 +202,37 @@ def test_literal_excerpt_from_body_passes(record, pull):
 
 
 def test_invented_excerpt_is_rejected(record, pull):
-    record["requirements"][0]["source_excerpt"] = "inputs are validated on every call"
+    record["requirements"][0]["evidence"][0]["excerpt"] = "inputs are validated on every call"
     assert excerpt_errors(record, dataset_of(pull)) != []
 
 
 def test_excerpt_from_diff_passes_without_markers(record, pull):
-    requirement = record["requirements"][0]
-    requirement["source"]["location"] = "diff"
-    requirement["source"]["locator"] = "src/qrisp/core/input.py"
-    requirement["source_excerpt"] = "the value shall be checked"
+    item = record["requirements"][0]["evidence"][0]
+    item["location"] = "diff"
+    item["locator"] = "src/qrisp/core/input.py"
+    item["excerpt"] = "the value shall be checked"
     assert excerpt_errors(record, dataset_of(pull)) == []
 
 
 def test_excerpt_from_a_removed_line_is_rejected(record, pull):
     """Removed lines are no longer part of the code after the change."""
-    requirement = record["requirements"][0]
-    requirement["source"]["location"] = "diff"
-    requirement["source"]["locator"] = "src/qrisp/core/input.py"
-    requirement["source_excerpt"] = "old line that was removed"
+    item = record["requirements"][0]["evidence"][0]
+    item["location"] = "diff"
+    item["locator"] = "src/qrisp/core/input.py"
+    item["excerpt"] = "old line that was removed"
     assert excerpt_errors(record, dataset_of(pull)) != []
 
 
 def test_wrong_file_as_source_is_rejected(record, pull):
-    requirement = record["requirements"][0]
-    requirement["source"]["location"] = "diff"
-    requirement["source"]["locator"] = "src/qrisp/core/other.py"
-    requirement["source_excerpt"] = "the value shall be checked"
+    item = record["requirements"][0]["evidence"][0]
+    item["location"] = "diff"
+    item["locator"] = "src/qrisp/core/other.py"
+    item["excerpt"] = "the value shall be checked"
     assert excerpt_errors(record, dataset_of(pull)) != []
 
 
-def test_source_pointing_to_another_pull_is_rejected(record, pull):
-    record["requirements"][0]["source"]["pull_number"] = 43
+def test_a_pull_outside_the_dataset_is_reported(record, pull):
+    record["pull_number"] = 43
     assert excerpt_errors(record, dataset_of(pull)) != []
 
 
@@ -233,25 +241,149 @@ def test_pull_missing_from_dataset_is_reported(record):
 
 
 def test_comment_locator_selects_the_named_comment(record, pull):
-    requirement = record["requirements"][0]
-    requirement["source"]["location"] = "issue_comment"
-    requirement["source"]["locator"] = "111"
-    requirement["source_excerpt"] = "add a check for negative values"
+    item = record["requirements"][0]["evidence"][0]
+    item["location"] = "issue_comment"
+    item["locator"] = "111"
+    item["excerpt"] = "add a check for negative values"
     assert excerpt_errors(record, dataset_of(pull)) == []
 
-    requirement["source"]["locator"] = "999"
+    item["locator"] = "999"
     assert excerpt_errors(record, dataset_of(pull)) != []
 
 
 def test_haystacks_cover_every_location(pull):
     for location in ("title", "body", "issue_comment", "review_comment", "diff"):
-        source = {"pull_number": 42, "location": location, "locator": None}
-        assert haystacks_for(source, pull), location
+        item = {"location": location, "locator": None}
+        assert haystacks_for(item, pull), location
 
 
 def test_review_comment_includes_its_diff_hunk(record, pull):
-    requirement = record["requirements"][0]
-    requirement["source"]["location"] = "review_comment"
-    requirement["source"]["locator"] = "222"
-    requirement["source_excerpt"] = "@@ -1 +1 @@"
+    item = record["requirements"][0]["evidence"][0]
+    item["location"] = "review_comment"
+    item["locator"] = "222"
+    item["excerpt"] = "@@ -1 +1 @@"
     assert excerpt_errors(record, dataset_of(pull)) == []
+
+
+# --- evidence and strength, decision E6 -------------------------------
+
+
+@pytest.mark.parametrize("pattern,extra", [
+    ("ubiquitous", set()),
+    ("state_driven", {"precondition"}),
+    ("optional_feature", {"precondition"}),
+    ("event_driven", {"trigger"}),
+    ("unwanted_behaviour", {"trigger"}),
+    ("complex", {"precondition", "trigger"}),
+])
+def test_each_pattern_demands_its_own_parts(pattern, extra):
+    assert required_parts(pattern) == {"system_name", "system_response"} | extra
+
+
+def test_a_demanding_source_with_full_coverage_is_direct(record):
+    assert derive_evidence_strength(record["requirements"][0]) == "direct"
+    assert consistency_errors(record) == []
+
+
+def test_a_reporting_source_with_full_coverage_is_indirect(record):
+    requirement = record["requirements"][0]
+    requirement["source_form"] = "descriptive"
+    requirement["evidence_strength"] = "indirect"
+    assert consistency_errors(record) == []
+
+
+def test_a_missing_part_makes_it_insufficient(record):
+    requirement = record["requirements"][0]
+    requirement["evidence"][0]["supports"] = ["system_response"]
+    requirement["evidence_strength"] = "insufficient"
+    assert consistency_errors(record) == []
+
+
+def test_a_missing_part_outranks_a_demanding_source(record):
+    """Coverage decides first, see decision E6."""
+    requirement = record["requirements"][0]
+    requirement["evidence"][0]["supports"] = ["system_response"]
+    assert derive_evidence_strength(requirement) == "insufficient"
+
+
+def test_a_conditional_pattern_without_its_trigger_is_insufficient(record):
+    requirement = record["requirements"][0]
+    requirement["text"] = "When input arrives, the library shall check it."
+    requirement["ears_pattern"] = "event_driven"
+    assert derive_evidence_strength(requirement) == "insufficient"
+
+
+def test_two_excerpts_can_cover_the_parts_together(record):
+    requirement = record["requirements"][0]
+    requirement["evidence"][0]["supports"] = ["system_name"]
+    requirement["evidence"].append({
+        "location": "issue_comment",
+        "locator": "111",
+        "html_url": None,
+        "excerpt": "Please add a check for negative values.",
+        "supports": ["system_response"],
+    })
+    assert derive_evidence_strength(requirement) == "direct"
+    assert consistency_errors(record) == []
+
+
+def test_a_freely_claimed_strength_is_rejected(record):
+    """The model must not call a weak reconstruction well evidenced."""
+    requirement = record["requirements"][0]
+    requirement["source_form"] = "descriptive"
+    requirement["evidence_strength"] = "direct"
+    assert consistency_errors(record) != []
+
+
+def test_the_report_names_the_missing_part(record):
+    requirement = record["requirements"][0]
+    requirement["evidence"][0]["supports"] = ["system_response"]
+    assert "system_name" in consistency_errors(record)[0]
+
+
+def test_evidence_must_not_be_empty(validator, record):
+    record["requirements"][0]["evidence"] = []
+    assert schema_errors(record, validator) != []
+
+
+def test_at_most_three_sources_are_allowed(validator, record):
+    item = record["requirements"][0]["evidence"][0]
+    record["requirements"][0]["evidence"] = [dict(item) for _ in range(4)]
+    assert schema_errors(record, validator) != []
+
+
+def test_an_unknown_supported_part_is_rejected(validator, record):
+    record["requirements"][0]["evidence"][0]["supports"] = ["system_owner"]
+    assert schema_errors(record, validator) != []
+
+
+def test_an_unknown_source_form_is_rejected(validator, record):
+    record["requirements"][0]["source_form"] = "normative"
+    assert schema_errors(record, validator) != []
+
+
+def test_a_duplicated_part_in_one_excerpt_is_rejected(validator, record):
+    record["requirements"][0]["evidence"][0]["supports"] = [
+        "system_name", "system_name"]
+    assert schema_errors(record, validator) != []
+
+
+# --- all checks together ----------------------------------------------
+
+
+def test_every_check_is_actually_run(validator, record, pull):
+    """Guards against a check that exists but is never called."""
+    good = check_record(record, validator, dataset_of(pull))
+    assert good == []
+
+    broken_schema = copy.deepcopy(record)
+    broken_schema["requirements"][0]["confidence"] = 0.9
+    assert check_record(broken_schema, validator, dataset_of(pull)) != []
+
+    broken_rule = copy.deepcopy(record)
+    broken_rule["requirements"][0]["source_form"] = "descriptive"
+    assert check_record(broken_rule, validator, dataset_of(pull)) != []
+
+    broken_excerpt = copy.deepcopy(record)
+    broken_excerpt["requirements"][0]["evidence"][0]["excerpt"] = "never written here"
+    assert check_record(broken_excerpt, validator, dataset_of(pull)) != []

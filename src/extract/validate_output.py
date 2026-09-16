@@ -1,13 +1,16 @@
 """Validate the structured model output against the requirement schema.
 
-Two independent checks are applied to every record:
+Three independent checks are applied to every record, in this order:
 
-1. Schema check. The record is matched against config/requirement_schema_v1.json
+1. Schema check. The record is matched against config/requirement_schema_v2.json
    using JSON Schema. This catches missing fields, wrong value sets and any
    field the model invented on its own.
-2. Excerpt check. Every source_excerpt has to occur literally in the prepared
-   dataset, in the record named by the source field. This catches invented
-   quotations, which the schema alone cannot detect.
+2. Consistency check. evidence_strength is recomputed from the covered
+   parts and from source_form by the rules of decision E6. A value the
+   model set freely is rejected if it does not follow those rules.
+3. Excerpt check. Every excerpt in the evidence list has to occur literally
+   in the prepared dataset, in the place the entry names. This catches
+   invented quotations, which the schema alone cannot detect.
 
 Work package E, bachelor thesis. Research questions FF1 and FF2.
 
@@ -28,7 +31,7 @@ from typing import Any, Iterator
 
 from jsonschema import Draft202012Validator
 
-DEFAULT_SCHEMA = Path("config/requirement_schema_v1.json")
+DEFAULT_SCHEMA = Path("config/requirement_schema_v2.json")
 
 # A patch line carries a leading marker: '+' added, '-' removed, ' ' context.
 # An excerpt quoted from a diff never contains these markers, so they are
@@ -46,7 +49,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--dataset", default=None,
                         help="Prepared dataset. Enables the excerpt check.")
     parser.add_argument("--schema", default=str(DEFAULT_SCHEMA),
-                        help="Schema file. Default: config/requirement_schema_v1.json")
+                        help="Schema file. Default: config/requirement_schema_v2.json")
     parser.add_argument("--quiet", action="store_true",
                         help="Print the summary only.")
     return parser.parse_args()
@@ -91,11 +94,11 @@ def schema_errors(record: dict[str, Any],
     return messages
 
 
-def haystacks_for(source: dict[str, Any],
+def haystacks_for(item: dict[str, Any],
                   pull: dict[str, Any]) -> list[str]:
     """Return the texts an excerpt may legitimately come from."""
-    location = source.get("location")
-    locator = source.get("locator")
+    location = item.get("location")
+    locator = item.get("locator")
 
     if location == "title":
         return [pull.get("title") or ""]
@@ -119,36 +122,89 @@ def excerpt_errors(record: dict[str, Any],
                    dataset: dict[int, dict[str, Any]]) -> list[str]:
     """Check that every excerpt occurs literally in its named source."""
     messages = []
+    pull_number = record.get("pull_number")
+    pull = dataset.get(pull_number)
+    if pull is None:
+        return [f"excerpt: pull {pull_number} not in the dataset"]
+
     for requirement in record.get("requirements", []):
         identifier = requirement.get("id", "<no id>")
-        source = requirement.get("source") or {}
-        excerpt = requirement.get("source_excerpt") or ""
-
-        pull_number = source.get("pull_number")
-        if pull_number != record.get("pull_number"):
-            messages.append(
-                f"excerpt: {identifier}: source points to pull {pull_number}, "
-                f"record is pull {record.get('pull_number')}")
-            continue
-
-        pull = dataset.get(pull_number)
-        if pull is None:
-            messages.append(
-                f"excerpt: {identifier}: pull {pull_number} not in the dataset")
-            continue
-
-        candidates = haystacks_for(source, pull)
-        if not candidates:
-            messages.append(
-                f"excerpt: {identifier}: no text found for location "
-                f"{source.get('location')} and locator {source.get('locator')}")
-            continue
-
-        if not any(excerpt in text for text in candidates):
-            messages.append(
-                f"excerpt: {identifier}: excerpt does not occur literally in "
-                f"{source.get('location')} {source.get('locator')}")
+        for position, item in enumerate(requirement.get("evidence", []), start=1):
+            excerpt = item.get("excerpt") or ""
+            candidates = haystacks_for(item, pull)
+            if not candidates:
+                messages.append(
+                    f"excerpt: {identifier} evidence {position}: no text found for "
+                    f"location {item.get('location')} and locator {item.get('locator')}")
+                continue
+            if not any(excerpt in text for text in candidates):
+                messages.append(
+                    f"excerpt: {identifier} evidence {position}: excerpt does not "
+                    f"occur literally in {item.get('location')} {item.get('locator')}")
     return messages
+
+
+def required_parts(ears_pattern: str) -> set[str]:
+    """Which parts the chosen EARS pattern has to have covered.
+
+    System name and system response are mandatory for every pattern; see
+    the rules on mandatory parts in the formulation probe of package C.
+    The conditional patterns add the part their keyword introduces.
+    """
+    parts = {"system_name", "system_response"}
+    if ears_pattern in ("state_driven", "optional_feature"):
+        parts.add("precondition")
+    elif ears_pattern in ("event_driven", "unwanted_behaviour"):
+        parts.add("trigger")
+    elif ears_pattern == "complex":
+        parts.update({"precondition", "trigger"})
+    return parts
+
+
+def derive_evidence_strength(requirement: dict[str, Any]) -> str:
+    """Recompute the evidence strength by the rules of decision E6."""
+    covered: set[str] = set()
+    for item in requirement.get("evidence", []):
+        covered.update(item.get("supports", []))
+    if not required_parts(requirement.get("ears_pattern", "")) <= covered:
+        return "insufficient"
+    return ("direct" if requirement.get("source_form") == "prescriptive"
+            else "indirect")
+
+
+def consistency_errors(record: dict[str, Any]) -> list[str]:
+    """Reject an evidence strength that does not follow from the evidence."""
+    messages = []
+    for requirement in record.get("requirements", []):
+        identifier = requirement.get("id", "<no id>")
+        expected = derive_evidence_strength(requirement)
+        stated = requirement.get("evidence_strength")
+        if stated != expected:
+            covered = sorted({part for item in requirement.get("evidence", [])
+                              for part in item.get("supports", [])})
+            missing = sorted(required_parts(requirement.get("ears_pattern", ""))
+                             - set(covered))
+            messages.append(
+                f"consistency: {identifier}: evidence_strength is {stated}, "
+                f"the rules of E6 give {expected} "
+                f"(covered: {covered or 'none'}; missing: {missing or 'none'}; "
+                f"source_form: {requirement.get('source_form')})")
+    return messages
+
+
+def check_record(record: dict[str, Any],
+                 validator: Draft202012Validator,
+                 dataset: dict[int, dict[str, Any]] | None) -> list[str]:
+    """Run all checks on one record and stop at the first that reports."""
+    problems = schema_errors(record, validator)
+    if problems:
+        return problems
+    problems = consistency_errors(record)
+    if problems:
+        return problems
+    if dataset is None:
+        return []
+    return excerpt_errors(record, dataset)
 
 
 def load_dataset(path: Path) -> dict[int, dict[str, Any]]:
@@ -172,9 +228,7 @@ def main() -> int:
 
     for line_number, record in read_jsonl(Path(arguments.input)):
         records += 1
-        problems = schema_errors(record, validator)
-        if not problems and dataset is not None:
-            problems = excerpt_errors(record, dataset)
+        problems = check_record(record, validator, dataset)
 
         if problems:
             rejected += 1

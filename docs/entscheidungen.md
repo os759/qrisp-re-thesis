@@ -1432,6 +1432,78 @@ durch eine Ruecklage von 300 Zeichen, abgesichert durch zwei Tests.
 Status: festgelegt.
 Bezug: FF1, FF3 mittelbar, Kapitel 5.
 
+### 2026-09-15 E6 Regeln der Belegstaerke
+
+Die Belegstaerke wird nicht vom Modell gesetzt, sondern aus zwei
+ueberpruefbaren Angaben berechnet. Neun Regeln legen das fest.
+
+B1 Pflichtbestandteile. Sie richten sich nach dem EARS-Muster. Immer
+verlangt sind Systemname und Systemreaktion. Zusaetzlich verlangt sind
+die Vorbedingung bei state_driven und optional_feature, der Ausloeser
+bei event_driven und unwanted_behaviour, beides bei complex. Die
+Festlegung auf Systemname und Systemreaktion uebernimmt die Tabelle
+der Pflichtbestandteile aus docs/formatprobe_protokoll.md.
+
+B2 Die Deckung entscheidet zuerst. Fehlt ein Pflichtbestandteil in der
+Quelle, lautet die Stufe insufficient. Die Aussageform wird dann nicht
+mehr geprueft.
+
+B3 Die Aussageform entscheidet zweitens. Fordert die Quelle etwas
+(prescriptive), lautet die Stufe direct. Berichtet sie nur, was ist
+oder getan wurde (descriptive), lautet sie indirect.
+
+B4 Das Wort shall im erzeugten Satz belegt keine fordernde Quelle. Es
+ist Formbestandteil des EARS-Musters. Das entspricht der Festlegung
+aus Paket C, wonach shall nicht nachtraeglich als Beleg fuer eine
+Verbindlichkeitsstufe der Quelle gewertet wird.
+
+B5 Mehrere Belege duerfen sich ergaenzen, hoechstens drei je
+Anforderung. Jeder Beleg nennt im Feld supports, welche Bestandteile
+er traegt. Grund: Die Kreuztabellen aus Paket C zeigen, dass
+Systemname und Systemreaktion haeufig an verschiedenen Stellen
+belegt sind, etwa in Titel und Beschreibung bei PR 533.
+
+B6 Jeder Beleg muss woertlich in der genannten Quelle stehen, bei
+einem Diff nach Entfernen der Zeichen am Zeilenanfang. Die Regel
+stammt aus E1 und gilt jetzt fuer jeden einzelnen Beleg.
+
+B7 Die Belegstaerke wird aus B1 bis B3 berechnet. Weicht der vom
+Modell gelieferte Wert vom berechneten ab, wird die Anforderung
+abgelehnt. Damit ist die Einstufung extern definiert und
+reproduzierbar und keine freie Modellausgabe.
+
+B8 insufficient wird ausgegeben und nicht unterdrueckt. Die Quote ist
+ein Messwert fuer FF1 und fuer die Unbelegtheitsrate in FF3.
+
+B9 Eine Kuerzung des Quellblocks nach E5 senkt die Stufe nicht
+automatisch. Sie wird vermerkt, weil der fehlende Teil einen Beleg
+enthalten haben koennte. Gehoert nach Kapitel 7.
+
+Aenderung am Datenmodell. E1 sah genau eine Quelle je Anforderung vor.
+Das reicht nach B5 nicht aus. config/requirement_schema_v2.json
+ersetzt die Felder source und source_excerpt durch eine Liste evidence
+mit ein bis drei Eintraegen und fuehrt das Pflichtfeld source_form
+ein. Fassung 1 bleibt im Repository und dokumentiert den Stand davor.
+
+Grenze des Verfahrens. Etikettiert das Modell einen echten Ausschnitt
+falsch, also behauptet es, ein Satz trage den Systemnamen, obwohl er
+das nicht tut, faellt das maschinell nicht auf. Das ist ein Pruefpunkt
+der Selbstbewertung nach E2 und gehoert nach Kapitel 7.
+
+Pruefung. src/extract/validate_output.py prueft jede Ausgabe dreifach:
+gegen das Schema, gegen die Regeln B1 bis B3 und gegen die Quelle.
+tests/test_schema_validation.py enthaelt 54 Tests.
+
+Herkunft. Das Modell hat Regeln, Schema und Tests entworfen. Der
+Verfasser hat sie gelesen, ausgefuehrt und freigegeben. Bei der
+Gegenprobe blieb ein absichtlich eingebauter Fehler zunaechst
+unentdeckt: Die Konsistenzpruefung war richtig, wurde im Ablauf aber
+nicht aufgerufen. Behoben durch die Funktion check_record und einen
+zusaetzlichen Test.
+
+Status: festgelegt.
+Bezug: FF1, FF3 mittelbar, Kapitel 4 Abschn. 4.1.4, Kapitel 5 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
@@ -1441,7 +1513,8 @@ Bezug: FF1, FF3 mittelbar, Kapitel 5.
   am 15.09.2026, siehe E4
 - Budget der Modelleingabe (FF1), Paket E: entschieden am
   15.09.2026, siehe E5
-- Regeln der Belegstaerke (FF1), Paket E: E6
+- Regeln der Belegstaerke (FF1), Paket E: entschieden am
+  15.09.2026, siehe E6
 - Umfang gegenueber dem Qrisp-Team: Was gehoert zur Arbeit, was ist
   Weiterentwicklung? Mit Professor zu klaeren.
 
