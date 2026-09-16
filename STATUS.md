@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 11.09.2026
+Letzte Aktualisierung: 16.09.2026
 Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
 
 ## Zusammenarbeit im Chat
@@ -301,17 +301,19 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-38 Tests, ausfuehren aus der Projektwurzel:
+113 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 21.08.2026 unter Python 3.14.6.
+Zuletzt gruen am 15.09.2026 unter Python 3.14.6.
 
-tests/conftest.py setzt den Importpfad auf src/collect und src/prepare.
-Ohne diese Datei finden die Tests die Module nicht.
+tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
+und src/extract. Ohne diese Datei finden die Tests die Module nicht.
 
 Bereiche: test_resume.py (Wiederaufnahme), test_outcome.py,
-test_normalisation.py, test_jsonl_io.py, test_truncation.py.
+test_normalisation.py, test_jsonl_io.py, test_truncation.py,
+test_schema_validation.py (54 Tests, Schema und Belegstaerke),
+test_prompt_input.py (21 Tests, Auswahl und Budget).
 Nicht abgedeckt: Netzschicht in github_api.py, Auswertungsskripte,
-Schemavalidierung der LLM-Ausgaben (Paket E).
+draw_sample.py (siehe D4a).
 
 ## Ungepruefte Beobachtungen
 
@@ -420,12 +422,27 @@ Messergebnis K6, Stand 02.09.2026:
   Systemnamen. Wuerde die Rahmenrolle nicht anerkannt, faellt (a)
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
+Paket E begonnen am 15.09.2026. Alle sechs Entscheidungen sind
+gefallen: E1 Datenmodell, E2 Evaluationsform, E3 API-Budget,
+E4 Auswahlregel, E5 Budget der Modelleingabe, E6 Belegstaerke.
+
+Stand der Aufgaben in Paket E:
+- A1 Datenmodell, A2 Auswahlregel, A3 Budget, A4 Belegstaerke und
+  A5 Schemavalidierung sind fertig und committet.
+- A6 Prompt Version 1: offen, naechster Schritt.
+- A7 Modellwahl und Kostenschaetzung: offen, braucht Webrecherche.
+- A8 Erster Lauf an einer Stichprobe: offen.
+
 Naechste Schritte in dieser Reihenfolge:
-1. Paket E in einem neuen Chat: Prompt-Entwurf und API-Modell. Das
-   Zielformat EARS+29148 aus C5 gibt die Ausgabestruktur vor.
-2. Nicht blockierend, aus Paket C uebernommen: die zehn Overfull
+1. A6 Prompt Version 1 in einem neuen Chat. Quellblock, Schema v2 und
+   die Regeln B1 bis B9 liegen vor.
+2. A7 Modellwahl, danach A8.
+3. Parallel ab W8: Einrichtung des lokalen Modells (Paket F) und
+   Phase 2 der Literatursuche fuer Kapitel 3.
+4. Nicht blockierend, aus Paket C uebernommen: die zehn Overfull
    hboxen in Anhang A (Woche 12) und der Platzhalter zum Datenmodell
-   in 4.1.4, der in Paket E gefuellt wird.
+   in 4.1.4. Der Platzhalter kann jetzt gefuellt werden; das
+   Datenmodell steht als E1 und E6 fest.
 
 ## Getroffene Entscheidungen
 
@@ -438,11 +455,27 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Ebene (c) wird nur an den Schluesselwoertern gemessen.
 - D4a (07.09.2026): keine automatischen Tests fuer draw_sample.py.
   Stattdessen Wiederholungslauf am 08.09.2026, Ergebnis identisch.
-- Evaluation nach Exposé-Variante, ergaenzt um Selbstbewertung.
-  Werkzeug bis Ende Woche 8 bewertbar, Git-Tag thesis-v1.0.
+- E2 (15.09.2026, mit dem Betreuer abgestimmt): Evaluation als
+  Selbstbewertung des Verfassers an einer neuen, ueberschneidungs-
+  freien Stichprobe, ergaenzt um einen Fundstellenvergleich mit den
+  zwoelf Faellen aus Paket C. Bewertung durch Qrisp-Team und
+  Betreuer erst nach der Abgabe. Die Abweichung vom Expose
+  (Meilenstein M5 in Woche 9) ist abgestimmt, siehe Nachtrag zu E2.
 - FF3: API-Modell von OpenAI oder Anthropic. Dasselbe Modell als
   Werkzeug und Evaluationsgegenstand ist eine Bedrohung der
   Konstruktvaliditaet und muss dokumentiert werden.
+- E1 (15.09.2026): Datenmodell der Ausgabe in drei Ebenen. Schema in
+  config/requirement_schema_v1.json, abgeloest durch v2.
+- E3 (15.09.2026): API-Budget hoechstens 150 Euro.
+- E4 (15.09.2026): Modelleingabe ohne Programme und ohne offene
+  Vorgaenge, 395 von 476. Entwuerfe, fehlende Beschreibung und
+  fehlende Codeaenderung schliessen nicht aus.
+- E5 (15.09.2026): Diff-Kontext eines Review-Kommentars auf 500
+  Zeichen, Quellblock auf 80 000 Zeichen. Keine Anmeldenamen im
+  Block, nur author_association.
+- E6 (15.09.2026): Belegstaerke wird aus Deckung und Aussageform
+  berechnet, Regeln B1 bis B9. Schema Version 2 laesst bis zu drei
+  Belege je Anforderung zu.
 - Kapitel nicht in Einzeldateien. Alles in thesis/thesis.tex.
 - BibTeX-Eintragstyp misc statt standard.
 - API-Version 2022-11-28, explizit, in config/collect.toml.
@@ -709,7 +742,11 @@ Extern, mit Vorlauf:
   Betreuer klaeren.
 - KI-Formulierung fuer vorspann.tex mit Professor abstimmen.
 - Korreferent in thesis.tex eintragen (Platzhalter Zeile 23)
-- API-Budget fuer FF3, zu klaeren bis Woche 4
+- Phase 2 der Literatursuche nachholen. Kapitel 3 hat sonst keine
+  Materialgrundlage; das faellt erst in W11 auf.
+- Namenskonflikt: Schicht S5 in draw_sample.py spricht von "per pull
+  request budget" und meint D1. Seit E5 gibt es ein zweites Budget
+  mit demselben Wort. In Kapitel 5 trennen.
 
 Inhaltlich offen:
 - Ein Platzhalter in Abschnitt 4.1: Verweis auf den Abschnitt zum
@@ -929,12 +966,15 @@ W5 31.08.-06.09. Prompt-Iteration, lokales Modell
 W6 07.-13.09. Modellvergleich (Kontrollpunkt lokales Modell)
               tatsaechlich: Paket C abgeschlossen am 11.09.
               Kontrollpunkt und Modellvergleich verschoben
-W7 14.-20.09. Klassifikation, Sicherheitsraster
-W8 21.-27.09. Gap-Analyse, Git-Tag thesis-v1.0, Evaluation starten
-W9 28.09.-04.10. Kapitel Implementierung
-W10 05.-11.10. Auswertung, Kapitel Evaluation
-W11 12.-18.10. Diskussion, Fazit
-W12 19.-25.10. Korrekturschleife
+W7 14.-20.09. Paket E: Entscheidungen E1 bis E6 am 15.09. erledigt.
+              Rest der Woche: Prompt v1, API-Budget, Modellrecherche
+W8 21.-27.09. Paket E Abschluss, Paket F beginnt (lokales Modell),
+              Bewertungsbogen entwerfen, Git-Tag thesis-v1.0
+W9 28.09.-04.10. Modellvergleich (FF3), Kapitel Implementierung
+W10 05.-11.10. Paket G: Klassifikation, Sicherheitsraster,
+               Gap-Analyse
+W11 12.-18.10. Paket H: Auswertung, Kapitel Evaluation, Kapitel 3
+W12 19.-25.10. Diskussion, Fazit, Einleitung, Korrekturschleife
 W13 26.-30.10. Endkontrolle, Abgabe
 
 Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig. Paket C
@@ -946,9 +986,14 @@ fuer W4. Der Kontrollpunkt fuer das lokale Modell in W6 ist nicht zu
 halten. Bis zur internen Abgabe am 30.10.2026 verbleiben sieben
 Wochen; verbindlicher Abgabetermin ist der 01.11.2026.
 
-Vorschlag: Paket E sofort beginnen, dort zuerst Datenmodell und
-Prompt-Entwurf, weil beide ohne lokale Inferenz auskommen. Die
-Einrichtung des lokalen Modells parallel in W7 anstossen, damit
-Einrichtungsprobleme frueh sichtbar werden; erfahrungsgemaess ist das
-der Schritt mit dem groessten Risiko. Der Wochenplan ab W4 stimmt
-nicht mehr und wird zu Beginn von Paket E neu aufgestellt.
+Stand 15.09.2026, W7. Der Plan oben ist am 15.09.2026 neu
+aufgestellt und ersetzt den vorherigen ab W4. Bis zur internen
+Abgabe am 30.10.2026 verbleiben rund sechs Wochen.
+
+Drei Risiken, in dieser Reihenfolge:
+1. Lokales Modell (Paket F). Der Verfasser hat damit keine Erfahrung,
+   Python 3.14 ist sehr neu. Einrichtung ab W8 parallel anstossen.
+2. Kapitel 3. Phase 2 der Literatursuche steht aus; ohne sie fehlt
+   die Materialgrundlage. Nachholen in W8 oder W9.
+3. Bewertungsbogen fuer E2. Muss fertig sein, bevor die erste
+   Anforderung gelesen wird.

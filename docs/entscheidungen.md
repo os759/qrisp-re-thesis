@@ -1504,6 +1504,21 @@ zusaetzlichen Test.
 Status: festgelegt.
 Bezug: FF1, FF3 mittelbar, Kapitel 4 Abschn. 4.1.4, Kapitel 5 und 7.
 
+### Nachtrag zu E2 (2026-09-15)
+
+Die in E2 als offen vermerkte Abstimmung mit dem Betreuer liegt vor.
+Der Betreuer hat der Abweichung vom Expose zugestimmt: Die Bewertung
+durch das Qrisp-Team erfolgt nach der Abgabe, nicht waehrend der
+Bearbeitungszeit. Der Meilenstein M5 des Exposes entfaellt in dieser
+Form.
+Der Satz "Stand 15.09.2026: Abstimmung steht aus" in E2 ist damit
+ueberholt. Am uebrigen Inhalt von E2 aendert sich nichts: Der
+Hauptteil bleibt die Selbstbewertung an einer ueberschneidungsfreien
+Stichprobe, der Nebenteil der Fundstellenvergleich mit den zwoelf
+Faellen aus Paket C. Die Bedrohung der internen Validitaet durch die
+Selbstbewertung bleibt bestehen und gehoert unveraendert nach
+Kapitel 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
