@@ -131,9 +131,10 @@
             "interface",
             "process",
             "quality_non_functional",
-            "usability_quality_in_use"
+            "usability_quality_in_use",
+            "human_factors"
           ],
-          "description": "Attribute Type, value set from 29148 clause 5.2.8.3."
+          "description": "Attribute Type. The six examples of 29148 clause 5.2.8.3, closed as a value set by decision E1; human_factors added before the first run, see the addendum to E1."
         },
         "security_relevant": {
           "type": "boolean",
