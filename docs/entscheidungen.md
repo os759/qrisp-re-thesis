@@ -1519,6 +1519,181 @@ Faellen aus Paket C. Die Bedrohung der internen Validitaet durch die
 Selbstbewertung bleibt bestehen und gehoert unveraendert nach
 Kapitel 7.
 
+## 2026-09-17 Paket E: Prompt Version 1 und Nachtraege
+
+### Nachtrag zu C5 (2026-09-17): Sprachregeln aus 29148 Abschn. 5.2.4
+
+Der Ausschnitt der Ebene (d) nach C5 Abschnitt 4 wird um drei
+sprachliche Vorgaben aus ISO/IEC/IEEE 29148:2018 Abschn. 5.2.4
+ergaenzt: Aktiv statt Passiv, positive Formulierung statt "shall not"
+und Verzicht auf "shall be able to".
+
+Begruendung: Nach der Zuordnung vom 07.09.2026 gehoeren diese
+Vorgaben zu Ebene (d). Der Ausschnitt in C5 Abschnitt 4 nannte sie
+nicht, obwohl sie wie Abschn. 5.2.7 am einzelnen Satz pruefbar sind.
+Alle drei lassen sich zudem an Wortformen erkennen und stuetzen damit
+die automatische Validierbarkeit (K8). Die Norm fuehrt sie als Teil
+eines gebraeuchlichen Vorgehens ("A common approach"), nicht als
+Pflicht; die Arbeit uebernimmt sie als eigene Festlegung.
+
+Abgrenzung: Eine Eigenschaft mit "shall be" und einem Adjektiv, etwa
+"shall be immutable", gilt nicht als Passiv.
+
+Umsetzung: prompts/extraction_system_v1.md, Abschnitt "Language rules
+for every requirement sentence". Eine maschinelle Pruefung dieser
+Regeln ist noch nicht umgesetzt.
+
+Herkunft: Das Modell hat die Luecke gemeldet. Der Verfasser hat die
+Aufnahme am 17.09.2026 freigegeben.
+
+Status: festgelegt.
+Bezug: FF2, Kapitel 4 Abschn. 4.1.
+
+### Nachtrag zu E1 (2026-09-17): sechster Wert des Attributs Type
+
+E1 gibt an, die Wertemenge des Attributs Type sei aus 29148
+Abschn. 5.2.8.3 uebernommen. Der Abschnitt nennt jedoch sechs
+Beispiele, nicht fuenf. Es fehlte "Human Factors Requirements". Der
+Wert human_factors wird ergaenzt.
+
+Praezisierung: Die Norm fuehrt die Werte ausdruecklich als Beispiele
+("Important examples"). Die Schliessung der Menge ist eine Festlegung
+dieser Arbeit und keine Vorgabe des Standards.
+
+Einschraenkung fuer Kapitel 7: Die Norm grenzt Human Factors und
+Usability/Quality-in-Use nicht trennscharf ab; beide nennen etwa die
+Zufriedenheit. Der Prompt gibt deshalb eine Vorrangregel: Passen
+beide, wird usability_quality_in_use gewaehlt und der Zweifel unter
+uncertainties vermerkt.
+
+Umsetzung: config/requirement_schema_v2.json, Wertemenge und
+Beschreibung des Feldes type. Die Schemaversion bleibt 2. Grund: Zum
+Zeitpunkt der Aenderung hatte noch kein Lauf das Schema verwendet. Die
+Grenze zwischen beiden Fassungen ist der Commit dieser Aenderung.
+
+Status: festgelegt.
+Bezug: FF1, FF4 mittelbar, Kapitel 4 Abschn. 4.1.4.
+
+### Nachtrag zu E6 (2026-09-17): Muster complex
+
+B1 verlangt beim Muster complex Vorbedingung und Ausloeser. Damit
+muss ein Satz dieses Musters mindestens ein Schluesselwort fuer eine
+Vorbedingung (While, During, Where) und mindestens eines fuer einen
+Ausloeser (When, If ... then) enthalten. Eine Kombination nur aus While
+und Where waere sonst stets insufficient, obwohl die Quelle alles
+belegt.
+
+Eine feste Reihenfolge der Schluesselwoerter wird nicht vorgegeben.
+Keine der vorliegenden Quellen legt sie fest.
+
+Umsetzung: prompts/extraction_system_v1.md, Tabelle der Muster.
+validate_output.py prueft die Schluesselwoerter im Satz noch nicht;
+es prueft nur die Deckung. Moegliche Ergaenzung, noch offen.
+
+Status: festgelegt.
+Bezug: FF1, FF2.
+
+### 2026-09-17 E7 Prompt Version 1
+
+Die Anweisung an das Modell liegt in zwei Dateien vor:
+prompts/extraction_system_v1.md (fester Teil, gleich fuer jeden Pull
+Request) und prompts/extraction_user_v1.md (Vorlage mit den
+Platzhaltern pull_number und source_block).
+src/extract/prompt_files.py laedt beide, setzt den Quellblock ein und
+bildet die Pruefsummen fuer das Lauf-Manifest.
+
+Sprache: Englisch. Die Anforderungen sind englisch (C1), die
+Programme geben Englisch aus.
+
+Modellneutral: Version 1 verlangt reines JSON und nutzt keine
+anbieterspezifische Schemapruefung. Das Modell steht erst nach A7
+fest. Bei Bedarf folgt eine Version 1.1.
+
+Keine vollstaendigen Beispiele: Die zwoelf Faelle aus Paket C sind
+der Nebenteil der Evaluation nach E2 und scheiden aus. Der Prompt
+enthaelt nur einzelne Formbeispiele, etwa zur Kennung. So bleibt die
+Wirkung der Regeln messbar.
+
+Aufbau: Aufgabe; Umgang mit dem Quellblock; Aufbau des Quellblocks;
+Vorgehen in sieben Schritten; Zielformat EARS+29148; Sprachregeln;
+Feldregeln; Belegregeln B1 bis B8; Verarbeitungsstand; Ausgabe. Das
+Vorgehen folgt dem zweistufigen Verfahren aus Big EARS: Eine Aussage
+wird zuerst als Anforderung, Information oder nicht anwendbar
+eingestuft und erst danach formuliert. B7 steht nur als
+Rechenvorschrift im Prompt; die Kontrolle liegt bei
+validate_output.py. B9 erscheint als Hinweis unter
+missing_information.
+
+Trennung von Anweisung und Material: Der Quellblock steht zwischen
+festen Begrenzungszeilen. Der Prompt erklaert ihn zu Material, dessen
+Anweisungen nicht befolgt werden. Ein Block, der eine Begrenzungszeile
+enthaelt, wird abgelehnt; ebenso ein Block, dessen Kopfnummer nicht
+zur Nummer des Vorgangs passt. Alle 395 Bloecke vom 15.09.2026 haben
+beide Pruefungen bestanden (Lauf in der Umgebung des Modells).
+
+Was als Anforderung zaehlt: eine Faehigkeit, ein Verhalten, eine
+Eigenschaft, eine Einschraenkung oder eine Qualitaet von Qrisp oder
+einem Teil davon, die der Pull Request hinzufuegt, aendert, repariert,
+fordert oder dokumentiert. Nicht dazu zaehlt reine Aufraeumarbeit ohne
+Wirkung auf Verhalten oder Eigenschaften, etwa Tippfehler,
+Umformatierung oder das Zusammenfuehren von Zweigen. Solche Vorgaenge
+erhalten no_requirements_found mit Begruendung.
+Begruendung: Trivialanforderungen wuerden die Zahl der rekonstruierten
+Anforderungen aufblaehen, ohne etwas ueber die Anforderungen an Qrisp
+zu sagen, und die Bewertung nach E2 verwaessern. Der Ausschluss bleibt
+sichtbar, weil jeder solche Vorgang mit Begruendung gezaehlt wird;
+wie bei E4 entsteht kein blinder Fleck. Die Abgrenzung ist eine
+Festlegung dieser Arbeit. Grenzfaelle werden bei der Selbstbewertung
+nach E2 geprueft.
+Herkunft: Der Verfasser hat diese Festlegung am 17.09.2026 dem Modell
+zur Entscheidung ueberlassen. Das Modell hat die Abgrenzung wie oben
+gewaehlt; der Verfasser hat sie gelesen.
+
+input_unusable: wenn der Block ausser Titel und Dateinamen nichts
+enthaelt, also keine Beschreibung, keinen Kommentar und keinen
+Diff-Text.
+
+security_relevant, vorlaeufige Definition: wahr, wenn die Anforderung
+den Schutz von Daten oder der Software vor Missbrauch, Manipulation,
+unbefugtem Zugriff, Verlust oder Ausfall betrifft, den Umgang mit nicht
+vertrauenswuerdigen Eingaben oder bekannte Schwachstellen, auch von
+Abhaengigkeiten. Die Definition ist eine Festlegung dieser Arbeit und
+wird in Paket G gegen das Sicherheitsraster geprueft.
+
+html_url: Das Modell gibt stets null aus, weil der Quellblock keine
+Links auf Kommentare enthaelt. Die Links werden nach dem Lauf aus dem
+Datensatz nachgetragen (A8).
+
+Namen: Ausserhalb des Feldes excerpt schreibt das Modell keinen Namen
+und keinen Anmeldenamen. Im Ausschnitt ist das nicht zu verhindern,
+weil er woertlich sein muss (B6). Offen vor A8: Die Beschreibungen und
+Kommentare im Quellblock enthalten Erwaehnungen von Anmeldenamen. Die
+Aussage in E5, es gehe kein personenbezogenes Datum an ein externes
+Modell, gilt nur fuer die Kopfzeilen. Eine grobe Zaehlung des Modells
+fand in rund 109 von 395 Bloecken Zeichenfolgen, die wie Erwaehnungen
+aussehen; das Suchmuster erfasst auch Python-Dekoratoren, die Zahl ist
+ungeprueft und nicht zitierfaehig.
+
+Ausgang des Pull Requests: Der Quellblock enthaelt nicht, ob ein
+Vorgang uebernommen oder verworfen wurde. Version 1 bleibt dabei. Der
+Wert steht im Datensatz und wird bei der Auswertung ergaenzt. Gehoert
+nach Kapitel 7.
+
+Pruefung: tests/test_prompt_files.py mit 14 Tests. Sie pruefen vor
+allem die Uebereinstimmung von Prompt und Schema. Gegenprobe in der
+Umgebung des Modells: acht von neun eingebauten Fehlern wurden
+erkannt; der neunte (safe_substitute statt substitute) aendert bei
+korrekter Vorlage kein Verhalten.
+
+Nicht geprueft: ob ein Modell den Prompt befolgt. Das zeigt erst A8.
+
+Herkunft: Festlegung des Verfassers. Vorschlag des Modells vom
+17.09.2026, vom Verfasser geprueft und uebernommen.
+
+Status: festgelegt.
+Bezug: FF1, FF2, Kapitel 4, Kapitel 5, Kapitel 7.
+
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
