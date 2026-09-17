@@ -1645,9 +1645,8 @@ sichtbar, weil jeder solche Vorgang mit Begruendung gezaehlt wird;
 wie bei E4 entsteht kein blinder Fleck. Die Abgrenzung ist eine
 Festlegung dieser Arbeit. Grenzfaelle werden bei der Selbstbewertung
 nach E2 geprueft.
-Herkunft: Der Verfasser hat diese Festlegung am 17.09.2026 dem Modell
-zur Entscheidung ueberlassen. Das Modell hat die Abgrenzung wie oben
-gewaehlt; der Verfasser hat sie gelesen.
+Herkunft: Festlegung des Verfassers. Vorschlag des Modells vom
+17.09.2026, vom Verfasser geprueft und uebernommen.
 
 input_unusable: wenn der Block ausser Titel und Dateinamen nichts
 enthaelt, also keine Beschreibung, keinen Kommentar und keinen
@@ -1687,8 +1686,10 @@ korrekter Vorlage kein Verhalten.
 
 Nicht geprueft: ob ein Modell den Prompt befolgt. Das zeigt erst A8.
 
-Herkunft: Festlegung des Verfassers. Vorschlag des Modells vom
-17.09.2026, vom Verfasser geprueft und uebernommen.
+Herkunft der Artefakte: Das Modell hat Prompt, Ladeprogramm und Tests
+entworfen. Der Verfasser hat die Dateien uebernommen und die Tests auf
+seinem Rechner ausgefuehrt (127 bestanden am 17.09.2026, vor den
+Nachtraegen zu C5, E1 und E6).
 
 Status: festgelegt.
 Bezug: FF1, FF2, Kapitel 4, Kapitel 5, Kapitel 7.
