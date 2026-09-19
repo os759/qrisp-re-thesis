@@ -63,7 +63,7 @@ macOS 26.5.2 (25F84) - Python 3.14.6 (Homebrew) - pip 26.1.2 - Git 2.50.1
 TeX Live 2026
 Repository: /Users/omar/Developer/qrisp-re-thesis
 Remote: github.com/os759/qrisp-re-thesis (privat, SSH)
-Pakete laut requirements.txt: requests 2.34.2, pytest 9.1.1 sowie
+Pakete laut requirements.txt: requests 2.34.2, pytest 9.1.1, jsonschema 4.26.0 sowie 
 certifi, charset-normalizer, idna, iniconfig, packaging, pluggy,
 Pygments, urllib3
 
@@ -177,6 +177,11 @@ data/raw/pull_files_2026-08-19.jsonl - 8424 Dateisaetze
   SHA-256 7315f5254a914278618c85c23422d7f2a04d1460ee8d8c6c6733f4e91533bbdc
 data/interim/pulls_prepared_2026-08-19.jsonl - 476 aufbereitete PRs, 20 MB
   SHA-256 138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683
+data/processed/model_input_2026-09-19.jsonl - 395 Quellbloecke, 8,5 MB
+  Manifest versioniert unter demselben Namen mit .manifest.json
+  Ersetzt model_input_2026-09-15.jsonl, siehe E9.
+data/interim/mention_map.json - Zuordnung der 34 Anmeldenamen,
+  lokal, durch .gitignore ausgeschlossen
 
 Dazu je eine .progress.jsonl fuer Kommentare und Dateien, ebenfalls
 lokal. Alle Manifeste unter data/manifests/ sind versioniert:
@@ -301,9 +306,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-113 Tests, ausfuehren aus der Projektwurzel:
+161 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 15.09.2026 unter Python 3.14.6.
+Zuletzt gruen am 19.09.2026 unter Python 3.14.6.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
 und src/extract. Ohne diese Datei finden die Tests die Module nicht.
@@ -311,7 +316,9 @@ und src/extract. Ohne diese Datei finden die Tests die Module nicht.
 Bereiche: test_resume.py (Wiederaufnahme), test_outcome.py,
 test_normalisation.py, test_jsonl_io.py, test_truncation.py,
 test_schema_validation.py (54 Tests, Schema und Belegstaerke),
-test_prompt_input.py (21 Tests, Auswahl und Budget).
+test_prompt_input.py (21 Tests, Auswahl und Budget),
+test_prompt_files.py (14 Tests, Prompt gegen Schema),
+test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen).
 Nicht abgedeckt: Netzschicht in github_api.py, Auswertungsskripte,
 draw_sample.py (siehe D4a).
 
@@ -422,27 +429,41 @@ Messergebnis K6, Stand 02.09.2026:
   Systemnamen. Wuerde die Rahmenrolle nicht anerkannt, faellt (a)
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
-Paket E begonnen am 15.09.2026. Alle sechs Entscheidungen sind
-gefallen: E1 Datenmodell, E2 Evaluationsform, E3 API-Budget,
-E4 Auswahlregel, E5 Budget der Modelleingabe, E6 Belegstaerke.
+Paket E begonnen am 15.09.2026. Neun Entscheidungen sind gefallen:
+E1 Datenmodell, E2 Evaluationsform, E3 API-Budget, E4 Auswahlregel,
+E5 Budget der Modelleingabe, E6 Belegstaerke, E7 Prompt Version 1,
+E8 Modellwahl, E9 Ersetzung von Erwaehnungen. Dazu Nachtraege zu C5,
+E1 und E6.
 
 Stand der Aufgaben in Paket E:
-- A1 Datenmodell, A2 Auswahlregel, A3 Budget, A4 Belegstaerke und
-  A5 Schemavalidierung sind fertig und committet.
-- A6 Prompt Version 1: offen, naechster Schritt.
-- A7 Modellwahl und Kostenschaetzung: offen, braucht Webrecherche.
-- A8 Erster Lauf an einer Stichprobe: offen.
+- A1 bis A5 fertig und committet.
+- A6 Prompt Version 1 abgeschlossen am 17.09.2026. Dateien:
+  prompts/extraction_system_v1.md, prompts/extraction_user_v1.md,
+  src/extract/prompt_files.py, tests/test_prompt_files.py.
+- A7 Modellwahl und Kostenschaetzung abgeschlossen am 19.09.2026.
+- A8 Erster Lauf an einer Stichprobe: offen, naechster Schritt.
+
+Am 19.09.2026 wurde die Modelleingabe neu gebaut, weil Erwaehnungen
+von Anmeldenamen ersetzt werden (E9). Gueltig ist
+data/processed/model_input_2026-09-19.jsonl mit 395 Quellbloecken und
+8 533 169 Zeichen. 34 Anmeldenamen wurden ersetzt; im Fliesstext
+steht keine unersetzte Erwaehnung mehr. Nachgezaehlt vom Verfasser.
+
+Vor dem ersten kostenpflichtigen Lauf zu klaeren: der OpenAI-Zugang
+mit Zahlungsmittel und Schluessel, und die Frage, ob das Schema fuer
+den Pseudonymnamen an docs/pseudonyme.csv angeglichen wird.
 
 Naechste Schritte in dieser Reihenfolge:
-1. A6 Prompt Version 1 in einem neuen Chat. Quellblock, Schema v2 und
-   die Regeln B1 bis B9 liegen vor.
-2. A7 Modellwahl, danach A8.
+1. A8 Pilotlauf an 20 Vorgaengen mit gpt-5.6-terra in einem neuen
+   Chat. Danach Messwerte in experiments/kostenschaetzung.md
+   nachtragen.
+2. Volllauf im Stapelbetrieb, anschliessend Paket F.
 3. Parallel ab W8: Einrichtung des lokalen Modells (Paket F) und
    Phase 2 der Literatursuche fuer Kapitel 3.
-4. Nicht blockierend, aus Paket C uebernommen: die zehn Overfull
-   hboxen in Anhang A (Woche 12) und der Platzhalter zum Datenmodell
-   in 4.1.4. Der Platzhalter kann jetzt gefuellt werden; das
-   Datenmodell steht als E1 und E6 fest.
+4. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
+   in Anhang A (Woche 12) und der Platzhalter zum Datenmodell in
+   4.1.4. Der Platzhalter kann jetzt gefuellt werden; das Datenmodell
+   steht als E1, E6 und der Nachtrag zu E1 fest.
 
 ## Getroffene Entscheidungen
 
@@ -476,6 +497,20 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - E6 (15.09.2026): Belegstaerke wird aus Deckung und Aussageform
   berechnet, Regeln B1 bis B9. Schema Version 2 laesst bis zu drei
   Belege je Anforderung zu.
+- E7 (17.09.2026): Prompt Version 1 in zwei Dateien unter prompts/,
+  englisch, modellneutral, ohne vollstaendiges Beispiel. Quellblock
+  zwischen festen Begrenzungszeilen.
+- E8 (19.09.2026): API-Modell ist gpt-5.6-terra. Pilot im
+  Normalbetrieb, Volllauf im Stapelbetrieb. Kostenschaetzung in
+  experiments/kostenschaetzung.md.
+- E9 (19.09.2026): Erwaehnungen von Anmeldenamen werden im Fliesstext
+  durch @person_NN ersetzt, nie im Diff. Ausnahmeliste jaspify, jax,
+  pytest, rus. Zuordnung lokal in data/interim/mention_map.json.
+- Nachtrag zu C5 (17.09.2026): drei Sprachregeln aus 29148
+  Abschn. 5.2.4 kommen zur Ebene (d) hinzu.
+- Nachtrag zu E1 (17.09.2026): sechster Typwert human_factors.
+- Nachtrag zu E6 (17.09.2026): complex braucht Vorbedingung und
+  Ausloeser.
 - Kapitel nicht in Einzeldateien. Alles in thesis/thesis.tex.
 - BibTeX-Eintragstyp misc statt standard.
 - API-Version 2022-11-28, explizit, in config/collect.toml.
@@ -740,6 +775,15 @@ Extern, mit Vorlauf:
 - Bewertungsbogen und Anweisungen fuer die Bewertenden bis Woche 8.
 - Datenschutzrechtliche Bewertung der Pseudonymisierung mit dem
   Betreuer klaeren.
+- Nach dem Pilotlauf festlegen: Einstellung des Denkaufwands und ob
+  eine anbieterseitige Schemapruefung genutzt wird (E8).
+- Ab dem ersten Lauf darf die Zuordnung der Platzhalter nicht mehr
+  neu vergeben werden (E9).
+- docs/pseudonyme.csv existiert nicht. Das Schema A01 ff. ist ein
+  Vorhaben aus Paket D und nie umgesetzt worden. Es betrifft Personen,
+  die im Text der Arbeit genannt werden; person_NN aus E9 betrifft die
+  Modelleingabe. Klaeren, wenn in der Arbeit erstmals eine Person
+  genannt werden soll.
 - KI-Formulierung fuer vorspann.tex mit Professor abstimmen.
 - Korreferent in thesis.tex eintragen (Platzhalter Zeile 23)
 - Phase 2 der Literatursuche nachholen. Kapitel 3 hat sonst keine
@@ -940,6 +984,19 @@ a5a9339 Uebergabe Anhang A Durchgang 1, Entscheidung C6, KI-Protokoll
 c73f63e Anhang A, Einzelbegruendungen K6 bis K10 (Durchgang 2)
 9db8601 Verweis auf Anhang A in 4.1.3, zwei Berichtigungen zu EARS
 feb68c6 Stand nach Abschluss von Paket C
+
+## Commits Paket E
+
+e0d3f66 Schema und Pruefung der strukturierten LLM-Ausgabe
+d22b83b  Auswahl und Budget der Modelleingabe
+cee3b7e Commit-Kuerzel aus Paket C in STATUS.md nachgetragen
+b261e6f Belegstaerke wird berechnet statt behauptet
+e091d7f Prompt Version 1 mit Ladeprogramm, Schema um human_factors ergaenzt
+c1d53a4 14 Tests fuer die Prompt-Dateien
+1a80c14 Entscheidung E7, Nachtraege zu C5, E1 und E6, KI-Protokoll
+2df90fd Herkunftsangaben in E7 berichtigt
+595f79f Erwaehnungen werden vor der Modelleingabe ersetzt
+224dcda Manifest der Modelleingabe vom 19.09.2026
 
 ## Aufruf des Ziehungsskripts
 
