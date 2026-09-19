@@ -1694,6 +1694,158 @@ Nachtraegen zu C5, E1 und E6).
 Status: festgelegt.
 Bezug: FF1, FF2, Kapitel 4, Kapitel 5, Kapitel 7.
 
+## 2026-09-19 Paket E: Modellwahl und Ersetzung von Erwaehnungen
+
+### 2026-09-19 E8 API-Modell, Aufrufweg und Kostenrahmen
+
+Gewaehlt: gpt-5.6-terra von OpenAI als das API-basierte Modell fuer FF3.
+Der Pilotlauf A8 laeuft im Normalbetrieb, der Volllauf ueber 395 Vorgaenge
+im Stapelbetrieb ("Batch"), der Eingabe und Ausgabe halb so teuer macht und
+die Antwort verzoegert. Die Verzoegerung stoert nicht, weil niemand auf das
+Ergebnis wartet.
+
+Preise, recherchiert am 19.09.2026, in US-Dollar je 1 Mio Token,
+Eingabe/Ausgabe: gpt-5.6-sol 4/20, gpt-5.6-terra 2/12, gpt-5.6-luna
+0,20/1,20; zum Vergleich claude-sonnet-5 2/10 und claude-haiku-4.5 1/5.
+Kontextfenster von gpt-5.6: 1,05 Mio Token. Der laengste Quellblock hat
+79 841 Zeichen, also rund 23 000 Token. Kein Vorgang scheitert an der
+Groesse.
+
+Begruendung:
+1. Terra liegt preislich gleichauf mit claude-sonnet-5. Die Bevorzugung von
+   OpenAI kostet nichts und ist damit keine Verzerrung zulasten der Kosten.
+2. Sol kostet das Zweieinhalbfache. Dass es Anforderungen besser
+   rekonstruiert, ist unbelegt und wird in dieser Arbeit nicht behauptet.
+3. Luna ist zehnmal guenstiger. Da das Budget nach der Schaetzung nicht der
+   Engpass ist, entscheidet die Ergebnisqualitaet, nicht der Preis.
+4. Doppelrolle: Claude wird als Arbeitswerkzeug eingesetzt. Ein Modell
+   derselben Familie als Messobjekt waere nach der Projektanweisung
+   zulaessig, muesste aber in Kapitel 7 als Bedrohung der
+   Konstruktvaliditaet behandelt werden. Mit OpenAI entfaellt das.
+
+Vorbehalt zur Preisangabe: Der Sol-Preis von 4/20 ist ein Aktionspreis, den
+OpenAI als mindestens bis zum 21.11.2026 gueltig angibt, ohne Enddatum und
+ohne Nachfolgepreis. Mehrere Uebersichten fuehren weiterhin 5/30; diese
+Angabe ist veraltet und stand auch im ersten Entwurf dieser Entscheidung.
+Berichtigt am 19.09.2026 nach einem Hinweis des Verfassers und einer
+zweiten Recherche. Folgenlos fuer die Wahl, weil Sol nicht genommen wird.
+Jede Preisangabe in der Arbeit braucht ein Abrufdatum.
+
+Kostenschaetzung nach E3: experiments/kostenschaetzung.md, Stand
+19.09.2026. Ein Volllauf mit terra kostet im Stapelbetrieb
+geschaetzt 9 bis 14 US-Dollar ohne Steuer. Die gesamte Planung bis zum Abschluss von Paket E und F
+liegt bei 31 bis 37 US-Dollar mit einem Aufschlag von 19 Prozent. Das
+Budget von 150 Euro wird damit zu rund einem Viertel ausgeschoepft.
+Wechselkurs und Steuersatz sind nicht recherchiert; die Rechnung setzt
+1 Euro gleich 1 US-Dollar und rechnet 19 Prozent auf, beides zugunsten des
+Budgets.
+
+Noch nicht entschieden, weil erst nach dem Pilotlauf beurteilbar: die
+Einstellung des Denkaufwands ("reasoning effort") und die Frage, ob eine
+anbieterseitige Schemapruefung genutzt wird. Version 1 des Prompts bleibt
+nach E7 modellneutral.
+
+Zu dokumentieren ist je Lauf: Modellname mit Version, Datum, Parameter,
+Prompt-Version mit Pruefsumme, Eingabedatei mit Pruefsumme, Aufrufweg
+(normal oder Stapel), verbrauchte Token und Kosten.
+
+Herkunft: Festlegung des Verfassers. Recherche und Rechnung vom Modell am
+19.09.2026, vom Verfasser geprueft.
+
+Status: festgelegt.
+Bezug: FF3, Kapitel 4 Abschn. 4.6, Kapitel 5, Kapitel 7.
+
+### 2026-09-19 E9 Erwaehnungen von Anmeldenamen werden ersetzt
+
+Erwaehnungen von GitHub-Anmeldenamen im Fliesstext werden durch feste
+Platzhalter ersetzt, bevor ein Quellblock an ein externes Modell geht. Aus
+einem Anmeldenamen wird @person_01, @person_02 und so weiter. Derselbe
+Anmeldename erhaelt immer denselben Platzhalter.
+
+Anlass: E5 hielt fest, es gehe kein personenbezogenes Datum an ein externes
+Modell. Das galt nur fuer die Kopfzeilen der Kommentare, in denen statt des
+Anmeldenamens nur die Zuordnung (CONTRIBUTOR, COLLABORATOR, NONE) steht. In
+den Texten selbst standen weiterhin Erwaehnungen. E7 hielt diesen Punkt als
+offen fest; E9 schliesst ihn.
+
+Begruendung: Der Anmeldename traegt zu keiner rekonstruierten Anforderung
+bei. Das Feld beneficiary verlangt eine Rolle, keine Person. Die
+Datenminimierung nach Art. 5 DSGVO spricht dafuer, ihn wegzulassen. Die
+Daten sind zwar oeffentlich einsehbar, was die Weiterverarbeitung aber
+nicht ohne Weiteres rechtfertigt. Nach der Dokumentation von OpenAI werden
+Daten aus der Programmierschnittstelle nicht fuer das Training verwendet;
+Protokolle zur Missbrauchserkennung werden jedoch bis zu 30 Tage
+aufbewahrt und koennen Anfragen und Antworten enthalten.
+
+Umfang, gemessen am Datensatz vom 19.09.2026:
+- 34 Anmeldenamen ersetzt.
+- Vor der Ersetzung: 98 von 395 Bloecken mit mindestens einer Erwaehnung im
+  Fliesstext, 279 Treffer. Diese Zahlen hat der Verfasser nachgezaehlt.
+- Nach der Ersetzung: keine unersetzte Erwaehnung im Fliesstext. Die 30
+  verbleibenden Zeichenfolgen mit Klammeraffen stehen in Diffs oder in
+  Codeschrift und bezeichnen Programmteile, etwa property, staticmethod,
+  qjit, passX.
+
+Regeln der Ersetzung:
+1. Ersetzt wird nur in Prosa: Titel, Beschreibung, Kommentartext,
+   Review-Kommentartext.
+2. Nicht ersetzt wird im Diff und im Codeausschnitt eines
+   Review-Kommentars. Diese Texte gehen unveraendert an das Modell.
+3. In Codebloecken, eingerueckten Zeilen und Codeschrift wird nur ersetzt,
+   was bereits aus der Prosa als Anmeldename bekannt ist. Ein Dekorator wie
+   @property geraet nie in die Zuordnung und bleibt stehen.
+4. Eine eingerueckte Zeile gilt nur dann als Code, wenn sie nicht mit einem
+   Listenzeichen beginnt. Verschachtelte Aufzaehlungen in Markdown sind
+   Prosa.
+5. Eine Ausnahmeliste in config/model_input.toml haelt Fachbegriffe frei,
+   die in Prosa wie eine Erwaehnung aussehen: jaspify, jax, pytest, rus.
+   Kriterium fuer die Aufnahme: Die Zeichenfolge kommt auch im Programmcode
+   vor. RUS steht fuer Repeat-Until-Success.
+6. Die Nummerierung folgt der alphabetischen Reihenfolge der
+   Anmeldenamen, damit ein zweiter Lauf dieselben Platzhalter vergibt.
+
+Zwei Fehler der ersten Fassung, beide durch Tests und Nachzaehlung des
+Verfassers gefunden und behoben:
+- Ein Anmeldename in einer verschachtelten Aufzaehlung blieb stehen, weil
+  die Einrueckung als Code gewertet wurde. Regel 4 behebt das.
+- Der Fachbegriff RUS wurde als Person behandelt. Regel 5 behebt das.
+
+Ablage: Die Zuordnung von Anmeldename zu Platzhalter liegt in
+data/interim/mention_map.json und damit ausserhalb des Repositorys, weil
+sie die Ersetzung rueckgaengig macht. Sie ist durch .gitignore Zeile 9
+ausgeschlossen. Das Manifest der Modelleingabe enthaelt nur die Anzahl der
+ersetzten Anmeldenamen, keinen Namen.
+
+Umsetzung: src/extract/pseudonymise.py, Aenderungen in
+build_prompt_input.py und validate_output.py, Abschnitt
+[pseudonymisation] in config/model_input.toml,
+tests/test_pseudonymise.py mit 28 Tests. Die Belegpruefung nach B6
+vergleicht gegen denselben ersetzten Text; dafuer nimmt
+validate_output.py den Schalter --mentions-map. Ohne diesen Schalter wird
+ein Zitat aus ersetztem Text abgelehnt.
+
+Gueltige Eingabedatei ab sofort: data/processed/model_input_2026-09-19.jsonl
+mit Manifest im selben Ordner. Sie ersetzt model_input_2026-09-15.jsonl aus
+E7. Die aeltere Datei bleibt liegen, wird aber nicht mehr verwendet.
+
+Grenzen, fuer Kapitel 7:
+- Erfasst werden nur Erwaehnungen mit Klammeraffen. Ein Klarname im Fliess-
+  text, etwa in einer Anrede, bleibt stehen.
+- Diffs werden nicht bearbeitet. Steht ein Name in einer geaenderten Datei,
+  etwa in einer Danksagung, geht er mit.
+- Die Ersetzung ist eine Pseudonymisierung, keine Anonymisierung. Mit der
+  Zuordnungstabelle laesst sie sich umkehren.
+- Ab dem ersten kostenpflichtigen Lauf darf die Zuordnung nicht mehr neu
+  vergeben werden, sonst bezeichnet derselbe Platzhalter verschiedene
+  Personen.
+
+Herkunft: Festlegung des Verfassers. Entwurf von Regeln, Programm und
+Tests durch das Modell am 19.09.2026; der Verfasser hat die Zahlen
+nachgezaehlt und die Ergebnisse geprueft.
+
+Status: festgelegt.
+Bezug: FF3, FF1 mittelbar, Kapitel 5, Kapitel 7.
+
 
 ## Offene Entscheidungen
 
