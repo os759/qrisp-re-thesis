@@ -450,8 +450,8 @@ data/processed/model_input_2026-09-19.jsonl mit 395 Quellbloecken und
 steht keine unersetzte Erwaehnung mehr. Nachgezaehlt vom Verfasser.
 
 Vor dem ersten kostenpflichtigen Lauf zu klaeren: der OpenAI-Zugang
-mit Zahlungsmittel und Schluessel, und die Frage, ob das Schema fuer
-den Pseudonymnamen an docs/pseudonyme.csv angeglichen wird.
+mit Zahlungsmittel und Schluessel. Das Schema person_NN aus E9 bleibt
+wie es ist; docs/pseudonyme.csv existiert nicht, siehe Offene Punkte.
 
 Naechste Schritte in dieser Reihenfolge:
 1. A8 Pilotlauf an 20 Vorgaengen mit gpt-5.6-terra in einem neuen
@@ -491,9 +491,9 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - E4 (15.09.2026): Modelleingabe ohne Programme und ohne offene
   Vorgaenge, 395 von 476. Entwuerfe, fehlende Beschreibung und
   fehlende Codeaenderung schliessen nicht aus.
-- E5 (15.09.2026): Diff-Kontext eines Review-Kommentars auf 500
   Zeichen, Quellblock auf 80 000 Zeichen. Keine Anmeldenamen im
-  Block, nur author_association.
+  Block, nur author_association. Durch E9 praezisiert: das galt nur
+  fuer die Kopfzeilen, im Text standen weiterhin Erwaehnungen.
 - E6 (15.09.2026): Belegstaerke wird aus Deckung und Aussageform
   berechnet, Regeln B1 bis B9. Schema Version 2 laesst bis zu drei
   Belege je Anforderung zu.
@@ -997,6 +997,9 @@ c1d53a4 14 Tests fuer die Prompt-Dateien
 2df90fd Herkunftsangaben in E7 berichtigt
 595f79f Erwaehnungen werden vor der Modelleingabe ersetzt
 224dcda Manifest der Modelleingabe vom 19.09.2026
+b8b9307 Entscheidungen E8 Modellwahl und E9 Ersetzung von Erwaehnungen
+15cdcf1 Kostenschaetzung fuer die API-Laeufe nach E3
+78122e6 Stand nach Abschluss von A6 und A7
 
 ## Aufruf des Ziehungsskripts
 
