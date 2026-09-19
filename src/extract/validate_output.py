@@ -11,6 +11,9 @@ Three independent checks are applied to every record, in this order:
 3. Excerpt check. Every excerpt in the evidence list has to occur literally
    in the prepared dataset, in the place the entry names. This catches
    invented quotations, which the schema alone cannot detect.
+   The model saw the prose with mentions replaced, decision E9. The same
+   replacement is therefore applied to the dataset before the comparison.
+   Pass --mentions-map for a run whose input was built that way.
 
 Work package E, bachelor thesis. Research questions FF1 and FF2.
 
@@ -31,6 +34,8 @@ from typing import Any, Iterator
 
 from jsonschema import Draft202012Validator
 
+from pseudonymise import load_mapping, mask
+
 DEFAULT_SCHEMA = Path("config/requirement_schema_v2.json")
 
 # A patch line carries a leading marker: '+' added, '-' removed, ' ' context.
@@ -50,6 +55,12 @@ def parse_arguments() -> argparse.Namespace:
                         help="Prepared dataset. Enables the excerpt check.")
     parser.add_argument("--schema", default=str(DEFAULT_SCHEMA),
                         help="Schema file. Default: config/requirement_schema_v2.json")
+    parser.add_argument("--mentions-map", default=None,
+                        help="Mapping written by build_prompt_input.py. Applies "
+                             "the same replacement to the dataset, decision E9.")
+    parser.add_argument("--allowlist", default="",
+                        help="Comma separated names left unchanged, as in "
+                             "config/model_input.toml.")
     parser.add_argument("--quiet", action="store_true",
                         help="Print the summary only.")
     return parser.parse_args()
@@ -95,20 +106,32 @@ def schema_errors(record: dict[str, Any],
 
 
 def haystacks_for(item: dict[str, Any],
-                  pull: dict[str, Any]) -> list[str]:
-    """Return the texts an excerpt may legitimately come from."""
+                  pull: dict[str, Any],
+                  mapping: dict[str, str] | None = None,
+                  allowlist: set[str] | None = None) -> list[str]:
+    """Return the texts an excerpt may legitimately come from.
+
+    With a mapping, prose is masked exactly as it was for the model. The
+    diff and the diff context of a review comment stay untouched, because
+    they were never masked either.
+    """
     location = item.get("location")
     locator = item.get("locator")
 
+    def prose(text: str) -> str:
+        if mapping is None:
+            return text or ""
+        return mask(text or "", mapping, allowlist or set())
+
     if location == "title":
-        return [pull.get("title") or ""]
+        return [prose(pull.get("title"))]
     if location == "body":
-        return [pull.get("body") or ""]
+        return [prose(pull.get("body"))]
     if location == "issue_comment":
-        return [c.get("body") or "" for c in pull.get("issue_comments", [])
+        return [prose(c.get("body")) for c in pull.get("issue_comments", [])
                 if locator in (None, str(c.get("id")))]
     if location == "review_comment":
-        return [(c.get("body") or "") + "\n" + (c.get("diff_hunk") or "")
+        return [prose(c.get("body")) + "\n" + (c.get("diff_hunk") or "")
                 for c in pull.get("review_comments", [])
                 if locator in (None, str(c.get("id")))]
     if location == "diff":
@@ -119,7 +142,9 @@ def haystacks_for(item: dict[str, Any],
 
 
 def excerpt_errors(record: dict[str, Any],
-                   dataset: dict[int, dict[str, Any]]) -> list[str]:
+                   dataset: dict[int, dict[str, Any]],
+                   mapping: dict[str, str] | None = None,
+                   allowlist: set[str] | None = None) -> list[str]:
     """Check that every excerpt occurs literally in its named source."""
     messages = []
     pull_number = record.get("pull_number")
@@ -131,7 +156,7 @@ def excerpt_errors(record: dict[str, Any],
         identifier = requirement.get("id", "<no id>")
         for position, item in enumerate(requirement.get("evidence", []), start=1):
             excerpt = item.get("excerpt") or ""
-            candidates = haystacks_for(item, pull)
+            candidates = haystacks_for(item, pull, mapping, allowlist)
             if not candidates:
                 messages.append(
                     f"excerpt: {identifier} evidence {position}: no text found for "
@@ -194,7 +219,9 @@ def consistency_errors(record: dict[str, Any]) -> list[str]:
 
 def check_record(record: dict[str, Any],
                  validator: Draft202012Validator,
-                 dataset: dict[int, dict[str, Any]] | None) -> list[str]:
+                 dataset: dict[int, dict[str, Any]] | None,
+                 mapping: dict[str, str] | None = None,
+                 allowlist: set[str] | None = None) -> list[str]:
     """Run all checks on one record and stop at the first that reports."""
     problems = schema_errors(record, validator)
     if problems:
@@ -204,7 +231,7 @@ def check_record(record: dict[str, Any],
         return problems
     if dataset is None:
         return []
-    return excerpt_errors(record, dataset)
+    return excerpt_errors(record, dataset, mapping, allowlist)
 
 
 def load_dataset(path: Path) -> dict[int, dict[str, Any]]:
@@ -222,13 +249,19 @@ def main() -> int:
     if dataset is None:
         print("Note: no --dataset given, the excerpt check is skipped.")
 
+    mapping = load_mapping(Path(arguments.mentions_map)) if arguments.mentions_map else None
+    allowlist = {name.strip().lower()
+                 for name in arguments.allowlist.split(",") if name.strip()}
+    if dataset is not None and mapping is None:
+        print("Note: no --mentions-map given, the dataset is compared unmasked.")
+
     records = 0
     rejected = 0
     requirements = 0
 
     for line_number, record in read_jsonl(Path(arguments.input)):
         records += 1
-        problems = check_record(record, validator, dataset)
+        problems = check_record(record, validator, dataset, mapping, allowlist)
 
         if problems:
             rejected += 1

@@ -17,3 +17,16 @@ max_diff_hunk_chars = 500
 # file diffs are cut first.
 max_input_chars_per_pull = 80000
 truncation_marker = "\n[... truncated ...]\n"
+
+[pseudonymisation]
+# Decision E9. Mentions of logins in prose are replaced before the text
+# is handed to an external model. Never in code: the context rules of
+# pseudonymise.py plus this allowlist keep decorators out of the mapping.
+# The three names below appear in prose in the data of 2026-09-15 and
+# denote decorators, not people.
+enabled = true
+placeholder_prefix = "person"
+# RUS stands for Repeat-Until-Success and also occurs in the code.
+allowlist = ["jaspify", "jax", "pytest", "rus"]
+# Outside the repository: the mapping can undo the replacement.
+mapping_file = "data/interim/mention_map.json"

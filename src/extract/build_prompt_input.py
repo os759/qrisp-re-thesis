@@ -10,6 +10,9 @@ readable text from it. Two rules govern the result:
   capped, and the whole block has an upper character limit. Prose is kept
   first, file diffs are cut first, and every cut is marked in the text.
 
+Mentions of logins inside the prose are replaced by stable placeholders
+before the block is written, decision E9. See pseudonymise.py.
+
 Author logins are never written into the block. Only the association
 (CONTRIBUTOR, COLLABORATOR, NONE) is passed on. It carries the part that
 matters for a requirement and avoids sending personal data to a model.
@@ -33,10 +36,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from pseudonymise import (build_mapping, find_mentions, mask, save_mapping)
+
 DEFAULT_CONFIG = Path("config/model_input.toml")
 
 # Characters held back for the closing note about what was left out.
 NOTE_ALLOWANCE = 300
+
+# Used when config/model_input.toml carries no [pseudonymisation] section.
+PSEUDONYMISATION_DEFAULTS = {
+    "enabled": True,
+    "placeholder_prefix": "person",
+    "allowlist": [],
+    "mapping_file": "data/interim/mention_map.json",
+}
 
 
 # --- configuration ----------------------------------------------------
@@ -51,7 +64,34 @@ def load_settings(path: Path) -> dict[str, Any]:
                 "truncation_marker"):
         if key not in settings:
             raise KeyError(f"{path}: setting '{key}' is missing")
+    # A missing section must not switch the replacement off by accident,
+    # so the defaults below replace everything that looks like a mention.
+    settings["pseudonymisation"] = {**PSEUDONYMISATION_DEFAULTS,
+                                    **data.get("pseudonymisation", {})}
     return settings
+
+
+# --- pseudonymisation of mentions, decision E9 ------------------------
+
+
+def prose_fields(pull: dict[str, Any]) -> list[str]:
+    """Every text of a pull request in which a mention may appear."""
+    texts = [pull.get("title") or "", pull.get("body") or ""]
+    for key in ("issue_comments", "review_comments"):
+        texts.extend(comment.get("body") or "" for comment in pull.get(key, []))
+    return texts
+
+
+def collect_logins(path: Path, settings: dict[str, Any],
+                   allowlist: set[str]) -> set[str]:
+    """First pass: which logins are mentioned in the pull requests kept."""
+    logins: set[str] = set()
+    for _, pull in read_pulls(path):
+        if selection_reason(pull, settings) is not None:
+            continue
+        for text in prose_fields(pull):
+            logins.update(find_mentions(text, allowlist))
+    return logins
 
 
 # --- selection, decision E4 -------------------------------------------
@@ -78,15 +118,32 @@ def cap(text: str, limit: int, marker: str) -> tuple[str, bool]:
     return text[:limit] + marker, True
 
 
+def read_pulls(path: Path):
+    """Yield (line number, pull request) for every non-empty line."""
+    with path.open(encoding="utf-8") as handle:
+        for line_number, raw in enumerate(handle, start=1):
+            raw = raw.strip()
+            if raw:
+                yield line_number, json.loads(raw)
+
+
 def prose_sections(pull: dict[str, Any],
-                   settings: dict[str, Any]) -> tuple[list[str], int]:
+                   settings: dict[str, Any],
+                   mapping: dict[str, str] | None = None,
+                   allowlist: set[str] | None = None) -> tuple[list[str], int]:
     """Title, description and comments, in that order. Returns the
     sections and how many review contexts were capped."""
     marker = settings["truncation_marker"]
     hunk_limit = settings["max_diff_hunk_chars"]
-    sections = [f"[TITLE]\n{pull.get('title') or ''}"]
+    def clean(text: str) -> str:
+        """Without a mapping the text is passed through unchanged."""
+        if mapping is None:
+            return text
+        return mask(text, mapping, allowlist or set())
 
-    body = (pull.get("body") or "").strip()
+    sections = [f"[TITLE]\n{clean(pull.get('title') or '')}"]
+
+    body = clean(pull.get("body") or "").strip()
     sections.append(f"[DESCRIPTION]\n{body}" if body
                     else "[DESCRIPTION]\n(the pull request has no description)")
 
@@ -98,7 +155,7 @@ def prose_sections(pull: dict[str, Any],
                 f"association={comment.get('author_association')} "
                 f"at={comment.get('created_at')}]")
         entries.append((comment.get("created_at") or "",
-                        f"{head}\n{(comment.get('body') or '').strip()}"))
+                        f"{head}\n{clean(comment.get('body') or '').strip()}"))
 
     for comment in pull.get("review_comments", []):
         context, was_capped = cap(comment.get("diff_hunk") or "", hunk_limit, marker)
@@ -107,7 +164,8 @@ def prose_sections(pull: dict[str, Any],
                 f"association={comment.get('author_association')} "
                 f"at={comment.get('created_at')} "
                 f"file={comment.get('path')} line={comment.get('line')}]")
-        block = f"{head}\n[context]\n{context}\n[text]\n{(comment.get('body') or '').strip()}"
+        block = (f"{head}\n[context]\n{context}\n"
+                 f"[text]\n{clean(comment.get('body') or '').strip()}")
         entries.append((comment.get("created_at") or "", block))
 
     entries.sort(key=lambda item: item[0])
@@ -130,7 +188,9 @@ def file_sections(pull: dict[str, Any]) -> list[str]:
 
 
 def build_block(pull: dict[str, Any],
-                settings: dict[str, Any]) -> dict[str, Any]:
+                settings: dict[str, Any],
+                mapping: dict[str, str] | None = None,
+                allowlist: set[str] | None = None) -> dict[str, Any]:
     """Assemble the source block and report what had to be left out."""
     budget = settings["max_input_chars_per_pull"]
     marker = settings["truncation_marker"]
@@ -139,7 +199,7 @@ def build_block(pull: dict[str, Any],
     limit = budget - NOTE_ALLOWANCE
 
     header = f"=== PULL REQUEST {pull.get('number')} ==="
-    prose, hunks_capped = prose_sections(pull, settings)
+    prose, hunks_capped = prose_sections(pull, settings, mapping, allowlist)
     files = file_sections(pull)
 
     parts = [header]
@@ -215,6 +275,20 @@ def main() -> int:
         print(f"{target} already exists. Use --overwrite to replace it.")
         return 1
 
+    # Pseudonymisation of mentions, decision E9. The mapping is built in a
+    # first pass over the whole file, so a rerun gives the same placeholders.
+    pseudonymisation = settings["pseudonymisation"]
+    allowlist = {name.lower() for name in pseudonymisation["allowlist"]}
+    mapping: dict[str, str] = {}
+    mapping_path = Path(pseudonymisation["mapping_file"])
+    if pseudonymisation["enabled"]:
+        logins = collect_logins(source, settings, allowlist)
+        mapping = build_mapping(logins, pseudonymisation["placeholder_prefix"])
+        mapping_path.parent.mkdir(parents=True, exist_ok=True)
+        save_mapping(mapping, mapping_path)
+    else:
+        allowlist = set()
+
     kept = 0
     left_out: dict[str, int] = {}
     truncated = 0
@@ -232,7 +306,7 @@ def main() -> int:
                 left_out[reason] = left_out.get(reason, 0) + 1
                 continue
 
-            result = build_block(pull, settings)
+            result = build_block(pull, settings, mapping, allowlist)
             record = {
                 "pull_number": pull["number"],
                 "html_url": pull.get("html_url"),
@@ -251,7 +325,15 @@ def main() -> int:
         "input_sha256": sha256_of(source),
         "output_file": str(target),
         "config_file": str(Path(arguments.config)),
-        "settings": settings,
+        "settings": {key: value for key, value in settings.items()
+                     if key != "pseudonymisation"},
+        "pseudonymisation": {
+            "enabled": pseudonymisation["enabled"],
+            "placeholder_prefix": pseudonymisation["placeholder_prefix"],
+            "allowlist": pseudonymisation["allowlist"],
+            "mapping_file": str(mapping_path),
+            "logins_replaced": len(mapping),
+        },
         "pulls_kept": kept,
         "pulls_left_out": left_out,
         "pulls_with_a_cut": truncated,
@@ -261,6 +343,10 @@ def main() -> int:
     manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
+    if pseudonymisation["enabled"]:
+        print(f"Logins replaced: {len(mapping)} (mapping: {mapping_path})")
+    else:
+        print("Pseudonymisation is switched off.")
     print(f"Pulls kept: {kept}")
     print(f"Pulls left out: {left_out}")
     print(f"Pulls with a cut: {truncated}")
