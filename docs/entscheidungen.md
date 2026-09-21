@@ -1847,6 +1847,110 @@ Status: festgelegt.
 Bezug: FF3, FF1 mittelbar, Kapitel 5, Kapitel 7.
 
 
+## 2026-09-21 Paket E: Rahmen des Pilotlaufs A8
+
+### 2026-09-21 E10 Rahmen des Pilotlaufs
+
+Der Pilotlauf A8 schickt 20 Quellbloecke an gpt-5.6-terra, bevor alle
+395 gesendet werden. Er prueft das Aufrufprogramm und die Befolgung des
+Prompts und ersetzt die Annahmen der Kostenschaetzung durch Messwerte.
+Er ist keine Bewertung der Ergebnisqualitaet; diese erfolgt nach E2 an
+einer eigenen Stichprobe. Die folgenden Festlegungen gelten vor dem
+ersten kostenpflichtigen Aufruf.
+
+a) Stichprobe. src/analyze/draw_sample.py erhaelt zwei Schalter:
+--sizes legt die Zahl je Schicht fest, --exclude nennt Nummern, die
+nicht gezogen werden duerfen. Ohne beide Schalter verhaelt sich das
+Skript wie bisher. Nachweis: Der Aufruf mit Startwert 20260823 muss
+wieder die zwoelf Nummern vom 25.08.2026 ergeben.
+Groessen fuer den Pilot, zusammen 20:
+S6 1 · S5 4 · S4 3 · S3 3 · S2 4 · S1 5.
+S5 (grosser, gekuerzter Diff) ist staerker besetzt, weil lange Bloecke
+das Aufrufprogramm am staerksten fordern. S6 bleibt bei 1, weil es nur
+fuenf Vorgaenge ohne Codeaenderung gibt und einer davon (408) bereits
+in der Formulierungsprobe liegt.
+Startwert: 20260921. Ausgeschlossen: 48, 75, 191, 371, 408, 413, 464,
+533, 577, 622, 692, 711 (Formulierungsprobe, Paket C).
+Die Stichprobe fuer die Evaluation nach E2 schliesst spaeter diese
+zwoelf und die 20 Pilotvorgaenge aus. Begruendung: Am Pilot wird der
+Prompt weiterentwickelt. Wer an denselben Vorgaengen bewertet, prueft
+das Verfahren an den Daten, an denen es angepasst wurde.
+Tests: nur fuer die beiden neuen Schalter, weil ein wirkungsloser
+Ausschluss still falsche Daten erzeugt (Kriterium aus D4). Praezisiert
+D4a; fuer das uebrige Skript bleibt D4a bestehen.
+
+b) Aufrufweg. Das Aufrufprogramm nutzt das vorhandene Paket requests,
+keine zusaetzliche Programmbibliothek. Der Schluessel steht als
+OPENAI_API_KEY in .env und wird mit load_token aus github_api.py
+gelesen. Die Wiederholungslogik wird neu geschrieben, weil
+request_with_retry nur Abrufe kennt und HTTP 403 als Ratenbegrenzung
+deutet; bei OpenAI bedeutet 403 fehlende Berechtigung.
+
+c) Ablage. Die Ergebnisse liegen flach in data/processed/:
+extraction_<Datum>_pilot.jsonl (Modellantworten),
+extraction_<Datum>_pilot.raw.jsonl (vollstaendige Antworten der
+Schnittstelle) und extraction_<Datum>_pilot.manifest.json. Nach
+.gitignore bleiben die ersten beiden lokal, das Manifest wird
+versioniert. Ein Unterordner scheidet aus: Git nimmt keine Datei aus
+einem ausgeschlossenen Ordner wieder auf.
+
+d) Denkaufwand. Der Pilot laeuft mit der Voreinstellung des Anbieters.
+Entscheidungsregel fuer die endgueltige Einstellung (E11), festgelegt
+vor dem Lauf: Die Voreinstellung bleibt, wenn hoechstens eine der 20
+Antworten abgeschnitten oder kein gueltiges JSON ist und die Kosten des
+Pilots 2,10 US-Dollar nicht uebersteigen. Sonst wird genau eine andere
+Stufe an denselben 20 Vorgaengen erprobt. Entschieden wird nur nach
+maschinell messbaren Werten. Ein Qualitaetsurteil an 20 Faellen ohne
+festgelegten Bewertungsbogen waere nicht belastbar.
+Die Schwellen sind eine Festlegung dieser Arbeit, keine Quellenangabe.
+2,10 US-Dollar entsprechen 20 Bloecken nahe der Hoechstgroesse von
+80 000 Zeichen und je 4 000 Ausgabe-Token, zu den Preisen
+vom 19.09.2026 (rechnerisch 2,06 US-Dollar).
+
+e) Keine anbieterseitige Schemapruefung im Pilot. Gemessen wird, wie
+oft das Modell das Format ohne Hilfe einhaelt; das ist ein Messwert
+fuer die Formatkonformitaet (FF2). Ob die Pruefung des Anbieters die
+Bedingungen des Schemas v2 abbilden kann, ist ungeprueft. Fuer FF3 muesste
+das lokale Modell eine vergleichbare Hilfe erhalten, sonst ist der
+Vergleich verzerrt.
+
+Herkunft: Festlegung des Verfassers am 21.09.2026. Vorschlaege des
+Modells, vom Verfasser uebernommen.
+
+Status: festgelegt.
+Bezug: FF1, FF2, FF3, Kapitel 4, Kapitel 5, Kapitel 6, Kapitel 7.
+
+### Nachtrag zu E2 (2026-09-21): Kriterienliste vor dem Pilot
+
+Vor dem ersten kostenpflichtigen Aufruf werden die Namen der
+Bewertungskriterien mit je einer Satzdefinition in
+eval/instrument/kriterien_v0.md festgehalten. Skala und
+Entscheidungsregeln folgen wie in E2 vorgesehen vor der ersten
+Bewertung.
+Begruendung: Im Pilot sieht der Verfasser erstmals Modellausgaben. Wer
+danach die Kriterien festlegt, kann sie unbewusst an die Ausgaben
+anpassen. Die Liste schuetzt den Gegenstand der Bewertung; dass Skala
+und Regeln nach dem Pilot entstehen, gehoert nach Kapitel 7.
+Abweichung: STATUS.md verlangte den Bogen, bevor die erste Anforderung
+gelesen wird. Massgeblich ist der Wortlaut von E2.
+
+### Nachtrag zu E9 (2026-09-21): Freigabe und Platzhalter in der Arbeit
+
+Freigabe: Der Betreuer hat die Uebertragung der pseudonymisierten
+Quellbloecke an die Schnittstelle von OpenAI als fuer die Arbeit
+unbedenklich bestaetigt. Mitgeteilt vom Verfasser am 21.09.2026; eine
+schriftliche Fassung liegt nicht vor. Damit ist der offene Punkt
+"Datenschutzrechtliche Bewertung der Pseudonymisierung" erledigt.
+Die Grenzen aus E9 fuer Kapitel 7 bleiben bestehen.
+
+Platzhalter in der Arbeit: Nennt die Arbeit eine Person, verwendet sie
+die Platzhalter aus E9 (person_NN). Die Kennungen A01 ff. aus dem
+Eintrag vom 12.08.2026 werden nicht eingefuehrt; docs/pseudonyme.csv
+entfaellt. So bezeichnet ein Zitat aus einer Modellausgabe dieselbe
+Person wie der Text der Arbeit. Fuer eine Person, die nicht in der
+Zuordnung steht, ist eine Regel festzulegen, sobald der Fall eintritt.
+
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
