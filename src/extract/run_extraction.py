@@ -90,7 +90,8 @@ def load_config(path: Path) -> dict[str, Any]:
         "request": ("endpoint", "model", "reasoning_effort",
                     "max_output_tokens", "store"),
         "transport": ("timeout_seconds", "max_retries", "pause_seconds"),
-        "prices": ("retrieved", "input_per_million", "output_per_million"),
+        "prices": ("retrieved", "input_per_million", "output_per_million",
+                   "cache_write_multiplier"),
         "files": ("prompt_version", "model_input", "output_directory"),
     }.items():
         for key in keys:
@@ -211,6 +212,8 @@ def usage_of(response: dict[str, Any]) -> dict[str, int]:
         "input_tokens": int(usage.get("input_tokens") or 0),
         "cached_tokens": int((usage.get("input_tokens_details") or {})
                              .get("cached_tokens") or 0),
+        "cache_write_tokens": int((usage.get("input_tokens_details") or {})
+                                  .get("cache_write_tokens") or 0),
         "output_tokens": int(usage.get("output_tokens") or 0),
         "reasoning_tokens": int((usage.get("output_tokens_details") or {})
                                 .get("reasoning_tokens") or 0),
@@ -218,8 +221,15 @@ def usage_of(response: dict[str, Any]) -> dict[str, int]:
 
 
 def cost_upper_bound(usage: dict[str, int], prices: dict[str, Any]) -> float:
-    """US dollars, cached input charged at the full price."""
-    return (usage["input_tokens"] * prices["input_per_million"]
+    """US dollars. Writing to the cache costs a surcharge; reading from it
+    is charged at the full input price here, so the result stays an upper
+    bound. Found in step 7: the first call wrote 5 399 of 5 402 input
+    tokens to the cache."""
+    written = min(usage["cache_write_tokens"], usage["input_tokens"])
+    other_input = usage["input_tokens"] - written
+    return (other_input * prices["input_per_million"]
+            + written * prices["input_per_million"]
+            * prices["cache_write_multiplier"]
             + usage["output_tokens"] * prices["output_per_million"]) / 1_000_000
 
 
@@ -341,6 +351,11 @@ def summarise_entry(entry: dict[str, Any], prices: dict[str, Any]) -> dict[str, 
         "status": response.get("status"),
         "incomplete_reason": (response.get("incomplete_details") or {}).get("reason"),
         "reasoning": response.get("reasoning"),
+        # Echoed by the API: evidence of the settings actually applied.
+        "store_applied": response.get("store"),
+        "temperature_applied": response.get("temperature"),
+        "top_p_applied": response.get("top_p"),
+        "service_tier": response.get("service_tier"),
         "started_at": entry.get("started_at"),
         "duration_seconds": entry.get("duration_seconds"),
         "attempts_logged": entry.get("attempts_logged", 0),
@@ -375,7 +390,8 @@ def build_manifest(*, run_id: str, config: dict[str, Any], config_path: Path,
     answered = {row["pull_number"] for row in rows}
     totals = {key: sum(row[key] for row in rows)
               for key in ("input_tokens", "cached_tokens",
-                          "output_tokens", "reasoning_tokens")}
+                          "cache_write_tokens", "output_tokens",
+                          "reasoning_tokens")}
     version = config["files"]["prompt_version"]
     return {
         "run_id": run_id,

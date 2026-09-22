@@ -34,6 +34,11 @@ pause_seconds = 1.0
 retrieved = "2026-09-21"
 input_per_million = 2.00
 output_per_million = 12.00
+# Writing input to the cache costs 1.25 times the input price, model page
+# of 21.09.2026. Step 7 showed that the API reports these tokens as
+# cache_write_tokens; without the surcharge the bound was 0.0661 dollars
+# against 0.07 on the invoice.
+cache_write_multiplier = 1.25
 
 [files]
 prompt_version = "v1"
