@@ -48,6 +48,7 @@ def answer(pull: int, text: str | None = None, status: str = "completed",
         "incomplete_details": {"reason": "max_output_tokens"}
         if status == "incomplete" else None,
         "reasoning": {"effort": "medium"},
+        "store": False,
         "output": [
             {"type": "reasoning", "summary": []},
             {"type": "message", "content": [{"type": "output_text", "text": text}]},
@@ -72,6 +73,7 @@ pause_seconds = 0
 retrieved = "2026-09-21"
 input_per_million = 2.00
 output_per_million = 12.00
+cache_write_multiplier = 1.25
 [files]
 prompt_version = "v1"
 model_input = "data/processed/model_input_test.jsonl"
@@ -164,13 +166,25 @@ def test_parsing_is_strict(text, problem):
     assert parsed is None and problem in reason
 
 
+PRICES = {"input_per_million": 2.0, "output_per_million": 12.0,
+          "cache_write_multiplier": 1.25}
+
+
 def test_usage_and_cost():
     usage = run.usage_of(answer(5))
     assert usage == {"input_tokens": 1000, "cached_tokens": 200,
+                     "cache_write_tokens": 0,
                      "output_tokens": 300, "reasoning_tokens": 100}
-    cost = run.cost_upper_bound(usage, {"input_per_million": 2.0,
-                                        "output_per_million": 12.0})
-    assert cost == pytest.approx(0.0056)
+    assert run.cost_upper_bound(usage, PRICES) == pytest.approx(0.0056)
+
+
+def test_cost_of_the_real_first_call_matches_the_invoice():
+    """Token figures of pull 64 from step 7; the invoice showed 0.07 dollars."""
+    usage = {"input_tokens": 5402, "cached_tokens": 0, "cache_write_tokens": 5399,
+             "output_tokens": 4608, "reasoning_tokens": 2850}
+    cost = run.cost_upper_bound(usage, PRICES)
+    assert cost == pytest.approx(0.0687995)
+    assert round(cost, 2) == 0.07
 
 
 # --- transport --------------------------------------------------------
@@ -266,6 +280,7 @@ def test_full_run_writes_three_files_and_counts(project):
     assert manifest["tokens"]["reasoning_tokens"] == 300
     assert manifest["request"]["parameters_sent"]["store"] is False
     assert manifest["request"]["models_returned"] == ["gpt-5.6-terra-invented"]
+    assert manifest["per_pull"][0]["store_applied"] is False
     lines = (out / "extraction_test_run.jsonl").read_text().splitlines()
     assert [json.loads(line)["pull_number"] for line in lines] == [5]
 
