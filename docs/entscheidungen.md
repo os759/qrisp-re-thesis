@@ -1950,6 +1950,72 @@ entfaellt. So bezeichnet ein Zitat aus einer Modellausgabe dieselbe
 Person wie der Text der Arbeit. Fuer eine Person, die nicht in der
 Zuordnung steht, ist eine Regel festzulegen, sobald der Fall eintritt.
 
+### Nachtrag zu E10 (2026-09-22): Recherche, Aufrufparameter, Berichtigung
+
+Recherche am 21.09.2026 in der Dokumentation von OpenAI. Befunde und
+Folgen fuer config/api_run.toml:
+
+- Modell: Denkaufwand in sechs Stufen (none bis max), Voreinstellung
+  medium. Kontextfenster 1 050 000 Token, hoechstens 128 000
+  Ausgabe-Token. Preise 2,00 / 12,00 US-Dollar je Mio Token, wie in der
+  Kostenschaetzung. Die kostenlose Stufe ist nicht zugelassen.
+  Folge: reasoning_effort = "medium" wird ausdruecklich gesendet.
+  Quelle: https://developers.openai.com/api/docs/models/gpt-5.6-terra
+- Kein Snapshot: Die Modellseite fuehrt nur den Alias gpt-5.6-terra.
+  Folge: Das Manifest speichert je Antwort den zurueckgemeldeten
+  Modellnamen. Fuer Kapitel 7 eine Bedrohung der Reproduzierbarkeit.
+- Speicherung: Kein Training ohne Zustimmung; Missbrauchsprotokolle bis
+  30 Tage. Zusaetzlich speichert die Responses-Schnittstelle Antworten
+  standardmaessig mindestens 30 Tage, ausser mit store = false. Ohne
+  Zero Data Retention gilt ein erweiterter Zwischenspeicher fuer
+  wiederholte Anfangsteile, hoechstens 24 Stunden.
+  Folge: store = false, geprueft beim Laden der Konfiguration.
+  Quelle: https://developers.openai.com/api/docs/guides/your-data
+- Abgeschnittene Antworten: Denk-Token zaehlen zur Ausgabe. Beim
+  Erreichen der Obergrenze kommt der Status incomplete, auch ohne
+  sichtbaren Text, aber mit Kosten. Empfohlen: mindestens 25 000 Token.
+  Folge: max_output_tokens = 25000; incomplete wird im Manifest gezaehlt
+  und fuer die Regel aus E10 d verwendet.
+  Quelle: https://developers.openai.com/api/docs/guides/reasoning
+- Ausgabenlimit: Beim Erreichen antwortet die Schnittstelle mit HTTP 429
+  und einem eigenen Code; die Sperre greift verzoegert.
+  Folge: Nur 429 mit rate_limit_exceeded wird wiederholt, jede andere 429
+  haelt den Lauf sofort an.
+  Quelle: https://developers.openai.com/api/docs/guides/spend-limits
+- Lizenz von Qrisp: Eclipse Public License 2.0, zweitrangig GPL 2.0 mit
+  Classpath-Ausnahme, laut Projektantrag bei der Eclipse Foundation.
+  [Fundstelle nachtragen]. Die Auswertung ist keine Weitergabe des
+  Codes; kein Lizenzhindernis erkennbar (Einschaetzung, keine
+  Rechtsauskunft).
+- Ungeprueft: Einstellbarkeit der Temperatur, Mindestbetrag fuer das
+  Guthaben, Zaehlung des Zuschlags fuer das Schreiben in den
+  Zwischenspeicher. Temperatur und Modus werden nicht gesendet; die
+  Kosten im Manifest sind eine Obergrenze, verbindlich ist die
+  Abrechnung.
+
+Konto, eingerichtet am 21.09.2026: Projekt qrisp-re-thesis, Guthaben
+10 US-Dollar, hartes Monatslimit 10 US-Dollar, Hinweise bei 5 und 10
+US-Dollar, Datenfreigabe an OpenAI ueberall deaktiviert.
+
+Berichtigung zu a): Von den fuenf Vorgaengen ohne Codeaenderung sind nur
+drei auswaehlbar; die uebrigen stammen von Bots oder sind offen. Nach
+Ausschluss von 408 blieben zwei, der Pilot zog einen (169). Fuer die
+Evaluation bleibt einer. Die Begruendung von a) gilt unveraendert.
+
+Ergebnis der Ziehung: docs/sample_pilot_a8.md, Commit c2a98e0. Die
+Wiederholung mit Startwert 20260823 ergab die zwoelf Nummern vom
+25.08.2026; eine zweite Ziehung mit 20260921 ergab dieselben 20.
+
+### Nachtrag zu E2 (2026-09-22): vorgesehene Art der Bewertung
+
+Der Verfasser waehlt fuer die Bewertung von Hand den folgenden Weg,
+statt sie einem Sprachmodell zu uebertragen: Maschinell pruefbare
+Kriterien (B8 Schema, B9, B10, Teile von B3) werden maschinell geprueft;
+die uebrigen bewertet der Verfasser an einer vorab festgelegten
+Zufallsauswahl von Anforderungen mit einem Bewertungswerkzeug und einer
+dreistufigen Skala. Begruendung: Eine Bewertung von Modellausgaben
+allein durch ein Modell haette keinen unabhaengigen Massstab. Umfang
+der Auswahl, Skala und Regeln legt Fassung v1 der Kriterienliste fest.
 
 ## Offene Entscheidungen
 
