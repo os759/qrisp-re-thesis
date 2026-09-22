@@ -1,0 +1,43 @@
+# Settings for the calls to the OpenAI API.
+# Work package E, step A8, decisions E8 and E10. Contains no credentials:
+# the key is read from .env as OPENAI_API_KEY.
+# Sources for every value: docs/entscheidungen.md, Nachtrag zu E10
+# (research of 21.09.2026).
+
+[request]
+endpoint = "https://api.openai.com/v1/responses"
+# Alias without a dated snapshot. The name the API returns is stored
+# with every answer, because the model behind the alias may change.
+model = "gpt-5.6-terra"
+# Provider default on 21.09.2026, sent explicitly so that a later change
+# of the default does not change the run. Decision E10 d.
+reasoning_effort = "medium"
+# Room for reasoning and answer. The provider recommends at least 25 000
+# at the start.
+max_output_tokens = 25000
+# false: the provider keeps no application state of the answer. Only
+# the abuse monitoring log remains, up to 30 days.
+store = false
+# Not sent: temperature, reasoning mode, response format. The provider
+# defaults apply (reasoning mode: standard). Decision E10 e.
+
+[transport]
+timeout_seconds = 900
+max_retries = 5
+pause_seconds = 1.0
+
+[prices]
+# US dollars per million tokens for gpt-5.6-terra, model page of OpenAI,
+# retrieved 21.09.2026. Cached input is charged at the full input price
+# here, so the computed cost is an upper bound. The invoice in the
+# account is the binding figure.
+retrieved = "2026-09-21"
+input_per_million = 2.00
+output_per_million = 12.00
+
+[files]
+prompt_version = "v1"
+model_input = "data/processed/model_input_2026-09-19.jsonl"
+# Output names: data/processed/extraction_<run id>.raw.jsonl,
+# .jsonl and .manifest.json. Decision E10 c.
+output_directory = "data/processed"
