@@ -1983,10 +1983,11 @@ Folgen fuer config/api_run.toml:
   haelt den Lauf sofort an.
   Quelle: https://developers.openai.com/api/docs/guides/spend-limits
 - Lizenz von Qrisp: Eclipse Public License 2.0, zweitrangig GPL 2.0 mit
-  Classpath-Ausnahme, laut Projektantrag bei der Eclipse Foundation.
-  [Fundstelle nachtragen]. Die Auswertung ist keine Weitergabe des
+  Classpath-Ausnahme, laut Projektseite der Eclipse Foundation,
+  abgerufen am 23.09.2026. Die Auswertung ist keine Weitergabe des
   Codes; kein Lizenzhindernis erkennbar (Einschaetzung, keine
   Rechtsauskunft).
+  Quelle: https://projects.eclipse.org/projects/technology.qrisp
 - Ungeprueft: Einstellbarkeit der Temperatur, Mindestbetrag fuer das
   Guthaben, Zaehlung des Zuschlags fuer das Schreiben in den
   Zwischenspeicher. Temperatur und Modus werden nicht gesendet; die

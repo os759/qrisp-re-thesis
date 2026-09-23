@@ -1,7 +1,7 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 16.09.2026
-Abgabetermin: 01.11.2026 (Sonntag; intern geplant auf Fr 30.10.2026)
+Letzte Aktualisierung: 23.09.2026
+Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Zusammenarbeit im Chat
 
@@ -182,6 +182,13 @@ data/processed/model_input_2026-09-19.jsonl - 395 Quellbloecke, 8,5 MB
   Ersetzt model_input_2026-09-15.jsonl, siehe E9.
 data/interim/mention_map.json - Zuordnung der 34 Anmeldenamen,
   lokal, durch .gitignore ausgeschlossen
+data/processed/extraction_2026-09-22_pilot.raw.jsonl - 20 vollstaendige
+  Antworten der Schnittstelle, lokal
+  SHA-256 5209e484ed6ec2fd88277b4832469afd3104ac5b9df5593b0bce72dbb663ac0b
+data/processed/extraction_2026-09-22_pilot.jsonl - 20 Modellausgaben,
+  lokal
+  SHA-256 6bfda3cfae8c1d38f7f7a243d5dd91cc38f5736268e130e0bc1fca6bbd871602
+  Manifest versioniert unter demselben Namen mit .manifest.json.
 
 Dazu je eine .progress.jsonl fuer Kommentare und Dateien, ebenfalls
 lokal. Alle Manifeste unter data/manifests/ sind versioniert:
@@ -306,9 +313,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-161 Tests, ausfuehren aus der Projektwurzel:
+202 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 19.09.2026 unter Python 3.14.6.
+Zuletzt gruen am 22.09.2026 unter Python 3.14.6.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
 und src/extract. Ohne diese Datei finden die Tests die Module nicht.
@@ -318,9 +325,13 @@ test_normalisation.py, test_jsonl_io.py, test_truncation.py,
 test_schema_validation.py (54 Tests, Schema und Belegstaerke),
 test_prompt_input.py (21 Tests, Auswahl und Budget),
 test_prompt_files.py (14 Tests, Prompt gegen Schema),
-test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen).
+test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen),
+test_draw_sample.py (15 Tests, Schalter --sizes und --exclude, E10 a),
+test_run_extraction.py (26 Tests, Aufrufprogramm ohne Netz, mit
+erfundenen Antworten). Die beiden neuen Dateien setzen ihren
+Importpfad selbst.
 Nicht abgedeckt: Netzschicht in github_api.py, Auswertungsskripte,
-draw_sample.py (siehe D4a).
+draw_sample.py ausserhalb der neuen Schalter (siehe D4a).
 
 ## Ungepruefte Beobachtungen
 
@@ -441,7 +452,26 @@ Stand der Aufgaben in Paket E:
   prompts/extraction_system_v1.md, prompts/extraction_user_v1.md,
   src/extract/prompt_files.py, tests/test_prompt_files.py.
 - A7 Modellwahl und Kostenschaetzung abgeschlossen am 19.09.2026.
-- A8 Erster Lauf an einer Stichprobe: offen, naechster Schritt.
+- A8 Pilotlauf: Teilschritte 1 bis 8 erledigt am 21. und 22.09.2026,
+  Teilschritte 9 bis 12 offen. Festgelegt in E10 mit Nachtraegen zu
+  E2, E9 und E10. Kriterienliste eval/instrument/kriterien_v0.md vor
+  dem ersten bezahlten Aufruf committet. Pilotstichprobe
+  docs/sample_pilot_a8.md, 20 Vorgaenge, Startwert 20260921, ohne die
+  zwoelf Faelle aus Paket C. Aufrufprogramm
+  src/extract/run_extraction.py mit config/api_run.toml.
+  Lauf 2026-09-22_pilot: 20 von 20 beantwortet, keine abgeschnitten,
+  alle 20 gueltiges JSON, store bei allen 20 von der Schnittstelle als
+  false bestaetigt. Messwerte (Token, Dauer, Kosten) nur im Manifest
+  data/processed/extraction_2026-09-22_pilot.manifest.json.
+  validate_output.py: 5 von 20 Datensaetzen abgelehnt, alle an der
+  Zitatpruefung, alle bei Zitaten aus Diffs (PR 71, 86, 166, 299, 316).
+  Schema- und Belegstaerkepruefung bestanden alle 20. Ursache der
+  Ablehnungen ungeklaert: Werkzeug oder Modell.
+  Ausnahme von der Regel "neue Kennung nach Programmaenderung": Die
+  Antwort zu PR 64 stammt aus dem Probeaufruf vor der Korrektur der
+  Kostenrechnung. Die Korrektur betrifft nur die Nachberechnung aus
+  der Rohdatei, nicht die Anfrage. In Teilschritt 12 als Nachtrag
+  festhalten.
 
 Am 19.09.2026 wurde die Modelleingabe neu gebaut, weil Erwaehnungen
 von Anmeldenamen ersetzt werden (E9). Gueltig ist
@@ -449,14 +479,16 @@ data/processed/model_input_2026-09-19.jsonl mit 395 Quellbloecken und
 8 533 169 Zeichen. 34 Anmeldenamen wurden ersetzt; im Fliesstext
 steht keine unersetzte Erwaehnung mehr. Nachgezaehlt vom Verfasser.
 
-Vor dem ersten kostenpflichtigen Lauf zu klaeren: der OpenAI-Zugang
-mit Zahlungsmittel und Schluessel. Das Schema person_NN aus E9 bleibt
-wie es ist; docs/pseudonyme.csv existiert nicht, siehe Offene Punkte.
+OpenAI-Zugang eingerichtet am 21.09.2026: Projekt qrisp-re-thesis,
+Schluessel als OPENAI_API_KEY in .env, hartes Limit und Datenfreigabe
+wie im Nachtrag zu E10. Das Schema person_NN aus E9 gilt auch fuer den
+Text der Arbeit (Nachtrag zu E9 vom 21.09.2026).
 
 Naechste Schritte in dieser Reihenfolge:
-1. A8 Pilotlauf an 20 Vorgaengen mit gpt-5.6-terra in einem neuen
-   Chat. Danach Messwerte in experiments/kostenschaetzung.md
-   nachtragen.
+1. A8 abschliessen in einem neuen Chat: Teilschritt 9 Ursache der
+   fuenf Ablehnungen klaeren, 10 Links nachtragen (E7), 11 Messwerte
+   in experiments/kostenschaetzung.md und Entscheidung E11
+   (Denkaufwand, Schemapruefung beim Anbieter), 12 Dokumentation.
 2. Volllauf im Stapelbetrieb, anschliessend Paket F.
 3. Parallel ab W8: Einrichtung des lokalen Modells (Paket F) und
    Phase 2 der Literatursuche fuer Kapitel 3.
@@ -773,21 +805,19 @@ Extern, mit Vorlauf:
 - Umfangsfrage gegenueber dem Qrisp-Team. Stand Ende Woche 8 als
   Git-Tag thesis-v1.0 einfrieren; alles Weitere in den Ausblick.
 - Bewertungsbogen und Anweisungen fuer die Bewertenden bis Woche 8.
-- Datenschutzrechtliche Bewertung der Pseudonymisierung mit dem
-  Betreuer klaeren.
 - Nach dem Pilotlauf festlegen: Einstellung des Denkaufwands und ob
-  eine anbieterseitige Schemapruefung genutzt wird (E8).
+  eine anbieterseitige Schemapruefung genutzt wird (E8). Pilot
+  gelaufen am 22.09.2026; Entscheidung E11 nach der Regel aus E10 d
+  steht aus.
 - Ab dem ersten Lauf darf die Zuordnung der Platzhalter nicht mehr
   neu vergeben werden (E9).
-- docs/pseudonyme.csv existiert nicht. Das Schema A01 ff. ist ein
-  Vorhaben aus Paket D und nie umgesetzt worden. Es betrifft Personen,
-  die im Text der Arbeit genannt werden; person_NN aus E9 betrifft die
-  Modelleingabe. Klaeren, wenn in der Arbeit erstmals eine Person
-  genannt werden soll.
+- Platzhalter fuer Personen in der Arbeit: person_NN aus E9, siehe
+  Nachtrag zu E9 vom 21.09.2026. Offen ist nur die Regel fuer eine
+  Person, die nicht in der Zuordnung steht.
 - KI-Formulierung fuer vorspann.tex mit Professor abstimmen.
 - Korreferent in thesis.tex eintragen (Platzhalter Zeile 23)
-- Phase 2 der Literatursuche nachholen. Kapitel 3 hat sonst keine
-  Materialgrundlage; das faellt erst in W11 auf.
+- Phase 2 der Literatursuche nachholen, verkleinert, bis Ende W9.
+  Kapitel 3 hat sonst keine Materialgrundlage.
 - Namenskonflikt: Schicht S5 in draw_sample.py spricht von "per pull
   request budget" und meint D1. Seit E5 gibt es ein zweites Budget
   mit demselben Wort. In Kapitel 5 trennen.
@@ -827,8 +857,9 @@ Inhaltlich offen:
   ein Name ohne "@" wuerde so nicht gefunden.
 - Wegweiser in README.md ergaenzen: welche Datei erklaert was und in
   welcher Reihenfolge sie zu lesen ist (Paket I).
-- src/analyze/draw_sample.py hat keine Tests. Weicht von D4 ab.
-  Entweder Tests ergaenzen oder die Ausnahme begruenden.
+- src/analyze/draw_sample.py: Tests nur fuer --sizes und --exclude
+  (E10 a). Fuer das uebrige Skript die Ausnahme von D4 in Kapitel 5
+  begruenden.
 - PR 711: Rolle und Systemreaktion sind die einzigen zwei Felder der
   Stichprobe, die nicht unabhaengig gegengeprueft wurden. Die
   Diff-Ansicht war dem gegenpruefenden Modell nicht zugaenglich.
@@ -1000,13 +1031,27 @@ c1d53a4 14 Tests fuer die Prompt-Dateien
 b8b9307 Entscheidungen E8 Modellwahl und E9 Ersetzung von Erwaehnungen
 15cdcf1 Kostenschaetzung fuer die API-Laeufe nach E3
 78122e6 Stand nach Abschluss von A6 und A7
+fc31b3d STATUS.md berichtigt, Commit-Kuerzel aus Paket E nachgetragen
+2ddc434 Entscheidung E10 Rahmen des Pilotlaufs, Nachtraege zu E2 und E9
+b977a4f Bewertungskriterien v0 vor dem Pilotlauf festgelegt
+1fa9dcf draw_sample.py um --sizes, --exclude und --title erweitert (E10)
+b4b8407 Tests fuer --sizes und --exclude von draw_sample.py
+c2a98e0 Pilotstichprobe A8 gezogen, Startwert 20260921
+fb16642 Aufrufprogramm run_extraction.py mit Konfiguration api_run.toml (E10)
+d858275 Nachtrag zu E10 (Recherche, Konto, Berichtigung) und zu E2 (Weg A)
+c01f3ab Kosten mit Zuschlag fuer Cache-Schreibungen, angewandte Einstellungen im Manifest
+f80a30a Kostenrechnung am echten Aufruf von Pull Request 64 geprueft
+Hinweis: d858275 enthaelt zusaetzlich tests/test_run_extraction.py.
 
 ## Aufruf des Ziehungsskripts
 
 python src/analyze/draw_sample.py \
   --input data/interim/pulls_prepared_2026-08-19.jsonl
 
-Optional: --output, --seed (Standard 20260823), --overwrite.
+Optional: --output, --seed (Standard 20260823), --overwrite, seit E10
+zusaetzlich --sizes, --exclude und --title. Ohne die drei neuen
+Schalter unveraendertes Verhalten, am 22.09.2026 durch Wiederholung
+der Ziehung vom 25.08.2026 geprueft.
 Das Skript importiert nichts aus github_api.py und laeuft aus der
 Projektwurzel. Ausgeschlossen werden Bot-Beitraege und Vorgaenge mit
 outcome = open. Sechs Schichten S6 bis S1, von der seltensten zur
@@ -1014,6 +1059,37 @@ haeufigsten zugeordnet, jeder Datensatz nur einmal.
 
 Lauf vom 25.08.2026: 476 gelesen, 31 Bots, 50 offen, 395 verbleibend.
 Gezogen: 48, 75, 191, 371, 408, 413, 464, 533, 577, 622, 692, 711.
+Lauf vom 22.09.2026 fuer den Pilot A8:
+python src/analyze/draw_sample.py \
+  --input data/interim/pulls_prepared_2026-08-19.jsonl \
+  --output docs/sample_pilot_a8.md --seed 20260921 \
+  --sizes S6=1,S5=4,S4=3,S3=3,S2=4,S1=5 \
+  --exclude 48,75,191,371,408,413,464,533,577,622,692,711 \
+  --title "Pilot sample for step A8 (FF1)"
+Gezogen: siehe docs/sample_pilot_a8.md. Die Evaluationsstichprobe nach
+E2 schliesst diese 20 und die zwoelf aus Paket C aus.
+
+## Aufruf des Extraktionsprogramms
+
+python src/extract/run_extraction.py --sample docs/sample_pilot_a8.md \
+  --run-id 2026-09-22_pilot [--dry-run] [--limit N]
+
+Aus der Projektwurzel. Einstellungen in config/api_run.toml, Schluessel
+OPENAI_API_KEY in .env. --dry-run sendet nichts und schreibt nichts.
+--limit 0 berechnet Extraktionsdatei und Manifest nur aus der Rohdatei
+neu. Ein erneuter Aufruf mit derselben Kennung setzt fort und sendet
+nichts doppelt. Der echte Lauf verweigert sich bei nicht committeten
+Aenderungen unter src/, config/ und prompts/. Bei langen Laeufen
+caffeinate -i davorsetzen; den Deckel nicht schliessen.
+
+Pruefung der Ausgabe:
+python src/extract/validate_output.py \
+  --input data/processed/extraction_<Kennung>.jsonl \
+  --dataset data/interim/pulls_prepared_2026-08-19.jsonl \
+  --mentions-map data/interim/mention_map.json \
+  --allowlist "jaspify,jax,pytest,rus"
+Ohne --allowlist werden Zitate mit @jax und Aehnlichem faelschlich
+abgelehnt.
 
 ## Zeitplan
 
@@ -1028,14 +1104,29 @@ W6 07.-13.09. Modellvergleich (Kontrollpunkt lokales Modell)
               Kontrollpunkt und Modellvergleich verschoben
 W7 14.-20.09. Paket E: Entscheidungen E1 bis E6 am 15.09. erledigt.
               Rest der Woche: Prompt v1, API-Budget, Modellrecherche
-W8 21.-27.09. Paket E Abschluss, Paket F beginnt (lokales Modell),
-              Bewertungsbogen entwerfen, Git-Tag thesis-v1.0
-W9 28.09.-04.10. Modellvergleich (FF3), Kapitel Implementierung
-W10 05.-11.10. Paket G: Klassifikation, Sicherheitsraster,
-               Gap-Analyse
-W11 12.-18.10. Paket H: Auswertung, Kapitel Evaluation, Kapitel 3
-W12 19.-25.10. Diskussion, Fazit, Einleitung, Korrekturschleife
-W13 26.-30.10. Endkontrolle, Abgabe
+Plan ab 23.09.2026, neu aufgestellt wegen des Abgabetermins 15.10.2026.
+Er ersetzt den Plan vom 15.09.2026 ab W8. Geschrieben wird ab sofort
+parallel, nicht am Ende.
+
+W8 21.-27.09. Paket E: A8 Teilschritte 9 bis 12 bis Do 24.09.,
+              Volllauf im Stapelbetrieb ab Fr 25.09.
+              Paket F: lokales Modell einrichten ab Do 24.09.
+              Git-Tag thesis-v1.0 am So 27.09.
+              Schreiben: Kapitel 4 Rest (4.1.4 Datenmodell)
+W9 28.09.-04.10. Paket F: Laeufe des lokalen Modells an derselben
+              Stichprobe, Modellvergleich FF3 bis Mi 30.09.
+              Paket G: Klassifikation, Sicherheitsraster,
+              Gap-Analyse FF4 von Do 01.10. bis So 04.10.
+              Kriterienliste v1, Evaluationsstichprobe ziehen.
+              Literatursuche Phase 2, verkleinert.
+              Schreiben: Kapitel 5 Implementierung
+W10 05.-11.10. Paket H: Bewertung nach Weg A Mo 05. und Di 06.10.,
+              Auswertung Mi 07.10.
+              Schreiben: Kapitel 6, Kapitel 3, Kapitel 7, 8 und 1
+W11 12.-15.10. Mo 12.10. Korrekturdurchgang
+              Di 13.10. Endkontrolle, interne Abgabe
+              Mi 14.10. Puffer
+              Do 15.10. Abgabe
 
 Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig. Paket C
 lief vom 23.08. bis zum 11.09.2026 und ist abgeschlossen: Schritte 1
@@ -1046,14 +1137,23 @@ fuer W4. Der Kontrollpunkt fuer das lokale Modell in W6 ist nicht zu
 halten. Bis zur internen Abgabe am 30.10.2026 verbleiben sieben
 Wochen; verbindlicher Abgabetermin ist der 01.11.2026.
 
-Stand 15.09.2026, W7. Der Plan oben ist am 15.09.2026 neu
-aufgestellt und ersetzt den vorherigen ab W4. Bis zur internen
-Abgabe am 30.10.2026 verbleiben rund sechs Wochen.
+Stand 23.09.2026, W8. A8 bis einschliesslich Pilotlauf erledigt. Offen
+in Paket E: Teilschritte 9 bis 12, danach Volllauf. Der Abgabetermin
+ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
+13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
+keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
+Schreiben.
 
 Drei Risiken, in dieser Reihenfolge:
 1. Lokales Modell (Paket F). Der Verfasser hat damit keine Erfahrung,
-   Python 3.14 ist sehr neu. Einrichtung ab W8 parallel anstossen.
-2. Kapitel 3. Phase 2 der Literatursuche steht aus; ohne sie fehlt
-   die Materialgrundlage. Nachholen in W8 oder W9.
-3. Bewertungsbogen fuer E2. Muss fertig sein, bevor die erste
-   Anforderung gelesen wird.
+   Python 3.14 ist sehr neu. Kontrollpunkt: Bis Di 29.09. laeuft das
+   lokale Modell an einem Pilotfall. Sonst am selben Tag entscheiden,
+   wie FF3 mit kleinerem Umfang beantwortet wird.
+2. Umfang. Pakete F, G und H liegen in zweieinhalb Wochen. Jede
+   Kuerzung muss alle vier FF beantwortbar lassen und wird mit dem
+   Betreuer abgestimmt. Kapitel 3 und Phase 2 der Literatursuche
+   laufen verkleinert.
+3. Bewertungsbogen fuer E2. Kriterienliste v0 steht seit dem
+   22.09.2026, vor dem Pilot. Skala, Regeln und Umfang der Auswahl
+   (Fassung v1) muessen vor der ersten Bewertung fertig sein
+   (Nachtrag zu E2 vom 21.09.2026).
