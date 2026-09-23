@@ -2018,6 +2018,47 @@ dreistufigen Skala. Begruendung: Eine Bewertung von Modellausgaben
 allein durch ein Modell haette keinen unabhaengigen Massstab. Umfang
 der Auswahl, Skala und Regeln legt Fassung v1 der Kriterienliste fest.
 
+## 2026-09-23 Paket E: Begruendung des Bot-Ausschlusses
+
+### Nachtrag zu E4 (2026-09-23): Begruendung fuer den Ausschluss der Bot-Beitraege
+
+E4 schloss die 31 Bot-Beitraege aus, ohne einen Grund zu nennen; D7
+verlangt ihn fuer Paket E. Er wird hier nachgetragen. Die Auswahl
+selbst aendert sich nicht.
+
+Befund vom 23.09.2026, gezaehlt am Datensatz vom 19.08.2026: 28 der 31
+Bot-Beitraege sind abgeschlossen. 25 stammen von Dependabot, davon 19
+ohne Uebernahme geschlossen und 6 uebernommen. Alle 28
+Dependabot-Titel lauten "Bump ... from ... to ..." oder "Update ...
+requirement from ... to ...". 3 stammen von Copilot, alle ohne
+Uebernahme geschlossen, zwei davon ohne Codeaenderung (332, 578).
+
+Begruendung:
+1. Dependabot-Beitraege heben die Version einer fremden
+   Programmbibliothek an. Sie beschreiben keine Faehigkeit und keine
+   Eigenschaft von Qrisp und liefern damit keinen Stoff fuer FF1. Ihr
+   moeglicher Wert fuer FF4 wird in Paket G gesondert gesichtet (E4,
+   D7).
+2. Copilot-Beitraege sind maschinell verfasst. Ob ihr Text eine
+   Absicht des Qrisp-Teams wiedergibt, ist nicht feststellbar. Keiner
+   wurde uebernommen.
+3. Zusaetzlich: Eine Aufnahme haette die Zuordnung der Platzhalter
+   nach E9 beruehrt. In den abgeschlossenen Bot-Beitraegen stehen 7
+   Zeichenfolgen mit Klammeraffen, die nicht in der Zuordnung stehen.
+   Seit dem Pilotlauf darf die Zuordnung nicht mehr neu vergeben
+   werden.
+
+Einschraenkung fuer Kapitel 7: Die Einstufung beruht auf Titel,
+Konto und Ausgang, nicht auf einer Durchsicht der Beschreibungen. Bei
+den drei Copilot-Beitraegen ist der Ausschluss am wenigsten zwingend,
+weil sie Entwicklungsversuche an Qrisp selbst waren.
+
+Herkunft: Festlegung des Verfassers; Zaehlung durch den Verfasser,
+Entwurf durch das Modell.
+
+Status: festgelegt.
+Bezug: FF1, FF4, Kapitel 5 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

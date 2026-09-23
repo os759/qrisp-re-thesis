@@ -3,6 +3,87 @@
 Letzte Aktualisierung: 23.09.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
+## Roter Faden
+
+Stand 23.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
+Arbeit bis heute gelaufen ist und warum. Einzelheiten stehen weiter
+unten und in docs/entscheidungen.md.
+
+Worum es geht: Die Arbeit baut ein Programm, das aus alten
+Aenderungsvorschlaegen (Pull Requests) des Projekts Qrisp
+Softwareanforderungen herausschreibt. Ein Sprachmodell formuliert die
+Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
+
+1. Literatur (Paket B, vor Paket D abgeschlossen): Vier Ansaetze,
+   Anforderungen zu schreiben, wurden gelesen und in Kapitel 2
+   beschrieben: die Norm ISO/IEC/IEEE 29148, die Schluesselwoerter aus
+   RFC 2119, die Satzschablone EARS und User Stories. Das war noetig,
+   weil die spaetere Formatwahl sonst nicht mit Quellen belegbar waere.
+
+2. Daten (Paket D, 12.08. bis 21.08.2026): Alle 476 Pull Requests von
+   Qrisp wurden bei GitHub abgerufen und zu einem Datensatz je Pull
+   Request zusammengefuehrt. Sehr grosse Code-Aenderungen werden in
+   drei Stufen gekuerzt (Entscheidung D1), weil einzelne Pull Requests
+   ueber zwei Millionen Zeichen haben. Jede Kuerzung ist markiert.
+
+3. Format (Paket C, 23.08. bis 11.09.2026): Eine Tabelle mit zehn
+   Kriterien hat die vier Ansaetze verglichen, gestuetzt auf Literatur
+   und auf eine Probe von Hand an zwoelf echten Pull Requests.
+   Ergebnis ist das Zielformat EARS+29148: englische EARS-Saetze mit
+   shall, geprueft nach Sprachregeln der Norm (Entscheidung C5).
+   User Stories fielen weg, weil nur 4 der 12 Pull Requests eine Rolle
+   nennen, zwei davon nur pauschal. Verbindlichkeitsstufen wie in
+   RFC 2119 fielen weg, weil keiner der 12 Faelle eine solche Stufe
+   belegt.
+
+4. Vorbereitung der Extraktion (Paket E, ab 15.09.2026): Festgelegt
+   wurden das Ausgabeformat (E1), die Evaluation (E2), das Budget von
+   hoechstens 150 Euro (E3), die Auswahl der Pull Requests (E4) und
+   die Regeln der Belegstaerke (E6). Das Modell bekommt 395 von 476
+   Pull Requests. Noch offene Vorgaenge fehlen, weil sich ihr Inhalt
+   noch aendern kann. Beitraege von Programmen fehlen, weil sie fast
+   nur Versionen fremder Bibliotheken anheben oder nie uebernommen
+   wurden (Nachtrag zu E4); fuer FF4 werden die Dependabot-Beitraege
+   in Paket G gesondert gesichtet. Die Belegstaerke wird vom Programm berechnet,
+   weil sie so reproduzierbar ist und keine freie Modellausgabe.
+   Bewertet wird an einer neuen Stichprobe, weil die zwoelf Faelle aus
+   Paket C schon die Formatwahl getragen haben. Was sich maschinell
+   pruefen laesst, prueft ein Programm; den Rest bewertet der
+   Verfasser von Hand, weil eine Bewertung allein durch ein Modell
+   keinen unabhaengigen Massstab haette. Die Liste der
+   Bewertungskriterien steht seit dem 21.09.2026 fest, vor dem ersten
+   bezahlten Lauf. Das Qrisp-Team bewertet erst nach der Abgabe; der
+   Betreuer hat zugestimmt. Danach entstand die Anweisung an das
+   Modell (Prompt, E7).
+
+5. Modell (19.09.2026): Gewaehlt ist gpt-5.6-terra von OpenAI (E8),
+   weil es preislich gleichauf mit dem vergleichbaren Claude-Modell
+   liegt und eine Doppelrolle vermeidet: Claude ist Arbeitswerkzeug und
+   waere sonst zugleich Messgegenstand. Anmeldenamen in den Texten
+   werden vorher durch person_NN ersetzt (E9), weil sie zu keiner
+   Anforderung beitragen und nicht an einen fremden Anbieter gehen
+   sollen.
+
+6. Pilotlauf (Aufgabe A8, 21. und 22.09.2026): 20 Pull Requests gingen
+   an das Modell, bevor alle 395 gesendet werden (E10). So werden
+   Programm, Prompt und Kosten an wenigen Faellen geprueft. Alle 20
+   Antworten waren gueltig. Das Pruefprogramm lehnte 5 ab, weil ein
+   Zitat aus einem Code-Ausschnitt nicht woertlich in der Quelle
+   stand. Ob das am Pruefprogramm oder am Modell liegt, ist offen.
+
+Warum der naechste Schritt jetzt kommt: Der Volllauf ueber alle 395
+Pull Requests darf erst starten, wenn die Ursache der 5 Ablehnungen
+geklaert und die Einstellung des Modells festgelegt ist (E11). Ein
+Fehler, der jetzt unentdeckt bleibt, steckt sonst in allen
+Ergebnissen. Danach folgen der Vergleich mit einem lokal betriebenen
+Modell (Paket F, FF3), Sicherheitsanforderungen und Lueckenanalyse
+(Paket G, FF4) und die Bewertung (Paket H).
+
+Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
+Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
+Reserve. Groesstes Risiko ist das lokale Modell, Kontrollpunkt 29.09.
+
+
 ## Zusammenarbeit im Chat
 
 Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
@@ -55,6 +136,56 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   mit Suchtext ohne Umlaute die Einfuegestelle. Eine abweichende
   Zeilenzahl im git diff --stat ist ein Stoppsignal. In Paket C
   Anhang A fehlte dadurch eine Zeile im Vorspann (11.09.2026).
+
+## Kuerzel
+
+Doppelt belegte Kuerzel - immer mit Klartext verwenden:
+- E1, E2, E3 bezeichnen zwei verschiedene Dinge.
+  (1) Die drei Verfahrensregeln der Formatauswahl in
+      docs/formatauswahl.md Abschnitt 5 (Z. 299 bis 316):
+      Ausschlussregel E1: Eine Ebene erhaelt die Rolle verpflichtend
+      nicht, wenn K9 mit 0 bewertet ist; die Rolle optional bleibt
+      moeglich. Auch in C4, entscheidungen.md Z. 742.
+      Vorrangregel E2: Bei aehnlichem Profil entscheidet zuerst K9,
+      dann K3, dann K8. Angewandt in C5, entscheidungen.md Z. 855.
+      Dokumentationsregel E3: Jede Rollenzuweisung wird mit
+      hoechstens drei Saetzen begruendet.
+  (2) Die Entscheidungen aus Paket E in docs/entscheidungen.md:
+      E1 Datenmodell, E2 Form der Evaluation, E3 API-Budget, alle
+      vom 15.09.2026.
+- B-Nummern bezeichnen zwei verschiedene Dinge.
+  (1) B1 bis B9 = Regeln der Belegstaerke aus E6,
+      docs/entscheidungen.md ab Z. 1435.
+  (2) B1 bis B10, B11a und B11b = Bewertungskriterien in
+      eval/instrument/kriterien_v0.md vom 21.09.2026, etwa
+      B8 Formatkonformitaet, B9 Quellennachvollziehbarkeit,
+      B10 Sprachliche Kriterien. Der Nachtrag zu E2 vom 22.09.2026
+      meint diese Kriterien.
+- Weg A: In C6 (entscheidungen.md Z. 1125) eine verworfene Form von
+  Anhang A, nur mit Notentabelle. Im Zeitplan W10 und im Commit
+  d858275 dagegen die Art der Bewertung aus dem Nachtrag zu E2 vom
+  22.09.2026 (entscheidungen.md Z. 2010): Die Bewertungskriterien
+  B8 (Schema), B9, B10 und Teile von B3 prueft ein Programm, die
+  uebrigen bewertet der Verfasser von Hand. Dort steht der Name
+  "Weg A" nicht.
+
+Weitere Kuerzel:
+Paket A bis I = Arbeitspakete (je ein Chat). A1 bis A8 = Aufgaben in
+Paket E; A8 = Pilotlauf mit 20 Pull Requests, Teilschritte 1 bis 12.
+C, D, E mit Nummer = Entscheidungen der Pakete C, D, E in
+docs/entscheidungen.md, ausser den oben genannten Regeln E1 bis E3.
+K1 bis K10 = Kriterien der Formatauswahl, docs/formatauswahl.md
+Abschnitt 2. R1 bis R11 = Regeln fuer die Noten, dort Abschnitt 4.
+Ebenen (a) bis (d) = die vier Ebenen einer Anforderung: (a) Sicht,
+User Story; (b) Satzmuster, EARS; (c) Verbindlichkeit, RFC 2119;
+(d) Qualitaetsregeln, 29148.
+S1 bis S6 = Schichten der Stichprobenziehung in draw_sample.py.
+L01 ff. = Quellen-IDs in literatur/literaturmatrix.md.
+W1 bis W11 = Wochen des Zeitplans.
+person_NN = Platzhalter fuer Personen (E9, gilt auch in der Arbeit).
+Die Kennungen A01 ff. werden nicht verwendet (Nachtrag zu E9 vom
+21.09.2026).
+Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
 
@@ -133,7 +264,8 @@ Arbeitspaket D, Teil 3 (Aufbereitung und Tests) abgeschlossen:
 - Entscheidungen D5 bis D8 in docs/entscheidungen.md
 - docs/ki-protokoll.md fuer Teil 2 und Teil 3 nachgetragen
 
-Arbeitspaket C (Formatauswahl), Schritte 1 bis 3 sowie 4a und 4b
+Arbeitspaket C (Formatauswahl) vollstaendig abgeschlossen am
+11.09.2026, siehe Abschnitt "Aktuell". Darin Schritte 1 bis 3 sowie 4a und 4b
 erledigt (4a = Gegenpruefung und Auswertung Teil A, 4b = Messung
 fuer K6):
 - Vorentscheidungen C1 bis C4 in docs/entscheidungen.md
@@ -343,8 +475,8 @@ draw_sample.py ausserhalb der neuen Schalter (siehe D4a).
 - Warum author_association nie OWNER oder MEMBER annimmt: unbekannt.
 - Ob die 28 Dependabot-Beitraege sicherheitsbezogene Angaben enthalten:
   Vermutung aus D7, nicht gemessen. Relevant fuer FF4.
-- Ob 50000 Zeichen je Pull Request ausreichen: haengt vom Modell ab,
-  Entscheidung in Paket E.
+- Erledigt durch E5: Quellblock hoechstens 80 000 Zeichen, kein
+  Vorgang scheitert an der Kontextgroesse des Modells (E8).
 - PR 408 hat auf GitHub einen Commit, gilt im Datensatz aber als
   Pull Request ohne Codeaenderung. Der Head-Branch wurde geloescht.
   Ob das zusammenhaengt: ungeprueft. Falls ja, betrifft es die
@@ -440,7 +572,8 @@ Messergebnis K6, Stand 02.09.2026:
   Systemnamen. Wuerde die Rahmenrolle nicht anerkannt, faellt (a)
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
-Paket E begonnen am 15.09.2026. Neun Entscheidungen sind gefallen:
+Paket E begonnen am 15.09.2026. Zehn Entscheidungen sind gefallen,
+E10 Rahmen des Pilotlaufs kommt zu den folgenden neun hinzu:
 E1 Datenmodell, E2 Evaluationsform, E3 API-Budget, E4 Auswahlregel,
 E5 Budget der Modelleingabe, E6 Belegstaerke, E7 Prompt Version 1,
 E8 Modellwahl, E9 Ersetzung von Erwaehnungen. Dazu Nachtraege zu C5,
@@ -493,7 +626,7 @@ Naechste Schritte in dieser Reihenfolge:
 3. Parallel ab W8: Einrichtung des lokalen Modells (Paket F) und
    Phase 2 der Literatursuche fuer Kapitel 3.
 4. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
-   in Anhang A (Woche 12) und der Platzhalter zum Datenmodell in
+   in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum Datenmodell in
    4.1.4. Der Platzhalter kann jetzt gefuellt werden; das Datenmodell
    steht als E1, E6 und der Nachtrag zu E1 fest.
 
@@ -514,18 +647,25 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   zwoelf Faellen aus Paket C. Bewertung durch Qrisp-Team und
   Betreuer erst nach der Abgabe. Die Abweichung vom Expose
   (Meilenstein M5 in Woche 9) ist abgestimmt, siehe Nachtrag zu E2.
-- FF3: API-Modell von OpenAI oder Anthropic. Dasselbe Modell als
-  Werkzeug und Evaluationsgegenstand ist eine Bedrohung der
-  Konstruktvaliditaet und muss dokumentiert werden.
+- FF3: Dasselbe Modell als Werkzeug und Evaluationsgegenstand waere
+  eine Bedrohung der Konstruktvaliditaet. Mit E8 (Modell von OpenAI)
+  entfaellt sie, weil Claude nur Werkzeug ist.
 - E1 (15.09.2026): Datenmodell der Ausgabe in drei Ebenen. Schema in
   config/requirement_schema_v1.json, abgeloest durch v2.
 - E3 (15.09.2026): API-Budget hoechstens 150 Euro.
 - E4 (15.09.2026): Modelleingabe ohne Programme und ohne offene
   Vorgaenge, 395 von 476. Entwuerfe, fehlende Beschreibung und
-  fehlende Codeaenderung schliessen nicht aus.
-  Zeichen, Quellblock auf 80 000 Zeichen. Keine Anmeldenamen im
-  Block, nur author_association. Durch E9 praezisiert: das galt nur
-  fuer die Kopfzeilen, im Text standen weiterhin Erwaehnungen.
+  fehlende Codeaenderung schliessen nicht aus, weil Titel und Diff
+  auch dann eine Quelle bleiben.
+  Programme ausgeschlossen, weil sie fast nur Versionen anheben oder
+  nie uebernommen wurden (Nachtrag zu E4 vom 23.09.2026).
+- E5 (15.09.2026): Budget der Modelleingabe. Diff-Ausschnitt je
+  Review-Kommentar hoechstens 500 Zeichen, Quellblock hoechstens
+  80 000 Zeichen, weil der Diff-Ausschnitt ueberwiegend Code
+  wiederholt, der schon im Diff der Datei steht. D1 bleibt
+  unveraendert. Keine Anmeldenamen im Block, nur author_association.
+  Durch E9 praezisiert: das galt nur fuer die Kopfzeilen, im Text
+  standen weiterhin Erwaehnungen.
 - E6 (15.09.2026): Belegstaerke wird aus Deckung und Aussageform
   berechnet, Regeln B1 bis B9. Schema Version 2 laesst bis zu drei
   Belege je Anforderung zu.
@@ -538,6 +678,11 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - E9 (19.09.2026): Erwaehnungen von Anmeldenamen werden im Fliesstext
   durch @person_NN ersetzt, nie im Diff. Ausnahmeliste jaspify, jax,
   pytest, rus. Zuordnung lokal in data/interim/mention_map.json.
+- E10 (21.09.2026): Rahmen des Pilotlaufs A8. 20 Vorgaenge,
+  Startwert 20260921, ohne die zwoelf Faelle aus Paket C. Die Regel
+  fuer E11 (Denkaufwand) stand vor dem Lauf fest und nutzt nur
+  maschinell messbare Werte, weil ein Qualitaetsurteil an 20 Faellen
+  ohne Bewertungsbogen nicht belastbar waere.
 - Nachtrag zu C5 (17.09.2026): drei Sprachregeln aus 29148
   Abschn. 5.2.4 kommen zur Ebene (d) hinzu.
 - Nachtrag zu E1 (17.09.2026): sechster Typwert human_factors.
@@ -548,8 +693,10 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - API-Version 2022-11-28, explizit, in config/collect.toml.
 - Speicherformat JSONL. Keine Datensaetze im Repository, Nachweis ueber
   SHA-256 im Manifest.
-- Datenminimierung: vom user-Objekt nur login. Pseudonyme A01 ff. in
-  der Arbeit, Zuordnung in docs/pseudonyme.csv, lokal.
+- Datenminimierung: vom user-Objekt nur login, weil nur er die
+  Rueckverfolgbarkeit sichert. Personen erscheinen in der Arbeit als
+  person_NN aus E9; A01 ff. und docs/pseudonyme.csv entfallen
+  (Nachtrag zu E9 vom 21.09.2026).
 - D1 dreistufige Kuerzung, erst in der Aufbereitung:
   Stufe 1 Typausschluss .ipynb, .drawio, .bkp, .svg und Dateien ohne
   patch-Feld; Dateiname, status, additions, deletions bleiben.
@@ -804,7 +951,9 @@ Folge fuer Schritt 5, aus E1 und den Messwerten:
 Extern, mit Vorlauf:
 - Umfangsfrage gegenueber dem Qrisp-Team. Stand Ende Woche 8 als
   Git-Tag thesis-v1.0 einfrieren; alles Weitere in den Ausblick.
-- Bewertungsbogen und Anweisungen fuer die Bewertenden bis Woche 8.
+- Kriterienliste v1 (Skala, Regeln, Umfang der Auswahl) vor der
+  ersten Bewertung, laut Zeitplan in W9 (Nachtrag zu E2 vom
+  21.09.2026).
 - Nach dem Pilotlauf festlegen: Einstellung des Denkaufwands und ob
   eine anbieterseitige Schemapruefung genutzt wird (E8). Pilot
   gelaufen am 22.09.2026; Entscheidung E11 nach der Regel aus E10 d
@@ -870,16 +1019,14 @@ Inhaltlich offen:
   Belegt ist nur "Begonnen: 26.08.2026" im Protokoll.
 
 Aus Paket D in spaetere Pakete uebernommen:
-- Budget der Stufe 3 in Paket E bestaetigen oder anpassen. Bei
-  Aenderung ist build_interim.py erneut auszufuehren.
-- Auswahlregel fuer die Modelleingabe festlegen und begruenden:
-  Bots, Pull Requests ohne Beschreibung, ohne Codeaenderung (Paket E).
+- Erledigt: Budget der Stufe 3 bleibt (E5, D1 unveraendert).
+  Auswahlregel festgelegt (E4).
 - Messen, ob die 28 Dependabot-Beitraege sicherheitsbezogene Angaben
   enthalten (Paket G, FF4).
-- Schemavalidierung der LLM-Ausgaben testen (Paket E).
+- Erledigt: Schemavalidierung mit 54 Tests (E6).
 
 Technisch und redaktionell:
-- Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Woche 5
+- Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Di 29.09.2026
 - Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
   Z. 29 Abstract · Z. 39 Einleitung · Z. 443 SATZ UEBERARBEITEN ·
   Z. 508 Verweis auf die Entscheidungsmatrix ·
@@ -887,7 +1034,7 @@ Technisch und redaktionell:
   Z. 910, 915, 921, 929, 937, 944, 951, 959 noch leere Kapitel
   Achtung: Diese Nummern sind aus dem Versatz +144 errechnet, nicht
   einzeln geprueft. Vor dem Bearbeiten nachsehen.
-- Overfull hboxen, Behebung in Woche 12: vorspann.tex Z. 4-16 (86,6pt) ·
+- Overfull hboxen, Behebung am 12.10.: vorspann.tex Z. 4-16 (86,6pt) ·
   thesis.tex Z. 263-269 (12,7pt) · Z. 288-295 (12,9pt) ·
   Z. 444-445 (14,5pt) · Z. 912 (1,4pt)
     Neu 11.09.2026: zehn Overfull hboxen in Anhang A, alle in
@@ -904,7 +1051,7 @@ Technisch und redaktionell:
   Z. 2101-2110 (9,21904pt) ·
   Z. 2167-2176 (15,40123pt)
   Achtung: Die Zeilenangaben der aelteren Eintraege oben stimmen mit
-  dem Log vom 11.09.2026 nicht mehr ueberein. In Woche 12 neu erheben.
+  dem Log vom 11.09.2026 nicht mehr ueberein. Am 12.10. neu erheben.
 - Literaturverzeichnis beginnt ohne Seitenumbruch unter dem Fazit und
   fehlt im Inhaltsverzeichnis (Befund 10.09.2026). Eine Behebung
   aendert die Vorlagenstruktur und braucht Abstimmung; Paket I.
@@ -1128,6 +1275,7 @@ W11 12.-15.10. Mo 12.10. Korrekturdurchgang
               Mi 14.10. Puffer
               Do 15.10. Abgabe
 
+Ueberholt am 23.09.2026, nur zur Planungsgeschichte:
 Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig. Paket C
 lief vom 23.08. bis zum 11.09.2026 und ist abgeschlossen: Schritte 1
 bis 6, Anhang A mit beiden Durchgaengen, der Verweis in 4.1.3 und
