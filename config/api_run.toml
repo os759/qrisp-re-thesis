@@ -41,7 +41,7 @@ output_per_million = 12.00
 cache_write_multiplier = 1.25
 
 [files]
-prompt_version = "v1"
+prompt_version = "v2"
 model_input = "data/processed/model_input_2026-09-19.jsonl"
 # Output names: data/processed/extraction_<run id>.raw.jsonl,
 # .jsonl and .manifest.json. Decision E10 c.

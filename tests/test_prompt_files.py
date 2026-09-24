@@ -8,11 +8,14 @@ Two kinds of error would pass unnoticed without these tests:
 * A source block breaks out of its delimiters, or the placeholders are not
   filled.
 
-Work package E, prompt version 1.
+Work package E, prompt versions 1 and 2. Every test runs for both
+versions. Version 2 may differ from version 1 only in the rules for an
+excerpt from a diff (addendum to E10 of 2026-09-24, point 4).
 """
 
 from __future__ import annotations
 
+import difflib
 import json
 import re
 from pathlib import Path
@@ -25,7 +28,7 @@ from prompt_files import (BLOCK_END, BLOCK_START, PromptInputError,
 ROOT = Path(__file__).resolve().parents[1]
 PROMPT_DIR = ROOT / "prompts"
 SCHEMA_PATH = ROOT / "config" / "requirement_schema_v2.json"
-VERSION = "v1"
+VERSIONS = ("v1", "v2")
 
 
 @pytest.fixture(scope="module")
@@ -33,9 +36,9 @@ def schema() -> dict:
     return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 
 
-@pytest.fixture(scope="module")
-def prompt() -> tuple[str, str]:
-    return load_prompt(VERSION, PROMPT_DIR)
+@pytest.fixture(scope="module", params=VERSIONS)
+def prompt(request) -> tuple[str, str]:
+    return load_prompt(request.param, PROMPT_DIR)
 
 
 def block(number: int, body: str = "Adds a check.") -> str:
@@ -146,7 +149,30 @@ def test_block_of_another_pull_is_rejected(prompt):
         render_user_message(template, 9, block(90))
 
 
-def test_checksums_cover_both_files():
-    sums = prompt_sha256(VERSION, PROMPT_DIR)
-    assert set(sums) == {"extraction_system_v1.md", "extraction_user_v1.md"}
+@pytest.mark.parametrize("version", VERSIONS)
+def test_checksums_cover_both_files(version):
+    sums = prompt_sha256(version, PROMPT_DIR)
+    assert set(sums) == {f"extraction_system_{version}.md",
+                         f"extraction_user_{version}.md"}
     assert all(re.fullmatch(r"[0-9a-f]{64}", value) for value in sums.values())
+
+
+# --- version 2 --------------------------------------------------------
+
+
+def test_v2_keeps_the_user_template():
+    assert load_prompt("v2", PROMPT_DIR)[1] == load_prompt("v1", PROMPT_DIR)[1]
+
+
+def test_v2_changes_only_the_rules_for_a_diff_excerpt():
+    """Every changed line lies inside the block of diff rules, so a
+    difference between the pilot runs can be traced to this block."""
+    old = load_prompt("v1", PROMPT_DIR)[0].split("\n")
+    new = load_prompt("v2", PROMPT_DIR)[0].split("\n")
+    start = old.index("Rules for an excerpt from a diff:")
+    end = old.index("For a review comment, copy from the part below `[text]`.")
+    changed = [(a1, a2) for tag, a1, a2, _, _ in
+               difflib.SequenceMatcher(a=old, b=new, autojunk=False).get_opcodes()
+               if tag != "equal"]
+    assert changed
+    assert all(start < a1 and a2 <= end for a1, a2 in changed)
