@@ -2059,6 +2059,55 @@ Entwurf durch das Modell.
 Status: festgelegt.
 Bezug: FF1, FF4, Kapitel 5 und 7.
 
+## 2026-09-24 Paket E: Ursache der Ablehnungen im Pilot
+
+### Nachtrag zu E10 (2026-09-24): Regel fuer die Ursache der Ablehnungen
+
+Anlass: validate_output.py lehnte im Lauf 2026-09-22_pilot 5 von 20
+Datensaetzen ab, mit zusammen 6 Fundstellen (PR 71, 86, 166, 299 zweimal,
+316). Alle scheiterten an der Zitatpruefung, alle bei Zitaten aus einem
+Diff. Die folgende Regel ist festgelegt, bevor ein Diagnoseskript die
+Ursachen bestimmt. So kann die Regel nicht nach dem Ergebnis gewaehlt
+werden.
+
+Massstab ist der Prompt Version 1, prompts/extraction_system_v1.md,
+Abschnitt zum Feld excerpt mit den Regeln fuer ein Zitat aus einem Diff.
+Diese Regeln verbieten unter anderem entfernte Zeilen, @@-Zeilen,
+Auslassungen mit Punkten und das Stehenlassen des ersten Zeichens einer
+Diffzeile.
+
+1. Haelt ein Zitat alle Zitatregeln des Prompts ein und wird trotzdem
+   abgelehnt, liegt ein Fehler des Pruefprogramms vor.
+   validate_output.py wird korrigiert und getestet, der Lauf wird neu
+   geprueft. Die Schnittstelle wird dafuer nicht erneut aufgerufen.
+2. Verstoesst ein Zitat gegen eine Regel des Prompts, ist das ein Befund
+   ueber das Modell. Die Ablehnung bleibt und wird in Kapitel 6 gezaehlt.
+3. Passt keine vorab definierte Ursache, sieht der Verfasser die Stelle
+   lokal ein und ordnet sie nach Punkt 1 oder 2 zu. Der Inhalt der Stelle
+   geht nicht in den Chat.
+4. Haben Befunde nach Punkt 2 in mindestens zwei verschiedenen Pull
+   Requests dieselbe Ursache, entsteht Prompt Version 2. Sie wird an
+   denselben 20 Vorgaengen unter neuer Kennung erprobt; die Ergebnisse
+   von Version 1 bleiben erhalten. Fuer Version 2 gilt die Regel aus
+   E10 d erneut. Sonst bleibt Version 1 fuer den Volllauf.
+   Begruendung: Ein einzelner Fehler zeigt keine Schwaeche der Anweisung.
+   Derselbe Fehler in mehreren Vorgaengen kann an einer unklaren
+   Formulierung liegen und laesst sich dann gezielt beheben. Zulaessig
+   nach E10 a, weil am Pilot der Prompt weiterentwickelt wird und die
+   Evaluation nach E2 eine eigene Stichprobe nutzt.
+5. Zusaetzlich zaehlt das Diagnoseskript bei den angenommenen Zitaten,
+   ohne deren Inhalt auszugeben, wo validate_output.py nachsichtiger ist
+   als der Prompt: Zitate ueber eine entfernte Zeile oder eine @@-Zeile
+   hinweg, Zitate aus dem Code-Ausschnitt eines Review-Kommentars und
+   Zitate aus einer Datei, die nicht im Quellblock stand. Ob das
+   Pruefprogramm verschaerft wird, wird nach dieser Zaehlung entschieden.
+
+Herkunft: Vorschlag des Modells im Chat vom 24.09.2026, vom Verfasser
+festgelegt.
+
+Status: festgelegt.
+Bezug: FF1, FF2, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
