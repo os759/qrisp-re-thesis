@@ -21,6 +21,7 @@ import pytest
 from jsonschema import Draft202012Validator
 
 from validate_output import (
+    BARRIER,
     check_record,
     consistency_errors,
     derive_evidence_strength,
@@ -190,6 +191,64 @@ def test_file_headers_are_dropped():
     assert strip_diff_markers(patch) == "added"
 
 
+# Added on 2026-09-24, addendum to E10, point 5: the check follows the
+# excerpt rules of the prompt.
+
+
+def test_an_added_line_starting_with_plus_plus_is_kept():
+    """Inside a hunk, +++ is an added line whose text starts with ++."""
+    patch = "@@ -1 +1,2 @@\n+++counter\n+next"
+    assert strip_diff_markers(patch) == "++counter\nnext"
+
+
+def test_a_removed_line_separates_its_neighbours():
+    patch = "@@ -1,3 +1,3 @@\n first\n-gone\n+second"
+    assert strip_diff_markers(patch) == "first\n" + BARRIER + "\nsecond"
+
+
+def test_a_hunk_header_separates_two_hunks():
+    patch = "@@ -1 +1 @@\n+end of one\n@@ -9 +9 @@ def f():\n+start of two"
+    assert strip_diff_markers(patch) == "end of one\n" + BARRIER + "\nstart of two"
+
+
+def test_no_barrier_at_the_edges():
+    patch = "@@ -1,2 +1 @@\n-gone\n+kept\n-gone too\n"
+    assert strip_diff_markers(patch) == "kept"
+
+
+@pytest.mark.parametrize("excerpt", [
+    "context line\nthe value shall be checked",   # allowed, adjacent lines
+])
+def test_adjacent_lines_pass(record, pull, excerpt):
+    item = record["requirements"][0]["evidence"][0]
+    item.update(location="diff", locator="src/qrisp/core/input.py", excerpt=excerpt)
+    assert excerpt_errors(record, dataset_of(pull)) == []
+
+
+def test_an_excerpt_across_a_removed_line_is_rejected(record, pull):
+    pull["files"][0]["patch"] = "@@ -1,3 +1,3 @@\n first line\n-old line\n+second line"
+    item = record["requirements"][0]["evidence"][0]
+    item.update(location="diff", locator="src/qrisp/core/input.py",
+                excerpt="first line\nsecond line")
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+
+def test_an_excerpt_across_a_hunk_header_is_rejected(record, pull):
+    pull["files"][0]["patch"] = "@@ -1 +1 @@\n+first line\n@@ -9 +9 @@\n+second line"
+    item = record["requirements"][0]["evidence"][0]
+    item.update(location="diff", locator="src/qrisp/core/input.py",
+                excerpt="first line\nsecond line")
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+
+def test_text_of_a_hunk_header_is_rejected(record, pull):
+    pull["files"][0]["patch"] = "@@ -9 +9 @@ def check_value(x):\n+    return x"
+    item = record["requirements"][0]["evidence"][0]
+    item.update(location="diff", locator="src/qrisp/core/input.py",
+                excerpt="def check_value(x):")
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+
 # --- excerpt check ----------------------------------------------------
 
 
@@ -257,11 +316,16 @@ def test_haystacks_cover_every_location(pull):
         assert haystacks_for(item, pull), location
 
 
-def test_review_comment_includes_its_diff_hunk(record, pull):
+def test_review_comment_excludes_its_diff_hunk(record, pull):
+    """The prompt allows quoting the comment text only, not its code
+    context. Reversed on 2026-09-24, addendum to E10, point 5."""
     item = record["requirements"][0]["evidence"][0]
     item["location"] = "review_comment"
     item["locator"] = "222"
     item["excerpt"] = "@@ -1 +1 @@"
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+    item["excerpt"] = "This branch is unreachable."
     assert excerpt_errors(record, dataset_of(pull)) == []
 
 

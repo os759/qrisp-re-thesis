@@ -15,6 +15,13 @@ fits is reported. An excerpt that breaks two rules gets only the first.
 Point 5 of the rule: for accepted excerpts the script also counts where
 validate_output.py is more lenient than the prompt.
 
+Changed on 2026-09-24 after the first diagnosis (commit bb57a5c), because
+validate_output.py was tightened by point 5: excerpts across a removed
+line or a hunk header and excerpts from the code context of a review
+comment are now rejected and get a cause of their own. The cause
+plus_plus_line_dropped is gone, because its reason in the checker is
+fixed. The only leniency left to count is a file the model never saw.
+
 Nothing of an excerpt, a diff or a comment is printed: only the pull
 number, the requirement id, the position of the evidence entry and the
 cause.
@@ -42,16 +49,18 @@ from pathlib import Path
 from typing import Any
 
 from pseudonymise import load_mapping, mask
-from validate_output import haystacks_for, load_dataset, read_jsonl, strip_diff_markers
+from validate_output import (BARRIER, haystacks_for, load_dataset, read_jsonl,
+                             strip_diff_markers)
 
 # Cause -> (rule of the addendum to E10, short description). The order
 # of this dictionary is the order in which the causes are tested.
 CAUSES: dict[str, tuple[int, str]] = {
     "locator_not_found": (2, "no file or comment with the named locator"),
     "edge_whitespace": (1, "only whitespace at the start or end differs"),
-    "plus_plus_line_dropped": (1, "an added line starting with ++ is dropped by the checker"),
     "removed_line": (2, "contains text of a removed line (-)"),
     "hunk_header": (2, "contains text of a hunk header line (@@)"),
+    "spans_removed_line": (2, "joins lines across a removed line"),
+    "spans_hunk_header": (2, "joins lines across a hunk header"),
     "diff_markers_kept": (2, "the leading +, - or space was not left out"),
     "inner_whitespace": (2, "spaces, tabs or line breaks inside differ"),
     "ellipsis": (2, "shortened with ... or the ellipsis character"),
@@ -67,9 +76,6 @@ CAUSES: dict[str, tuple[int, str]] = {
 # for likely_rephrased. A heuristic, therefore rule 3 and not rule 2.
 REPHRASE_WORD_SHARE = 0.8
 
-# A character no excerpt contains. It stands in for a line the prompt
-# forbids to cross, so a multi-line excerpt across it cannot match.
-BARRIER = "\x00"
 
 FILE_HEADER = re.compile(r"^\[FILE (?P<name>.+?) status=\S* \+\S* -\S*\]$")
 NOT_INCLUDED = "(diff not included:"
@@ -80,29 +86,38 @@ WORD = re.compile(r"\w{3,}")
 # --- views of a patch -------------------------------------------------
 
 
-def _view(patch: str, *, keep_plus_plus: bool = False, removed: str = "skip",
-          header: str = "skip") -> str:
+def _view(patch: str, *, removed: str = "barrier", header: str = "barrier") -> str:
     """Rebuild a patch without markers under the given line policy.
 
-    removed / header: "skip" drops the line, "strip" keeps its text,
-    "barrier" puts BARRIER in its place.
+    removed / header: "barrier" puts one BARRIER line between two kept
+    lines, as validate_output.py does; "skip" drops the line, so its
+    neighbours are joined; "strip" keeps its text. With both at
+    "barrier" the result equals strip_diff_markers.
     """
     kept: list[str] = []
+    in_hunk = False
+    pending = False
+
+    def add(text: str) -> None:
+        nonlocal pending
+        if pending and kept:
+            kept.append(BARRIER)
+        pending = False
+        kept.append(text)
+
     for line in patch.split("\n"):
-        if line.startswith("@@"):
-            if header == "strip":
-                kept.append(line)
-            elif header == "barrier":
-                kept.append(BARRIER)
-        elif line.startswith("+++") and not keep_plus_plus:
-            continue  # as validate_output.py does
-        elif line.startswith("-"):
-            if removed == "strip":
-                kept.append(line[1:])
-            elif removed == "barrier":
-                kept.append(BARRIER)
+        if not in_hunk and line.startswith(("+++", "---")):
+            continue
+        if line.startswith("@@") or (in_hunk and line.startswith("-")):
+            is_header = line.startswith("@@")
+            in_hunk = in_hunk or is_header
+            policy = header if is_header else removed
+            if policy == "barrier":
+                pending = True
+            elif policy == "strip":
+                add(line if is_header else line[1:])
         elif line.startswith(("+", " ")):
-            kept.append(line[1:])
+            add(line[1:])
     return "\n".join(kept)
 
 
@@ -181,12 +196,14 @@ def classify(item: dict[str, Any], pull: dict[str, Any], shown: set[str],
                    if locator in (None, f.get("filename"))]
         others = [f.get("patch") or "" for f in pull.get("files", [])
                   if locator is not None and f.get("filename") != locator]
-        if occurs(excerpt, [_view(p, keep_plus_plus=True) for p in targets]):
-            return "plus_plus_line_dropped"
         if occurs(excerpt, [_view(p, removed="strip") for p in targets]):
             return "removed_line"
         if occurs(excerpt, [_view(p, header="strip") for p in targets]):
             return "hunk_header"
+        if occurs(excerpt, [_view(p, removed="skip") for p in targets]):
+            return "spans_removed_line"
+        if occurs(excerpt, [_view(p, header="skip") for p in targets]):
+            return "spans_hunk_header"
         if occurs(excerpt, targets):
             return "diff_markers_kept"
 
@@ -197,17 +214,22 @@ def classify(item: dict[str, Any], pull: dict[str, Any], shown: set[str],
             any(f in collapse(c) for c in candidates) for f in fragments):
         return "ellipsis"
 
+    hunks = [c.get("diff_hunk") or "" for c in pull.get("review_comments", [])
+             if item.get("location") == "diff"
+             or item.get("locator") in (None, str(c.get("id")))]
     if item.get("location") == "diff":
         if occurs(excerpt, [strip_diff_markers(p) for p in others]):
             return "other_file"
-        hunks = [c.get("diff_hunk") or "" for c in pull.get("review_comments", [])]
-        if occurs(excerpt, hunks + [strip_diff_markers(h) for h in hunks]):
+        if occurs(excerpt, hunks + [_view(h, removed="skip", header="skip") for h in hunks]):
             return "review_context"
         if occurs(excerpt, prose_texts(pull, mapping, allowlist)):
             return "other_location"
         if item.get("locator") not in shown:
             return "file_not_in_block"
     else:
+        if item.get("location") == "review_comment" and occurs(
+                excerpt, hunks + [_view(h, removed="skip", header="skip") for h in hunks]):
+            return "review_context"
         elsewhere = prose_texts(pull, mapping, allowlist) + [
             strip_diff_markers(f.get("patch") or "") for f in pull.get("files", [])]
         if occurs(excerpt, [t for t in elsewhere if t not in candidates]):
@@ -218,31 +240,16 @@ def classify(item: dict[str, Any], pull: dict[str, Any], shown: set[str],
     return "no_match"
 
 
-def lenient_findings(item: dict[str, Any], pull: dict[str, Any], shown: set[str],
-                     mapping: dict[str, str] | None = None,
-                     allowlist: set[str] | None = None) -> list[str]:
-    """Point 5: why an accepted excerpt would fail a check as strict as the prompt."""
-    excerpt = item.get("excerpt") or ""
-    location = item.get("location")
-    locator = item.get("locator")
-    found: list[str] = []
-    if location == "diff":
-        targets = [f.get("patch") or "" for f in pull.get("files", [])
-                   if locator in (None, f.get("filename"))]
-        if not any(excerpt in _view(p, removed="barrier") for p in targets):
-            found.append("spans_removed_line")
-        if not any(excerpt in _view(p, header="barrier") for p in targets):
-            found.append("spans_hunk_header")
-        if locator not in shown:
-            found.append("file_not_in_block")
-    elif location == "review_comment":
-        bodies = [mask(c.get("body") or "", mapping, allowlist or set()) if mapping
-                  else (c.get("body") or "")
-                  for c in pull.get("review_comments", [])
-                  if locator in (None, str(c.get("id")))]
-        if not any(excerpt in body for body in bodies):
-            found.append("from_review_context")
-    return found
+def lenient_findings(item: dict[str, Any], shown: set[str]) -> list[str]:
+    """Point 5: why an accepted excerpt would fail a check as strict as the prompt.
+
+    Since the tightening of 2026-09-24, only one leniency is left: the
+    checker searches every file of the pull request, also a file whose
+    diff was left out of the source block.
+    """
+    if item.get("location") == "diff" and item.get("locator") not in shown:
+        return ["file_not_in_block"]
+    return []
 
 
 # --- run --------------------------------------------------------------
@@ -267,7 +274,7 @@ def diagnose(records, dataset, blocks, mapping=None, allowlist=None) -> dict[str
                 candidates = haystacks_for(item, pull, mapping, allowlist or set())
                 if candidates and any(excerpt in text for text in candidates):
                     accepted_by_location[item.get("location")] += 1
-                    lenient.update(lenient_findings(item, pull, shown, mapping, allowlist))
+                    lenient.update(lenient_findings(item, shown))
                     continue
                 rejected.append({"pull": number, "id": requirement.get("id", "<no id>"),
                                  "position": position, "location": item.get("location"),

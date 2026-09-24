@@ -3,7 +3,7 @@
 One pull request, three files, one review comment. Every cause and every
 count of point 5 has one case. The last tests check that the script
 rejects exactly what validate_output.py rejects, and that it prints no
-excerpt text.
+excerpt text. Adapted on 2026-09-24 to the tightened validate_output.py.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src" / "extract"))
 
 import diagnose_excerpts as d  # noqa: E402
-from validate_output import excerpt_errors  # noqa: E402
+from validate_output import excerpt_errors, strip_diff_markers  # noqa: E402
 
 PATCH_A = "\n".join([
     "@@ -1,4 +1,5 @@ def setup():",
@@ -71,16 +71,19 @@ def test_block_parser_skips_files_not_included():
 CAUSE_CASES = [
     (diff("x", locator="src/missing.py"), "locator_not_found"),
     (diff("  added line alpha "), "edge_whitespace"),
-    (diff("++plus plus content"), "plus_plus_line_dropped"),
     (diff("removed line here"), "removed_line"),
     (diff("@@ -10,2 +11,2 @@\nsecond hunk line"), "hunk_header"),
     (diff("def setup():"), "hunk_header"),
+    (diff("context line one\nadded line alpha"), "spans_removed_line"),
+    (diff("context two\nsecond hunk line"), "spans_hunk_header"),
     (diff("+added line alpha"), "diff_markers_kept"),
     (diff("added  line   alpha"), "inner_whitespace"),
     (diff("context line one ... context two"), "ellipsis"),
     (diff("context line one \u2026 context two"), "ellipsis"),
     (diff("other file content here"), "other_file"),
     (diff("hunk only context line"), "review_context"),
+    ({"location": "review_comment", "locator": "11",
+      "excerpt": "hunk only context line"}, "review_context"),
     (diff("describes the change in detail"), "other_location"),
     (diff("invented content that is nowhere", locator="src/c.py"), "file_not_in_block"),
     (diff("context line one and added alpha line"), "likely_rephrased"),
@@ -107,9 +110,18 @@ def test_every_cause_case_is_rejected_by_validate_output():
 def test_rules_match_the_addendum_to_e10():
     """Rule 1 and rule 3 are closed lists; everything else is rule 2."""
     by_rule = {r: {c for c, (rule, _) in d.CAUSES.items() if rule == r} for r in (1, 2, 3)}
-    assert by_rule[1] == {"edge_whitespace", "plus_plus_line_dropped"}
+    assert by_rule[1] == {"edge_whitespace"}
     assert by_rule[3] == {"likely_rephrased", "no_match"}
-    assert len(by_rule[2]) == len(d.CAUSES) - 4
+    assert len(by_rule[2]) == len(d.CAUSES) - 3
+
+
+@pytest.mark.parametrize("patch", [
+    PATCH_A,
+    "@@ -1,2 +1 @@\n-gone\n+kept\n-gone too\n",
+    "--- a/x.py\n+++ b/x.py\n@@ -1 +1 @@\n+++counter",
+])
+def test_default_view_equals_the_checker(patch):
+    assert d._view(patch) == strip_diff_markers(patch)
 
 
 def test_masked_prose_is_found_as_other_location():
@@ -117,17 +129,13 @@ def test_masked_prose_is_found_as_other_location():
 
 
 @pytest.mark.parametrize("item, expected", [
-    (diff("context line one\nadded line alpha"), ["spans_removed_line"]),
-    (diff("context two\nsecond hunk line"), ["spans_hunk_header"]),
     (diff("hidden file content", locator="src/c.py"), ["file_not_in_block"]),
     (diff("added line alpha"), []),
-    ({"location": "review_comment", "locator": "11",
-      "excerpt": "hunk only context line"}, ["from_review_context"]),
     ({"location": "review_comment", "locator": "11",
       "excerpt": "Please keep this check"}, []),
 ])
 def test_lenient_findings(item, expected):
-    assert d.lenient_findings(item, PULL, SHOWN, MAPPING, set()) == expected
+    assert d.lenient_findings(item, SHOWN) == expected
 
 
 def record(excerpts: list[dict]) -> dict:
@@ -145,9 +153,10 @@ def test_same_rejections_as_validate_output():
     rec = record(MIXED)
     result = d.diagnose([rec], {7: PULL}, {7: BLOCK}, MAPPING, set())
     assert len(result["rejected"]) == len(excerpt_errors(rec, {7: PULL}, MAPPING, set()))
-    assert [e["cause"] for e in result["rejected"]] == ["diff_markers_kept", "removed_line"]
-    assert result["accepted_by_location"] == {"diff": 2, "body": 1}
-    assert result["lenient"] == {"spans_removed_line": 1}
+    assert [e["cause"] for e in result["rejected"]] == [
+        "diff_markers_kept", "removed_line", "spans_removed_line"]
+    assert result["accepted_by_location"] == {"diff": 1, "body": 1}
+    assert result["lenient"] == {}
 
 
 def test_rule_four_counts_distinct_pulls():

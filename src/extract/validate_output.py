@@ -10,7 +10,10 @@ Three independent checks are applied to every record, in this order:
    model set freely is rejected if it does not follow those rules.
 3. Excerpt check. Every excerpt in the evidence list has to occur literally
    in the prepared dataset, in the place the entry names. This catches
-   invented quotations, which the schema alone cannot detect.
+   invented quotations, which the schema alone cannot detect. The check
+   follows the excerpt rules of the prompt: no removed line, no hunk
+   header, no joining across either, and for a review comment only the
+   comment text. Tightened on 2026-09-24, addendum to E10, point 5.
    The model saw the prose with mentions replaced, decision E9. The same
    replacement is therefore applied to the dataset before the comparison.
    Pass --mentions-map for a run whose input was built that way.
@@ -40,10 +43,13 @@ DEFAULT_SCHEMA = Path("config/requirement_schema_v2.json")
 
 # A patch line carries a leading marker: '+' added, '-' removed, ' ' context.
 # An excerpt quoted from a diff never contains these markers, so they are
-# removed before the comparison. Removed lines are dropped: they are no longer
-# part of the code after the change.
+# removed before the comparison. Removed lines and hunk headers (@@) must
+# not be quoted, and an excerpt must not join lines across them (prompt
+# version 1). They are therefore replaced by BARRIER, a character no
+# excerpt contains.
 DIFF_KEEP_PREFIXES = ("+", " ")
 DIFF_FILE_HEADERS = ("+++", "---")
+BARRIER = "\x00"
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -83,15 +89,29 @@ def read_jsonl(path: Path) -> Iterator[tuple[int, dict[str, Any]]]:
 def strip_diff_markers(patch: str) -> str:
     """Return the patch text without the leading diff markers.
 
-    Added and context lines are kept without their first character. Removed
-    lines, hunk headers and file headers are dropped.
+    Added and context lines are kept without their first character.
+    Between two kept lines, a removed line or a hunk header becomes one
+    BARRIER line, so no excerpt can span it. File headers (--- and +++)
+    are only recognised before the first hunk header; after it, a line
+    starting with +++ is an added line whose text starts with ++. Any
+    other line, such as a truncation mark, is dropped.
     """
     kept: list[str] = []
+    in_hunk = False
+    barrier_pending = False
     for line in patch.split("\n"):
-        if line.startswith(DIFF_FILE_HEADERS):
+        if not in_hunk and line.startswith(DIFF_FILE_HEADERS):
             continue
-        if line.startswith(DIFF_KEEP_PREFIXES):
+        if line.startswith("@@") or (in_hunk and line.startswith("-")):
+            in_hunk = True
+            barrier_pending = True
+        elif in_hunk and line.startswith(DIFF_KEEP_PREFIXES):
+            if barrier_pending and kept:
+                kept.append(BARRIER)
+            barrier_pending = False
             kept.append(line[1:])
+        elif not in_hunk and line.startswith(DIFF_KEEP_PREFIXES):
+            kept.append(line[1:])  # a patch without a hunk header
     return "\n".join(kept)
 
 
@@ -131,8 +151,8 @@ def haystacks_for(item: dict[str, Any],
         return [prose(c.get("body")) for c in pull.get("issue_comments", [])
                 if locator in (None, str(c.get("id")))]
     if location == "review_comment":
-        return [prose(c.get("body")) + "\n" + (c.get("diff_hunk") or "")
-                for c in pull.get("review_comments", [])
+        # Only the comment text; the prompt forbids quoting the code context.
+        return [prose(c.get("body")) for c in pull.get("review_comments", [])
                 if locator in (None, str(c.get("id")))]
     if location == "diff":
         return [strip_diff_markers(f.get("patch") or "")
