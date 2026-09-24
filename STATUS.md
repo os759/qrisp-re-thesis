@@ -1,11 +1,11 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 23.09.2026
+Letzte Aktualisierung: 24.09.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
 
-Stand 23.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
+Stand 24.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
 Arbeit bis heute gelaufen ist und warum. Einzelheiten stehen weiter
 unten und in docs/entscheidungen.md.
 
@@ -71,13 +71,29 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
    Zitat aus einem Code-Ausschnitt nicht woertlich in der Quelle
    stand. Ob das am Pruefprogramm oder am Modell liegt, ist offen.
 
-Warum der naechste Schritt jetzt kommt: Der Volllauf ueber alle 395
-Pull Requests darf erst starten, wenn die Ursache der 5 Ablehnungen
-geklaert und die Einstellung des Modells festgelegt ist (E11). Ein
-Fehler, der jetzt unentdeckt bleibt, steckt sonst in allen
-Ergebnissen. Danach folgen der Vergleich mit einem lokal betriebenen
-Modell (Paket F, FF3), Sicherheitsanforderungen und Lueckenanalyse
-(Paket G, FF4) und die Bewertung (Paket H).
+7. Ursachen und zweiter Probelauf (24.09.2026): Alle abgelehnten
+   Zitate gehen auf das Modell zurueck, keines auf das Pruefprogramm.
+   Das Modell hat aus Kopfzeilen eines Diffs zitiert, entfernte Zeilen
+   uebersprungen oder einzelne Zeichen veraendert. Die Regel fuer die
+   Zuordnung stand vor der Suche fest, weil sie sonst nach dem Ergebnis
+   haette gewaehlt werden koennen. Das Pruefprogramm prueft seitdem
+   genau so streng wie der Prompt, weil es sonst verbotene Zitate als
+   korrekt zaehlen wuerde. Eine zweite Fassung des Prompts formuliert
+   die zwei verletzten Zitatregeln deutlicher. Sie wurde an denselben
+   20 Pull Requests erprobt und nach einer vorab festgelegten Regel fuer
+   den Volllauf uebernommen, weil sie etwas seltener falsch zitiert.
+   Der Vorsprung ist klein. Eine dritte Fassung gibt es nicht, weil eine
+   weitere Umformulierung wenig verspricht und das Pruefprogramm die
+   verbleibenden Fehler abfaengt.
+
+Warum der naechste Schritt jetzt kommt: Fuer den Volllauf ueber alle
+395 Pull Requests stehen Prompt, Modell, Einstellung und Pruefung fest.
+Es fehlt der Stapelbetrieb: Der Anbieter bearbeitet dabei alle Anfragen
+gesammelt und spaeter, zum halben Preis. Er kommt zuerst, weil der
+Volllauf sonst doppelt so viel kostet und der Vergleich mit dem lokal
+betriebenen Modell (Paket F, FF3) auf dieselben Ergebnisse wartet.
+Danach folgen Sicherheitsanforderungen und Lueckenanalyse (Paket G,
+FF4) und die Bewertung (Paket H).
 
 Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
@@ -185,12 +201,19 @@ W1 bis W11 = Wochen des Zeitplans.
 person_NN = Platzhalter fuer Personen (E9, gilt auch in der Arbeit).
 Die Kennungen A01 ff. werden nicht verwendet (Nachtrag zu E9 vom
 21.09.2026).
+Ursachennamen wie hunk_header oder spans_removed_line = Kategorien
+des Suchprogramms src/extract/diagnose_excerpts.py fuer abgelehnte
+Zitate; Liste und Bedeutung im Kopf des Programms.
+Regel 1 bis 3 = Zuordnung einer Ablehnung: 1 Pruefprogramm schuld,
+2 Modell schuld, 3 der Verfasser sieht nach (Nachtrag zu E10 vom
+24.09.2026).
+v1, v2 = Fassungen des Prompts unter prompts/.
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
 
 MacBook Pro, Apple M3 Pro, 36 GB RAM, ca. 515 GB frei
-macOS 26.5.2 (25F84) - Python 3.14.6 (Homebrew) - pip 26.1.2 - Git 2.50.1
+macOS-27.0-arm64 (laut Manifest, berichtigt 24.09.2026) - Python 3.14.6 (Homebrew) - pip 26.1.2 - Git 2.50.1
 TeX Live 2026
 Repository: /Users/omar/Developer/qrisp-re-thesis
 Remote: github.com/os759/qrisp-re-thesis (privat, SSH)
@@ -445,22 +468,26 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-202 Tests, ausfuehren aus der Projektwurzel:
+261 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 22.09.2026 unter Python 3.14.6.
+Zuletzt gruen am 24.09.2026 unter Python 3.14.6.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
 und src/extract. Ohne diese Datei finden die Tests die Module nicht.
 
 Bereiche: test_resume.py (Wiederaufnahme), test_outcome.py,
 test_normalisation.py, test_jsonl_io.py, test_truncation.py,
-test_schema_validation.py (54 Tests, Schema und Belegstaerke),
+test_schema_validation.py (62 Tests, Schema, Belegstaerke und
+Zitatregeln des Prompts),
 test_prompt_input.py (21 Tests, Auswahl und Budget),
-test_prompt_files.py (14 Tests, Prompt gegen Schema),
+test_prompt_files.py (30 Tests, Prompt v1 und v2 gegen Schema; v2
+darf nur die Regeln fuer Zitate aus Diffs aendern),
 test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen),
 test_draw_sample.py (15 Tests, Schalter --sizes und --exclude, E10 a),
 test_run_extraction.py (26 Tests, Aufrufprogramm ohne Netz, mit
-erfundenen Antworten). Die beiden neuen Dateien setzen ihren
+erfundenen Antworten), test_diagnose_excerpts.py (35 Tests,
+Ursachensuche fuer abgelehnte Zitate). Die beiden neuen Dateien vom
+21. und 22.09.2026 und test_diagnose_excerpts.py setzen ihren
 Importpfad selbst.
 Nicht abgedeckt: Netzschicht in github_api.py, Auswertungsskripte,
 draw_sample.py ausserhalb der neuen Schalter (siehe D4a).
@@ -572,8 +599,10 @@ Messergebnis K6, Stand 02.09.2026:
   Systemnamen. Wuerde die Rahmenrolle nicht anerkannt, faellt (a)
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
-Paket E begonnen am 15.09.2026. Zehn Entscheidungen sind gefallen,
-E10 Rahmen des Pilotlaufs kommt zu den folgenden neun hinzu:
+Paket E begonnen am 15.09.2026. Elf Entscheidungen sind gefallen.
+E11 Denkaufwand, Schemapruefung beim Anbieter und Prompt-Version fuer
+den Volllauf (24.09.2026) und E10 Rahmen des Pilotlaufs kommen zu den
+folgenden neun hinzu:
 E1 Datenmodell, E2 Evaluationsform, E3 API-Budget, E4 Auswahlregel,
 E5 Budget der Modelleingabe, E6 Belegstaerke, E7 Prompt Version 1,
 E8 Modellwahl, E9 Ersetzung von Erwaehnungen. Dazu Nachtraege zu C5,
@@ -585,8 +614,11 @@ Stand der Aufgaben in Paket E:
   prompts/extraction_system_v1.md, prompts/extraction_user_v1.md,
   src/extract/prompt_files.py, tests/test_prompt_files.py.
 - A7 Modellwahl und Kostenschaetzung abgeschlossen am 19.09.2026.
-- A8 Pilotlauf: Teilschritte 1 bis 8 erledigt am 21. und 22.09.2026,
-  Teilschritte 9 bis 12 offen. Festgelegt in E10 mit Nachtraegen zu
+- A8 Pilotlauf abgeschlossen am 24.09.2026, ausser Teilschritt 10
+  (Links nachtragen). Er folgt nach dem Volllauf einmal fuer alle
+  Daten, weil er am Ergebnis nichts aendert und am 24.09. keine Zeit
+  mehr war. Stand der Teilschritte 1 bis 8 vom 22.09.2026:
+  Festgelegt in E10 mit Nachtraegen zu
   E2, E9 und E10. Kriterienliste eval/instrument/kriterien_v0.md vor
   dem ersten bezahlten Aufruf committet. Pilotstichprobe
   docs/sample_pilot_a8.md, 20 Vorgaenge, Startwert 20260921, ohne die
@@ -603,8 +635,33 @@ Stand der Aufgaben in Paket E:
   Ausnahme von der Regel "neue Kennung nach Programmaenderung": Die
   Antwort zu PR 64 stammt aus dem Probeaufruf vor der Korrektur der
   Kostenrechnung. Die Korrektur betrifft nur die Nachberechnung aus
-  der Rohdatei, nicht die Anfrage. In Teilschritt 12 als Nachtrag
-  festhalten.
+  der Rohdatei, nicht die Anfrage. Festgehalten im Nachtrag zu E10 vom
+  24.09.2026, zusammen mit dem Laufdatum laut Manifest (PR 64 am 22.09.,
+  die uebrigen 19 am 23.09.).
+  Teilschritt 9, Ursachen: Das Suchprogramm
+  src/extract/diagnose_excerpts.py ordnet jedes abgelehnte Zitat einer
+  Ursache zu und gibt keine Inhalte aus. Die Regel dazu stand vor der
+  Suche fest (Nachtrag zu E10 vom 24.09.2026). Ergebnis: alle
+  Ablehnungen nach Regel 2 (Modell), keine nach Regel 1.
+  validate_output.py prueft seit dem 24.09.2026 nach den Zitatregeln
+  des Prompts (Sperre an entfernten Zeilen und @@-Zeilen, bei
+  Review-Kommentaren nur der Text), weil es sonst verbotene Zitate als
+  korrekt zaehlte. Dadurch lehnt es im Lauf v1 mehr ab als am 22.09.
+  Prompt v2 (prompts/extraction_system_v2.md, Vorlage
+  extraction_user_v2.md unveraendert) fasst die Regeln zu @@-Zeilen
+  und entfernten Zeilen deutlicher. Lauf 2026-09-24_pilot_v2, Manifest
+  committet. Nach der vorab festgelegten Uebernahmeregel gilt v2 fuer
+  den Volllauf (E11 c); config/api_run.toml steht auf v2. Keine
+  Version 3 (E11 d). Eine weitere Ursachensuche gibt es nur mit einem
+  neuen, schriftlich begruendeten Anlass.
+  Teilschritt 11: Messwerte beider Laeufe und Hochrechnung fuer den
+  Volllauf in experiments/kostenschaetzung.md, Abschnitt 6. Laufzeit:
+  Summe von duration_seconds in den Manifesten. Alle Zahlen zu
+  Ablehnungen und Ursachen stehen in E11 und im Nachtrag zu E10 vom
+  24.09.2026, nicht hier.
+  Beobachtung fuer Kapitel 6 und 7: Das Modell gibt Backslashes in
+  LaTeX-Ausdruecken aus Python-Kommentarbloecken nicht verlaesslich
+  wieder (PR 316 und PR 294, E11 e).
 
 Am 19.09.2026 wurde die Modelleingabe neu gebaut, weil Erwaehnungen
 von Anmeldenamen ersetzt werden (E9). Gueltig ist
@@ -618,14 +675,19 @@ wie im Nachtrag zu E10. Das Schema person_NN aus E9 gilt auch fuer den
 Text der Arbeit (Nachtrag zu E9 vom 21.09.2026).
 
 Naechste Schritte in dieser Reihenfolge:
-1. A8 abschliessen in einem neuen Chat: Teilschritt 9 Ursache der
-   fuenf Ablehnungen klaeren, 10 Links nachtragen (E7), 11 Messwerte
-   in experiments/kostenschaetzung.md und Entscheidung E11
-   (Denkaufwand, Schemapruefung beim Anbieter), 12 Dokumentation.
-2. Volllauf im Stapelbetrieb, anschliessend Paket F.
-3. Parallel ab W8: Einrichtung des lokalen Modells (Paket F) und
-   Phase 2 der Literatursuche fuer Kapitel 3.
-4. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
+1. Stapelbetrieb in src/extract/run_extraction.py, neuer Chat am
+   Fr 25.09.2026: zuerst die aktuelle Schnittstelle und die Preise
+   recherchieren, weil der halbe Preis nur am 19.09. recherchiert ist
+   und offen ist, ob store=false und der Zwischenspeicher dort gelten.
+   Dann Code, Tests und ein kleiner Probelauf.
+2. Volllauf ueber 395 Pull Requests mit Prompt v2, danach
+   validate_output.py und diagnose_excerpts.py.
+3. Teilschritt 10 von A8 fuer den Volllauf: Links (html_url) in eine
+   neue Datei, Rohantworten unveraendert (E7).
+4. Parallel ab Fr 25.09.: Einrichtung des lokalen Modells (Paket F),
+   Kontrollpunkt Di 29.09., und Phase 2 der Literatursuche fuer
+   Kapitel 3.
+5. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
    in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum Datenmodell in
    4.1.4. Der Platzhalter kann jetzt gefuellt werden; das Datenmodell
    steht als E1, E6 und der Nachtrag zu E1 fest.
@@ -683,6 +745,15 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   fuer E11 (Denkaufwand) stand vor dem Lauf fest und nutzt nur
   maschinell messbare Werte, weil ein Qualitaetsurteil an 20 Faellen
   ohne Bewertungsbogen nicht belastbar waere.
+- Nachtrag zu E10 (24.09.2026): Die Regel fuer die Ursache einer
+  Ablehnung stand vor der Suche fest, weil sie sonst nach dem Ergebnis
+  gewaehlt werden koennte. Massstab ist der Prompt. Das Pruefprogramm
+  prueft seither genau nach den Zitatregeln des Prompts, weil es sonst
+  nachsichtiger mass, als der Prompt verlangt.
+- E11 (24.09.2026): Denkaufwand bleibt medium, keine Schemapruefung
+  beim Anbieter, Prompt v2 fuer den Volllauf, keine Version 3. Weil die
+  vorab festgelegten Regeln erfuellt sind und eine Hilfe beim Format den
+  Messwert fuer die Formatkonformitaet (FF2) verfaelschen wuerde.
 - Nachtrag zu C5 (17.09.2026): drei Sprachregeln aus 29148
   Abschn. 5.2.4 kommen zur Ebene (d) hinzu.
 - Nachtrag zu E1 (17.09.2026): sechster Typwert human_factors.
@@ -954,10 +1025,16 @@ Extern, mit Vorlauf:
 - Kriterienliste v1 (Skala, Regeln, Umfang der Auswahl) vor der
   ersten Bewertung, laut Zeitplan in W9 (Nachtrag zu E2 vom
   21.09.2026).
-- Nach dem Pilotlauf festlegen: Einstellung des Denkaufwands und ob
-  eine anbieterseitige Schemapruefung genutzt wird (E8). Pilot
-  gelaufen am 22.09.2026; Entscheidung E11 nach der Regel aus E10 d
-  steht aus.
+- Stapelbetrieb: aktuelle Preise, Geltung von store=false und des
+  Zwischenspeichers vor dem Volllauf recherchieren (Hochrechnung in
+  experiments/kostenschaetzung.md, Abschnitt 6, beruht auf dem Stand
+  vom 19.09.2026).
+- Links fuer Teilschritt 10: Laut Struktur des Datensatzes gibt es
+  html_url nur fuer den ganzen Pull Request. Pruefen, ob Kommentare und
+  Dateien eigene Links haben; sonst entscheiden, ob der Link des Pull
+  Requests genuegt oder ein Programm Links zusammensetzt.
+- Commit d09a1df steht nicht in der Commit-Liste von Paket E; bei der
+  Uebergabe am 24.09.2026 mit git log nachgetragen.
 - Ab dem ersten Lauf darf die Zuordnung der Platzhalter nicht mehr
   neu vergeben werden (E9).
 - Platzhalter fuer Personen in der Arbeit: person_NN aus E9, siehe
@@ -1189,6 +1266,17 @@ d858275 Nachtrag zu E10 (Recherche, Konto, Berichtigung) und zu E2 (Weg A)
 c01f3ab Kosten mit Zuschlag fuer Cache-Schreibungen, angewandte Einstellungen im Manifest
 f80a30a Kostenrechnung am echten Aufruf von Pull Request 64 geprueft
 Hinweis: d858275 enthaelt zusaetzlich tests/test_run_extraction.py.
+ababa14 docs: STATUS.md und KI-Protokoll nach Pilotlauf A8, Zeitplan fuer Abgabe 15.10., Lizenz-Fundstelle
+9225339 docs: Manifest des Pilotlaufs 2026-09-22_pilot
+d09a1df docs: Roter Faden, Kuerzel und Begruendung des Bot-Ausschlusses
+5bd1499 docs: Nachtrag zu E10, Regel fuer die Ursache der Ablehnungen im Pilot
+bb57a5c code: Diagnoseskript fuer abgelehnte Zitate mit 31 Tests (Nachtrag zu E10)
+ec360b3 code: Pruefprogramm prueft Zitate nach den Regeln des Prompts, Diagnose angepasst (Nachtrag zu E10, Punkt 5)
+1cb8849 code: Diagnose ordnet Zitate mit zwei Verstoessen der ersten verletzten Regel zu
+863d045 docs: Nachtrag zu E10, Ergebnis der Ursachensuche und Regel fuer die Uebernahme von Prompt v2
+8cdaaca code: Prompt Version 2 mit deutlicheren Regeln fuer Zitate aus Diffs, Konfiguration auf v2
+ea9f0a4 docs: Manifest des Laufs 2026-09-24_pilot_v2 (Prompt v2)
+0443533 docs: E11, Messwerte beider Pilotlaeufe und Hochrechnung fuer den Volllauf
 
 ## Aufruf des Ziehungsskripts
 
@@ -1238,6 +1326,17 @@ python src/extract/validate_output.py \
 Ohne --allowlist werden Zitate mit @jax und Aehnlichem faelschlich
 abgelehnt.
 
+Die Prompt-Version kommt aus config/api_run.toml, seit dem 24.09.2026
+v2. Laeufe bisher: 2026-09-22_pilot (v1), 2026-09-24_pilot_v2 (v2).
+
+Ursachensuche fuer abgelehnte Zitate, gibt keine Inhalte aus:
+python src/extract/diagnose_excerpts.py \
+  --input data/processed/extraction_<Kennung>.jsonl \
+  --dataset data/interim/pulls_prepared_2026-08-19.jsonl \
+  --model-input data/processed/model_input_2026-09-19.jsonl \
+  --mentions-map data/interim/mention_map.json \
+  --allowlist "jaspify,jax,pytest,rus"
+
 ## Zeitplan
 
 W1 03.-09.08. Setup, Literaturstart                    erledigt
@@ -1255,9 +1354,11 @@ Plan ab 23.09.2026, neu aufgestellt wegen des Abgabetermins 15.10.2026.
 Er ersetzt den Plan vom 15.09.2026 ab W8. Geschrieben wird ab sofort
 parallel, nicht am Ende.
 
-W8 21.-27.09. Paket E: A8 Teilschritte 9 bis 12 bis Do 24.09.,
-              Volllauf im Stapelbetrieb ab Fr 25.09.
-              Paket F: lokales Modell einrichten ab Do 24.09.
+W8 21.-27.09. Paket E: A8 abgeschlossen Do 24.09., ausser den Links
+              (Teilschritt 10, nach dem Volllauf).
+              Fr 25.09. Stapelbetrieb umsetzen, danach Volllauf.
+              Paket F: lokales Modell einrichten ab Fr 25.09.
+              (verschoben von Do 24.09., weil A8 den Tag brauchte)
               Git-Tag thesis-v1.0 am So 27.09.
               Schreiben: Kapitel 4 Rest (4.1.4 Datenmodell)
 W9 28.09.-04.10. Paket F: Laeufe des lokalen Modells an derselben
@@ -1292,6 +1393,11 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
 
+Stand 24.09.2026, W8. A8 abgeschlossen bis auf die Links. Paket F
+beginnt einen Tag spaeter als geplant; der Kontrollpunkt Di 29.09.
+bleibt. Bis zur internen Abgabe am 13.10.2026 verbleiben 19 Tage, bis
+zur Abgabe 21 Tage.
+
 Drei Risiken, in dieser Reihenfolge:
 1. Lokales Modell (Paket F). Der Verfasser hat damit keine Erfahrung,
    Python 3.14 ist sehr neu. Kontrollpunkt: Bis Di 29.09. laeuft das
@@ -1302,6 +1408,6 @@ Drei Risiken, in dieser Reihenfolge:
    Betreuer abgestimmt. Kapitel 3 und Phase 2 der Literatursuche
    laufen verkleinert.
 3. Bewertungsbogen fuer E2. Kriterienliste v0 steht seit dem
-   22.09.2026, vor dem Pilot. Skala, Regeln und Umfang der Auswahl
+   21.09.2026, vor dem Pilot. Skala, Regeln und Umfang der Auswahl
    (Fassung v1) muessen vor der ersten Bewertung fertig sein
    (Nachtrag zu E2 vom 21.09.2026).
