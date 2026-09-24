@@ -119,3 +119,75 @@ Modells richtet sich nach der Ergebnisqualitaet.
 Nach dem Pilotlauf A8 wird dieser Abschnitt durch Messwerte ersetzt:
 tatsaechliche Eingabe- und Ausgabe-Token je Vorgang, tatsaechliche Kosten
 laut Abrechnung, und daraus eine neue Hochrechnung fuer den Volllauf.
+
+## 6. Messwerte der Pilotlaeufe und Hochrechnung
+
+Stand 24.09.2026, Paket E, Schritt A8, Teilschritt 11. Token und
+Obergrenzen stammen aus den Manifesten unter data/processed/, die
+Abrechnung aus dem OpenAI-Konto, abgelesen vom Verfasser. Die
+Abschnitte 1 bis 5 bleiben als Stand vom 19.09.2026 stehen, damit die
+Abweichung zwischen Schaetzung und Messung sichtbar bleibt.
+
+### 6.1 Messwerte
+
+| Groesse | 2026-09-22_pilot (Prompt v1) | 2026-09-24_pilot_v2 (Prompt v2) |
+|---|---|---|
+| Vorgaenge | 20 | 20 |
+| Eingabe-Token | 209 263 | 211 023 |
+| davon aus dem Zwischenspeicher gelesen | 68 526 | 74 005 |
+| davon in den Zwischenspeicher geschrieben | 140 677 | 136 958 |
+| Ausgabe-Token | 73 137 | 66 970 |
+| davon Denk-Token | 45 702 | 38 818 |
+| Ausgabe-Token je Vorgang, Mittel | 3 657 | 3 348 |
+| Kostenobergrenze laut Programm | 1,3665 $ | 1,2942 $ |
+| Abrechnung im Konto | 1,24 $ | 1,13 $ |
+
+Die Abrechnung fuer v2 ist die Differenz der Kontosumme von 2,37 $ und
+der Summe fuer v1. Der Probeaufruf zu PR 64 vom 22.09.2026 ist einer
+der 20 Vorgaenge des ersten Laufs und kein zusaetzlicher Aufruf. In
+beiden Laeufen lag die Abrechnung bei 87 bis 91 Prozent der Obergrenze.
+
+Zeichen je Token, gemessen am Lauf v2: 3,81 (211 023 Token auf 803 897
+Zeichen laut Probelauf ohne Senden). Der Rechenwert in Abschnitt 1 war
+3,5; die Annahme lag auf der sicheren Seite. Die Ausgabe je Vorgang lag
+in beiden Laeufen innerhalb der angenommenen 2 000 bis 4 000 Token.
+
+### 6.2 Hochrechnung fuer den Volllauf mit Prompt v2 im Stapelbetrieb
+
+Rechenweg:
+
+- Eingabe: 8 533 169 Zeichen der Quellbloecke plus 395 mal (16 363
+  Zeichen Systemanweisung v2 und 183 Zeichen Nutzervorlage), zusammen
+  15 068 839 Zeichen. Mit 3,81 Zeichen je Token sind das rund 3,96 Mio
+  Eingabe-Token.
+- Ausgabe: Mittel je Schicht aus dem Lauf v2, gewichtet mit der Groesse
+  der Schicht in der Grundgesamtheit (docs/sample_pilot_a8.md); fuer die
+  12 vor der Ziehung ausgeschlossenen Vorgaenge das Gesamtmittel. Das
+  ergibt rund 1,33 Mio Ausgabe-Token. Die Gewichtung ist noetig, weil
+  die Pilotstichprobe grosse Diffs (S5) ueberproportional enthaelt.
+- Preise vom 21.09.2026 laut config/api_run.toml: 2,00 US-Dollar je
+  Mio Eingabe-Token, 12,00 je Mio Ausgabe-Token. Der Stapelbetrieb
+  halbiert beide Preise (Recherche vom 19.09.2026, Abschnitt 2). Vor dem
+  Volllauf erneut zu pruefen.
+
+| Rechnung | Betrag |
+|---|---|
+| Normalbetrieb, ohne Zwischenspeicher | 23,88 $ |
+| Stapelbetrieb, ohne Zwischenspeicher | 11,94 $ |
+| Stapelbetrieb, Obergrenze mit Aufschlag 1,25 auf die ganze Eingabe | 12,93 $ |
+| dieselbe Obergrenze mit 19 % Umsatzsteuer | 15,39 $ |
+
+Die Hochrechnung liegt innerhalb der Schaetzung aus Abschnitt 3 (9,07
+bis 13,87 $ im Stapelbetrieb, ohne Steuer). Das Budget aus E3 von 150
+Euro bleibt weit unterschritten.
+
+Grenzen der Hochrechnung:
+
+- Ob der Zwischenspeicher im Stapelbetrieb wirkt und ob dort der
+  Aufschlag fuer das Schreiben anfaellt, ist nicht recherchiert. Die
+  Obergrenze rechnet den Aufschlag auf die ganze Eingabe und liegt damit
+  auf der sicheren Seite.
+- Die Ausgabe schwankt zwischen Laeufen (Mittel 3 657 gegen 3 348 Token).
+  Zwei Laeufe ergeben keine belastbare Streuung.
+- Die Gewichtung nach Schichten beruht auf 1 bis 5 Vorgaengen je Schicht.
+- Der Stapelbetrieb ist im Aufrufprogramm noch nicht umgesetzt.

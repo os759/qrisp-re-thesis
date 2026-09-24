@@ -2171,6 +2171,72 @@ festgelegt.
 Status: festgelegt.
 Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
 
+## 2026-09-24 Paket E: Abschluss des Pilots A8
+
+### 2026-09-24 E11 Denkaufwand, Schemapruefung beim Anbieter und Prompt-Version fuer den Volllauf
+
+a) Denkaufwand bleibt medium. Grundlage ist die vorab festgelegte Regel
+aus E10 d. In beiden Pilotlaeufen war keine Antwort abgeschnitten, alle
+20 waren gueltiges JSON, und die Kostenobergrenze lag mit 1,3665 und
+1,2942 US-Dollar unter 2,10 US-Dollar.
+
+b) Keine Schemapruefung beim Anbieter, aus dem Grund von E10 e: Gemessen
+wird, wie oft das Modell das Format ohne Hilfe einhaelt (FF2), und der
+Vergleich mit dem lokalen Modell in Paket F bleibt fair (FF3). Mit Prompt
+v1 erfuellten 20 von 20 Antworten das Schema, mit Prompt v2 19 von 20
+(PR 86: leere Liste unter supports). validate_output.py erkennt solche
+Faelle; sie werden als Messwert gezaehlt.
+
+c) Prompt v2 fuer den Volllauf. Die Uebernahmeregel aus dem Nachtrag zu
+E10 vom 24.09.2026 ist erfuellt: E10 d eingehalten; hunk_header und
+spans_removed_line zusammen in 4 statt 5 Pull Requests; Anteil
+abgelehnter Zitate 7 von 152 statt 8 von 145. Die Unterschiede sind
+klein und beruhen auf je einem Lauf. Die @@-Regel hat offenbar gewirkt
+(1 statt 3 Pull Requests), die Regel zu entfernten Zeilen nicht (3
+statt 2). Auf Ebene der Datensaetze lehnte das Pruefprogramm 8 statt 7
+ab, wegen des Schemafehlers aus b.
+
+d) Keine Version 3. Punkt 4 des Nachtrags zu E10 gilt nur fuer den
+Schritt von Version 1 zu Version 2. spans_removed_line trat mit v2 in 3
+Pull Requests auf, obwohl der Prompt die Regel ausdruecklich nennt. Eine
+weitere Umformulierung verspricht wenig, und validate_output.py lehnt
+solche Zitate ab. Eine weitere Ursachensuche findet nur statt, wenn es
+dafuer einen neuen, schriftlich begruendeten Anlass gibt.
+
+e) Ursachen im Lauf 2026-09-24_pilot_v2 (Suchprogramm, Commit 8cdaaca),
+7 abgelehnte Zitate: hunk_header in PR 71; spans_removed_line in PR 214,
+442 und 615; diff_markers_kept in PR 307; inner_whitespace in PR 299;
+likely_rephrased in PR 294. Regel 1: keines. PR 294 hat der Verfasser
+lokal eingesehen: Das Modell setzte vor \ket zwei Backslashes, die
+Quelle hat einen. Zuordnung nach Regel 2. Zusammen mit PR 316 aus dem
+ersten Lauf (dort ein Backslash zu wenig) ergibt sich eine Beobachtung
+an zwei Faellen: Bei LaTeX-Ausdruecken in Python-Kommentarbloecken gibt
+das Modell die Zahl der Backslashes nicht verlaesslich wieder. Das
+Suchprogramm erkennt diese Faelle nicht als eigene Ursache. Beides
+gehoert nach Kapitel 6 und 7.
+
+Herkunft: Regel und Messwerte wie angegeben; Vorschlag des Modells im
+Chat vom 24.09.2026, vom Verfasser festgelegt.
+
+Status: festgelegt.
+Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
+
+### Nachtrag zu E10 (2026-09-24): Laufdatum und Antwort zu PR 64 im Lauf 2026-09-22_pilot
+
+Die Kennung 2026-09-22_pilot bleibt. Laut Manifest wurde PR 64 am
+22.09.2026 gesendet, die uebrigen 19 Vorgaenge am 23.09.2026 zwischen
+05:49 und 06:02 UTC. In der Arbeit wird das Datum aus dem Manifest
+genannt.
+
+Die Antwort zu PR 64 stammt aus dem Probeaufruf vom 22.09.2026, also vor
+der Korrektur der Kostenrechnung (Aufschlag fuer das Schreiben in den
+Zwischenspeicher). Die Korrektur betrifft nur die Nachberechnung der
+Kosten, nicht die Anfrage an das Modell. Die Antwort ist deshalb
+gleichwertig und bleibt Teil des Laufs.
+
+Status: festgelegt.
+Bezug: Kapitel 5 und 7, Nachvollziehbarkeit.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
