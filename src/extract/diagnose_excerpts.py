@@ -21,6 +21,8 @@ line or a hunk header and excerpts from the code context of a review
 comment are now rejected and get a cause of their own. The cause
 plus_plus_line_dropped is gone, because its reason in the checker is
 fixed. The only leniency left to count is a file the model never saw.
+A second change the same day: an excerpt that breaks two diff rules at
+once keeps the cause of the first rule it breaks (see classify).
 
 Nothing of an excerpt, a diff or a comment is printed: only the pull
 number, the requirement id, the position of the evidence entry and the
@@ -196,13 +198,22 @@ def classify(item: dict[str, Any], pull: dict[str, Any], shown: set[str],
                    if locator in (None, f.get("filename"))]
         others = [f.get("patch") or "" for f in pull.get("files", [])
                   if locator is not None and f.get("filename") != locator]
-        if occurs(excerpt, [_view(p, removed="strip") for p in targets]):
+        # A cause is the one change of policy that makes the excerpt match,
+        # whatever the policy for the other kind of line. This keeps an
+        # excerpt with hunk header text that also joins across a removed
+        # line under hunk_header (fixed on 2026-09-24, see PR 86).
+        def match(removed: str, header: str) -> bool:
+            return occurs(excerpt, [_view(p, removed=removed, header=header)
+                                    for p in targets])
+
+        policies = ("barrier", "skip", "strip")
+        if any(match("strip", h) and not match("skip", h) for h in policies):
             return "removed_line"
-        if occurs(excerpt, [_view(p, header="strip") for p in targets]):
+        if any(match(r, "strip") and not match(r, "skip") for r in policies):
             return "hunk_header"
-        if occurs(excerpt, [_view(p, removed="skip") for p in targets]):
+        if any(match("skip", h) and not match("barrier", h) for h in policies):
             return "spans_removed_line"
-        if occurs(excerpt, [_view(p, header="skip") for p in targets]):
+        if any(match(r, "skip") and not match(r, "barrier") for r in policies):
             return "spans_hunk_header"
         if occurs(excerpt, targets):
             return "diff_markers_kept"

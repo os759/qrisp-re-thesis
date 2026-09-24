@@ -76,6 +76,9 @@ CAUSE_CASES = [
     (diff("def setup():"), "hunk_header"),
     (diff("context line one\nadded line alpha"), "spans_removed_line"),
     (diff("context two\nsecond hunk line"), "spans_hunk_header"),
+    (diff("def setup():\ncontext line one\nadded line alpha"), "hunk_header"),
+    (diff("removed line here\nadded line alpha\n++plus plus content\n"
+          "context two\nsecond hunk line"), "removed_line"),
     (diff("+added line alpha"), "diff_markers_kept"),
     (diff("added  line   alpha"), "inner_whitespace"),
     (diff("context line one ... context two"), "ellipsis"),
