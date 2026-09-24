@@ -2108,6 +2108,69 @@ festgelegt.
 Status: festgelegt.
 Bezug: FF1, FF2, Kapitel 5, 6 und 7.
 
+### Nachtrag zu E10 (2026-09-24): Ergebnis der Ursachensuche, Prompt Version 2 und Regel fuer ihre Uebernahme
+
+Ergebnis. Grundlage ist das Suchprogramm src/extract/diagnose_excerpts.py,
+Stand Commit 1cb8849, angewandt auf den Lauf 2026-09-22_pilot mit dem
+verschaerften Pruefprogramm (Commit ec360b3). 8 Zitate sind abgelehnt.
+
+- Regel 1: keines. Das Pruefprogramm hat die urspruenglich 6
+  Ablehnungen richtig begruendet.
+- Regel 2, maschinell zugeordnet: hunk_header in PR 71, 86 und 166
+  (Text einer @@-Zeile zitiert); spans_removed_line in PR 64 und 615
+  (Zeilen ueber eine entfernte Zeile hinweg verbunden); inner_whitespace
+  zweimal in PR 299 (Leerzeichen oder Zeilenumbrueche veraendert).
+- Regel 3: PR 316. Der Verfasser hat die Stelle lokal eingesehen. Das
+  Modell gab einen doppelten Backslash der Quelle als einfachen wieder.
+  Zuordnung nach Regel 2. Das Suchprogramm hatte den Fall als
+  wahrscheinlich umformuliert eingestuft; ein einzelnes veraendertes
+  Zeichen erkennt es nicht als eigene Ursache (Grenze fuer Kapitel 7).
+
+Punkt 5. Die Zaehlung ergab 2 angenommene Zitate ueber eine entfernte
+Zeile hinweg und keine weiteren nachsichtigen Faelle. Entschieden: Das
+Pruefprogramm prueft seit Commit ec360b3 nach den Zitatregeln des
+Prompts. Entfernte Zeilen und @@-Zeilen trennen die Zeilen davor und
+danach, bei einem Review-Kommentar zaehlt nur der Kommentartext, und eine
+hinzugefuegte Zeile, die mit ++ beginnt, wird nicht mehr verworfen.
+Die 2 Zitate sind seitdem abgelehnt, daher 8 statt 6. Begruendung: B9
+misst am Prompt; ein nachsichtigeres Pruefprogramm wuerde die
+Quellentreue zu guenstig darstellen.
+Nebenbefund: Nach diesem Umbau ordnete das Suchprogramm PR 86 zunaechst
+falsch ein, weil das Zitat zwei Regeln zugleich verletzt. Berichtigt in
+Commit 1cb8849.
+
+Punkt 4. Erfuellt fuer hunk_header (3 Pull Requests) und
+spans_removed_line (2 Pull Requests). Prompt Version 2
+(prompts/extraction_system_v2.md) fasst genau diese beiden Regeln
+deutlicher. Alle anderen Zeilen und die Nutzervorlage bleiben gleich;
+ein Test in tests/test_prompt_files.py sichert das. Die Leerzeichen-
+Faelle (ein Pull Request) und PR 316 loesen keine Aenderung aus.
+
+Regel fuer die Uebernahme von Version 2, festgelegt vor ihrem Lauf:
+Version 2 wird am Pilot unter der Kennung 2026-09-24_pilot_v2 erprobt.
+Sie wird fuer den Volllauf uebernommen, wenn alle drei Bedingungen
+gelten:
+
+a) Die Regel aus E10 d ist erfuellt.
+b) hunk_header und spans_removed_line treten zusammen in weniger Pull
+   Requests auf als bei Version 1 (dort 5).
+c) Der Anteil abgelehnter Zitate an allen Zitaten ist nicht hoeher als
+   bei Version 1 (dort 8 von 145).
+
+Sonst bleibt Version 1. Bedingung c misst einen Anteil und keine
+Anzahl. So schneidet eine Version nicht allein dadurch besser ab, dass
+sie weniger zitiert. Beide Laeufe werden mit demselben Pruefprogramm
+und demselben Suchprogramm geprueft.
+Einschraenkung fuer Kapitel 7: Je Version gibt es einen Lauf an 20
+Vorgaengen. Das Modell antwortet bei gleicher Eingabe nicht immer
+gleich. Ein Unterschied kann daher auch zufaellig sein.
+
+Herkunft: Vorschlag des Modells im Chat vom 24.09.2026, vom Verfasser
+festgelegt.
+
+Status: festgelegt.
+Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
