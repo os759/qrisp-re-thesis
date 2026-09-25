@@ -2237,6 +2237,72 @@ gleichwertig und bleibt Teil des Laufs.
 Status: festgelegt.
 Bezug: Kapitel 5 und 7, Nachvollziehbarkeit.
 
+### Nachtrag zu E8 (2026-09-24): Volllauf im Normalbetrieb statt im Stapelbetrieb
+
+Entscheidung des Verfassers: Der Volllauf ueber 395 Vorgaenge laeuft im
+Normalbetrieb, wie die beiden Pilotlaeufe. Er nutzt dasselbe
+Aufrufprogramm src/extract/run_extraction.py und dieselbe Konfiguration
+config/api_run.toml mit Prompt v2. Der in E8 vorgesehene Stapelbetrieb
+("Batch") entfaellt. Alle uebrigen Festlegungen von E8 gelten weiter.
+
+Anlass: E8 begruendete den Stapelbetrieb damit, dass niemand auf das
+Ergebnis wartet. Seit dem vorgezogenen Abgabetermin 15.10.2026 warten
+Paket F (FF3) und Paket G (FF4) auf den Volllauf (STATUS.md, Roter
+Faden). Recherche vom 24.09.2026 in der Dokumentation von OpenAI:
+
+- Stapelbetrieb: halber Preis, Frist nur 24 Stunden. Danach werden
+  unfertige Anfragen abgebrochen, fertige werden berechnet.
+  Quelle: https://developers.openai.com/api/docs/guides/batch
+- Warteschlange: Fuer gpt-5.6-terra duerfen in Nutzungsstufe 1
+  hoechstens 1 500 000 Eingabe-Token gleichzeitig warten. Das Konto ist
+  in Stufe 1 (abgelesen vom Verfasser am 24.09.2026). Der Volllauf hat
+  rund 3,96 Mio Eingabe-Token (experiments/kostenschaetzung.md,
+  Abschnitt 6.2). Er braeuchte also mindestens drei Stapel
+  nacheinander, jeder mit bis zu 24 Stunden Frist.
+  Quelle: https://developers.openai.com/api/docs/models/gpt-5.6-terra
+- Datenhaltung: Fuer /v1/batches und /v1/files nennt OpenAI als
+  Speicherdauer "bis zur Loeschung"; die Ausgabedatei eines Stapels wird
+  30 Tage nach dessen Ende geloescht. Im Normalbetrieb mit store = false
+  bleibt kein solcher Anwendungszustand, nur das Missbrauchsprotokoll
+  bis 30 Tage.
+  Quelle: https://developers.openai.com/api/docs/guides/your-data
+- Nicht belegt: ob der Zwischenspeicher fuer gpt-5.6-terra im
+  Stapelbetrieb wirkt und was eine harte Ausgabengrenze mit einem
+  laufenden Stapel macht. Den Stapelpreis fuer terra (1,00 / 6,00
+  US-Dollar je Mio Token) nennt nur eine Sekundaerquelle.
+
+Begruendung:
+1. Zeit. Es braucht keinen neuen Code. Das Aufrufprogramm hat 26 Tests
+   und lief zweimal echt. Geschaetzte Laufzeit 4,8 Stunden, weil der
+   Lauf 2026-09-24_pilot_v2 fuer 20 Vorgaenge 878 Sekunden brauchte.
+   Der Stapelbetrieb braeuchte wenige Stunden bis etwa vier Tage,
+   dazu die Programmierung.
+2. Vergleichbarkeit. Pilot und Volllauf nutzen denselben Aufrufweg. Ein
+   Unterschied zwischen ihnen kann deshalb nicht am Aufrufweg liegen.
+3. Datenkontrolle (FF3). Die Quellbloecke liegen nicht als Datei beim
+   Anbieter.
+4. Kosten. Obergrenze rund 25,86 statt 12,93 US-Dollar ohne Steuer:
+   3,96 Mio Eingabe-Token zu 2,00 mit Aufschlag 1,25 und 1,33 Mio
+   Ausgabe-Token zu 12,00 je Mio. Mit dem bisherigen Verbrauch von 2,40
+   US-Dollar und 19 Prozent Aufschlag sind das rund 34 US-Dollar. Das
+   Budget aus E3 von 150 Euro bleibt weit unterschritten.
+
+Konto am 24.09.2026, abgelesen vom Verfasser: Verbrauch im September
+2,40 US-Dollar, Guthaben nach Aufladung 42,60 US-Dollar, hartes
+Monatslimit 35 US-Dollar. Das Limit von 10 US-Dollar aus dem Nachtrag
+zu E10 vom 22.09.2026 ist damit abgeloest.
+
+Folge fuer die Arbeit: In Kapitel 5 und bei FF3 (Kosten) gilt der
+Normalpreis. Der Stapelbetrieb wird nur als rechnerische Moeglichkeit
+genannt, nicht als gemessener Wert.
+
+Herkunft: Entscheidung des Verfassers am 24.09.2026. Recherche,
+Rechnung und Formulierung von Claude im Chat vom 24.09.2026, vom
+Verfasser geprueft.
+
+Status: festgelegt.
+Bezug: FF1, FF2, FF3, Kapitel 4 Abschn. 4.6, Kapitel 5, Kapitel 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
