@@ -140,12 +140,15 @@ Abweichung zwischen Schaetzung und Messung sichtbar bleibt.
 | davon Denk-Token | 45 702 | 38 818 |
 | Ausgabe-Token je Vorgang, Mittel | 3 657 | 3 348 |
 | Kostenobergrenze laut Programm | 1,3665 $ | 1,2942 $ |
-| Abrechnung im Konto | 1,24 $ | 1,13 $ |
+| Abrechnung im Konto | 1,24 $ | 1,16 $ |
 
-Die Abrechnung fuer v2 ist die Differenz der Kontosumme von 2,37 $ und
-der Summe fuer v1. Der Probeaufruf zu PR 64 vom 22.09.2026 ist einer
-der 20 Vorgaenge des ersten Laufs und kein zusaetzlicher Aufruf. In
-beiden Laeufen lag die Abrechnung bei 87 bis 91 Prozent der Obergrenze.
+Die Abrechnung fuer v2 ist die Differenz der Kontosumme von 2,40 $ und
+der Summe fuer v1. Berichtigt am 24.09.2026: Die erste Fassung nannte
+eine Kontosumme von 2,37 $ und fuer v2 1,13 $. Der Verfasser hat 2,40 $
+als richtige Kontosumme abgelesen. Der Probeaufruf zu PR 64 vom
+22.09.2026 ist einer der 20 Vorgaenge des ersten Laufs und kein
+zusaetzlicher Aufruf. In beiden Laeufen lag die Abrechnung bei 90 bis
+91 Prozent der Obergrenze.
 
 Zeichen je Token, gemessen am Lauf v2: 3,81 (211 023 Token auf 803 897
 Zeichen laut Probelauf ohne Senden). Der Rechenwert in Abschnitt 1 war
