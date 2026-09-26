@@ -86,14 +86,27 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
    weitere Umformulierung wenig verspricht und das Pruefprogramm die
    verbleibenden Fehler abfaengt.
 
-Warum der naechste Schritt jetzt kommt: Fuer den Volllauf ueber alle
-395 Pull Requests stehen Prompt, Modell, Einstellung und Pruefung fest.
-Es fehlt der Stapelbetrieb: Der Anbieter bearbeitet dabei alle Anfragen
-gesammelt und spaeter, zum halben Preis. Er kommt zuerst, weil der
-Volllauf sonst doppelt so viel kostet und der Vergleich mit dem lokal
-betriebenen Modell (Paket F, FF3) auf dieselben Ergebnisse wartet.
-Danach folgen Sicherheitsanforderungen und Lueckenanalyse (Paket G,
-FF4) und die Bewertung (Paket H).
+8. Volllauf (25. und 26.09.2026): Alle 395 Pull Requests gingen mit
+   Prompt v2 an gpt-5.6-terra. Sie liefen im Normalbetrieb, also eine
+   Anfrage nach der anderen, nicht im geplanten Stapelbetrieb. Das hat
+   der Verfasser entschieden, weil der Stapelbetrieb im Konto der
+   Nutzungsstufe 1 mehrere Tage und neuen Code gebraucht haette
+   (Nachtrag zu E8). Alle 395 Antworten kamen vollstaendig und als
+   gueltiges JSON zurueck. Das Pruefprogramm lehnte 126 Datensaetze
+   ab, meist wegen Zitaten, die ueber eine entfernte Diffzeile
+   hinweg verbinden. 8 abgelehnte Zitate gehen nach der vorab
+   festgelegten Regel auf das Pruefprogramm zurueck, 28 muss der
+   Verfasser selbst ansehen.
+
+Warum der naechste Schritt jetzt kommt: Die Pruefzahlen des Volllaufs
+sind noch nicht endgueltig. Fuer 8 Zitate verlangt die Regel 1 aus
+dem Nachtrag zu E10 vom 24.09.2026 eine Korrektur des
+Pruefprogramms. E11 d (die Festlegung, keine weitere Ursachensuche
+ohne schriftlich begruendeten Anlass) muss dazu abgewogen werden; das
+entscheidet der Verfasser. 28 Zitate muss er nach Regel 3 lokal
+einsehen. Das kommt zuerst, weil die Pakete F (FF3), G (FF4) und H
+auf genau diesen Zahlen aufbauen. Ein spaeterer Wechsel wuerde alle
+Vergleiche verschieben.
 
 Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
@@ -343,6 +356,14 @@ data/processed/extraction_2026-09-22_pilot.raw.jsonl - 20 vollstaendige
 data/processed/extraction_2026-09-22_pilot.jsonl - 20 Modellausgaben,
   lokal
   SHA-256 6bfda3cfae8c1d38f7f7a243d5dd91cc38f5736268e130e0bc1fca6bbd871602
+  Manifest versioniert unter demselben Namen mit .manifest.json.
+
+data/processed/extraction_2026-09-25_full_v2.raw.jsonl - 395 vollstaendige
+  Antworten der Schnittstelle, lokal
+  SHA-256 319b909fe07119184986794e31224ae79870587fdf204bfef07f07366d7456da
+data/processed/extraction_2026-09-25_full_v2.jsonl - 395 Modellausgaben,
+  lokal
+  SHA-256 3dbc74b24438cac24feba080eca69ef66a4b495b4f7fd677de0f22d7d91e569d
   Manifest versioniert unter demselben Namen mit .manifest.json.
 
 Dazu je eine .progress.jsonl fuer Kommentare und Dateien, ebenfalls
@@ -671,23 +692,53 @@ steht keine unersetzte Erwaehnung mehr. Nachgezaehlt vom Verfasser.
 
 OpenAI-Zugang eingerichtet am 21.09.2026: Projekt qrisp-re-thesis,
 Schluessel als OPENAI_API_KEY in .env, hartes Limit und Datenfreigabe
-wie im Nachtrag zu E10. Das Schema person_NN aus E9 gilt auch fuer den
-Text der Arbeit (Nachtrag zu E9 vom 21.09.2026).
+wie im Nachtrag zu E10. Seit dem Nachtrag zu E8 liegt das harte
+Limit fuer Organisation und Projekt bei 35 US-Dollar. Das Schema
+person_NN aus E9 gilt auch fuer den Text der Arbeit (Nachtrag zu E9
+vom 21.09.2026).
+
+Volllauf 2026-09-25_full_v2, Paket E: Kein Stapelbetrieb, sondern
+Normalbetrieb, Entscheidung des Verfassers (Nachtrag zu E8), weil
+der Stapelbetrieb in Stufe 1 mindestens drei Stapel mit je bis zu 24
+Stunden Frist und neuen Code gebraucht haette. Liste aller 395
+Vorgaenge: docs/sample_full_run_e.md, erzeugt mit draw_sample.py und
+vollen Schichten, ohne Codeaenderung. Probelauf mit 5 Vorgaengen am
+25.09., die uebrigen 390 am 26.09.2026 nach vorab festgelegten
+Bedingungen. Ergebnis laut Programm: 395 von 395 beantwortet, keine
+abgeschnitten, 395 gueltige JSON-Objekte, kein Aufruf wiederholt.
+Konfiguration und Systemanweisung haben dieselben Pruefsummen wie im
+Lauf 2026-09-24_pilot_v2; fuer diese 20 Vorgaenge liegen damit zwei
+Durchgaenge mit gleichen Einstellungen vor (Material fuer FF3,
+Konsistenz). Token und Kostenobergrenze stehen im Manifest.
+Abrechnung laut Konto, abgelesen am 26.09.2026: Gesamtverbrauch
+23,80 US-Dollar, davon vor dem Volllauf 2,40. Pruefung mit
+validate_output.py und diagnose_excerpts.py, beide Stand f9eef00:
+126 von 395 Datensaetzen abgelehnt, darunter PR 796 wegen des
+fehlenden Feldes requirements (Formatfehler des Modells). 214
+abgelehnte Zitate: Regel 1 (Pruefprogramm) 8, Regel 2 (Modell) 178,
+Regel 3 (Verfasser sieht ein) 28. Diese Zahlen sind vorlaeufig, bis
+Schritt 1 und 2 unten erledigt sind.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Stapelbetrieb in src/extract/run_extraction.py, neuer Chat am
-   Fr 25.09.2026: zuerst die aktuelle Schnittstelle und die Preise
-   recherchieren, weil der halbe Preis nur am 19.09. recherchiert ist
-   und offen ist, ob store=false und der Zwischenspeicher dort gelten.
-   Dann Code, Tests und ein kleiner Probelauf.
-2. Volllauf ueber 395 Pull Requests mit Prompt v2, danach
-   validate_output.py und diagnose_excerpts.py.
-3. Teilschritt 10 von A8 fuer den Volllauf: Links (html_url) in eine
+1. Regel 1: 8 Zitate (edge_whitespace) halten den Prompt ein und
+   werden trotzdem abgelehnt. Der Nachtrag zu E10 vom 24.09.2026
+   verlangt dann eine Korrektur von validate_output.py mit Tests und
+   eine neue Pruefung ohne neuen Aufruf. E11 d verlangt fuer jede
+   weitere Ursachensuche einen schriftlich begruendeten Anlass. Der
+   Verfasser entscheidet und haelt es als Nachtrag fest.
+2. Regel 3: 28 Zitate (likely_rephrased 21, no_match 7) lokal
+   einsehen und nach Regel 1 oder 2 zuordnen. Inhalte nicht in den
+   Chat.
+3. Ablehnungen nach Art aufschluesseln (Schema, Regel E6, Zitat) und
+   Messwerte des Volllaufs als Abschnitt 6.3 in
+   experiments/kostenschaetzung.md, per Skript aus dem Manifest.
+4. Teilschritt 10 von A8 fuer den Volllauf: Links (html_url) in eine
    neue Datei, Rohantworten unveraendert (E7).
-4. Parallel ab Fr 25.09.: Einrichtung des lokalen Modells (Paket F),
+5. Parallel ab Fr 25.09.: Einrichtung des lokalen Modells (Paket F),
    Kontrollpunkt Di 29.09., und Phase 2 der Literatursuche fuer
    Kapitel 3.
-5. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
+6. Git-Tag thesis-v1.0 am So 27.09. (Offene Punkte, Umfangsfrage).
+7. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
    in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum Datenmodell in
    4.1.4. Der Platzhalter kann jetzt gefuellt werden; das Datenmodell
    steht als E1, E6 und der Nachtrag zu E1 fest.
@@ -736,7 +787,8 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   zwischen festen Begrenzungszeilen.
 - E8 (19.09.2026): API-Modell ist gpt-5.6-terra. Pilot im
   Normalbetrieb, Volllauf im Stapelbetrieb. Kostenschaetzung in
-  experiments/kostenschaetzung.md.
+  experiments/kostenschaetzung.md. Der Volllauf ist geaendert, siehe
+  Nachtrag zu E8.
 - E9 (19.09.2026): Erwaehnungen von Anmeldenamen werden im Fliesstext
   durch @person_NN ersetzt, nie im Diff. Ausnahmeliste jaspify, jax,
   pytest, rus. Zuordnung lokal in data/interim/mention_map.json.
@@ -754,6 +806,11 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   beim Anbieter, Prompt v2 fuer den Volllauf, keine Version 3. Weil die
   vorab festgelegten Regeln erfuellt sind und eine Hilfe beim Format den
   Messwert fuer die Formatkonformitaet (FF2) verfaelschen wuerde.
+- Nachtrag zu E8 (24.09.2026): Volllauf im Normalbetrieb statt im
+  Stapelbetrieb, Entscheidung des Verfassers. Weil der Stapelbetrieb
+  in Nutzungsstufe 1 mindestens drei Stapel mit je bis zu 24 Stunden
+  Frist und neuen Code gebraucht haette, und weil Pilot und Volllauf
+  so denselben Aufrufweg nutzen. Hartes Limit 35 US-Dollar.
 - Nachtrag zu C5 (17.09.2026): drei Sprachregeln aus 29148
   Abschn. 5.2.4 kommen zur Ebene (d) hinzu.
 - Nachtrag zu E1 (17.09.2026): sechster Typwert human_factors.
@@ -1025,10 +1082,6 @@ Extern, mit Vorlauf:
 - Kriterienliste v1 (Skala, Regeln, Umfang der Auswahl) vor der
   ersten Bewertung, laut Zeitplan in W9 (Nachtrag zu E2 vom
   21.09.2026).
-- Stapelbetrieb: aktuelle Preise, Geltung von store=false und des
-  Zwischenspeichers vor dem Volllauf recherchieren (Hochrechnung in
-  experiments/kostenschaetzung.md, Abschnitt 6, beruht auf dem Stand
-  vom 19.09.2026).
 - Links fuer Teilschritt 10: Laut Struktur des Datensatzes gibt es
   html_url nur fuer den ganzen Pull Request. Pruefen, ob Kommentare und
   Dateien eigene Links haben; sonst entscheiden, ob der Link des Pull
@@ -1277,6 +1330,11 @@ ec360b3 code: Pruefprogramm prueft Zitate nach den Regeln des Prompts, Diagnose 
 8cdaaca code: Prompt Version 2 mit deutlicheren Regeln fuer Zitate aus Diffs, Konfiguration auf v2
 ea9f0a4 docs: Manifest des Laufs 2026-09-24_pilot_v2 (Prompt v2)
 0443533 docs: E11, Messwerte beider Pilotlaeufe und Hochrechnung fuer den Volllauf
+7df8cda docs: STATUS.md und KI-Protokoll nach Abschluss von A8
+da88bb6 docs: Nachtrag zu E8, Volllauf im Normalbetrieb statt im Stapelbetrieb
+38dc3bb docs: Abrechnung des Laufs v2 berichtigt, Kontosumme 2,40 US-Dollar
+f9eef00 docs: Liste aller 395 Vorgaenge fuer den Volllauf, volle Schichten aus draw_sample.py
+8ee96a1 docs: Manifest des Volllaufs 2026-09-25_full_v2, 395 Vorgaenge
 
 ## Aufruf des Ziehungsskripts
 
@@ -1327,7 +1385,8 @@ Ohne --allowlist werden Zitate mit @jax und Aehnlichem faelschlich
 abgelehnt.
 
 Die Prompt-Version kommt aus config/api_run.toml, seit dem 24.09.2026
-v2. Laeufe bisher: 2026-09-22_pilot (v1), 2026-09-24_pilot_v2 (v2).
+v2. Laeufe bisher: 2026-09-22_pilot (v1), 2026-09-24_pilot_v2 (v2),
+2026-09-25_full_v2 (v2, Volllauf, Liste docs/sample_full_run_e.md).
 
 Ursachensuche fuer abgelehnte Zitate, gibt keine Inhalte aus:
 python src/extract/diagnose_excerpts.py \
@@ -1357,6 +1416,8 @@ parallel, nicht am Ende.
 W8 21.-27.09. Paket E: A8 abgeschlossen Do 24.09., ausser den Links
               (Teilschritt 10, nach dem Volllauf).
               Fr 25.09. Stapelbetrieb umsetzen, danach Volllauf.
+              tatsaechlich: kein Stapelbetrieb (Nachtrag zu E8),
+              Volllauf am 25. und 26.09. erledigt.
               Paket F: lokales Modell einrichten ab Fr 25.09.
               (verschoben von Do 24.09., weil A8 den Tag brauchte)
               Git-Tag thesis-v1.0 am So 27.09.
@@ -1392,6 +1453,12 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
+
+Stand 26.09.2026, W8. Volllauf erledigt, Manifest committet. Offen in
+Paket E: Regel 1 und Regel 3 der Ursachensuche, Aufschluesselung der
+Ablehnungen, Abschnitt 6.3 der Kostenschaetzung, Links. Bis zur
+internen Abgabe am 13.10.2026 verbleiben 17 Tage, bis zur Abgabe 19
+Tage.
 
 Stand 24.09.2026, W8. A8 abgeschlossen bis auf die Links. Paket F
 beginnt einen Tag spaeter als geplant; der Kontrollpunkt Di 29.09.
