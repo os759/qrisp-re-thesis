@@ -14,6 +14,11 @@ Three independent checks are applied to every record, in this order:
    follows the excerpt rules of the prompt: no removed line, no hunk
    header, no joining across either, and for a review comment only the
    comment text. Tightened on 2026-09-24, addendum to E10, point 5.
+   Loosened on 2026-09-27, addendum to E10 of that day, part 1, point 3:
+   whitespace at the start and end of an excerpt is tolerated, because
+   the prompt demands exact spaces only inside. Not tolerated is a kept
+   leading space of a context line (context_marker_kept), and the rest
+   must still have the prompt's minimum length of 10 characters.
    The model saw the prose with mentions replaced, decision E9. The same
    replacement is therefore applied to the dataset before the comparison.
    Pass --mentions-map for a run whose input was built that way.
@@ -50,6 +55,10 @@ DEFAULT_SCHEMA = Path("config/requirement_schema_v2.json")
 DIFF_KEEP_PREFIXES = ("+", " ")
 DIFF_FILE_HEADERS = ("+++", "---")
 BARRIER = "\x00"
+
+# Lower bound for the length of an excerpt in the prompt (field excerpt).
+# It also applies to the rest left after removing edge whitespace.
+MIN_EXCERPT_LENGTH = 10
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -161,6 +170,50 @@ def haystacks_for(item: dict[str, Any],
     return []
 
 
+def context_marker_kept(item: dict[str, Any], pull: dict[str, Any]) -> bool:
+    """Rule of the addendum to E10 of 2026-09-27, part 1, conditions a to c.
+
+    a) The excerpt comes from a diff.
+    b) Its first line, without trailing whitespace, starts with a space.
+       A first line of whitespace only becomes empty here and fails b.
+    c) In the named file, after a hunk header, a line starts with exactly
+       this first line. Because the first line starts with a space, such a
+       line is always a context line with its marker still in place.
+    """
+    if item.get("location") != "diff":
+        return False
+    first = (item.get("excerpt") or "").split("\n", 1)[0].rstrip()
+    if not first.startswith(" "):
+        return False
+    locator = item.get("locator")
+    for file in pull.get("files", []):
+        if locator not in (None, file.get("filename")):
+            continue
+        in_hunk = False
+        for line in (file.get("patch") or "").split("\n"):
+            if line.startswith("@@"):
+                in_hunk = True
+            elif in_hunk and line.startswith(first):
+                return True
+    return False
+
+
+def excerpt_found(item: dict[str, Any], pull: dict[str, Any],
+                  candidates: list[str]) -> bool:
+    """Whether an excerpt counts as found in one of its candidate texts.
+
+    Literal occurrence, or since 2026-09-27 occurrence without edge
+    whitespace (addendum to E10 of that day, part 1, point 3).
+    """
+    excerpt = item.get("excerpt") or ""
+    if any(excerpt in text for text in candidates):
+        return True
+    core = excerpt.strip()
+    return (len(core) >= MIN_EXCERPT_LENGTH
+            and any(core in text for text in candidates)
+            and not context_marker_kept(item, pull))
+
+
 def excerpt_errors(record: dict[str, Any],
                    dataset: dict[int, dict[str, Any]],
                    mapping: dict[str, str] | None = None,
@@ -175,14 +228,13 @@ def excerpt_errors(record: dict[str, Any],
     for requirement in record.get("requirements", []):
         identifier = requirement.get("id", "<no id>")
         for position, item in enumerate(requirement.get("evidence", []), start=1):
-            excerpt = item.get("excerpt") or ""
             candidates = haystacks_for(item, pull, mapping, allowlist)
             if not candidates:
                 messages.append(
                     f"excerpt: {identifier} evidence {position}: no text found for "
                     f"location {item.get('location')} and locator {item.get('locator')}")
                 continue
-            if not any(excerpt in text for text in candidates):
+            if not excerpt_found(item, pull, candidates):
                 messages.append(
                     f"excerpt: {identifier} evidence {position}: excerpt does not "
                     f"occur literally in {item.get('location')} {item.get('locator')}")

@@ -32,6 +32,12 @@ prompt. For every excerpt now under context_marker_kept the script also
 reports the cause it would have had before ("before ..."), so a shift
 from any other cause stays visible.
 
+Changed again on 2026-09-27, part 1, point 3: validate_output.py now
+tolerates edge whitespace. Both programs share excerpt_found and
+context_marker_kept, so they accept exactly the same excerpts. What is
+left under edge_whitespace is an excerpt whose rest without edge
+whitespace is shorter than 10 characters.
+
 Nothing of an excerpt, a diff or a comment is printed: only the pull
 number, the requirement id, the position of the evidence entry and the
 cause.
@@ -59,7 +65,8 @@ from pathlib import Path
 from typing import Any
 
 from pseudonymise import load_mapping, mask
-from validate_output import (BARRIER, haystacks_for, load_dataset, read_jsonl,
+from validate_output import (BARRIER, context_marker_kept, excerpt_found,
+                             haystacks_for, load_dataset, read_jsonl,
                              strip_diff_markers)
 
 # Cause -> (rule of the addendum to E10, short description). The order
@@ -149,34 +156,6 @@ def words_covered(excerpt: str, texts: list[str]) -> float:
         return 0.0
     pool = {w.lower() for text in texts for w in WORD.findall(text)}
     return sum(w in pool for w in words) / len(words)
-
-
-def context_marker_kept(item: dict[str, Any], pull: dict[str, Any]) -> bool:
-    """Rule of the addendum to E10 of 2026-09-27, part 1, conditions a to c.
-
-    a) The excerpt comes from a diff.
-    b) Its first line, without trailing whitespace, starts with a space.
-       A first line of whitespace only becomes empty here and fails b.
-    c) In the named file, after a hunk header, a line starts with exactly
-       this first line. Because the first line starts with a space, such a
-       line is always a context line with its marker still in place.
-    """
-    if item.get("location") != "diff":
-        return False
-    first = (item.get("excerpt") or "").split("\n", 1)[0].rstrip()
-    if not first.startswith(" "):
-        return False
-    locator = item.get("locator")
-    for file in pull.get("files", []):
-        if locator not in (None, file.get("filename")):
-            continue
-        in_hunk = False
-        for line in (file.get("patch") or "").split("\n"):
-            if line.startswith("@@"):
-                in_hunk = True
-            elif in_hunk and line.startswith(first):
-                return True
-    return False
 
 
 # --- what the model saw -----------------------------------------------
@@ -326,9 +305,8 @@ def diagnose(records, dataset, blocks, mapping=None, allowlist=None) -> dict[str
         shown = files_in_block(blocks.get(number, ""))
         for requirement in record.get("requirements", []):
             for position, item in enumerate(requirement.get("evidence", []), start=1):
-                excerpt = item.get("excerpt") or ""
                 candidates = haystacks_for(item, pull, mapping, allowlist or set())
-                if candidates and any(excerpt in text for text in candidates):
+                if candidates and excerpt_found(item, pull, candidates):
                     accepted_by_location[item.get("location")] += 1
                     lenient.update(lenient_findings(item, shown))
                     continue

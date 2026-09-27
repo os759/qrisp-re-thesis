@@ -5,7 +5,9 @@ count of point 5 has one case. The last tests check that the script
 rejects exactly what validate_output.py rejects, and that it prints no
 excerpt text. Adapted on 2026-09-24 to the tightened validate_output.py.
 Extended on 2026-09-27 by the cause context_marker_kept (addendum to E10
-of that day, part 1).
+of that day, part 1), and adapted the same day to point 3: edge
+whitespace is accepted now, so edge_whitespace is left only for a rest
+shorter than 10 characters.
 """
 
 from __future__ import annotations
@@ -75,9 +77,8 @@ CAUSE_CASES = [
     (diff(" context line one"), "context_marker_kept"),
     (diff(" context three  "), "context_marker_kept"),
     (diff(" context line one\nadded line alpha"), "context_marker_kept"),
-    (diff(" added line alpha"), "edge_whitespace"),
     (diff(" context line one", locator="src/b.py"), "other_file"),
-    (diff("  added line alpha "), "edge_whitespace"),
+    (diff("   alpha   "), "edge_whitespace"),
     (diff("removed line here"), "removed_line"),
     (diff("@@ -10,2 +11,2 @@\nsecond hunk line"), "hunk_header"),
     (diff("def setup():"), "hunk_header"),
@@ -137,6 +138,19 @@ def test_marker_rule_conditions(excerpt, patch, expected):
 def test_marker_rule_needs_a_diff():
     item = {"location": "body", "locator": None, "excerpt": " context two"}
     assert d.context_marker_kept(item, PULL) is False
+
+
+@pytest.mark.parametrize("item", [
+    diff(" added line alpha"),
+    diff("  added line alpha "),
+    diff("second hunk line\n"),
+    {"location": "body", "locator": None, "excerpt": " describes the change in detail "},
+])
+def test_edge_whitespace_is_accepted_now(item):
+    rec = record([item])
+    assert excerpt_errors(rec, {7: PULL}, MAPPING, set()) == []
+    result = d.diagnose([rec], {7: PULL}, {7: BLOCK}, MAPPING, set())
+    assert result["rejected"] == []
 
 
 def test_rules_match_the_addendum_to_e10():

@@ -282,6 +282,47 @@ def test_excerpt_from_a_removed_line_is_rejected(record, pull):
     assert excerpt_errors(record, dataset_of(pull)) != []
 
 
+# --- edge whitespace, addendum to E10 of 2026-09-27, part 1, point 3 ---
+
+
+def use_diff(record: dict[str, Any], excerpt: str) -> None:
+    item = record["requirements"][0]["evidence"][0]
+    item["location"] = "diff"
+    item["locator"] = "src/qrisp/core/input.py"
+    item["excerpt"] = excerpt
+
+
+@pytest.mark.parametrize("excerpt", [
+    " inputs are not checked before they are used ",
+    "inputs are not checked before they are used\n",
+    "\ninputs are\n",  # rest of exactly 10 characters, not literal
+])
+def test_edge_whitespace_in_prose_passes(record, pull, excerpt):
+    record["requirements"][0]["evidence"][0]["excerpt"] = excerpt
+    assert excerpt_errors(record, dataset_of(pull)) == []
+
+
+@pytest.mark.parametrize("excerpt", [" the value shall be checked", "the value shall be checked \n"])
+def test_edge_whitespace_in_a_diff_passes(record, pull, excerpt):
+    use_diff(record, excerpt)
+    assert excerpt_errors(record, dataset_of(pull)) == []
+
+
+def test_a_kept_marker_of_a_context_line_is_rejected(record, pull):
+    use_diff(record, " context line")
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+
+def test_a_rest_shorter_than_ten_characters_is_rejected(record, pull):
+    record["requirements"][0]["evidence"][0]["excerpt"] = "  inputs ar  "
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+
+def test_inner_whitespace_must_still_match(record, pull):
+    record["requirements"][0]["evidence"][0]["excerpt"] = " inputs are  not checked "
+    assert excerpt_errors(record, dataset_of(pull)) != []
+
+
 def test_wrong_file_as_source_is_rejected(record, pull):
     item = record["requirements"][0]["evidence"][0]
     item["location"] = "diff"
