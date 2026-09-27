@@ -4,6 +4,8 @@ One pull request, three files, one review comment. Every cause and every
 count of point 5 has one case. The last tests check that the script
 rejects exactly what validate_output.py rejects, and that it prints no
 excerpt text. Adapted on 2026-09-24 to the tightened validate_output.py.
+Extended on 2026-09-27 by the cause context_marker_kept (addendum to E10
+of that day, part 1).
 """
 
 from __future__ import annotations
@@ -70,6 +72,11 @@ def test_block_parser_skips_files_not_included():
 
 CAUSE_CASES = [
     (diff("x", locator="src/missing.py"), "locator_not_found"),
+    (diff(" context line one"), "context_marker_kept"),
+    (diff(" context three  "), "context_marker_kept"),
+    (diff(" context line one\nadded line alpha"), "context_marker_kept"),
+    (diff(" added line alpha"), "edge_whitespace"),
+    (diff(" context line one", locator="src/b.py"), "other_file"),
     (diff("  added line alpha "), "edge_whitespace"),
     (diff("removed line here"), "removed_line"),
     (diff("@@ -10,2 +11,2 @@\nsecond hunk line"), "hunk_header"),
@@ -108,6 +115,28 @@ def test_every_cause_case_is_rejected_by_validate_output():
     cases = [case for case, _ in CAUSE_CASES]
     rejected = excerpt_errors(record(cases), {7: PULL}, MAPPING, set())
     assert len(rejected) == len(cases)
+
+
+def test_marker_check_comes_before_edge_whitespace():
+    order = list(d.CAUSES)
+    assert order.index("context_marker_kept") < order.index("edge_whitespace")
+
+
+@pytest.mark.parametrize("excerpt, patch, expected", [
+    (" fake context", " fake context\n@@ -1 +1 @@\n+real line", False),
+    (" \ncontext two", PATCH_A, False),
+    (" context two", PATCH_A, True),
+    ("context two", PATCH_A, False),
+])
+def test_marker_rule_conditions(excerpt, patch, expected):
+    pull = {"files": [{"filename": "x.py", "patch": patch}]}
+    item = {"location": "diff", "locator": "x.py", "excerpt": excerpt}
+    assert d.context_marker_kept(item, pull) is expected
+
+
+def test_marker_rule_needs_a_diff():
+    item = {"location": "body", "locator": None, "excerpt": " context two"}
+    assert d.context_marker_kept(item, PULL) is False
 
 
 def test_rules_match_the_addendum_to_e10():
@@ -162,6 +191,16 @@ def test_same_rejections_as_validate_output():
     assert result["lenient"] == {}
 
 
+def test_cause_before_is_reported_for_marker_cases():
+    rec = record([diff(" context line one"), diff(" context line one\nadded line alpha"),
+                  diff("+added line alpha")])
+    result = d.diagnose([rec], {7: PULL}, {7: BLOCK}, MAPPING, set())
+    assert [(e["cause"], e["before"]) for e in result["rejected"]] == [
+        ("context_marker_kept", "edge_whitespace"),
+        ("context_marker_kept", "spans_removed_line"),
+        ("diff_markers_kept", None)]
+
+
 def test_rule_four_counts_distinct_pulls():
     rejected = [{"pull": 1, "cause": "removed_line"}, {"pull": 1, "cause": "removed_line"},
                 {"pull": 2, "cause": "ellipsis"}, {"pull": 3, "cause": "ellipsis"},
@@ -182,4 +221,19 @@ def test_main_prints_no_excerpt_text(tmp_path, capsys):
                    "--mentions-map", str(tmp_path / "map.json")]) == 0
     printed = capsys.readouterr().out
     assert "cause no_match  rule 3" in printed
+    assert "context_marker_kept by cause before 2026-09-27: none" in printed
     assert secret not in printed and "unrelated" not in printed
+
+
+def test_main_prints_the_cause_before(tmp_path, capsys):
+    files = {"input.jsonl": record([diff(" context line one")]), "dataset.jsonl": PULL,
+             "model_input.jsonl": {"pull_number": 7, "source_block": BLOCK}}
+    for name, content in files.items():
+        (tmp_path / name).write_text(json.dumps(content) + "\n", encoding="utf-8")
+    assert d.main(["--input", str(tmp_path / "input.jsonl"),
+                   "--dataset", str(tmp_path / "dataset.jsonl"),
+                   "--model-input", str(tmp_path / "model_input.jsonl")]) == 0
+    printed = capsys.readouterr().out
+    assert "cause context_marker_kept  rule 2  before edge_whitespace" in printed
+    assert "context_marker_kept by cause before 2026-09-27: edge_whitespace 1" in printed
+    assert "context line one" not in printed

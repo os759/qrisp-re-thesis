@@ -24,6 +24,14 @@ fixed. The only leniency left to count is a file the model never saw.
 A second change the same day: an excerpt that breaks two diff rules at
 once keeps the cause of the first rule it breaks (see classify).
 
+Changed on 2026-09-27, addendum to E10 of that day, part 1: the new
+cause context_marker_kept is tested before edge_whitespace. Before, an
+excerpt that kept the leading space of a context line was counted under
+edge_whitespace and thus against the checker, although it breaks the
+prompt. For every excerpt now under context_marker_kept the script also
+reports the cause it would have had before ("before ..."), so a shift
+from any other cause stays visible.
+
 Nothing of an excerpt, a diff or a comment is printed: only the pull
 number, the requirement id, the position of the evidence entry and the
 cause.
@@ -58,6 +66,7 @@ from validate_output import (BARRIER, haystacks_for, load_dataset, read_jsonl,
 # of this dictionary is the order in which the causes are tested.
 CAUSES: dict[str, tuple[int, str]] = {
     "locator_not_found": (2, "no file or comment with the named locator"),
+    "context_marker_kept": (2, "kept the leading space of a context line"),
     "edge_whitespace": (1, "only whitespace at the start or end differs"),
     "removed_line": (2, "contains text of a removed line (-)"),
     "hunk_header": (2, "contains text of a hunk header line (@@)"),
@@ -142,6 +151,34 @@ def words_covered(excerpt: str, texts: list[str]) -> float:
     return sum(w in pool for w in words) / len(words)
 
 
+def context_marker_kept(item: dict[str, Any], pull: dict[str, Any]) -> bool:
+    """Rule of the addendum to E10 of 2026-09-27, part 1, conditions a to c.
+
+    a) The excerpt comes from a diff.
+    b) Its first line, without trailing whitespace, starts with a space.
+       A first line of whitespace only becomes empty here and fails b.
+    c) In the named file, after a hunk header, a line starts with exactly
+       this first line. Because the first line starts with a space, such a
+       line is always a context line with its marker still in place.
+    """
+    if item.get("location") != "diff":
+        return False
+    first = (item.get("excerpt") or "").split("\n", 1)[0].rstrip()
+    if not first.startswith(" "):
+        return False
+    locator = item.get("locator")
+    for file in pull.get("files", []):
+        if locator not in (None, file.get("filename")):
+            continue
+        in_hunk = False
+        for line in (file.get("patch") or "").split("\n"):
+            if line.startswith("@@"):
+                in_hunk = True
+            elif in_hunk and line.startswith(first):
+                return True
+    return False
+
+
 # --- what the model saw -----------------------------------------------
 
 
@@ -179,13 +216,21 @@ def prose_texts(pull: dict[str, Any], mapping: dict[str, str] | None,
 
 def classify(item: dict[str, Any], pull: dict[str, Any], shown: set[str],
              mapping: dict[str, str] | None = None,
-             allowlist: set[str] | None = None) -> str:
-    """Return the first cause from CAUSES that fits a rejected excerpt."""
+             allowlist: set[str] | None = None,
+             *, marker_check: bool = True) -> str:
+    """Return the first cause from CAUSES that fits a rejected excerpt.
+
+    marker_check=False skips context_marker_kept and gives the cause the
+    excerpt had before 2026-09-27.
+    """
     allowlist = allowlist or set()
     excerpt = item.get("excerpt") or ""
     candidates = haystacks_for(item, pull, mapping, allowlist)
     if not candidates:
         return "locator_not_found"
+
+    if marker_check and context_marker_kept(item, pull):
+        return "context_marker_kept"
 
     # The prompt demands exact inner spaces only, so edge whitespace is
     # tested first and counts against the checker.
@@ -287,9 +332,13 @@ def diagnose(records, dataset, blocks, mapping=None, allowlist=None) -> dict[str
                     accepted_by_location[item.get("location")] += 1
                     lenient.update(lenient_findings(item, shown))
                     continue
+                cause = classify(item, pull, shown, mapping, allowlist)
+                before = (classify(item, pull, shown, mapping, allowlist,
+                                   marker_check=False)
+                          if cause == "context_marker_kept" else None)
                 rejected.append({"pull": number, "id": requirement.get("id", "<no id>"),
                                  "position": position, "location": item.get("location"),
-                                 "cause": classify(item, pull, shown, mapping, allowlist)})
+                                 "cause": cause, "before": before})
     return {"rejected": rejected, "lenient": lenient,
             "accepted_by_location": accepted_by_location}
 
@@ -339,14 +388,19 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Rejected excerpts: {len(result['rejected'])}\n")
     for entry in result["rejected"]:
         rule = CAUSES[entry["cause"]][0]
+        before = f"  before {entry['before']}" if entry.get("before") else ""
         print(f"pull {entry['pull']}  {entry['id']}  evidence {entry['position']}  "
-              f"location {entry['location']}  cause {entry['cause']}  rule {rule}")
+              f"location {entry['location']}  cause {entry['cause']}  rule {rule}{before}")
 
     print("\nCauses:")
     counts = Counter(entry["cause"] for entry in result["rejected"])
     for cause, (rule, text) in CAUSES.items():
         if counts[cause]:
             print(f"  {cause}: {counts[cause]}  (rule {rule}; {text})")
+
+    moved = Counter(entry["before"] for entry in result["rejected"] if entry.get("before"))
+    print("\ncontext_marker_kept by cause before 2026-09-27: "
+          + (", ".join(f"{c} {n}" for c, n in sorted(moved.items())) or "none"))
 
     repeated = {c: n for c, n in rule_four(result["rejected"]).items() if n >= 2}
     print("\nRule 4, same cause under rule 2 in at least two pull requests: "
