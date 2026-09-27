@@ -2303,6 +2303,72 @@ Verfasser geprueft.
 Status: festgelegt.
 Bezug: FF1, FF2, FF3, Kapitel 4 Abschn. 4.6, Kapitel 5, Kapitel 7.
 
+## 2026-09-27 Paket E: Pruefung des Volllaufs 2026-09-25_full_v2
+
+### Nachtrag zu E10 (2026-09-27): Regel 1 im Volllauf, Teil 1: Anlass und Zuordnungsregel
+
+Teil 1 ist festgelegt, bevor gezaehlt wird. So kann die Regel nicht nach
+dem Ergebnis gewaehlt werden. Teil 2 mit dem Ergebnis folgt darunter.
+
+Anlass: Das Suchprogramm src/extract/diagnose_excerpts.py ordnete in der
+Pruefung des Volllaufs vom 26.09.2026 (Commit laut STATUS.md, Abschnitt
+Aktuell) 8 abgelehnte Zitate der Ursache edge_whitespace zu, also Regel 1
+(Pruefprogramm schuld). Es prueft edge_whitespace vor diff_markers_kept.
+Laesst ein Zitat bei einer Kontextzeile (Diffzeile, die mit einem
+Leerzeichen beginnt) dieses Leerzeichen stehen, verstoesst es gegen Prompt
+v2, Feld excerpt: "Leave out the first character of each copied line".
+Das Suchprogramm zaehlt es trotzdem unter edge_whitespace. Gezeigt am
+27.09.2026 mit erfundenen Daten in der Umgebung von Claude. Wie viele der
+8 Zitate betroffen sind, ist offen. Das ist der neue, schriftlich
+begruendete Anlass nach E11 d.
+
+Geltung: Die Regeln 1 bis 3 des Nachtrags zu E10 vom 24.09.2026 gelten
+auch fuer den Volllauf 2026-09-25_full_v2. Bisher stand das nur in
+STATUS.md.
+
+Regel:
+
+1. Neue Ursache context_marker_kept, zugeordnet nach Regel 2. Sie trifft
+   zu, wenn alle drei Bedingungen gelten:
+   a) Das Zitat stammt aus einem Diff (location diff).
+   b) Seine erste Zeile beginnt mit einem Leerzeichen und enthaelt nicht
+      nur Leerraum.
+   c) In der genannten Datei steht nach einer @@-Zeile eine Kontextzeile,
+      die mitsamt ihrem Leerzeichen mit dieser ersten Zeile beginnt.
+      Leerraum am Ende der ersten Zeile zaehlt dabei nicht mit.
+   Das Suchprogramm prueft context_marker_kept vor edge_whitespace. Diese
+   Aenderung gilt unabhaengig vom Ergebnis der Zaehlung.
+2. Die uebrigen Zitate unter edge_whitespace bleiben bei Regel 1.
+3. Faellt mindestens ein Zitat unter Regel 1, wird validate_output.py
+   korrigiert. Ein Zitat gilt dann auch als gefunden, wenn alle drei
+   Bedingungen gelten: Es kommt ohne Leerraum am Anfang und am Ende an
+   der genannten Stelle vor; dieser Rest ist mindestens 10 Zeichen lang,
+   die Untergrenze des Prompts; es faellt nicht unter context_marker_kept.
+   Faellt kein Zitat unter Regel 1, bleibt validate_output.py
+   unveraendert.
+4. Nach jeder Codeaenderung folgen Tests, ein Test gegen absichtlich
+   eingebaute Fehler und die neue Pruefung des Volllaufs mit beiden
+   Programmen. Die Schnittstelle wird nicht erneut aufgerufen. Die Laeufe
+   2026-09-22_pilot und 2026-09-24_pilot_v2 werden ebenfalls neu
+   geprueft. Erwartet sind dort unveraenderte Zahlen, weil in beiden
+   Laeufen kein Zitat unter edge_whitespace fiel (Nachtrag zu E10 vom
+   24.09.2026, Ergebnis der Ursachensuche, und E11 e). Weicht eine Zahl
+   ab, wird das in Teil 2 festgehalten.
+
+Grenze fuer Kapitel 7: Steht in derselben Datei zufaellig eine
+Kontextzeile, die so beginnt wie eine hinzugefuegte Zeile mit einem
+zusaetzlichen Leerzeichen davor, zaehlt die Regel das Zitat faelschlich
+unter context_marker_kept.
+
+Herkunft: Befund und Regelvorschlag von Claude im Chat vom 27.09.2026.
+Der Verfasser hat unter drei Wegen gewaehlt: erst aufteilen, dann
+korrigieren. Verworfen: nicht korrigieren, weil das Regel 1 widerspricht;
+ohne Aufteilung korrigieren, weil das Pruefprogramm dann nachsichtiger
+waere als der Prompt (Nachtrag zu E10 vom 24.09.2026, Punkt 5).
+
+Status: festgelegt (Teil 1).
+Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
