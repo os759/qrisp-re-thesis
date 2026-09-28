@@ -2369,6 +2369,70 @@ waere als der Prompt (Nachtrag zu E10 vom 24.09.2026, Punkt 5).
 Status: festgelegt (Teil 1).
 Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
 
+### Nachtrag zu E10 (2026-09-27): Regel 1 im Volllauf, Teil 2: Ergebnis
+
+Alle Zahlen stammen aus Laeufen des Verfassers am 27.09.2026. Es gab
+keinen neuen Aufruf der Schnittstelle.
+
+1. Zaehlung nach Punkt 1 (Suchprogramm, Commit 6b379dc): Kein Zitat
+   faellt unter context_marker_kept. Keine andere Ursache hat Faelle
+   abgegeben. Alle 8 Zitate bleiben bei Regel 1. Sie stammen alle aus
+   Diffs: 2 aus PR 141, 5 aus PR 270, 1 aus PR 453.
+2. Folge nach Punkt 3: validate_output.py wurde korrigiert (Commit
+   b3cf18d). Beide Programme nutzen seitdem dieselbe Funktion
+   excerpt_found. Dafuer ist context_marker_kept unveraendert in das
+   Pruefprogramm umgezogen. Testsuite: 285 Tests bestanden. Der Test
+   gegen absichtlich eingebaute Fehler (13 Fehler) lief in der Umgebung
+   von Claude; jeder Fehler wurde von mindestens einem Test erkannt.
+3. Volllauf vor und nach der Korrektur:
+
+   | Groesse | vorher | nachher |
+   |---|---|---|
+   | abgelehnte Datensaetze (von 395) | 126 | 124 |
+   | Anforderungen in angenommenen Datensaetzen | 922 | 932 |
+   | abgelehnte Zitate (von 2 711) | 214 | 208 |
+   | davon Regel 1 | 8 | 2 |
+   | davon Regel 2 | 178 | 178 |
+   | davon Regel 3 | 28 | 28 |
+   | Anteil abgelehnter Zitate | 7,9 % | 7,7 % |
+
+   Die 2 711 Zitate sind alle Zitate, die das Suchprogramm prueft:
+   angenommene und abgelehnte zusammen. Zaehler und Nenner des Anteils
+   stammen damit aus derselben Grundmenge.
+4. Pilotlaeufe nach Punkt 4: unveraendert, wie vorhergesagt.
+   Suchprogramm: 8 bzw. 7 abgelehnte Zitate mit denselben Ursachen.
+   Pruefprogramm: 7 bzw. 8 von 20 Datensaetzen abgelehnt, 41 bzw. 39
+   Anforderungen in angenommenen Datensaetzen. Die Vergleichswerte des
+   Pruefprogramms wurden vor der Korrektur unter 6b379dc gemessen.
+5. Abweichung von der Erwartung: 2 Zitate bleiben abgelehnt,
+   QR-0270-04 und QR-0270-05, jeweils Beleg 1, aus einem Diff. Grund,
+   aus dem Code abgeleitet und nicht einzeln eingesehen: Ohne Leerraum
+   am Rand bleiben weniger als 10 Zeichen. Das Suchprogramm fuehrt sie
+   unter edge_whitespace, also Regel 1.
+   Entscheidung des Verfassers: Die Mindestlaenge aus Punkt 3 bleibt.
+   Die 2 Zitate bleiben abgelehnt. In Kapitel 6 werden sie als Regel 1
+   gezaehlt, nach der vorab festgelegten Mindestlaenge nicht
+   korrigiert. Begruendung: Die Mindestlaenge nachtraeglich zu
+   streichen, waere eine Regelaenderung nach Kenntnis des Ergebnisses.
+   Wirkung auf Datensatzebene, aus den Zahlen abgeleitet: Die beiden
+   Datensaetze, die nicht mehr abgelehnt werden, sind die zu PR 141 und
+   PR 453. Der Datensatz zu PR 270 bleibt abgelehnt; er enthaelt
+   mindestens 8 Anforderungen. Ob er nur wegen dieser 2 Zitate
+   abgelehnt wird, ist nicht geprueft.
+   Grenze fuer Kapitel 7: Der Prompt regelt Leerraum am Rand nicht. Ein
+   Zitat aus Leerraum und einem kurzen Wort haelt womoeglich seinen
+   Wortlaut ein. Das Pruefprogramm ist hier bewusst strenger.
+
+Regel 1 ist fuer den Volllauf damit abgeschlossen. Als Naechstes folgt
+Regel 3: 28 Zitate, die der Verfasser lokal einsieht.
+
+Herkunft: Laeufe und Ablesung durch den Verfasser, Einordnung und
+Formulierung von Claude im Chat vom 27.09.2026, vom Verfasser
+geprueft. Die Wahl zu Punkt 5 traf der Verfasser.
+
+Status: festgelegt (Teil 2).
+Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
