@@ -2433,6 +2433,103 @@ geprueft. Die Wahl zu Punkt 5 traf der Verfasser.
 Status: festgelegt (Teil 2).
 Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
 
+## 2026-09-28 Paket E: Regel 3 im Volllauf
+
+### Nachtrag zu E10 (2026-09-28): Regel 3 im Volllauf, Teil 3: Zuordnungsregel
+
+Teil 3 ist festgelegt, bevor der Verfasser die Zitate einsieht. So kann
+die Zuordnung nicht nach dem Inhalt der Stellen gewaehlt werden. Das
+Ergebnis folgt als Teil 4.
+
+Gegenstand: die 28 abgelehnten Zitate des Volllaufs 2026-09-25_full_v2,
+die das Suchprogramm src/extract/diagnose_excerpts.py nach Teil 2 der
+Regel 3 zuordnet. 21 stehen unter likely_rephrased (mindestens 80
+Prozent der Woerter stehen in der genannten Quelle, der Wortlaut
+nicht), 7 unter no_match (keine vorab definierte Ursache passt). Es
+gelten die Programme im Stand des Commits, der diesen Nachtrag
+enthaelt.
+
+Massstab: Prompt v2, prompts/extraction_system_v2.md, Feld excerpt. Ein
+Zitat muss woertlich aus dem Quellblock stammen, den das Modell gesehen
+hat, bei einem Diff ohne das erste Zeichen jeder Zeile. Leerraum am
+Rand und die Mindestlaenge von 10 Zeichen gelten wie in Teil 1,
+Punkt 3.
+
+Hilfsmittel: src/extract/inspect_excerpts.py. Es waehlt mit denselben
+Pruefungen dieselben Zitate aus wie das Suchprogramm und zeigt sie nur
+im Terminal des Verfassers. Je Zitat zeigt es das Zitat, die
+naechstliegende Stelle der genannten Quelle, die Unterschiede zwischen
+beiden und den Hinweis H1: ob das Zitat ohne Rand-Leerraum im
+Quellblock des Modells vorkommt und in welchem Abschnitt. H1 ist ein
+Hinweis, keine Entscheidung. Inhalte der Stellen gehen nicht in den
+Chat.
+
+Regel:
+
+1. Der Verfasser prueft jedes Zitat an der genannten Stelle (location
+   und locator) und vergibt genau eine Unterart. Er prueft in dieser
+   Reihenfolge, die erste zutreffende gilt:
+   a) pruefprogramm, Regel 1: Das Zitat steht Zeichen fuer Zeichen an
+      der genannten Stelle des Quellblocks und haelt alle Zitatregeln
+      des Prompts ein. Das Pruefprogramm vergleicht dann mit einem
+      Text, der vom Quellblock abweicht.
+   b) zusammengesetzt, Regel 2: Das Zitat verbindet Teile, zwischen
+      denen in der Quelle mindestens ein ganzer Satz oder eine ganze
+      Zeile liegt.
+   c) umformuliert, Regel 2: Das Zitat entspricht einer
+      zusammenhaengenden Stelle, aber mindestens ein Wort ist ersetzt,
+      ergaenzt, weggelassen oder umgestellt.
+   d) zeichen, Regel 2: Alle Woerter stimmen in derselben Reihenfolge
+      mit einer zusammenhaengenden Stelle ueberein. Abweichend sind nur
+      einzelne Zeichen, etwa ein Backslash, ein Anfuehrungszeichen, ein
+      Bindestrich, ein Satzzeichen oder Gross- und Kleinschreibung.
+   e) ohne_gegenstueck, Regel 2: Der Verfasser findet in der Quelle
+      keine Stelle, die dem Zitat entspricht.
+2. Regel 1 gilt nur bei einem positiven Befund nach 1 a. Kann der
+   Verfasser ihn nicht feststellen, gilt Regel 2. Begruendung: Der
+   Prompt verlangt eine woertliche Kopie. Ein Fehler des
+   Pruefprogramms liegt nur vor, wenn es eine solche Kopie gibt.
+3. Steht H1 auf nein und findet der Verfasser trotzdem eine woertliche
+   Stelle nach 1 a, gilt 1 a. Der Fehler von H1 wird in Teil 4
+   festgehalten.
+4. Zwei Zusatzangaben je Zitat, jeweils ja oder nein:
+   Andere Stelle: ja, wenn das Gegenstueck nicht an der genannten,
+   sondern an einer anderen Stelle desselben Pull Requests steht. Die
+   Unterart richtet sich dann nach dieser Stelle. 1 a verlangt nein.
+   Zweifel: ja, wenn der Verfasser zwischen zwei Unterarten schwankt.
+5. Aufzeichnung: docs/regel3_volllauf.md, erzeugt von
+   inspect_excerpts.py mit --template. Die Tabelle enthaelt nur
+   Kennungen und die Zuordnung, keine Inhalte. Ausgezaehlt wird mit
+   --tally, das jede Zeile gegen die Auswahl und die Wertemengen
+   prueft.
+
+Folgen:
+
+a) Faellt mindestens ein Zitat unter 1 a, wird die Ursache im
+   Pruefprogramm gesucht, benannt und korrigiert. Es folgen Tests, ein
+   Test gegen absichtlich eingebaute Fehler und die neue Pruefung des
+   Volllaufs und beider Pilotlaeufe, wie in Teil 1, Punkt 4. Die
+   Schnittstelle wird nicht erneut aufgerufen.
+b) Faellt kein Zitat unter 1 a, bleiben beide Programme unveraendert.
+c) Es entsteht keine neue Prompt-Version (E11 d) und keine neue
+   Ursache im Suchprogramm. Die Unterarten beschreiben die Fehler des
+   Modells fuer Kapitel 6.
+d) ohne_gegenstueck wird in Kapitel 6 gesondert ausgewiesen. Ein Beleg
+   ohne Gegenstueck ist Material fuer die Unbelegtheitsrate (FF3);
+   wie sie gemessen wird, legt Paket F fest.
+
+Grenzen fuer Kapitel 7: Eine Person ordnet zu, ohne zweite
+unabhaengige Einschaetzung. Die Grenze zwischen zusammengesetzt,
+umformuliert und zeichen ist Ermessen; die Zuordnung zu Regel 1 oder 2
+haengt davon nicht ab. H1 sucht im ganzen Quellblock und kann eine
+Stelle in einem anderen Abschnitt finden als dem genannten.
+
+Herkunft: Regelvorschlag und Anzeigeskript von Claude im Chat vom
+28.09.2026, vom Verfasser vor der Einsicht festgelegt.
+
+Status: festgelegt (Teil 3).
+Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
