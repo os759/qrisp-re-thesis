@@ -1,11 +1,11 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 24.09.2026
+Letzte Aktualisierung: 28.09.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
 
-Stand 24.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
+Stand 28.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
 Arbeit bis heute gelaufen ist und warum. Einzelheiten stehen weiter
 unten und in docs/entscheidungen.md.
 
@@ -98,15 +98,28 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
    festgelegten Regel auf das Pruefprogramm zurueck, 28 muss der
    Verfasser selbst ansehen.
 
-Warum der naechste Schritt jetzt kommt: Die Pruefzahlen des Volllaufs
-sind noch nicht endgueltig. Fuer 8 Zitate verlangt die Regel 1 aus
-dem Nachtrag zu E10 vom 24.09.2026 eine Korrektur des
-Pruefprogramms. E11 d (die Festlegung, keine weitere Ursachensuche
-ohne schriftlich begruendeten Anlass) muss dazu abgewogen werden; das
-entscheidet der Verfasser. 28 Zitate muss er nach Regel 3 lokal
-einsehen. Das kommt zuerst, weil die Pakete F (FF3), G (FF4) und H
-auf genau diesen Zahlen aufbauen. Ein spaeterer Wechsel wuerde alle
-Vergleiche verschieben.
+9. Pruefung nach Regel 1 (27. und 28.09.2026): Vor der Zaehlung fiel
+   ein Fehler in der Reihenfolge des Suchprogramms auf. Ein Zitat, das
+   bei einer unveraenderten Diffzeile das fuehrende Leerzeichen
+   mitkopiert, verstoesst gegen den Prompt. Das Suchprogramm lastete
+   es trotzdem dem Pruefprogramm an. Deshalb wurde zuerst eine Regel
+   zur Trennung festgeschrieben und committet, erst dann gezaehlt.
+   Ergebnis: Keines der 8 Zitate hatte das Leerzeichen mitkopiert. Das
+   Pruefprogramm duldet seitdem Leerraum am Anfang und Ende eines
+   Zitats, weil der Prompt genaue Leerzeichen nur im Inneren verlangt.
+   6 der 8 Zitate gelten nun als gefunden. 2 bleiben abgelehnt, weil
+   ohne den Rand weniger als 10 Zeichen uebrig bleiben. Die
+   Mindestlaenge stand vorher fest und wird nicht nachtraeglich
+   gestrichen, weil das eine Regelaenderung nach dem Ergebnis waere.
+
+Warum der naechste Schritt jetzt kommt: Regel 1 ist erledigt, die
+Pruefzahlen des Volllaufs sind aber noch nicht endgueltig. 28
+abgelehnte Zitate passen zu keiner vorab festgelegten Ursache. Der
+Verfasser muss sie lokal einsehen und dem Modell oder dem
+Pruefprogramm zuordnen (Regel 3). Erst danach stehen die Zahlen, mit
+denen das lokale Modell in Paket F verglichen wird. Das lokale Modell
+hat am Di 29.09. seinen Kontrollpunkt. Beide Arbeiten brauchen
+dieselben Tage; die Reihenfolge legt der Verfasser fest.
 
 Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
@@ -165,6 +178,20 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   mit Suchtext ohne Umlaute die Einfuegestelle. Eine abweichende
   Zeilenzahl im git diff --stat ist ein Stoppsignal. In Paket C
   Anhang A fehlte dadurch eine Zeile im Vorspann (11.09.2026).
+- Commits werden gebuendelt: ein Commit je abgeschlossenem
+  Teilergebnis, nicht je Einzelschritt (Wunsch des Verfassers,
+  28.09.2026). Ausnahme: Eine Regel, die vor einer Zaehlung feststehen
+  muss, wird vorher einzeln committet, weil nur so ihr Zeitpunkt
+  belegt ist. Qualitaet und Verstaendlichkeit gehen vor Tempo.
+- Codeaenderungen liefert Claude als Patchdatei mit SHA-256-Summe. Der
+  Verfasser prueft die Summe und fuehrt git apply --check vor git apply
+  aus, weil so beim Kopieren kein Zeichen verloren geht. Bewaehrt am
+  27.09.2026.
+- Vor jedem Pruefungslauf nennt Claude die erwarteten Zahlen und sagt,
+  was daran unsicher ist, weil eine Abweichung sonst unbemerkt bliebe.
+  Eine Abweichung wird gemeldet und erklaert, nicht nachtraeglich
+  passend gemacht (27.09.2026: 2 Zitate mehr als erwartet, Grund war
+  die vorab festgelegte Mindestlaenge).
 
 ## Kuerzel
 
@@ -489,24 +516,25 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-261 Tests, ausfuehren aus der Projektwurzel:
+285 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 24.09.2026 unter Python 3.14.6.
+Zuletzt gruen am 27.09.2026 (285 passed). Die Python-Version
+wurde an diesem Tag nicht abgelesen; zuletzt 3.14.6.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
 und src/extract. Ohne diese Datei finden die Tests die Module nicht.
 
 Bereiche: test_resume.py (Wiederaufnahme), test_outcome.py,
 test_normalisation.py, test_jsonl_io.py, test_truncation.py,
-test_schema_validation.py (62 Tests, Schema, Belegstaerke und
-Zitatregeln des Prompts),
+test_schema_validation.py (70 Tests, Schema, Belegstaerke und
+Zitatregeln des Prompts, seit 27.09.2026 auch Leerraum am Rand),
 test_prompt_input.py (21 Tests, Auswahl und Budget),
 test_prompt_files.py (30 Tests, Prompt v1 und v2 gegen Schema; v2
 darf nur die Regeln fuer Zitate aus Diffs aendern),
 test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen),
 test_draw_sample.py (15 Tests, Schalter --sizes und --exclude, E10 a),
 test_run_extraction.py (26 Tests, Aufrufprogramm ohne Netz, mit
-erfundenen Antworten), test_diagnose_excerpts.py (35 Tests,
+erfundenen Antworten), test_diagnose_excerpts.py (51 Tests,
 Ursachensuche fuer abgelehnte Zitate). Die beiden neuen Dateien vom
 21. und 22.09.2026 und test_diagnose_excerpts.py setzen ihren
 Importpfad selbst.
@@ -716,19 +744,22 @@ validate_output.py und diagnose_excerpts.py, beide Stand f9eef00:
 126 von 395 Datensaetzen abgelehnt, darunter PR 796 wegen des
 fehlenden Feldes requirements (Formatfehler des Modells). 214
 abgelehnte Zitate: Regel 1 (Pruefprogramm) 8, Regel 2 (Modell) 178,
-Regel 3 (Verfasser sieht ein) 28. Diese Zahlen sind vorlaeufig, bis
-Schritt 1 und 2 unten erledigt sind.
+Regel 3 (Verfasser sieht ein) 28. Stand nach Regel 1 am 27.09.2026
+(Nachtrag zu E10, Rahmen des Pilotlaufs, vom 27.09.2026, Teil 1 und
+2; dort alle Zahlen und Commits): 124 von 395 Datensaetzen
+abgelehnt, 208 von 2 711 Zitaten, davon Regel 1: 2, Regel 2: 178,
+Regel 3: 28.
+validate_output.py duldet seitdem Leerraum am Rand eines Zitats;
+beide Programme nutzen dieselbe Pruefung. Diese Zahlen sind
+vorlaeufig, bis Schritt 2 unten erledigt ist.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Regel 1: 8 Zitate (edge_whitespace) halten den Prompt ein und
-   werden trotzdem abgelehnt. Der Nachtrag zu E10 vom 24.09.2026
-   verlangt dann eine Korrektur von validate_output.py mit Tests und
-   eine neue Pruefung ohne neuen Aufruf. E11 d verlangt fuer jede
-   weitere Ursachensuche einen schriftlich begruendeten Anlass. Der
-   Verfasser entscheidet und haelt es als Nachtrag fest.
+1. Erledigt am 27.09.2026: Regel 1. Siehe Nachtrag zu E10 vom
+   27.09.2026, Teil 1 und 2.
 2. Regel 3: 28 Zitate (likely_rephrased 21, no_match 7) lokal
    einsehen und nach Regel 1 oder 2 zuordnen. Inhalte nicht in den
-   Chat.
+   Chat. Werkzeug fuer die Einsicht noch offen; Vorschlag: ein
+   Anzeigeskript, das nur im Terminal des Verfassers ausgibt.
 3. Ablehnungen nach Art aufschluesseln (Schema, Regel E6, Zitat) und
    Messwerte des Volllaufs als Abschnitt 6.3 in
    experiments/kostenschaetzung.md, per Skript aus dem Manifest.
@@ -737,7 +768,9 @@ Naechste Schritte in dieser Reihenfolge:
 5. Parallel ab Fr 25.09.: Einrichtung des lokalen Modells (Paket F),
    Kontrollpunkt Di 29.09., und Phase 2 der Literatursuche fuer
    Kapitel 3.
-6. Git-Tag thesis-v1.0 am So 27.09. (Offene Punkte, Umfangsfrage).
+6. Git-Tag thesis-v1.0, geplant fuer So 27.09. (Offene Punkte,
+   Umfangsfrage). Ob er gesetzt ist, war am 28.09. nicht geprueft:
+   git tag --list thesis-v1.0
 7. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
    in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum Datenmodell in
    4.1.4. Der Platzhalter kann jetzt gefuellt werden; das Datenmodell
@@ -1335,6 +1368,11 @@ da88bb6 docs: Nachtrag zu E8, Volllauf im Normalbetrieb statt im Stapelbetrieb
 38dc3bb docs: Abrechnung des Laufs v2 berichtigt, Kontosumme 2,40 US-Dollar
 f9eef00 docs: Liste aller 395 Vorgaenge fuer den Volllauf, volle Schichten aus draw_sample.py
 8ee96a1 docs: Manifest des Volllaufs 2026-09-25_full_v2, 395 Vorgaenge
+1ef4e7e docs: STATUS.md und KI-Protokoll nach Volllauf 2026-09-25_full_v2
+a9eed1f docs: Nachtrag zu E10 Teil 1, Zuordnungsregel fuer edge_whitespace im Volllauf
+6b379dc code: Ursache context_marker_kept im Suchprogramm, 13 Tests (Nachtrag zu E10 Teil 1)
+b3cf18d code: Pruefprogramm duldet Rand-Leerraum ausser Kennzeichenrest, Tests (Nachtrag zu E10 Teil 1, Punkt 3)
+8e277a6 docs: Nachtrag zu E10 Teil 2, Ergebnis Regel 1 im Volllauf
 
 ## Aufruf des Ziehungsskripts
 
@@ -1422,6 +1460,8 @@ W8 21.-27.09. Paket E: A8 abgeschlossen Do 24.09., ausser den Links
               (verschoben von Do 24.09., weil A8 den Tag brauchte)
               Git-Tag thesis-v1.0 am So 27.09.
               Schreiben: Kapitel 4 Rest (4.1.4 Datenmodell)
+              tatsaechlich: So 27. und Mo 28.09. Pruefung nach
+              Regel 1 abgeschlossen (Nachtrag zu E10 vom 27.09.).
 W9 28.09.-04.10. Paket F: Laeufe des lokalen Modells an derselben
               Stichprobe, Modellvergleich FF3 bis Mi 30.09.
               Paket G: Klassifikation, Sicherheitsraster,
