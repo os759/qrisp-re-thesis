@@ -2530,6 +2530,36 @@ Herkunft: Regelvorschlag und Anzeigeskript von Claude im Chat vom
 Status: festgelegt (Teil 3).
 Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
 
+### Nachtrag zu E10 (2026-09-28): Regel 3 im Volllauf, Teil 3a: Auslegung von 1 b bis 1 d
+
+Teil 3a ist festgelegt, bevor der Verfasser die Tabelle
+docs/regel3_volllauf.md ausfuellt. Anlass: Die Regel aus Teil 3 liess
+zwei Fragen zur Unterart offen.
+
+Offenlegung: Claude hatte zu diesem Zeitpunkt die Inhalte aller 28
+Zitate gesehen, weil die Ausgabe des Anzeigeskripts in den Chat kopiert
+wurde. Die Auslegung ist danach formuliert. Sie betrifft nur die
+Unterart innerhalb von Regel 2. Die Zuordnung zu Regel 1 oder 2 aendert
+sie nicht. Einzelheiten folgen in Teil 4.
+
+1. Zu 1 b: In einem Diff zaehlt eine entfernte Zeile oder eine @@-Zeile
+   als ganze Zeile der Quelle. Verbindet ein Zitat Zeilen ueber eine
+   solche Zeile hinweg, ist es zusammengesetzt. Grund: Genau das
+   verbietet der Prompt im Feld excerpt, Regeln fuer ein Zitat aus
+   einem Diff.
+2. Zu 1 c und 1 d: Ein Wort, das sich nur in einzelnen Zeichen
+   unterscheidet, gilt als gleich. Einzelne Zeichen sind etwa ein
+   Backslash, ein Satz- oder Formatzeichen, ein Leerzeichen oder Gross-
+   und Kleinschreibung. Ein solches Zitat faellt unter 1 d. 1 c gilt
+   erst, wenn mindestens ein ganzes Wort ersetzt, ergaenzt, weggelassen
+   oder umgestellt ist.
+
+Herkunft: Vorschlag von Claude im Chat vom 28.09.2026, vom Verfasser
+vor dem Ausfuellen der Tabelle festgelegt.
+
+Status: festgelegt (Teil 3a).
+Bezug: FF1, FF2, FF3, Kapitel 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
