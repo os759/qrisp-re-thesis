@@ -2560,6 +2560,90 @@ vor dem Ausfuellen der Tabelle festgelegt.
 Status: festgelegt (Teil 3a).
 Bezug: FF1, FF2, FF3, Kapitel 6 und 7.
 
+### Nachtrag zu E10 (2026-09-28): Regel 3 im Volllauf, Teil 4: Ergebnis und Abschluss der Pruefung
+
+Stand 29.09.2026. Zuordnung nach Teil 3 und Teil 3a, aufgezeichnet in
+docs/regel3_volllauf.md, ausgezaehlt mit inspect_excerpts.py --tally.
+Die Auszaehlung meldete keine fehlerhafte Zeile.
+Alle Zeilen hat der Verfasser nach dem Commit von Teil 3a
+(8543bb9, 29.09.2026, 08:13 Uhr) ausgefuellt.
+
+Ergebnis der Regel 3:
+
+- Regel 1 (Pruefprogramm): 0. Regel 2 (Modell): 28 von 28, aus
+  20 Pull Requests.
+- Unterarten: zeichen 18, umformuliert 6,
+  zusammengesetzt 4, ohne_gegenstueck 0.
+- Andere Stelle: 0. Zweifel: 5.
+- Beide Ursachen des Suchprogramms gehen vollstaendig in Regel 2 auf:
+  likely_rephrased 21, no_match 7.
+- Der Hinweis H1 stand laut Anzeigeskript bei allen 28 Zitaten auf
+  nein. Punkt 3 aus Teil 3 kam nicht zur Anwendung.
+
+Folge nach Teil 3, Folge b: validate_output.py und diagnose_excerpts.py
+bleiben unveraendert. Eine Korrekturrunde entfaellt.
+
+Endgueltige Pruefzahlen des Volllaufs 2026-09-25_full_v2, ausgezaehlt
+mit src/extract/breakdown_rejections.py (Commit 167f49b):
+
+- 124 von 395 Datensaetzen abgelehnt. Nach der ersten verletzten
+  Pruefung: Schema 3, Belegstaerke nach E6 6, Zitat 115.
+- Schema: fehlendes Feld requirements 1 (PR 796), mehr Belege als
+  erlaubt 1, zu kurzes Zitat 1.
+- E6: 8 Anforderungen in den 6 Datensaetzen. Das Modell gab die
+  Belegstaerke jedes Mal hoeher an, als die Regeln ergeben: 7-mal
+  indirect statt insufficient, 1-mal direct statt insufficient.
+- In 3 der 9 wegen Schema oder E6 abgelehnten Datensaetze schlaegt
+  auch die Zitatpruefung fehl. 118 Datensaetze enthalten mindestens
+  ein nicht gefundenes Zitat.
+- 547 Anforderungen stehen in abgelehnten Datensaetzen: 12 nach
+  Schema, 34 nach E6, 501 nach Zitat.
+- 208 von 2 711 Zitaten abgelehnt: Regel 1 2 (Teil 2), Regel 2 206.
+- PR 270 wird nur wegen QR-0270-04 und QR-0270-05 abgelehnt. Schema
+  und E6 besteht er.
+
+Teilschritt 10 von A8 (Links): Variante B, Wahl des Verfassers vom
+28.09.2026. Titel, Beschreibung und Diff erhalten den Link des Pull
+Requests, Kommentare den Link, den GitHub je Kommentar geliefert hat.
+Das Programm src/extract/add_links.py setzt keinen Link selbst
+zusammen. In den Rohdateien hat jeder der 639 Kommentare und der
+1 713 Review-Kommentare einen solchen Link. Ergebnis: 2 711 Belege,
+2 606 mit Link auf den Pull Request, 105 auf einen Kommentar, keiner
+ohne Link. Datei lokal:
+data/processed/extraction_2026-09-25_full_v2.links.jsonl,
+2 711 Zeilen, SHA-256 e5ba8c6c9d09c1da70638ce1f7d9e5d01ac77cc6bb9614bdb1b5f0a43a06a187.
+Die Modellausgabe bleibt unveraendert (E7).
+
+Kosten und Laufzeit des Volllaufs: experiments/kostenschaetzung.md,
+Abschnitt 6.3, erzeugt mit src/extract/cost_report.py. Zwischen den
+beiden Kontoablesungen lief nach Angabe des Verfassers kein anderer
+Aufruf.
+
+Abweichung von Teil 3: Teil 3 sah vor, dass Inhalte der Stellen nicht
+in den Chat gehen. Der Verfasser hat am 28.09.2026 die Ausgabe des
+Anzeigeskripts zu allen 28 Zitaten in den Chat kopiert. Claude hat
+daraufhin keine Zuordnung und keine Einschaetzung zu einzelnen
+Zitaten gegeben. Die Beispiele in seinen Erklaerungen stammen aus den
+erfundenen Testdaten. Die Auslegung in Teil 3a hat Claude nach Sicht
+der Inhalte formuliert; sie betrifft nur die Unterarten. Die Inhalte
+sind oeffentlich, Erwaehnungen waren nach E9 ersetzt.
+
+Grenzen fuer Kapitel 7, zusaetzlich zu Teil 3:
+- Eine Person ordnet zu. Eine Gegenpruefung durch Claude wurde
+  angeboten, aber bisher nicht angefordert.
+- 5 von 28 Zuordnungen tragen den Vermerk Zweifel.
+- Bei niedriger Aehnlichkeit zeigte das Anzeigeskript oft eine
+  unpassende Stelle. Fuer diese Faelle standen zwei Befehle bereit,
+  die die ganze genannte Quelle und den ganzen Quellblock zeigen.
+
+Herkunft: Zuordnung, Wahl der Linkvariante und alle Laeufe durch den
+Verfasser; Programme, Auszaehlung und Formulierung von Claude im Chat
+vom 28. und 29.09.2026, vom Verfasser geprueft.
+
+Status: festgelegt (Teil 4). Die Pruefung des Volllaufs ist
+abgeschlossen.
+Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

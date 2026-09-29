@@ -194,3 +194,47 @@ Grenzen der Hochrechnung:
   Zwei Laeufe ergeben keine belastbare Streuung.
 - Die Gewichtung nach Schichten beruht auf 1 bis 5 Vorgaengen je Schicht.
 - Der Stapelbetrieb ist im Aufrufprogramm noch nicht umgesetzt.
+
+### 6.3 Messwerte des Volllaufs 2026-09-25_full_v2
+
+Stand 28.09.2026, Paket E. Token, Laufzeit und Kostenobergrenze stammen
+aus data/processed/extraction_2026-09-25_full_v2.manifest.json,
+berechnet von src/extract/cost_report.py. Die Abrechnung hat der
+Verfasser am 26.09.2026 im OpenAI-Konto abgelesen (STATUS.md,
+Abschnitt Aktuell). Preise laut Manifest vom 21.09.2026.
+
+Der Volllauf lief im Normalbetrieb, nicht im Stapelbetrieb (Nachtrag
+zu E8 vom 24.09.2026). Verglichen wird deshalb mit der Zeile
+"Normalbetrieb, ohne Zwischenspeicher" aus 6.2, nicht mit den
+Stapelpreisen. Gesendet wurden 395 Vorgaenge, 5 am 25.09.2026 und 390 am 26.09.2026.
+
+| Groesse | Hochrechnung 6.2 | gemessen |
+|---|---|---|
+| Vorgaenge | 395 | 395, davon 395 vollstaendig |
+| Eingabe-Token | rund 3,96 Mio | 3 906 903 |
+| davon aus dem Zwischenspeicher gelesen | nicht eingerechnet | 1 530 735 (39,2 %) |
+| davon in den Zwischenspeicher geschrieben | nicht eingerechnet | 2 374 983 |
+| Ausgabe-Token | rund 1,33 Mio | 1 262 525 |
+| davon Denk-Token | nicht geschaetzt | 727 673 (57,6 %) |
+| Ausgabe-Token je Vorgang, Mittel / Median / Hoechstwert | - | 3 196 / 3 336 / 7 654 |
+| Normalpreis ohne Zwischenspeicher, rechnerisch | 23,88 $ | 22,96 $ |
+| Kostenobergrenze laut Programm | - | 24,1516 $ |
+| Abrechnung im Konto | - | 21,40 $ (23,80 $ minus 2,40 $ vor dem Volllauf) |
+| Laufzeit, Summe duration_seconds | 4,8 h (Nachtrag zu E8) | 3,82 h (13 759 s) |
+| Laufzeit je Vorgang, Mittel / Hoechstwert | - | 34,8 s / 85,5 s |
+
+Die Eingabe lag 1,3 Prozent unter der Hochrechnung, die Ausgabe
+5,1 Prozent unter ihr. Die Abrechnung lag bei 88,6 Prozent
+der Obergrenze, in den Pilotlaeufen bei 90 bis 91 Prozent (6.1). Der
+Gesamtverbrauch des Kontos von 23,80 US-Dollar unterschreitet das Budget
+aus E3 von 150 Euro weit.
+
+Grenzen der Messwerte:
+
+- Die Abrechnung ist die Differenz zweier Ablesungen des Kontos. Sie
+  gilt fuer den Volllauf nur, wenn zwischen beiden Ablesungen kein
+  anderer Aufruf lief. Ob sie Umsatzsteuer enthaelt, ist nicht geprueft.
+- Die Laufzeit ist die Summe der Antwortzeiten. Pausen zwischen den
+  Aufrufen und die Zeit zwischen beiden Sendetagen sind nicht enthalten.
+- Die Zeichen je Token sind fuer den Volllauf nicht neu gemessen.
+- Ein einzelner Volllauf ergibt keine Streuung zwischen Laeufen.

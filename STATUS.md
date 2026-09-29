@@ -1,11 +1,11 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 28.09.2026
+Letzte Aktualisierung: 29.09.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
 
-Stand 28.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
+Stand 29.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
 Arbeit bis heute gelaufen ist und warum. Einzelheiten stehen weiter
 unten und in docs/entscheidungen.md.
 
@@ -112,14 +112,33 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
    Mindestlaenge stand vorher fest und wird nicht nachtraeglich
    gestrichen, weil das eine Regelaenderung nach dem Ergebnis waere.
 
-Warum der naechste Schritt jetzt kommt: Regel 1 ist erledigt, die
-Pruefzahlen des Volllaufs sind aber noch nicht endgueltig. 28
-abgelehnte Zitate passen zu keiner vorab festgelegten Ursache. Der
-Verfasser muss sie lokal einsehen und dem Modell oder dem
-Pruefprogramm zuordnen (Regel 3). Erst danach stehen die Zahlen, mit
-denen das lokale Modell in Paket F verglichen wird. Das lokale Modell
-hat am Di 29.09. seinen Kontrollpunkt. Beide Arbeiten brauchen
-dieselben Tage; die Reihenfolge legt der Verfasser fest.
+10. Pruefung nach Regel 3 und Abschluss von Paket E (28. und
+    29.09.2026): Die 28 Zitate ohne vorab festgelegte Ursache hat der
+    Verfasser selbst angesehen. Die Regel dafuer stand vorher fest und
+    war committet, weil die Einordnung sonst nach dem Ergebnis haette
+    gewaehlt werden koennen. Alle 28 gehen auf das Modell zurueck,
+    keines auf das Pruefprogramm; die Programme bleiben deshalb
+    unveraendert. Meist hat das Modell einzelne Zeichen veraendert
+    (18), seltener Woerter (6) oder Stuecke ueber
+    eine entfernte Zeile hinweg verbunden (4). Die
+    Inhalte der Zitate sind dabei in den Chat gelangt; das ist
+    offengelegt. Die Zahlen des Volllaufs sind jetzt endgueltig: 124
+    von 395 Datensaetzen abgelehnt, 3 wegen des Formats, 6 wegen einer
+    zu hoch angegebenen Belegstaerke, 115 wegen eines Zitats. Jeder
+    Beleg hat einen Link auf seine Quelle, weil die Rueckverfolgbarkeit
+    ein Bewertungskriterium ist. Kosten und Laufzeit stehen in der
+    Kostenschaetzung.
+
+Warum der naechste Schritt jetzt kommt: Paket E ist abgeschlossen,
+die Pruefzahlen des Volllaufs stehen fest. Der Stand ist als Git-Tag
+thesis-v1.0 eingefroren, weil spaetere Aenderungen sonst nicht von dem
+Stand zu trennen waeren, mit dem die Arbeit gemessen hat. Als
+Naechstes kommt das lokale Modell (Paket F), nach Paket E und nicht
+parallel. Es wird an denselben Faellen mit denselben Programmen
+geprueft; deshalb brauchte es diese endgueltigen Zahlen. Der
+Kontrollpunkt ist Di 29.09.: Laeuft das lokale Modell dann nicht an
+einem Pilotfall, wird am selben Tag entschieden, wie FF3 mit
+kleinerem Umfang beantwortet wird.
 
 Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
@@ -192,6 +211,18 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   Eine Abweichung wird gemeldet und erklaert, nicht nachtraeglich
   passend gemacht (27.09.2026: 2 Zitate mehr als erwartet, Grund war
   die vorab festgelegte Mindestlaenge).
+- Aendert ein Schritt mehr als drei Stellen in bestehenden Dateien,
+  darf Claude die Ersetzungen als Python-Skript liefern: mit altem und
+  neuem Wortlaut, Abbruch vor dem Schreiben, wenn ein alter Wortlaut
+  nicht genau einmal vorkommt, Werte aus der Quelle statt abgetippt,
+  SHA-256-Summe. Das Skript liegt ausserhalb des Repositorys. Grund:
+  Handanweisungen fuer viele Stellen sind fehleranfaellig. Steht so in
+  der Projektanweisung (Ersetzungen per Skript), hier seit 29.09.2026.
+- Ausgaben, die Inhalte von Pull Requests zeigen (etwa --only des
+  Anzeigeskripts), gehen nicht in den Chat; zurueckgemeldet werden nur
+  Zahlen. Am 28.09.2026 sind die Inhalte aller 28 Zitate der Regel 3
+  trotzdem in den Chat gelangt (Nachtrag zu E10 vom 28.09.2026,
+  Teil 4). Claude hat daraufhin keine Zuordnung vorgeschlagen.
 
 ## Kuerzel
 
@@ -248,6 +279,12 @@ Regel 1 bis 3 = Zuordnung einer Ablehnung: 1 Pruefprogramm schuld,
 2 Modell schuld, 3 der Verfasser sieht nach (Nachtrag zu E10 vom
 24.09.2026).
 v1, v2 = Fassungen des Prompts unter prompts/.
+H1 = Hinweis des Anzeigeskripts src/extract/inspect_excerpts.py, ob ein
+Zitat ohne Rand-Leerraum im Quellblock des Modells vorkommt (Nachtrag
+zu E10 vom 28.09.2026, Teil 3).
+Unterarten pruefprogramm, zusammengesetzt, umformuliert, zeichen,
+ohne_gegenstueck = Art der Abweichung eines Zitats nach Regel 3,
+festgelegt in Teil 3 und Teil 3a desselben Nachtrags.
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
@@ -357,6 +394,18 @@ fuer K6):
   (Note 2), Ebenen (c) und (d) n. a.
 - docs/ki-protokoll.md um die Zeilen fuer den 30.08.2026 und den
   02.-03.09.2026 ergaenzt
+
+Arbeitspaket E (Prompt und API-Modell) abgeschlossen am 29.09.2026:
+- Entscheidungen E1 bis E11 mit Nachtraegen in docs/entscheidungen.md
+- Prompt v2, Aufrufprogramm run_extraction.py, Pruefprogramm
+  validate_output.py und Suchprogramm diagnose_excerpts.py mit Tests
+- Pilotlaeufe 2026-09-22_pilot und 2026-09-24_pilot_v2 sowie Volllauf
+  2026-09-25_full_v2 mit 395 Vorgaengen, Manifeste committet
+- Pruefung des Volllaufs nach Regel 1 und Regel 3 abgeschlossen
+  (Nachtrag zu E10 vom 27.09.2026 und vom 28.09.2026, Teil 1 bis 4)
+- Links je Beleg (Teilschritt 10 von A8) und Messwerte des Volllaufs
+  in experiments/kostenschaetzung.md, Abschnitt 6.3
+- Stand am Ende von Paket E als Git-Tag thesis-v1.0 eingefroren
 
 ## Datensaetze (alle lokal, nicht im Repository)
 
@@ -516,10 +565,10 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-285 Tests, ausfuehren aus der Projektwurzel:
+373 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 27.09.2026 (285 passed). Die Python-Version
-wurde an diesem Tag nicht abgelesen; zuletzt 3.14.6.
+Zuletzt gruen am 29.09.2026 (373 passed) unter Python 3.14.6,
+abgelesen vom Aktualisierungsskript.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
 und src/extract. Ohne diese Datei finden die Tests die Module nicht.
@@ -535,9 +584,16 @@ test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen),
 test_draw_sample.py (15 Tests, Schalter --sizes und --exclude, E10 a),
 test_run_extraction.py (26 Tests, Aufrufprogramm ohne Netz, mit
 erfundenen Antworten), test_diagnose_excerpts.py (51 Tests,
-Ursachensuche fuer abgelehnte Zitate). Die beiden neuen Dateien vom
-21. und 22.09.2026 und test_diagnose_excerpts.py setzen ihren
-Importpfad selbst.
+Ursachensuche fuer abgelehnte Zitate), test_inspect_excerpts.py
+(35 Tests, Anzeige und Auszaehlung fuer Regel 3),
+test_breakdown_rejections.py (17 Tests, Ablehnungen nach
+Art), test_cost_report.py (18 Tests, Abschnitt 6.3 aus dem
+Manifest), test_add_links.py (18 Tests, Links je Beleg). Die
+beiden neuen Dateien vom 21. und 22.09.2026, test_diagnose_excerpts.py
+und die vier Dateien vom 28.09.2026 setzen ihren Importpfad selbst.
+Die vier Dateien vom 28.09.2026 wurden in der Umgebung von Claude
+gegen 34 absichtlich eingebaute Fehler geprueft: 33 erkannt, einer
+ohne Wirkung, weil eine zweite Pruefung denselben Fall abfaengt.
 Nicht abgedeckt: Netzschicht in github_api.py, Auswertungsskripte,
 draw_sample.py ausserhalb der neuen Schalter (siehe D4a).
 
@@ -648,7 +704,8 @@ Messergebnis K6, Stand 02.09.2026:
   Systemnamen. Wuerde die Rahmenrolle nicht anerkannt, faellt (a)
   auf 0 von 3. Beides gehoert nach Kapitel 7.
 
-Paket E begonnen am 15.09.2026. Elf Entscheidungen sind gefallen.
+Paket E begonnen am 15.09.2026, abgeschlossen am 29.09.2026. Elf
+Entscheidungen sind gefallen.
 E11 Denkaufwand, Schemapruefung beim Anbieter und Prompt-Version fuer
 den Volllauf (24.09.2026) und E10 Rahmen des Pilotlaufs kommen zu den
 folgenden neun hinzu:
@@ -663,10 +720,13 @@ Stand der Aufgaben in Paket E:
   prompts/extraction_system_v1.md, prompts/extraction_user_v1.md,
   src/extract/prompt_files.py, tests/test_prompt_files.py.
 - A7 Modellwahl und Kostenschaetzung abgeschlossen am 19.09.2026.
-- A8 Pilotlauf abgeschlossen am 24.09.2026, ausser Teilschritt 10
-  (Links nachtragen). Er folgt nach dem Volllauf einmal fuer alle
-  Daten, weil er am Ergebnis nichts aendert und am 24.09. keine Zeit
-  mehr war. Stand der Teilschritte 1 bis 8 vom 22.09.2026:
+- A8 Pilotlauf abgeschlossen am 24.09.2026. Teilschritt 10 (Links)
+  am 28.09.2026 fuer den Volllauf nachgeholt, Variante B (Nachtrag zu
+  E10 vom 28.09.2026, Teil 4). Datei lokal:
+  data/processed/extraction_2026-09-25_full_v2.links.jsonl,
+  2 711 Zeilen, SHA-256 e5ba8c6c9d09c1da70638ce1f7d9e5d01ac77cc6bb9614bdb1b5f0a43a06a187.
+  Fuer die Pilotlaeufe nicht erzeugt; bei Bedarf mit demselben
+  Programm. Stand der Teilschritte 1 bis 8 vom 22.09.2026:
   Festgelegt in E10 mit Nachtraegen zu
   E2, E9 und E10. Kriterienliste eval/instrument/kriterien_v0.md vor
   dem ersten bezahlten Aufruf committet. Pilotstichprobe
@@ -750,31 +810,29 @@ Regel 3 (Verfasser sieht ein) 28. Stand nach Regel 1 am 27.09.2026
 abgelehnt, 208 von 2 711 Zitaten, davon Regel 1: 2, Regel 2: 178,
 Regel 3: 28.
 validate_output.py duldet seitdem Leerraum am Rand eines Zitats;
-beide Programme nutzen dieselbe Pruefung. Diese Zahlen sind
-vorlaeufig, bis Schritt 2 unten erledigt ist.
+beide Programme nutzen dieselbe Pruefung. Nach Regel 3 am 28. und
+29.09.2026 gehen alle 28 auf das Modell zurueck. Endgueltig: Regel 1
+2, Regel 2 206 von 208 abgelehnten Zitaten. Ablehnungen nach der
+ersten verletzten Pruefung: Schema 3, E6 6, Zitat 115 (Nachtrag zu
+E10 vom 28.09.2026, Teil 4; dort alle Zahlen).
 
 Naechste Schritte in dieser Reihenfolge:
-1. Erledigt am 27.09.2026: Regel 1. Siehe Nachtrag zu E10 vom
-   27.09.2026, Teil 1 und 2.
-2. Regel 3: 28 Zitate (likely_rephrased 21, no_match 7) lokal
-   einsehen und nach Regel 1 oder 2 zuordnen. Inhalte nicht in den
-   Chat. Werkzeug fuer die Einsicht noch offen; Vorschlag: ein
-   Anzeigeskript, das nur im Terminal des Verfassers ausgibt.
-3. Ablehnungen nach Art aufschluesseln (Schema, Regel E6, Zitat) und
-   Messwerte des Volllaufs als Abschnitt 6.3 in
-   experiments/kostenschaetzung.md, per Skript aus dem Manifest.
-4. Teilschritt 10 von A8 fuer den Volllauf: Links (html_url) in eine
-   neue Datei, Rohantworten unveraendert (E7).
-5. Parallel ab Fr 25.09.: Einrichtung des lokalen Modells (Paket F),
-   Kontrollpunkt Di 29.09., und Phase 2 der Literatursuche fuer
-   Kapitel 3.
-6. Git-Tag thesis-v1.0, geplant fuer So 27.09. (Offene Punkte,
-   Umfangsfrage). Ob er gesetzt ist, war am 28.09. nicht geprueft:
-   git tag --list thesis-v1.0
-7. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
-   in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum Datenmodell in
-   4.1.4. Der Platzhalter kann jetzt gefuellt werden; das Datenmodell
-   steht als E1, E6 und der Nachtrag zu E1 fest.
+1. Paket F (lokales Modell), nach Paket E und nicht parallel
+   (Entscheidung des Verfassers vom 28.09.2026). Zu Beginn den
+   Kontrollpunkt vom Di 29.09. pruefen: Laeuft das lokale Modell nicht
+   an einem Pilotfall, am selben Tag entscheiden, wie FF3 mit
+   kleinerem Umfang beantwortet wird (Zeitplan, Risiko 1).
+2. Modellvergleich FF3: die sechs Messgroessen in Paket F vorab
+   festlegen. Material fuer die Unbelegtheitsrate: die Unterart
+   ohne_gegenstueck und die Ablehnungen nach E6 (Nachtrag zu E10 vom
+   28.09.2026, Teil 4).
+3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
+4. Erster Commit in Paket F: Abschlusscommit von Paket E und den Tag
+   thesis-v1.0 in die Commit-Liste von Paket E nachtragen.
+5. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
+   in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum
+   Datenmodell in 4.1.4. Der Platzhalter kann jetzt gefuellt werden;
+   das Datenmodell steht als E1, E6 und der Nachtrag zu E1 fest.
 
 ## Getroffene Entscheidungen
 
@@ -1110,15 +1168,18 @@ Folge fuer Schritt 5, aus E1 und den Messwerten:
 ## Offene Punkte
 
 Extern, mit Vorlauf:
-- Umfangsfrage gegenueber dem Qrisp-Team. Stand Ende Woche 8 als
-  Git-Tag thesis-v1.0 einfrieren; alles Weitere in den Ausblick.
+- Umfangsfrage gegenueber dem Qrisp-Team. Stand am Ende von Paket E
+  als Git-Tag thesis-v1.0 eingefroren (29.09.2026 statt wie geplant
+  27.09.); alles Weitere in den Ausblick.
 - Kriterienliste v1 (Skala, Regeln, Umfang der Auswahl) vor der
   ersten Bewertung, laut Zeitplan in W9 (Nachtrag zu E2 vom
   21.09.2026).
-- Links fuer Teilschritt 10: Laut Struktur des Datensatzes gibt es
-  html_url nur fuer den ganzen Pull Request. Pruefen, ob Kommentare und
-  Dateien eigene Links haben; sonst entscheiden, ob der Link des Pull
-  Requests genuegt oder ein Programm Links zusammensetzt.
+- Erledigt am 28.09.2026: Links fuer Teilschritt 10. GitHub hat je
+  Kommentar einen eigenen Link geliefert; Variante B (Nachtrag zu E10
+  vom 28.09.2026, Teil 4).
+- Gegenpruefung der Zuordnung nach Regel 3 durch Claude: angeboten
+  am 28.09.2026, bisher nicht angefordert. Sonst bleibt fuer
+  Kapitel 7: eine Person ordnet zu.
 - Commit d09a1df steht nicht in der Commit-Liste von Paket E; bei der
   Uebergabe am 24.09.2026 mit git log nachgetragen.
 - Ab dem ersten Lauf darf die Zuordnung der Platzhalter nicht mehr
@@ -1373,6 +1434,11 @@ a9eed1f docs: Nachtrag zu E10 Teil 1, Zuordnungsregel fuer edge_whitespace im Vo
 6b379dc code: Ursache context_marker_kept im Suchprogramm, 13 Tests (Nachtrag zu E10 Teil 1)
 b3cf18d code: Pruefprogramm duldet Rand-Leerraum ausser Kennzeichenrest, Tests (Nachtrag zu E10 Teil 1, Punkt 3)
 8e277a6 docs: Nachtrag zu E10 Teil 2, Ergebnis Regel 1 im Volllauf
+7c83268 docs: STATUS.md und KI-Protokoll nach Regel 1 im Volllauf
+167f49b code: Anzeigeskript fuer Regel 3 und Aufschluesselung der Ablehnungen nach Art, 52 Tests
+4742be8 docs: Nachtrag zu E10 Teil 3, Zuordnungsregel fuer Regel 3 im Volllauf
+92a6803 code: Abschnitt 6.3 aus dem Manifest und Links je Beleg (Teilschritt 10), 36 Tests
+8543bb9 docs: Nachtrag zu E10 Teil 3a, Auslegung von 1 b bis 1 d vor dem Ausfuellen
 
 ## Aufruf des Ziehungsskripts
 
@@ -1458,7 +1524,9 @@ W8 21.-27.09. Paket E: A8 abgeschlossen Do 24.09., ausser den Links
               Volllauf am 25. und 26.09. erledigt.
               Paket F: lokales Modell einrichten ab Fr 25.09.
               (verschoben von Do 24.09., weil A8 den Tag brauchte)
+              tatsaechlich: Paket F nach Paket E, ab Di 29.09.
               Git-Tag thesis-v1.0 am So 27.09.
+              tatsaechlich: am Di 29.09., am Ende von Paket E.
               Schreiben: Kapitel 4 Rest (4.1.4 Datenmodell)
               tatsaechlich: So 27. und Mo 28.09. Pruefung nach
               Regel 1 abgeschlossen (Nachtrag zu E10 vom 27.09.).
@@ -1493,6 +1561,12 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
+
+Stand 29.09.2026, W9. Paket E abgeschlossen, die Pruefung des
+Volllaufs ist endgueltig. Paket F beginnt heute, nach Paket E statt
+parallel. Der Modellvergleich war bis Mi 30.09. geplant und ist damit
+knapp. Bis zur internen Abgabe am 13.10.2026 verbleiben 14 Tage, bis
+zur Abgabe 16 Tage.
 
 Stand 26.09.2026, W8. Volllauf erledigt, Manifest committet. Offen in
 Paket E: Regel 1 und Regel 3 der Ursachensuche, Aufschluesselung der
