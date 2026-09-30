@@ -2828,6 +2828,67 @@ Status: festgelegt (Teil 1). Teil 2 folgt mit dem Ergebnis der
 Zuordnung.
 Bezug: FF2, FF3, Kapitel 5, 6 und 7.
 
+### Nachtrag zu F1 (2026-09-30), Teil 2: Zuordnung, zweiter Versuch und Umfang von FF3
+
+1. Zuordnung nach Teil 1, Punkt 5: Im Serverprotokoll des Laufs fand
+   die Suche nach stopped, cancel, n_decoded und n_predict keine Zeile.
+   Die Ursache beim ersten Versuch ist damit nicht entscheidbar. Nach
+   der Regel folgte der zweite Versuch mit qwen3.6:27b in derselben
+   Laufzeitumgebung, mit config/local_run_qwen.toml, committet vor dem
+   Lauf.
+2. Zweiter Versuch am 30.09.2026: PR 64 mit qwen3.6-27b-ctx64k, Lauf
+   2026-09-30_local_qwen_pilot_v2_r1, Messwerte im Manifest
+   data/processed/extraction_2026-09-30_local_qwen_pilot_v2_r1.manifest.json.
+   Die Antwort ist laut Laufzeitumgebung vollstaendig, steht aber nicht
+   als JSON-Objekt in der Extraktionsdatei: Das Modell hat den
+   Antworttext in einen Markdown-Codeblock gesetzt, obwohl der Prompt
+   ein Objekt ohne Umrahmung verlangt. Nach F1 c nicht gelungen.
+3. Formpruefung, nur zur Diagnose und ohne Wertung (E10 e): Vor und
+   nach dem Codeblock steht kein weiterer Text, innerhalb steht ein
+   vollstaendiges JSON-Objekt. Die Antwort endet also nicht mitten im
+   Objekt. Nach Teil 1, Punkt 5 spricht der zweite Versuch damit nicht
+   fuer die Laufzeitumgebung als gemeinsame Ursache. Die Ursache beim
+   ersten Versuch bleibt offen.
+4. Folge: Es gilt F1 d. FF3 wird ohne Qualitaetsmessung eines lokalen
+   Modells beantwortet. Die lokale Seite umfasst den dokumentierten
+   Einrichtungsversuch, den Einrichtungsaufwand, Laufzeit und
+   Speicherbedarf der beiden Pilotfaelle und die Datenkontrolle. Die
+   Formatfehler beider Modelle werden als explorativer Befund mit einem
+   Vorgang je Modell berichtet.
+5. Entscheidung des Verfassers am 30.09.2026: F1 d wird woertlich
+   angewandt, ohne zusaetzliche Messung. Verworfen wurde ein einzelner,
+   als explorativ gekennzeichneter Lauf von gpt-oss:20b ueber die 12
+   Vorgaenge aus F1 b. Begruendung:
+   a) Die Regel stand vor beiden Versuchen fest. Eine Zusatzmessung
+      waere nach dem Ergebnis beschlossen und wuerde die vorab
+      festgelegte Stufe d aufweichen.
+   b) Auch mit 12 Vorgaengen eines Modells bliebe der Befund explorativ.
+      Belastbar vergleichen liesse sich damit weder die Qualitaet noch
+      die Konsistenz ueber Wiederholungen.
+   c) Bis zur internen Abgabe am 13.10.2026 stehen die Pakete G und H
+      und der groesste Teil des Schreibens aus. Die Zeit geht dorthin.
+   d) FF3 bleibt beantwortbar: Kosten, Aufwand und Datenkontrolle sind
+      fuer beide Seiten gemessen oder belegt, zur Qualitaet liegt der
+      Formatbefund vor.
+6. Fuer Kapitel 7 festgehalten: ein Vorgang je lokales Modell; die
+   Erfolgsbedingung von F1 verbindet technisches Gelingen mit
+   Formattreue, obwohl ein Formatfehler nach E10 e selbst ein Messwert
+   ist; der Prompt wurde nur am API-Modell erprobt; die lokalen Modelle
+   sind viel kleiner als das API-Modell; gpt-oss stammt vom selben
+   Anbieter wie das API-Modell; qwen kennt beim Denken nur an oder aus,
+   gesendet wurde medium; die Auswahlwerte der Modelle weichen
+   voneinander ab und wurden nicht gesendet (E10 e); die
+   Laufzeitumgebung meldet keine Denk-Token; Python 3.14.7 statt 3.14.6
+   in Paket E.
+
+Herkunft: Suche im Serverprotokoll und Formpruefung durch den
+Verfasser mit Befehlen aus dem Chat vom 30.09.2026; Zuordnung nach der
+vorab committeten Regel; Entscheidung und Begruendung durch den
+Verfasser, Formulierung durch Claude.
+
+Status: festgelegt. F1 ist damit abgeschlossen.
+Bezug: FF2, FF3, Kapitel 4, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

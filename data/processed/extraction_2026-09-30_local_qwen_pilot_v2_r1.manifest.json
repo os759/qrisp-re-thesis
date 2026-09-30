@@ -1,0 +1,181 @@
+{
+  "run_id": "2026-09-30_local_qwen_pilot_v2_r1",
+  "outcome": "partial",
+  "stop_reason": null,
+  "started_at": "2026-09-30T07:16:41+00:00",
+  "finished_at": "2026-09-30T07:37:48+00:00",
+  "code_commit": "6a2ff11cff5294e48d70c8a676704ffafb86dbc5",
+  "request": {
+    "endpoint": "http://127.0.0.1:11434/v1/responses",
+    "model_requested": "qwen3.6-27b-ctx64k",
+    "models_returned": [
+      "qwen3.6-27b-ctx64k"
+    ],
+    "parameters_sent": {
+      "model": "qwen3.6-27b-ctx64k",
+      "reasoning": {
+        "effort": "medium"
+      },
+      "max_output_tokens": 25000,
+      "store": false
+    },
+    "not_sent": [
+      "temperature",
+      "reasoning mode",
+      "response format"
+    ]
+  },
+  "prompt": {
+    "version": "v2",
+    "files": [
+      "prompts/extraction_system_v2.md",
+      "prompts/extraction_user_v2.md"
+    ],
+    "sha256": {
+      "extraction_system_v2.md": "b2f72b99b6523d3f15788afa6989b3f16c19b9902954b979745e585c5e4dd693",
+      "extraction_user_v2.md": "1556f4219c2442cc82dfda5d5c06c9bb3c31304c152bc67ab811051bfc85cbdd"
+    }
+  },
+  "config": {
+    "file": "config/local_run_qwen.toml",
+    "sha256": "010540e36cdfd0593485a9600852b93d5a2ac4d120260822c6f8eac800173849"
+  },
+  "sample": {
+    "file": "docs/sample_pilot_a8.md",
+    "sha256": "2154a0313464cbd5f20572769d7ffa9003cb50409eb88f2de8cdece5a1599899",
+    "pull_numbers": [
+      64,
+      71,
+      86,
+      136,
+      166,
+      169,
+      171,
+      187,
+      214,
+      241,
+      294,
+      299,
+      307,
+      316,
+      442,
+      448,
+      552,
+      615,
+      676,
+      705
+    ]
+  },
+  "model_input": {
+    "file": "data/processed/model_input_2026-09-19.jsonl",
+    "sha256": "61113427c6b7aecea9cd40c8d6905276ab2da5f14838ed698c34078a54ac19ee"
+  },
+  "files": {
+    "raw": "data/processed/extraction_2026-09-30_local_qwen_pilot_v2_r1.raw.jsonl",
+    "extraction": "data/processed/extraction_2026-09-30_local_qwen_pilot_v2_r1.jsonl",
+    "manifest": "data/processed/extraction_2026-09-30_local_qwen_pilot_v2_r1.manifest.json"
+  },
+  "prices_usd_per_million": {
+    "retrieved": "not applicable",
+    "input_per_million": 0.0,
+    "output_per_million": 0.0,
+    "cache_write_multiplier": 1.0
+  },
+  "environment": {
+    "python": "3.14.7",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "requests": "2.34.2"
+  },
+  "counts": {
+    "planned": 20,
+    "answered": 1,
+    "not_answered": [
+      71,
+      86,
+      136,
+      166,
+      169,
+      171,
+      187,
+      214,
+      241,
+      294,
+      299,
+      307,
+      316,
+      442,
+      448,
+      552,
+      615,
+      676,
+      705
+    ],
+    "completed": 1,
+    "incomplete": 0,
+    "valid_json_object": 0,
+    "pull_number_mismatch": [],
+    "reached_context_limit": []
+  },
+  "tokens": {
+    "input_tokens": 5862,
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "output_tokens": 8025,
+    "reasoning_tokens": 0
+  },
+  "cost_upper_bound_usd": 0.0,
+  "per_pull": [
+    {
+      "pull_number": 64,
+      "response_id": "resp_343608",
+      "model_returned": "qwen3.6-27b-ctx64k",
+      "status": "completed",
+      "incomplete_reason": null,
+      "reasoning": {
+        "effort": "medium"
+      },
+      "store_applied": false,
+      "temperature_applied": 1,
+      "top_p_applied": 1,
+      "service_tier": "default",
+      "started_at": "2026-09-30T07:16:41+00:00",
+      "duration_seconds": 1267.01,
+      "attempts_logged": 0,
+      "input_tokens": 5862,
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "output_tokens": 8025,
+      "reasoning_tokens": 0,
+      "cost_upper_bound_usd": 0.0,
+      "valid_json_object": false,
+      "parse_problem": "not valid JSON: Expecting value at position 0",
+      "pull_number_in_output": null,
+      "reached_context_limit": false
+    }
+  ],
+  "runtime": {
+    "snapshots": [
+      {
+        "kind": "ollama",
+        "version": "0.34.4",
+        "model": "qwen3.6-27b-ctx64k",
+        "model_digest": "8b11e599a1b76c0e0d2d362dc1261ff4cfe5608ae0639fd2a85bc4ef6c0947d3",
+        "weights_blob_sha256": "415aad607fc297a2ad84cda238febbde295f49f17c17ad7784e2246060fb06d0",
+        "details": {
+          "parent_model": "qwen3.6:27b",
+          "format": "gguf",
+          "family": "qwen35",
+          "families": [
+            "qwen35"
+          ],
+          "parameter_size": "27.3B",
+          "quantization_level": "Q4_K_M"
+        },
+        "parameters": "temperature                    1\ntop_k                          20\ntop_p                          0.95\ndraft_num_predict              3\nmin_p                          0\nnum_ctx                        65536\npresence_penalty               0\nrepeat_penalty                 1",
+        "num_ctx": 65536
+      }
+    ],
+    "consistent": true,
+    "reasoning_tokens_reported": false
+  }
+}

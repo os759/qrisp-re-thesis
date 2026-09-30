@@ -5,7 +5,7 @@ Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
 
-Stand 29.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
+Stand 30.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
 Arbeit bis heute gelaufen ist und warum. Einzelheiten stehen weiter
 unten und in docs/entscheidungen.md.
 
@@ -129,20 +129,35 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     ein Bewertungskriterium ist. Kosten und Laufzeit stehen in der
     Kostenschaetzung.
 
-Warum der naechste Schritt jetzt kommt: Paket E ist abgeschlossen,
-die Pruefzahlen des Volllaufs stehen fest. Der Stand ist als Git-Tag
-thesis-v1.0 eingefroren, weil spaetere Aenderungen sonst nicht von dem
-Stand zu trennen waeren, mit dem die Arbeit gemessen hat. Als
-Naechstes kommt das lokale Modell (Paket F), nach Paket E und nicht
-parallel. Es wird an denselben Faellen mit denselben Programmen
-geprueft; deshalb brauchte es diese endgueltigen Zahlen. Der
-Kontrollpunkt ist Di 29.09.: Laeuft das lokale Modell dann nicht an
-einem Pilotfall, wird am selben Tag entschieden, wie FF3 mit
-kleinerem Umfang beantwortet wird.
+11. Lokales Modell und Kontrollpunkt (29. und 30.09.2026): Fuer den
+    Vergleich mit dem API-Modell lief ein Sprachmodell auf dem eigenen
+    Rechner, ausgefuehrt vom Programm Ollama. Das bestehende
+    Aufrufprogramm wurde dafuer nur erweitert, weil ein Unterschied
+    sonst am Aufrufweg liegen koennte. Vor dem ersten Versuch stand
+    eine Regel fest, was bei einem Fehlschlag gilt, weil eine Kuerzung
+    sonst nach dem Ergebnis gewaehlt wirken koennte. Beide lokalen
+    Modelle haben den Pilotfall vollstaendig beantwortet, aber das
+    Format verfehlt: gpt-oss:20b brach mitten im JSON-Objekt ab,
+    qwen3.6:27b setzte einen Markdown-Codeblock darum. Damit gilt die
+    vorab festgelegte Stufe ohne Qualitaetsmessung eines lokalen
+    Modells. FF3 vergleicht Kosten, Aufwand und Datenkontrolle, zur
+    Qualitaet nur den Formatbefund an je einem Fall. Eine
+    Zusatzmessung hat der Verfasser verworfen, weil sie nach dem
+    Ergebnis beschlossen waere und die Zeit fuer die Pakete G und H
+    fehlt.
+
+Warum der naechste Schritt jetzt kommt: Der Kontrollpunkt ist
+entschieden, und alles dazu ist noch frisch. Deshalb wird zuerst der
+Abschnitt zum Pilotfall in Kapitel 6 geschrieben, weil jedes Paket
+jetzt mit einem Abschnitt in thesis.tex endet. Danach werden die
+Messgroessen fuer FF3 festgelegt, angepasst an den kleineren Umfang,
+weil sie vor jeder Auswertung feststehen muessen. Paket G folgt ab
+Do 01.10.2026.
 
 Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve. Groesstes Risiko ist das lokale Modell, Kontrollpunkt 29.09.
+Reserve. Das Risiko lokales Modell ist erledigt; groesstes Risiko ist
+jetzt der Umfang der Pakete G und H neben dem Schreiben.
 
 
 ## Zusammenarbeit im Chat
@@ -223,6 +238,17 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   Zahlen. Am 28.09.2026 sind die Inhalte aller 28 Zitate der Regel 3
   trotzdem in den Chat gelangt (Nachtrag zu E10 vom 28.09.2026,
   Teil 4). Claude hat daraufhin keine Zuordnung vorgeschlagen.
+- Jedes Paket endet mit mindestens einem Abschnitt in
+  thesis/thesis.tex, bevor der Chat wechselt, weil das Wissen dann noch
+  frisch ist und nicht aus Notizen rekonstruiert werden muss (Wunsch
+  des Verfassers, 30.09.2026).
+- Installationen ueber Homebrew koennen andere Pakete mit anheben. Am
+  29.09.2026 hob brew install ollama Python von 3.14.6 auf 3.14.7.
+  Claude nennt das vorher. Befehle, die nachfragen koennen, werden
+  einzeln eingefuegt.
+- Eine Erfolgsbedingung trennt technisches Gelingen von der
+  Messgroesse. F1 hat beides verbunden: Ein Formatfehler, selbst ein
+  Messwert, zaehlte als misslungener Pilotfall (30.09.2026).
 
 ## Kuerzel
 
@@ -259,8 +285,11 @@ Doppelt belegte Kuerzel - immer mit Klartext verwenden:
 Weitere Kuerzel:
 Paket A bis I = Arbeitspakete (je ein Chat). A1 bis A8 = Aufgaben in
 Paket E; A8 = Pilotlauf mit 20 Pull Requests, Teilschritte 1 bis 12.
-C, D, E mit Nummer = Entscheidungen der Pakete C, D, E in
+C, D, E, F mit Nummer = Entscheidungen der Pakete C, D, E, F in
 docs/entscheidungen.md, ausser den oben genannten Regeln E1 bis E3.
+Stufen a bis d = Stufen von F1, Umfang von FF3 nach dem Kontrollpunkt;
+es gilt Stufe d. Pilotfall = PR 64, gesendet an ein lokales Modell
+nach F1.
 K1 bis K10 = Kriterien der Formatauswahl, docs/formatauswahl.md
 Abschnitt 2. R1 bis R11 = Regeln fuer die Noten, dort Abschnitt 4.
 Ebenen (a) bis (d) = die vier Ebenen einer Anforderung: (a) Sicht,
@@ -290,8 +319,12 @@ Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 ## Umgebung
 
 MacBook Pro, Apple M3 Pro, 36 GB RAM, ca. 515 GB frei
-macOS-27.0-arm64 (laut Manifest, berichtigt 24.09.2026) - Python 3.14.6 (Homebrew) - pip 26.1.2 - Git 2.50.1
+macOS-27.0-arm64 (laut Manifest, berichtigt 24.09.2026) - Python 3.14.7 (Homebrew; bis 29.09.2026 3.14.6, angehoben durch brew install ollama) - pip 26.1.2 - Git 2.50.1
 TeX Live 2026
+Ollama 0.34.4 (Homebrew, stabile Fassung), Modelle gpt-oss:20b und
+qwen3.6:27b, abgeleitet gpt-oss-20b-ctx64k und qwen3.6-27b-ctx64k aus
+config/ollama/. Bis zur Abgabe kein brew upgrade, weil sonst die
+Version wechselt (F2).
 Repository: /Users/omar/Developer/qrisp-re-thesis
 Remote: github.com/os759/qrisp-re-thesis (privat, SSH)
 Pakete laut requirements.txt: requests 2.34.2, pytest 9.1.1, jsonschema 4.26.0 sowie 
@@ -565,9 +598,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-373 Tests, ausfuehren aus der Projektwurzel:
+392 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 29.09.2026 (373 passed) unter Python 3.14.6,
+Zuletzt gruen am 30.09.2026 (392 passed) unter Python 3.14.7,
 abgelesen vom Aktualisierungsskript.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
@@ -582,8 +615,9 @@ test_prompt_files.py (30 Tests, Prompt v1 und v2 gegen Schema; v2
 darf nur die Regeln fuer Zitate aus Diffs aendern),
 test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen),
 test_draw_sample.py (15 Tests, Schalter --sizes und --exclude, E10 a),
-test_run_extraction.py (26 Tests, Aufrufprogramm ohne Netz, mit
-erfundenen Antworten), test_diagnose_excerpts.py (51 Tests,
+test_run_extraction.py (45 Tests, Aufrufprogramm ohne Netz, mit
+erfundenen Antworten; seit 30.09.2026 auch der lokale Aufrufweg,
+geprueft gegen 15 absichtlich eingebaute Fehler), test_diagnose_excerpts.py (51 Tests,
 Ursachensuche fuer abgelehnte Zitate), test_inspect_excerpts.py
 (35 Tests, Anzeige und Auszaehlung fuer Regel 3),
 test_breakdown_rejections.py (17 Tests, Ablehnungen nach
@@ -816,23 +850,69 @@ beide Programme nutzen dieselbe Pruefung. Nach Regel 3 am 28. und
 ersten verletzten Pruefung: Schema 3, E6 6, Zitat 115 (Nachtrag zu
 E10 vom 28.09.2026, Teil 4; dort alle Zahlen).
 
+Paket F, Kontrollpunkt am 29. und 30.09.2026: Ollama mit gpt-oss:20b
+(F2) und dem Ersatzmodell qwen3.6:27b, beide mit Kontextfenster
+65 536, Aufruf ueber run_extraction.py mit config/local_run.toml und
+config/local_run_qwen.toml. Der Pilotfall ist mit beiden Modellen
+nicht gelungen, es gilt F1 d (Nachtrag zu F1, Teil 1 und 2). Messwerte
+in den Manifesten der Laeufe 2026-09-30_local_pilot_v2_r1 und
+2026-09-30_local_qwen_pilot_v2_r1. Rohdateien lokal, Serverprotokoll
+unter ~/qrisp-ollama-logs/.
+
+Freigegebene Feingliederung fuer den ersten Abschnitt in Kapitel 6,
+freigegeben vom Verfasser am 30.09.2026. Zieldatei thesis/thesis.tex,
+im Kapitel cha:evaluation. Der Platzhalter des Kapitels bleibt, weil
+Design und Auswertung noch fehlen; die genaue Zeile legt der neue Chat
+fest.
+  \section{Kontrollpunkt und Pilotfall der lokalen Modelle},
+  Label sec:eval-pilot-lokal. Einleitung: FF3 verlangt einen
+  praktischen Vergleich; das lokale Modell war das groesste
+  Zeitrisiko, daher ein Kontrollpunkt mit vorab festgelegter Regel.
+  1. Vorab festgelegte Regel, subsec:pilot-regel: Pilotfall,
+     Erfolgsbedingung, Frist, Stufen a bis d in Kurzform, gleiche
+     Einstellungen wie beim API-Modell, Zeitpunkt durch Commits
+     belegt, Lesart ein Versuch, Zuordnungsregel vor der
+     Ursachensuche.
+  2. Versuchsbedingungen, subsec:pilot-bedingungen, Tabelle
+     tab:pilot-bedingungen: Rechner, nutzbarer Grafikspeicher,
+     Laufzeitumgebung mit Version, Schnittstelle, Prompt-Version,
+     Kontextfenster (Standard waere 32 768 gewesen), Denkeinstellung
+     je Modell, nicht gesendete Auswahlwerte, Datenkontrolle.
+     Einzelheiten in Kapitel 5, hier nur ein Verweis.
+  3. Erster Versuch mit gpt-oss:20b, subsec:pilot-gptoss: Ergebnis,
+     Formpruefung, ausgeschlossene Ursachen, Protokoll ohne
+     Stoppmeldung, nicht entscheidbar.
+  4. Zweiter Versuch mit qwen3.6:27b, subsec:pilot-qwen: Wahl nach der
+     Regel, Codeblock, die Diagnose (innen ein gueltiges Objekt)
+     ausdruecklich nicht gewertet, spricht nicht fuer Ollama als
+     gemeinsame Ursache.
+  5. Folge fuer FF3, subsec:pilot-folge: F1 d als Entscheidung des
+     Verfassers mit Begruendung (Nachtrag zu F1, Teil 2, Punkt 5);
+     was FF3 danach vergleicht; Tabelle tab:pilot-ergebnisse fuer PR 64 mit
+     gpt-5.6-terra (Pilot v2 und Volllauf), gpt-oss und qwen:
+     Eingabe- und Ausgabe-Token, Dauer, gueltiges JSON-Objekt;
+     explorativ, ein Vorgang je Modell.
+  Validitaetsbedrohungen nicht hier, sondern in Kapitel 7 (Liste im
+  Nachtrag zu F1, Teil 2, Punkt 6). Belege: Manifeste und
+  docs/entscheidungen.md; in online.bib die Ollama-Dokumentation zur
+  OpenAI-Kompatibilitaet, abgerufen am 29.09.2026. Weitere Quellen zu
+  den Modellen erst nach dem Lesen.
+
 Naechste Schritte in dieser Reihenfolge:
-1. Paket F (lokales Modell), nach Paket E und nicht parallel
-   (Entscheidung des Verfassers vom 28.09.2026). Zu Beginn den
-   Kontrollpunkt vom Di 29.09. pruefen: Laeuft das lokale Modell nicht
-   an einem Pilotfall, am selben Tag entscheiden, wie FF3 mit
-   kleinerem Umfang beantwortet wird (Zeitplan, Risiko 1).
-2. Modellvergleich FF3: die sechs Messgroessen in Paket F vorab
-   festlegen. Material fuer die Unbelegtheitsrate: die Zitatablehnungen
-   nach Regel 2 mit Ursachen und Unterarten und die Anforderungen mit
-   zu hoch angegebener Belegstaerke nach E6 (Zahlen im Nachtrag zu E10
-   vom 28.09.2026, Teil 4). Berichtigt am 29.09.2026: Die fruehere
-   Fassung nannte nur die Unterart ohne_gegenstueck, die im Volllauf
-   nicht vorkommt. Welche Ablehnungen als unbelegt zaehlen, legt die
-   Definition der Messgroesse in Paket F fest.
-3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
-4. Erledigt am 29.09.2026: Abschlusscommit von Paket E und Tag
-   thesis-v1.0 in der Commit-Liste von Paket E nachgetragen.
+1. Paket F Teil 2 im neuen Chat: zuerst den Abschnitt
+   sec:eval-pilot-lokal nach der Feingliederung oben schreiben
+   (Fliesstext, Begruendung je Absatz, offene Belege, BibTeX).
+2. Messgroessen fuer FF3 vorab festlegen, hoechstens sechs mit
+   Zahlenwerten, angepasst an F1 d. API-Seite mit den vorhandenen
+   Laeufen: zwei Durchgaenge an 20 Vorgaengen fuer die Konsistenz;
+   Material fuer die Unbelegtheitsrate sind die Zitatablehnungen nach
+   Regel 2 und die Ablehnungen nach E6 (Nachtrag zu E10 vom
+   28.09.2026, Teil 4). Welche davon als unbelegt zaehlen, legt die
+   Definition fest. Lokale Seite: Laufzeit, Speicherbedarf,
+   Einrichtungsaufwand, Datenkontrolle.
+3. Paket G ab Do 01.10.2026 (Klassifikation, Sicherheitsraster,
+   Gap-Analyse, FF4), am Ende mit einem Abschnitt in thesis.tex.
+4. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
 5. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
    in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum
    Datenmodell in 4.1.4. Der Platzhalter kann jetzt gefuellt werden;
@@ -1182,7 +1262,10 @@ Extern, mit Vorlauf:
   Kommentar einen eigenen Link geliefert; Variante B (Nachtrag zu E10
   vom 28.09.2026, Teil 4).
 - Gegenpruefung der Zuordnung nach Regel 3 durch Claude: angeboten
-  am 28.09.2026, bisher nicht angefordert. Sonst bleibt fuer
+  am 28.09.2026. Der Verfasser wuenscht sie seit dem 30.09.2026, wenn
+  sie keinen Mehraufwand macht. Sie braucht die Inhalte der 28 Zitate,
+  die nach der Regel zu Inhalten nicht in den Chat gehen. Deshalb nur,
+  wenn sich dafuer ein Weg ohne Mehraufwand findet. Sonst bleibt fuer
   Kapitel 7: eine Person ordnet zu.
 - Commit d09a1df steht nicht in der Commit-Liste von Paket E; bei der
   Uebergabe am 24.09.2026 mit git log nachgetragen.
@@ -1254,7 +1337,14 @@ Aus Paket D in spaetere Pakete uebernommen:
 - Erledigt: Schemavalidierung mit 54 Tests (E6).
 
 Technisch und redaktionell:
-- Lokale Inferenz mit Python 3.14: ungeprueft, Kontrollpunkt Di 29.09.2026
+- Erledigt am 30.09.2026: Lokale Inferenz braucht kein eigenes
+  Python. Ollama ist ein eigenes Programm; run_extraction.py sendet nur
+  HTTP-Anfragen (F2).
+- Serverprotokolle von Ollama liegen lokal unter ~/qrisp-ollama-logs/,
+  nicht im Repository (F2). Vor der Abgabe entscheiden, ob ein Auszug
+  mit Zahlen (Zeitmessung, truncated) ins Repository kommt.
+- tests/README.md nennt noch 373 Tests. Beim naechsten Code-Commit
+  oder in Paket I auf den Stand der Testsuite nachziehen.
 - Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
   Z. 29 Abstract · Z. 39 Einleitung · Z. 443 SATZ UEBERARBEITEN ·
   Z. 508 Verweis auf die Entscheidungsmatrix ·
@@ -1446,6 +1536,15 @@ b3cf18d code: Pruefprogramm duldet Rand-Leerraum ausser Kennzeichenrest, Tests (
 44c1162 docs: Abschluss Paket E, Nachtrag zu E10 Teil 4 (Regel 3), Zuordnungstabelle, Abschnitt 6.3, STATUS, KI-Protokoll, tests/README.md auf 373 Tests
 Tag thesis-v1.0 auf 44c1162
 
+## Commits Paket F
+
+8237e56 code: Lokaler Aufrufweg ueber Ollama (Paket F): ohne Schluessel nur auf diesem Rechner, Kontextfenster vor dem ersten Aufruf geprueft, Laufzeitstand je Antwort im Manifest, 19 Tests; config/local_run.toml und Modelfile
+bb5d8bb docs: F1 Umfang von FF3 nach dem Kontrollpunkt (Frist Mi 30.09.2026, 12:00 Uhr), F2 Ollama 0.34.4 und gpt-oss:20b; STATUS: Abschlusscommit und Tag thesis-v1.0 in der Commit-Liste von Paket E, Material der Unbelegtheitsrate berichtigt
+767a381 docs: Nachtrag zu F1 Teil 1, Pilotfall mit gpt-oss nicht gelungen (Antwort endet mitten im JSON-Objekt), Lesart 1, Zuordnungsregel fuer den zweiten Versuch; Manifest des Laufs 2026-09-30_local_pilot_v2_r1
+6a2ff11 code: Ersatzmodell qwen3.6:27b fuer den zweiten Versuch nach F1 c (Stoppgrund nicht entscheidbar), Modelfile mit Kontextfenster 65536 und config/local_run_qwen.toml
+Der Uebergabe-Commit vom 30.09.2026 fehlt hier; im naechsten Chat mit
+git log nachtragen.
+
 ## Aufruf des Ziehungsskripts
 
 python src/analyze/draw_sample.py \
@@ -1498,6 +1597,18 @@ Die Prompt-Version kommt aus config/api_run.toml, seit dem 24.09.2026
 v2. Laeufe bisher: 2026-09-22_pilot (v1), 2026-09-24_pilot_v2 (v2),
 2026-09-25_full_v2 (v2, Volllauf, Liste docs/sample_full_run_e.md).
 
+Lokale Laeufe (Paket F, F2): zuerst den Server in einem eigenen
+Fenster starten,
+  mkdir -p ~/qrisp-ollama-logs
+  OLLAMA_NO_CLOUD=1 OLLAMA_NUM_PARALLEL=1 ollama serve 2>&1 | tee -a ~/qrisp-ollama-logs/serve_$(date +%F).log
+dann run_extraction.py mit --config config/local_run.toml (gpt-oss)
+oder --config config/local_run_qwen.toml (qwen). Kein Schluessel; das
+Programm fragt vor dem ersten Aufruf Version und Kontextfenster ab und
+sendet nichts, wenn das Fenster nicht 65 536 ist. Laeufe:
+2026-09-30_local_pilot_v2_r1 (gpt-oss) und
+2026-09-30_local_qwen_pilot_v2_r1 (qwen), beide nur PR 64 mit
+--limit 1, nicht fortgesetzt (F1 d).
+
 Ursachensuche fuer abgelehnte Zitate, gibt keine Inhalte aus:
 python src/extract/diagnose_excerpts.py \
   --input data/processed/extraction_<Kennung>.jsonl \
@@ -1538,6 +1649,8 @@ W8 21.-27.09. Paket E: A8 abgeschlossen Do 24.09., ausser den Links
               Regel 1 abgeschlossen (Nachtrag zu E10 vom 27.09.).
 W9 28.09.-04.10. Paket F: Laeufe des lokalen Modells an derselben
               Stichprobe, Modellvergleich FF3 bis Mi 30.09.
+              tatsaechlich: Kontrollpunkt am 29. und 30.09., F1 d,
+              keine Laeufe ueber die Stichprobe.
               Paket G: Klassifikation, Sicherheitsraster,
               Gap-Analyse FF4 von Do 01.10. bis So 04.10.
               Kriterienliste v1, Evaluationsstichprobe ziehen.
@@ -1568,6 +1681,12 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
 
+Stand 30.09.2026, W9. Kontrollpunkt entschieden, es gilt F1 d. Die
+Laeufe des lokalen Modells ueber die Stichprobe entfallen. Paket F
+endet mit dem Abschnitt zum Pilotfall in Kapitel 6 und den
+Messgroessen fuer FF3, danach Paket G ab Do 01.10. Bis zur internen
+Abgabe am 13.10.2026 verbleiben 13 Tage, bis zur Abgabe 15 Tage.
+
 Stand 29.09.2026, W9. Paket E abgeschlossen, die Pruefung des
 Volllaufs ist endgueltig. Paket F beginnt heute, nach Paket E statt
 parallel. Der Modellvergleich war bis Mi 30.09. geplant und ist damit
@@ -1586,10 +1705,10 @@ bleibt. Bis zur internen Abgabe am 13.10.2026 verbleiben 19 Tage, bis
 zur Abgabe 21 Tage.
 
 Drei Risiken, in dieser Reihenfolge:
-1. Lokales Modell (Paket F). Der Verfasser hat damit keine Erfahrung,
-   Python 3.14 ist sehr neu. Kontrollpunkt: Bis Di 29.09. laeuft das
-   lokale Modell an einem Pilotfall. Sonst am selben Tag entscheiden,
-   wie FF3 mit kleinerem Umfang beantwortet wird.
+1. Erledigt am 30.09.2026: Lokales Modell (Paket F). Der
+   Kontrollpunkt ist entschieden, es gilt F1 d, FF3 ohne
+   Qualitaetsmessung eines lokalen Modells. Python 3.14 war kein
+   Hindernis.
 2. Umfang. Pakete F, G und H liegen in zweieinhalb Wochen. Jede
    Kuerzung muss alle vier FF beantwortbar lassen und wird mit dem
    Betreuer abgestimmt. Kapitel 3 und Phase 2 der Literatursuche
