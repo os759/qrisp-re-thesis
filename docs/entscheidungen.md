@@ -2777,6 +2777,57 @@ Verfasser vor dem Pilotfall.
 Status: festgelegt.
 Bezug: FF3, Kapitel 2, Kapitel 4 Abschn. 4.6, Kapitel 5, Kapitel 7.
 
+### Nachtrag zu F1 (2026-09-30): Ergebnis des Pilotfalls und Regel fuer den zweiten Versuch
+
+Pilotfall am 30.09.2026: PR 64 mit gpt-oss-20b-ctx64k, Lauf
+2026-09-30_local_pilot_v2_r1. Messwerte im Manifest
+data/processed/extraction_2026-09-30_local_pilot_v2_r1.manifest.json.
+
+1. Ergebnis nach F1: nicht gelungen. Die Antwort ist laut
+   Laufzeitumgebung vollstaendig (status completed), steht aber nicht als
+   JSON-Objekt in der Extraktionsdatei.
+2. Lesart von F1: Der Pilotfall ist ein einziger Versuch. Ein weiterer
+   Versuch mit demselben Modell an PR 64 zaehlt nicht, weil F1 genau
+   einen Aufruf mit --limit 1 nennt und ein Wiederholen bis zum Erfolg
+   eine Auswahl nach dem Ergebnis waere. Gewaehlt vom Verfasser am
+   30.09.2026, vor der Ursachensuche. Es gilt F1 c.
+3. Formpruefung der Antwort, ohne Inhalte und ohne Reparatur: Der
+   Antworttext beginnt mit einer oeffnenden geschweiften Klammer, endet
+   aber mitten im Objekt; das JSON-Modul meldet am Textende ein fehlendes
+   Komma. Keine Codeblock-Umrahmung. Die Antwort enthaelt einen Denkteil
+   und eine Nachricht. Das Kontextfenster wurde nicht erreicht, das
+   Serverprotokoll meldet truncated = 0.
+4. Moegliche Ursachen: (a) Das Modell beendet seine Nachricht mit einem
+   Endzeichen, bevor das Objekt geschlossen ist. (b) Die
+   Laufzeitumgebung beendet die Ausgabe vorzeitig und meldet trotzdem
+   completed. Aus den Zahlen allein ist das nicht entscheidbar.
+5. Zuordnungsregel, festgelegt vor der Einsicht in die Stoppmeldungen
+   des Serverprotokolls. Gesucht wird im Serverprotokoll des Laufs nach
+   Zeilen mit stopped, cancel, n_decoded oder n_predict.
+   - Ende durch ein Endzeichen des Modells (etwa stopped by EOS, oder
+     stopped by word mit einem Harmony-Endzeichen): Ursache (a). Zweiter
+     Versuch mit qwen3.6:27b in derselben Laufzeitumgebung, dem Ersatz
+     aus F2.
+   - Abbruch durch eine Grenze oder durch Ollama (etwa stopped by limit
+     oder cancel): Ursache (b). Zweiter Versuch mit gpt-oss:20b in einer
+     anderen Laufzeitumgebung, gewaehlt nach Recherche.
+   - Kein Stoppgrund im Protokoll: nicht entscheidbar. Zweiter Versuch
+     mit qwen3.6:27b in derselben Laufzeitumgebung, weil F2 dieses Modell
+     als Ersatz nennt und Programm und Aufrufweg gleich bleiben. Endet
+     auch diese Antwort mitten im Objekt, spricht das fuer Ursache (b);
+     das wird in Kapitel 7 berichtet, und es gilt F1 d.
+6. Die Antwort von gpt-oss zu PR 64 bleibt als Messwert erhalten: ein
+   Formatfehler bei einem Vorgang. Rohdatei lokal, Manifest versioniert.
+   Der Lauf 2026-09-30_local_pilot_v2_r1 wird nicht fortgesetzt.
+
+Herkunft: Formpruefung durch den Verfasser mit einem Diagnoseprogramm
+aus dem Chat vom 30.09.2026; Lesart durch den Verfasser; Zuordnungsregel
+von Claude vorgeschlagen, vom Verfasser vor der Einsicht festgelegt.
+
+Status: festgelegt (Teil 1). Teil 2 folgt mit dem Ergebnis der
+Zuordnung.
+Bezug: FF2, FF3, Kapitel 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
