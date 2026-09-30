@@ -823,12 +823,16 @@ Naechste Schritte in dieser Reihenfolge:
    an einem Pilotfall, am selben Tag entscheiden, wie FF3 mit
    kleinerem Umfang beantwortet wird (Zeitplan, Risiko 1).
 2. Modellvergleich FF3: die sechs Messgroessen in Paket F vorab
-   festlegen. Material fuer die Unbelegtheitsrate: die Unterart
-   ohne_gegenstueck und die Ablehnungen nach E6 (Nachtrag zu E10 vom
-   28.09.2026, Teil 4).
+   festlegen. Material fuer die Unbelegtheitsrate: die Zitatablehnungen
+   nach Regel 2 mit Ursachen und Unterarten und die Anforderungen mit
+   zu hoch angegebener Belegstaerke nach E6 (Zahlen im Nachtrag zu E10
+   vom 28.09.2026, Teil 4). Berichtigt am 29.09.2026: Die fruehere
+   Fassung nannte nur die Unterart ohne_gegenstueck, die im Volllauf
+   nicht vorkommt. Welche Ablehnungen als unbelegt zaehlen, legt die
+   Definition der Messgroesse in Paket F fest.
 3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
-4. Erster Commit in Paket F: Abschlusscommit von Paket E und den Tag
-   thesis-v1.0 in die Commit-Liste von Paket E nachtragen.
+4. Erledigt am 29.09.2026: Abschlusscommit von Paket E und Tag
+   thesis-v1.0 in der Commit-Liste von Paket E nachgetragen.
 5. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
    in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum
    Datenmodell in 4.1.4. Der Platzhalter kann jetzt gefuellt werden;
@@ -1439,6 +1443,8 @@ b3cf18d code: Pruefprogramm duldet Rand-Leerraum ausser Kennzeichenrest, Tests (
 4742be8 docs: Nachtrag zu E10 Teil 3, Zuordnungsregel fuer Regel 3 im Volllauf
 92a6803 code: Abschnitt 6.3 aus dem Manifest und Links je Beleg (Teilschritt 10), 36 Tests
 8543bb9 docs: Nachtrag zu E10 Teil 3a, Auslegung von 1 b bis 1 d vor dem Ausfuellen
+44c1162 docs: Abschluss Paket E, Nachtrag zu E10 Teil 4 (Regel 3), Zuordnungstabelle, Abschnitt 6.3, STATUS, KI-Protokoll, tests/README.md auf 373 Tests
+Tag thesis-v1.0 auf 44c1162
 
 ## Aufruf des Ziehungsskripts
 

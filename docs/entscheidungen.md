@@ -2644,10 +2644,144 @@ Status: festgelegt (Teil 4). Die Pruefung des Volllaufs ist
 abgeschlossen.
 Bezug: FF1, FF2, FF3, Kapitel 5, 6 und 7.
 
+## 2026-09-29 Paket F: Kontrollpunkt und lokales Modell
+
+### 2026-09-29 F1 Umfang von FF3 nach dem Kontrollpunkt
+
+Festgelegt vor dem Pilotfall, damit der Umfang von FF3 nicht nach dem
+Ergebnis gewaehlt wird (STATUS.md, Zeitplan, Risiko 1). Vorher lag nur
+ein Probeaufruf ohne Daten dieser Arbeit am 29.09.2026 um 23:46 Uhr
+(Serverprotokoll). Er pruefte, ob die Laufzeitumgebung die Felder des
+Aufrufprogramms annimmt. Eine erste Fassung mit der Frist Di 29.09.2026,
+22:00 Uhr, wurde nicht committet, weil die Frist vor dem Commit
+verstrichen war.
+
+Pilotfall: PR 64 aus docs/sample_pilot_a8.md, gesendet mit
+src/extract/run_extraction.py, config/local_run.toml und --limit 1. Er
+gilt als gelungen, wenn die Antwort vollstaendig ist und als
+JSON-Objekt in der Extraktionsdatei steht. Ob validate_output.py sie
+annimmt, zaehlt dafuer nicht, weil eine Ablehnung selbst ein Messwert
+ist.
+
+Frist fuer den Pilotfall: Mi 30.09.2026, 12:00 Uhr.
+
+Einstellungen in allen Stufen wie beim API-Modell: Prompt v2,
+Modelleingabe data/processed/model_input_2026-09-19.jsonl,
+Denkaufwand medium, max_output_tokens 25000, keine Formathilfe der
+Laufzeitumgebung (E10 e, E11 b).
+
+a) Pilotfall innerhalb der Frist gelungen: zwei Durchgaenge mit
+   gleichen Einstellungen ueber alle 20 Vorgaenge der Pilotstichprobe,
+   wie beim API-Modell. Vor dem Rest des ersten Durchgangs ein
+   Probelauf mit --limit 5.
+b) Wie a, aber die Hochrechnung aus dem Probelauf liegt ueber 16
+   Stunden fuer beide Durchgaenge. Hochrechnung: mittlere Dauer je
+   Vorgang aus Pilotfall und Probelauf mal 40. Dann laeuft der erste
+   Durchgang ueber alle 20, der zweite nur ueber 12 Vorgaenge. Die 12
+   sind je Schicht die ersten, aufgerundet halb so viele, in der
+   Reihenfolge von docs/sample_pilot_a8.md: 64, 71, 86, 136, 169, 171,
+   187, 294, 299, 316, 442, 448. Die Konsistenz beider Modelle wird
+   dann an diesen 12 verglichen.
+c) Pilotfall nicht gelungen: ein zweiter Versuch bis Mi 30.09.2026,
+   20:00 Uhr, mit einer anderen Laufzeitumgebung oder einem anderen
+   Modell, gewaehlt nach der Fehlerursache. Gelingt er, laufen beide
+   Durchgaenge ueber die 12 Vorgaenge aus b.
+d) Auch c misslingt: FF3 wird ohne Qualitaetsmessung eines lokalen
+   Modells beantwortet. Die lokale Seite besteht dann aus dem
+   dokumentierten Einrichtungsversuch, dem Einrichtungsaufwand und der
+   Datenkontrolle. Das weicht vom Expose ab, das einen praktischen
+   Vergleich vorsieht, und wird vor dem Schreiben mit dem Betreuer
+   abgestimmt.
+
+Begruendung der Schwelle von 16 Stunden: Paket G beginnt laut Zeitplan
+am Do 01.10.2026. Beide Durchgaenge muessen bis dahin fertig sein; 16
+Stunden entsprechen einer Nacht und einem Arbeitstag. Die Schwelle ist
+eine Festlegung dieser Arbeit, keine Quellenangabe.
+
+Herkunft: Vorschlag von Claude im Chat vom 29.09.2026, vom Verfasser
+vor dem Pilotfall festgelegt.
+
+Status: festgelegt.
+Bezug: FF3, Kapitel 4, Kapitel 5, Kapitel 7.
+
+### 2026-09-29 F2 Laufzeitumgebung und lokales Modell
+
+Gewaehlt: Ollama 0.34.4, stabile Fassung aus Homebrew, als
+Laufzeitumgebung und gpt-oss:20b von OpenAI als lokales Modell fuer
+FF3. Daraus abgeleitet das Modell gpt-oss-20b-ctx64k nach
+config/ollama/gpt-oss-20b-ctx64k.Modelfile mit einem Kontextfenster von
+65 536 Token. Aufgerufen wird es ueber dieselbe Schnittstelle
+/v1/responses und dasselbe Programm run_extraction.py wie das
+API-Modell, mit config/local_run.toml. Versionsnummer, Pruefsumme des
+Modells und Kontextfenster schreibt das Programm in jedes Manifest.
+
+Begruendung:
+1. Aufrufweg. Ollama unterstuetzt /v1/responses mit den Feldern, die
+   run_extraction.py sendet (https://docs.ollama.com/api/openai-compatibility,
+   abgerufen am 29.09.2026). Der Probeaufruf vom 29.09.2026 kam mit
+   status completed und store false zurueck. Ein Unterschied zum
+   API-Modell kann damit nicht am Aufrufweg liegen.
+2. Speicher. Modell und Kontextfenster belegen laut Serverprotokoll
+   13 838 von 28 753 MiB Grafikspeicher; ollama ps meldet 100% GPU.
+3. Denkaufwand. gpt-oss kennt die Stufen low, medium und high, Standard
+   medium (ollama show). Die Einstellung aus E10 d bleibt erhalten.
+4. Lizenz Apache 2.0 (ollama show). Kein Schluessel, kein Konto, keine
+   Daten verlassen den Rechner: Cloud-Funktionen abgeschaltet
+   (Serverprotokoll: Ollama cloud disabled: true), Server nur auf
+   127.0.0.1. Das Programm lehnt eine Konfiguration ohne Schluessel ab,
+   deren Adresse nicht auf diesem Rechner liegt.
+
+Verworfen: qwen3.6:35b, weil 23 GB nah an der Grenze des
+Grafikspeichers liegen; qwen3.6:27b, weil es als dichtes Modell nach
+eigener Rechnung aus der Speicherbandbreite zu langsam fuer den
+Zeitplan ist. qwen3.6:27b bleibt der Ersatz fuer F1 c.
+
+Gegenargumente, fuer Kapitel 7:
+- gpt-oss stammt vom selben Anbieter wie gpt-5.6-terra. Der Vergleich
+  trennt API und lokal, sagt aber nichts ueber andere Anbieter.
+- Jedes auf diesem Rechner lauffaehige Modell ist viel kleiner als das
+  API-Modell. Lokal und klein fallen zusammen.
+- Prompt v2 wurde am API-Modell erprobt, nicht am lokalen.
+- Offen sind die Gewichte (Apache 2.0), nicht die Trainingsdaten. Der
+  Begriff Open-Source aus dem Expose ist in Kapitel 2 zu schaerfen.
+
+Befunde aus Einrichtung und Probeaufruf, fuer Kapitel 5:
+- Ohne Modelfile haette der Server ein Kontextfenster von 32 768 Token
+  gewaehlt (Serverprotokoll: vram-based default context). Das reicht
+  nicht fuer die laengste Eingabe der Pilotstichprobe plus 25 000
+  Ausgabe-Token.
+- Ollama meldete reasoning_tokens als 0, obwohl die Antwort einen
+  Denkteil enthielt. Die Zahl der Denk-Token ist lokal nicht gemessen;
+  das Manifest vermerkt, ob die Laufzeitumgebung sie meldet.
+- Das Serverprotokoll nennt fuer die Auswahl der Token top_k 40 und
+  top_p 0,9, die Antwort meldet top_p 1. Welche Werte wirken, ist
+  ungeprueft. Das Serverprotokoll jedes Laufs wird deshalb lokal
+  ausserhalb des Repositorys aufbewahrt; es zeigt je Anfrage auch, ob
+  gekuerzt wurde.
+- Ollama 0.34.4 fuehrt gpt-oss mit llama-server aus (Serverprotokoll).
+- Die Hinweise von Homebrew zu OLLAMA_FLASH_ATTENTION und
+  OLLAMA_KV_CACHE_TYPE=q8_0 werden nicht umgesetzt. q8_0 speichert
+  Zwischenwerte ungenauer (Ollama-FAQ), und der Speicher reicht ohne.
+
+Umgebung: brew install ollama hat am 29.09.2026 als Abhaengigkeit
+python@3.14 von 3.14.6 auf 3.14.7 angehoben und mlx sowie mlx-c
+installiert. Die Laeufe von Paket E liefen laut Manifest unter 3.14.6,
+die Laeufe von Paket F laufen unter 3.14.7. Fuer den Aufruf ist das
+ohne erkennbare Wirkung, weil Python nur die Anfrage sendet; es wird
+dennoch in Kapitel 5 genannt.
+
+Herkunft: Recherche und Vorschlag von Claude im Chat vom 29.09.2026,
+Einrichtung und Probeaufruf durch den Verfasser, Wahl durch den
+Verfasser vor dem Pilotfall.
+
+Status: festgelegt.
+Bezug: FF3, Kapitel 2, Kapitel 4 Abschn. 4.6, Kapitel 5, Kapitel 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
-- API-Modell und lokales Modell (FF3), Paket E und F
+- API-Modell und lokales Modell (FF3), Paket E und F: entschieden
+  am 19.09.2026 und 29.09.2026, siehe E8 und F2
 - Ausschnitt des Sicherheitsrasters (FF4), Paket G
 - Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
   am 15.09.2026, siehe E4
