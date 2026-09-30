@@ -1,0 +1,5 @@
+# Replacement model for work package F (FF3), decision F2 and F1 c.
+# Base model as pulled on 30.09.2026; its ID is recorded in the run manifest.
+FROM qwen3.6:27b
+# Same context window as for gpt-oss, see gpt-oss-20b-ctx64k.Modelfile.
+PARAMETER num_ctx 65536
