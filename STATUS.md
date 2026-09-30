@@ -1542,8 +1542,7 @@ Tag thesis-v1.0 auf 44c1162
 bb5d8bb docs: F1 Umfang von FF3 nach dem Kontrollpunkt (Frist Mi 30.09.2026, 12:00 Uhr), F2 Ollama 0.34.4 und gpt-oss:20b; STATUS: Abschlusscommit und Tag thesis-v1.0 in der Commit-Liste von Paket E, Material der Unbelegtheitsrate berichtigt
 767a381 docs: Nachtrag zu F1 Teil 1, Pilotfall mit gpt-oss nicht gelungen (Antwort endet mitten im JSON-Objekt), Lesart 1, Zuordnungsregel fuer den zweiten Versuch; Manifest des Laufs 2026-09-30_local_pilot_v2_r1
 6a2ff11 code: Ersatzmodell qwen3.6:27b fuer den zweiten Versuch nach F1 c (Stoppgrund nicht entscheidbar), Modelfile mit Kontextfenster 65536 und config/local_run_qwen.toml
-Der Uebergabe-Commit vom 30.09.2026 fehlt hier; im naechsten Chat mit
-git log nachtragen.
+9fedc96 docs: Uebergabe Paket F Teil 1, Nachtrag zu F1 Teil 2 (Ursache nicht entscheidbar, qwen verfehlt das Format, F1 d mit Begruendung), STATUS mit Feingliederung fuer Kapitel 6 und Schreibregel, KI-Protokoll; Manifest des Laufs 2026-09-30_local_qwen_pilot_v2_r1
 
 ## Aufruf des Ziehungsskripts
 

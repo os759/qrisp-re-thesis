@@ -1529,6 +1529,330 @@ Klassifikation, Gap-Analyse, Absicherung.]}
 \textbf{[Noch zu ergänzen: Design, Durchführung, Ergebnisse,
 Auswertung.]}
 
+\section{Kontrollpunkt und Pilotfall der lokalen Modelle}
+\label{sec:eval-pilot-lokal}
+
+Die dritte Forschungsfrage verlangt einen praktischen Vergleich
+zwischen einem über eine Programmierschnittstelle angesprochenen und
+einem lokal betriebenen Modell. Die lokale Ausführung war in der
+Zeitplanung dieser Arbeit das größte Risiko, weil sich
+Einrichtungsaufwand und Laufzeit auf dem verfügbaren Rechner vorab
+nicht abschätzen ließen. Deshalb wurde vor jedem weiteren Lauf an
+einem einzelnen Vorgang geprüft, ob ein lokales Modell die Pipeline
+durchlaufen kann. Welcher Umfang der Forschungsfrage aus jedem
+möglichen Ergebnis folgt, stand vor diesem Kontrollpunkt fest. Der
+Abschnitt berichtet die Regel, die Versuchsbedingungen, beide Versuche
+und die Folge für die Beantwortung der Forschungsfrage. Die
+Bedrohungen der Validität, die sich daraus ergeben, behandelt
+Kapitel~\ref{cha:diskussion}.
+
+\subsection{Vorab festgelegte Regel}
+\label{subsec:pilot-regel}
+
+Als Pilotfall dient Pull Request~64, der erste Vorgang der
+Pilotstichprobe, an der zuvor auch das API-Modell erprobt wurde. Er
+gilt als gelungen, wenn die Antwort vollständig ist und als
+JSON-Objekt in der Extraktionsdatei steht. Ob das Prüfprogramm die
+Antwort annimmt, ist dafür ohne Belang, weil eine Ablehnung selbst ein
+Messwert ist. Als Frist galt der 30.~September 2026, 12:00~Uhr. Für
+das Ergebnis waren vier Stufen festgelegt:
+
+\begin{description}
+  \item[Stufe a] Der Pilotfall gelingt innerhalb der Frist. Das lokale
+    Modell bearbeitet dann alle 20 Vorgänge der Pilotstichprobe in zwei
+    Durchgängen mit gleichen Einstellungen, wie zuvor das API-Modell.
+  \item[Stufe b] Wie Stufe~a, jedoch ergibt die Hochrechnung aus einem
+    Probelauf für beide Durchgänge mehr als 16~Stunden. Der zweite
+    Durchgang umfasst dann nur zwölf vorab benannte Vorgänge, je
+    Schicht der Stichprobe die ersten, aufgerundet halb so viele.
+  \item[Stufe c] Der Pilotfall misslingt. Bis 20:00~Uhr desselben Tages
+    folgt ein zweiter Versuch mit einer anderen Laufzeitumgebung oder
+    einem anderen Modell, gewählt nach der Fehlerursache. Gelingt er,
+    bearbeitet das lokale Modell die zwölf Vorgänge aus Stufe~b in zwei
+    Durchgängen.
+  \item[Stufe d] Auch der zweite Versuch misslingt. Die
+    Forschungsfrage wird dann ohne Qualitätsmessung eines lokalen
+    Modells beantwortet. Die lokale Seite besteht aus dem dokumentierten
+    Einrichtungsversuch, dem Einrichtungsaufwand und der Datenkontrolle.
+\end{description}
+
+Die Schwelle von 16~Stunden ist eine Festlegung dieser Arbeit und
+keine Quellenangabe. Sie entspricht einer Nacht und einem Arbeitstag
+vor dem geplanten Beginn der Klassifikation. In allen Stufen gelten
+dieselben Einstellungen wie für das API-Modell: die Prompt-Fassung~v2,
+dieselbe Modelleingabe, die Denkstufe \texttt{medium}, höchstens
+25\,000 Ausgabe-Token und keine Formathilfe der Laufzeitumgebung.
+
+Die Regel ist als Entscheidung~F1 in \texttt{docs/entscheidungen.md}
+festgehalten. Sie wurde vor dem ersten Aufruf committet; das Manifest
+des ersten Versuchs verzeichnet als Codestand den Commit
+\texttt{bb5d8bb}, der die Regel enthält. Nach dem ersten Versuch kamen
+zwei Festlegungen hinzu, beide vor der Ursachensuche. Die erste liest
+den Pilotfall als einen einzigen Versuch. Ein erneuter Aufruf
+desselben Modells an demselben Vorgang zählt danach nicht, weil ein
+Wiederholen bis zum Erfolg eine Auswahl nach dem Ergebnis wäre. Diese
+Lesart hat der Verfasser erst nach dem Fehlschlag schriftlich
+festgehalten; sie verengt den Spielraum und erweitert ihn nicht. Die
+zweite ist eine Zuordnungsregel, die anhand der Stoppmeldungen im
+Protokoll des Servers den zweiten Versuch bestimmt
+(Abschnitt~\ref{subsec:pilot-gptoss}). Sie stand fest, bevor der
+Verfasser die Stoppmeldungen einsah, und ist in Commit
+\texttt{767a381} enthalten.
+
+\subsection{Versuchsbedingungen}
+\label{subsec:pilot-bedingungen}
+
+Beide Versuche liefen auf demselben Rechner und über dasselbe
+Aufrufprogramm wie das API-Modell. Als Laufzeitumgebung dient Ollama.
+Sie bildet einen Teil der Programmierschnittstelle von OpenAI nach,
+darunter den Endpunkt \path{/v1/responses} in einer zustandslosen
+Form \cite[Abschn.~Responses API]{ollamaopenai}. Das Aufrufprogramm
+wurde deshalb nur um einen lokalen Aufrufweg erweitert und nicht neu
+geschrieben. So bleiben Programm, Prompt und Eingabe für beide Seiten
+gleich. Für den Endpunkt führt die Dokumentation unter anderem die
+Felder \texttt{model}, \texttt{max\_output\_tokens} und
+\texttt{reasoning.effort} als unterstützt auf. Das Feld
+\texttt{store}, das das Programm ebenfalls sendet, nennt sie nicht
+\cite[Abschn.~Responses API]{ollamaopenai}. Beide Antworten meldeten
+\texttt{store} als \texttt{false}. Tabelle~\ref{tab:pilot-bedingungen}
+fasst die Bedingungen zusammen. Die Einrichtung beschreibt
+\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur lokalen
+Ausführung in Kapitel~\ref{cha:implementierung}]}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Versuchsbedingungen der beiden lokalen Pilotfälle}
+  \label{tab:pilot-bedingungen}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.1cm}%
+                    >{\raggedright\arraybackslash}p{4.25cm}%
+                    >{\raggedright\arraybackslash}p{4.25cm}@{}}
+    \toprule
+    \textbf{Merkmal} & \textbf{gpt-oss:20b} & \textbf{qwen3.6:27b} \\
+    \midrule
+    Rechner &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      MacBook Pro mit Apple M3 Pro, 36\,GB gemeinsamer Arbeitsspeicher,
+      macOS~27.0} \\
+    Nutzbarer Grafikspeicher &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      28\,753\,MiB laut Protokoll des Servers} \\
+    Laufzeit\-umgebung &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      Ollama 0.34.4, Server nur an der Adresse 127.0.0.1} \\
+    Schnittstelle &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      \texttt{/v1/responses}, dasselbe Aufrufprogramm wie für das
+      API-Modell, Python~3.14.7 (API-Läufe: 3.14.6)} \\
+    Modell &
+    20,9~Mrd. Parameter, Quantisierung MXFP4 &
+    27,3~Mrd. Parameter, Quantisierung Q4\_K\_M \\
+    Prompt &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      Fassung v2, Prüfsummen gleich denen der API-Läufe} \\
+    Kontextfenster &
+    65\,536 Token; ohne Festlegung 32\,768 &
+    65\,536 Token \\
+    Denkstufe &
+    gesendet \texttt{medium}; das Modell kennt drei Stufen &
+    gesendet \texttt{medium}; das Modell kennt nur ein und aus \\
+    Nicht gesendet &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      Temperatur, Denkmodus und Antwortformat, wie beim API-Modell} \\
+    Vorgaben des Modells &
+    Temperatur 1 &
+    Temperatur 1, top\_k 20, top\_p 0,95 \\
+    Datenkontrolle &
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      kein Schlüssel, Cloud-Funktionen abgeschaltet, \texttt{store}
+      als \texttt{false} gemeldet} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Die Größe des Kontextfensters lässt sich über die nachgebildete
+Schnittstelle nicht festlegen. Die Dokumentation verweist dafür auf
+ein abgeleitetes Modell, das aus einer Modelfile-Datei mit dem
+Parameter \texttt{num\_ctx} erzeugt wird
+\cite[Abschn.~Setting the local context size]{ollamaopenai}. Beide
+Modelle liefen so mit einem Fenster von 65\,536 Token. Ohne diese
+Festlegung hätte der Server für gpt-oss:20b laut seinem Protokoll ein
+Fenster von 32\,768 Token gewählt. Das hätte für die längste Eingabe
+der Pilotstichprobe zusammen mit 25\,000 Ausgabe-Token nicht
+ausgereicht. Das Aufrufprogramm fragt das Fenster vor dem ersten
+Aufruf ab und sendet nichts, wenn es abweicht.
+
+Die Denkstufe wurde wie beim API-Modell als \texttt{medium} gesendet.
+gpt-oss:20b kennt die Stufen \texttt{low}, \texttt{medium} und
+\texttt{high} mit dem Standard \texttt{medium}. qwen3.6:27b lässt das
+Denken nur ein- oder ausschalten; welche Wirkung die gesendete Stufe
+dort hatte, ist nicht gemessen. \textbf{[Zu prüfen: Beleg für die
+Denkeinstellungen beider Modelle, Ausgabe von \texttt{ollama show}.]}
+Für beide Modelle meldet die Laufzeitumgebung null Denk-Token, obwohl
+die Antwort von gpt-oss:20b einen Denkteil enthält. Die Zahl der
+Denk-Token ist lokal daher nicht gemessen. Die Werte für die Auswahl
+der Token, etwa die Temperatur, wurden wie beim API-Modell nicht
+gesendet. Es gelten die Vorgaben der Modelle, die voneinander
+abweichen. Beide Antworten meldeten \texttt{top\_p} als 1; welche
+Werte tatsächlich wirkten, ist ungeprüft.
+
+\subsection{Erster Versuch mit gpt-oss:20b}
+\label{subsec:pilot-gptoss}
+
+Der erste Versuch lief am 30.~September 2026 um 8:13~Uhr (MESZ) mit
+gpt-oss:20b, dem vor dem Kontrollpunkt gewählten lokalen Modell. Nach
+98,6~Sekunden meldete die Laufzeitumgebung die Antwort als vollständig
+(\texttt{completed}). Sie stand jedoch nicht als JSON-Objekt in der
+Extraktionsdatei. Nach der Regel war der Pilotfall damit nicht
+gelungen, und es galt Stufe~c.
+
+Eine Formprüfung ohne Einsicht in den Inhalt und ohne Reparatur ergab
+folgendes Bild. Der Antworttext beginnt mit einer öffnenden
+geschweiften Klammer, endet aber mitten im Objekt. Das JSON-Modul von
+Python meldet am Textende ein fehlendes Trennzeichen. Eine Umrahmung
+als Codeblock liegt nicht vor. Die Antwort enthält einen Denkteil und
+eine Nachricht.
+
+Mehrere naheliegende Ursachen scheiden nach den Messwerten aus. Das
+Kontextfenster wurde nicht erreicht, und das Protokoll des Servers
+meldet für die Anfrage keine Kürzung. Die Antwort kam nach
+98,6~Sekunden und damit weit vor der Zeitgrenze des Programms von
+3\,600~Sekunden. Die gemeldeten 2\,517 Ausgabe-Token liegen weit unter
+der Obergrenze von 25\,000. Weil die Laufzeitumgebung keine Denk-Token
+meldet, bleibt allerdings offen, ob der Denkteil in dieser Zahl
+enthalten ist.
+
+Übrig bleiben zwei Erklärungen. Nach der ersten beendet das Modell
+seine Nachricht mit einem Endzeichen, bevor das Objekt geschlossen
+ist. Nach der zweiten beendet die Laufzeitumgebung die Ausgabe
+vorzeitig und meldet dennoch einen vollständigen Abschluss. Die
+Zuordnungsregel knüpft den zweiten Versuch an die Stoppmeldung im
+Protokoll des Servers. Ein Endzeichen des Modells hätte für die erste
+Erklärung gesprochen und einen Versuch mit einem anderen Modell
+ausgelöst. Ein Abbruch durch eine Grenze oder durch die
+Laufzeitumgebung hätte für die zweite gesprochen und einen Versuch mit
+einer anderen Laufzeitumgebung ausgelöst. Fehlt eine Stoppmeldung,
+sieht die Regel einen Versuch mit dem bei der Modellwahl benannten
+Ersatzmodell qwen3.6:27b in derselben Laufzeitumgebung vor. Die Suche
+nach den Wörtern \texttt{stopped}, \texttt{cancel},
+\texttt{n\_decoded} und \texttt{n\_predict} fand im Protokoll des
+Laufs keine Zeile. Die Ursache des Fehlschlags ist damit nicht
+entscheidbar.
+
+\subsection{Zweiter Versuch mit qwen3.6:27b}
+\label{subsec:pilot-qwen}
+
+Der zweite Versuch folgte der Regel für den Fall ohne Stoppmeldung.
+Als Ersatz war bei der Modellwahl qwen3.6:27b benannt worden. Verworfen
+worden war es damals nur, weil es nach eigener Abschätzung aus der
+Speicherbandbreite des Rechners für den Zeitplan zu langsam erschien.
+Die Konfiguration für den Versuch wurde vor dem Lauf committet; das
+Manifest verzeichnet den Commit \texttt{6a2ff11}. Programm,
+Laufzeitumgebung, Prompt und Einstellungen blieben gleich. Geändert
+wurden nur das Modell und die Zeitgrenze des Programms.
+
+Der Lauf begann um 9:16~Uhr (MESZ) und dauerte 1\,267~Sekunden, also
+rund 21~Minuten. Die Laufzeitumgebung meldete die Antwort wieder als
+vollständig. Das Modell hatte den Antworttext jedoch in einen
+Markdown-Codeblock gesetzt, obwohl der Prompt ein JSON-Objekt ohne
+Umrahmung verlangt. Die Antwort stand deshalb nicht als JSON-Objekt in
+der Extraktionsdatei. Auch der zweite Versuch war nach der Regel nicht
+gelungen.
+
+Zur Diagnose wurde die Form der Antwort weiter geprüft, wieder ohne
+Einsicht in den Inhalt. Vor und nach dem Codeblock steht kein weiterer
+Text, innerhalb des Codeblocks steht ein vollständiges JSON-Objekt.
+Dieser Befund wird ausdrücklich nicht als Erfolg gewertet. Das Programm
+entfernt keine Umrahmung. Eine nachträgliche Entfernung wäre eine
+Formathilfe, die dem API-Modell nicht gewährt wurde, und würde den
+Messwert der Formatkonformität verfälschen.
+
+Für die offene Ursache des ersten Versuchs hat der zweite Versuch nur
+begrenzte Aussagekraft. Die Antwort von qwen3.6:27b endet nicht mitten
+im Objekt. Nach der vorab festgelegten Regel spricht das nicht für die
+Laufzeitumgebung als gemeinsame Ursache beider Fehlschläge.
+Ausgeschlossen ist sie damit nicht, weil ein anderes Modell mit
+anderem Ausgabeverhalten beteiligt war. Die Ursache beim ersten
+Versuch bleibt offen.
+
+\subsection{Folge für die dritte Forschungsfrage}
+\label{subsec:pilot-folge}
+
+Da beide Versuche misslangen, gilt Stufe~d. Der Verfasser hat
+entschieden, Stufe~d wörtlich anzuwenden und keine zusätzliche Messung
+anzuschließen. Erwogen und verworfen wurde ein einzelner, als
+explorativ gekennzeichneter Lauf von gpt-oss:20b über die zwölf
+Vorgänge aus Stufe~b. Für die Entscheidung sprechen vier Gründe.
+Erstens stand die Regel vor beiden Versuchen fest. Eine Zusatzmessung
+wäre nach dem Ergebnis beschlossen und würde die vorab festgelegte
+Stufe aufweichen. Zweitens bliebe auch ein Lauf über zwölf Vorgänge
+mit einem einzigen Modell explorativ. Weder die Ergebnisqualität noch
+die Konsistenz über Wiederholungen ließe sich damit belastbar
+vergleichen. Drittens stehen die Klassifikation, die Gap-Analyse und
+die Evaluation noch aus; ihnen kommt die verbleibende Zeit bis zur
+Abgabe zugute. Viertens bleibt die Forschungsfrage beantwortbar.
+Kosten, Aufwand und Datenkontrolle sind für beide Seiten gemessen oder
+belegt, und zur Qualität liegt der Formatbefund vor.
+
+Stufe~d weicht vom Exposé ab, das einen Vergleich auch der
+Ergebnisqualität vorsieht. \textbf{[Noch zu ergänzen: Stand vor der
+Abgabe. Wird der Vergleich der Ergebnisqualität am Ende nachgeholt,
+sind dieser Absatz und die Begründung oben neu zu fassen. Sonst ist
+hier zu berichten, wie die Abweichung mit dem Betreuer geklärt
+wurde.]}
+
+Die Forschungsfrage vergleicht danach Kosten, Aufwand und
+Datenkontrolle. Auf der lokalen Seite stehen dafür der dokumentierte
+Einrichtungsversuch, der Einrichtungsaufwand, Laufzeit und
+Speicherbedarf der beiden Pilotfälle sowie die Datenkontrolle. Zur
+Ergebnisqualität liegt lokal nur der Formatbefund an je einem Vorgang
+vor. Welche Größen mit Zahlenwerten erhoben werden, legt
+\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt mit den
+Messgrößen für die dritte Forschungsfrage]} fest.
+
+Tabelle~\ref{tab:pilot-ergebnisse} stellt die vier Antworten auf Pull
+Request~64 gegenüber: zwei des API-Modells gpt-5.6-terra aus dem
+zweiten Pilotlauf und aus dem Volllauf sowie je eine der beiden
+lokalen Modelle. Die Werte sind explorativ, weil je lokales Modell nur
+ein Vorgang vorliegt. Sie erlauben keine Aussage über die Streuung
+oder über andere Vorgänge. Die Token-Zahlen meldet die jeweilige
+Gegenstelle. Zwischen den Modellen sind sie nur eingeschränkt
+vergleichbar, weil jedes Modell den Text nach einem eigenen Verfahren
+in Token zerlegt. Das zeigt sich bereits an den unterschiedlichen
+Eingabezahlen für dieselbe Anweisung und denselben Quellblock. Die
+Dauer ist die Antwortzeit laut Manifest. Beim API-Modell enthält sie
+die Übertragung über das Netz, bei den lokalen Modellen nicht.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Antworten auf Pull Request~64 je Modell und Lauf}
+  \label{tab:pilot-ergebnisse}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.8cm}%
+                    >{\raggedleft\arraybackslash}p{1.7cm}%
+                    >{\raggedleft\arraybackslash}p{1.7cm}%
+                    >{\raggedleft\arraybackslash}p{1.7cm}%
+                    >{\raggedleft\arraybackslash}p{1.45cm}%
+                    >{\raggedleft\arraybackslash}p{1.25cm}@{}}
+    \toprule
+    \textbf{Modell und Lauf} & \textbf{Eingabe (Token)} &
+    \textbf{Ausgabe (Token)} & \textbf{davon Denken (Token)} &
+    \textbf{Dauer (s)} & \textbf{JSON-Objekt} \\
+    \midrule
+    gpt-5.6-terra, Pilot v2 & 5\,490 & 4\,494 & 2\,410 & 60,4 & ja \\
+    gpt-5.6-terra, Volllauf & 5\,490 & 4\,452 & 2\,229 & 49,7 & ja \\
+    gpt-oss:20b & 5\,555 & 2\,517 & n.\,g. & 98,6 & nein \\
+    qwen3.6:27b & 5\,862 & 8\,025 & n.\,g. & 1\,267,0 & nein \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  n.\,g.: von der Laufzeitumgebung nicht gemeldet (Wert~0). Quelle:
+  Manifeste der Läufe \texttt{2026-09-24\_pilot\_v2},
+  \texttt{2026-09-25\_full\_v2}, \texttt{2026-09-30\_local\_pilot\_v2\_r1}
+  und \texttt{2026-09-30\_local\_qwen\_pilot\_v2\_r1} unter
+  \texttt{data/processed/}.
+\end{table}
+
 
 \chapter{Diskussion}
 \label{cha:diskussion}
