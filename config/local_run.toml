@@ -1,0 +1,42 @@
+# Settings for the calls to the local model through Ollama on this computer.
+# Work package F, decisions F1 and F2. Same fields as config/api_run.toml,
+# so that the two runs differ only in the model and its runtime.
+
+[request]
+endpoint = "http://127.0.0.1:11434/v1/responses"
+# Derived model with a fixed context window, built from
+# config/ollama/gpt-oss-20b-ctx64k.Modelfile.
+model = "gpt-oss-20b-ctx64k"
+# As in config/api_run.toml, decisions E10 d and F1.
+reasoning_effort = "medium"
+max_output_tokens = 25000
+store = false
+# Empty: no key is read and no Authorization header is sent. The program
+# then accepts only an endpoint on this computer, decision F2.
+api_key_name = ""
+# Not sent, as for the API model: temperature, reasoning mode, response
+# format. The defaults of the runtime apply, decision E10 e.
+
+[transport]
+# A long answer takes far longer locally than through the API.
+timeout_seconds = 3600
+max_retries = 2
+pause_seconds = 1.0
+
+[prices]
+# No price per token. The cost of the local model is measured as run time.
+retrieved = "not applicable"
+input_per_million = 0.0
+output_per_million = 0.0
+cache_write_multiplier = 1.0
+
+[runtime]
+# Asked before the first call; the run stops if the context window differs.
+kind = "ollama"
+base_url = "http://127.0.0.1:11434"
+expected_num_ctx = 65536
+
+[files]
+prompt_version = "v2"
+model_input = "data/processed/model_input_2026-09-19.jsonl"
+output_directory = "data/processed"

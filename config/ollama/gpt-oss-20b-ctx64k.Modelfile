@@ -1,0 +1,6 @@
+# Local model for work package F (FF3).
+# Base model as pulled on 29.09.2026; its ID is recorded in the run manifest.
+FROM gpt-oss:20b
+# Context window in tokens: longest input of the pilot sample about
+# 27 500 tokens (API tokenizer) plus max_output_tokens 25 000.
+PARAMETER num_ctx 65536

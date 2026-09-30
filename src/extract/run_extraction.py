@@ -1,7 +1,9 @@
-"""Send the source blocks of a sample to the OpenAI API and record the run.
+"""Send the source blocks of a sample to a model and record the run.
 
-Work package E, step A8, decisions E8 and E10. Research questions FF1,
-FF2 and FF3 (cost, run time, data control).
+Work package E, step A8, decisions E8 and E10: the OpenAI API.
+Work package F, decision F2: the same program also sends to a local
+model through Ollama, which offers the same /v1/responses interface.
+Research questions FF1, FF2 and FF3 (cost, run time, data control).
 
 What the script does, in this order:
 
@@ -31,7 +33,17 @@ Error handling:
   waiting does not help and trying again could cost money;
 * any other error status (400, 401, 403, 404): stop at once.
 
-The key is read from .env and is never written to any file.
+The key is read from .env and is never written to any file. A key is
+only sent over https. A configuration without a key (api_key_name = "")
+is only accepted for an endpoint on this computer, so that no source
+block can leave it by mistake (decision F2).
+
+Local runtime (optional section [runtime] in the configuration): before
+the first call the program asks the runtime for its version, the model
+digest and the context window, and stops if the context window differs
+from expected_num_ctx. A smaller window would silently cut the input.
+The snapshot is stored with every answer, so that a change of the
+runtime in the middle of a run shows up in the manifest.
 
 Run from the project root:
 
@@ -53,6 +65,7 @@ import tomllib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlparse
 
 import requests
 
@@ -74,6 +87,12 @@ CHARS_PER_TOKEN = 3.5
 SAMPLE_ROW = re.compile(r"^\| (\d+) \| S\d+ \|")
 # Folders whose uncommitted changes would make the manifest's commit wrong.
 SOURCE_PATHS = ("src", "config", "prompts")
+# Hosts that count as this computer, decision F2.
+LOCAL_HOSTS = ("127.0.0.1", "localhost", "::1")
+# "num_ctx   65536" in the parameters text of Ollama's /api/show.
+NUM_CTX_LINE = re.compile(r"^\s*num_ctx\s+(\d+)\s*$", re.MULTILINE)
+# Weights blob in the FROM line of the modelfile text of /api/show.
+BLOB_SHA = re.compile(r"sha256[-:]([0-9a-f]{64})")
 
 
 class RunStopped(RuntimeError):
@@ -99,7 +118,28 @@ def load_config(path: Path) -> dict[str, Any]:
                 raise KeyError(f"{path}: [{section}] {key} is missing")
     if config["request"]["store"] is not False:
         raise ValueError(f"{path}: store must be false, decision E10")
+    endpoint = urlparse(config["request"]["endpoint"])
+    if key_name(config):
+        if endpoint.scheme != "https":
+            raise ValueError(f"{path}: a key is only sent over https")
+    elif endpoint.hostname not in LOCAL_HOSTS:
+        raise ValueError(f"{path}: without a key the endpoint must be on this "
+                         "computer, decision F2")
+    runtime = config.get("runtime")
+    if runtime is not None:
+        for key in ("kind", "base_url", "expected_num_ctx"):
+            if key not in runtime:
+                raise KeyError(f"{path}: [runtime] {key} is missing")
+        if runtime["kind"] != "ollama":
+            raise ValueError(f"{path}: [runtime] kind must be ollama")
+        if urlparse(runtime["base_url"]).hostname not in LOCAL_HOSTS:
+            raise ValueError(f"{path}: [runtime] base_url must be on this computer")
     return config
+
+
+def key_name(config: dict[str, Any]) -> str:
+    """Name of the key in .env. Empty means: no key, local endpoint only."""
+    return config["request"].get("api_key_name", KEY_NAME)
 
 
 def read_sample_numbers(path: Path) -> list[int]:
@@ -261,9 +301,10 @@ def wait_seconds(response: requests.Response | None, attempt: int) -> float:
 Sender = Callable[[dict[str, Any]], requests.Response]
 
 
-def make_sender(config: dict[str, Any], key: str) -> Sender:
-    headers = {"Authorization": f"Bearer {key}",
-               "Content-Type": "application/json"}
+def make_sender(config: dict[str, Any], key: str | None) -> Sender:
+    headers = {"Content-Type": "application/json"}
+    if key is not None:
+        headers["Authorization"] = f"Bearer {key}"
     endpoint = config["request"]["endpoint"]
     timeout = config["transport"]["timeout_seconds"]
 
@@ -303,6 +344,52 @@ def send_with_retry(send: Sender, body: dict[str, Any], max_retries: int,
             continue
         raise RunStopped(f"HTTP {status}, code '{code}': {response.text[:300]}")
     raise RunStopped(f"no answer after {max_retries} attempts")
+
+
+# --- local runtime ---------------------------------------------------
+
+
+def parse_num_ctx(parameters: str) -> int | None:
+    """The context window from the parameters text of /api/show."""
+    match = NUM_CTX_LINE.search(parameters or "")
+    return int(match.group(1)) if match else None
+
+
+def describe_runtime(config: dict[str, Any],
+                     get: Callable[..., requests.Response] = requests.get,
+                     post: Callable[..., requests.Response] = requests.post
+                     ) -> dict[str, Any]:
+    """Version, model digest, weights blob and context window of Ollama.
+
+    Only the checksum is taken from the FROM line of the modelfile, not
+    the path, because the path contains the user name.
+    """
+    base = config["runtime"]["base_url"].rstrip("/")
+    model = config["request"]["model"]
+    version = get(f"{base}/api/version", timeout=10)
+    version.raise_for_status()
+    show = post(f"{base}/api/show", json={"model": model}, timeout=30)
+    show.raise_for_status()
+    tags = get(f"{base}/api/tags", timeout=10)
+    tags.raise_for_status()
+    shown = show.json()
+    names = {model, f"{model}:latest"}
+    digest = next((item.get("digest") for item in tags.json().get("models", [])
+                   if item.get("name") in names), None)
+    from_lines = [line for line in (shown.get("modelfile") or "").splitlines()
+                  if line.startswith("FROM ")]
+    blob = BLOB_SHA.search(from_lines[0]) if from_lines else None
+    parameters = shown.get("parameters") or ""
+    return {
+        "kind": config["runtime"]["kind"],
+        "version": version.json().get("version"),
+        "model": model,
+        "model_digest": digest,
+        "weights_blob_sha256": blob.group(1) if blob else None,
+        "details": shown.get("details"),
+        "parameters": parameters,
+        "num_ctx": parse_num_ctx(parameters),
+    }
 
 
 # --- raw file and resume ----------------------------------------------
@@ -365,6 +452,11 @@ def summarise_entry(entry: dict[str, Any], prices: dict[str, Any]) -> dict[str, 
         "parse_problem": reason,
         "pull_number_in_output": parsed.get("pull_number") if parsed else None,
     }
+    runtime = entry.get("runtime")
+    if runtime is not None and runtime.get("num_ctx"):
+        # Input and output share the window; a full window means cut text.
+        row["reached_context_limit"] = (
+            usage["input_tokens"] + usage["output_tokens"] >= runtime["num_ctx"])
     return row
 
 
@@ -393,7 +485,12 @@ def build_manifest(*, run_id: str, config: dict[str, Any], config_path: Path,
                           "cache_write_tokens", "output_tokens",
                           "reasoning_tokens")}
     version = config["files"]["prompt_version"]
-    return {
+    snapshots: list[dict[str, Any]] = []
+    for entry in entries:
+        snapshot = entry.get("runtime")
+        if snapshot is not None and snapshot not in snapshots:
+            snapshots.append(snapshot)
+    manifest = {
         "run_id": run_id,
         "outcome": outcome,
         "stop_reason": stop_reason,
@@ -440,6 +537,16 @@ def build_manifest(*, run_id: str, config: dict[str, Any], config_path: Path,
         "cost_upper_bound_usd": round(sum(r["cost_upper_bound_usd"] for r in rows), 4),
         "per_pull": rows,
     }
+    if snapshots:
+        manifest["runtime"] = {
+            "snapshots": snapshots,
+            "consistent": len(snapshots) == 1,
+            # Ollama 0.34.4 reported 0 although the model reasoned (F2).
+            "reasoning_tokens_reported": any(r["reasoning_tokens"] > 0 for r in rows),
+        }
+        manifest["counts"]["reached_context_limit"] = sorted(
+            r["pull_number"] for r in rows if r.get("reached_context_limit"))
+    return manifest
 
 
 # --- main -------------------------------------------------------------
@@ -526,7 +633,25 @@ def main(argv: list[str] | None = None,
             print(f"  {line}", file=sys.stderr)
         return 1
 
-    key = load_token(key=KEY_NAME)
+    runtime_snapshot = None
+    if todo and config.get("runtime") is not None:
+        try:
+            runtime_snapshot = describe_runtime(config)
+        except (requests.RequestException, ValueError) as error:
+            print(f"Local runtime not reachable: {error}", file=sys.stderr)
+            return 1
+        expected = config["runtime"]["expected_num_ctx"]
+        if runtime_snapshot["num_ctx"] != expected:
+            print(f"Context window of {config['request']['model']} is "
+                  f"{runtime_snapshot['num_ctx']}, expected {expected}. Nothing "
+                  "was sent: a smaller window would silently cut the input.",
+                  file=sys.stderr)
+            return 1
+        print(f"runtime: {runtime_snapshot['kind']} {runtime_snapshot['version']}, "
+              f"context window {runtime_snapshot['num_ctx']}")
+
+    name = key_name(config)
+    key = load_token(key=name) if name else None
     send = sender_factory(config, key)
     started_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     outcome, stop_reason = "finished", None
@@ -552,6 +677,8 @@ def main(argv: list[str] | None = None,
             "attempts_logged": len(attempts),
             "response": answer,
         }
+        if runtime_snapshot is not None:
+            entry["runtime"] = runtime_snapshot
         append_raw(raw_path, entry)
         entries.append(entry)
         row = summarise_entry(entry, prices)

@@ -5,7 +5,9 @@ falsify the run record (criterion from D4): resume, stop on the spend
 limit, strict parsing, token and cost figures, and the key never
 reaching a file.
 
-Work package E, step A8. Research questions FF1 and FF3.
+Work package E, step A8. Research questions FF1 and FF3. Since work
+package F also the local model (decision F2): no key, endpoint on this
+computer only, context window checked before the first call.
 """
 
 from __future__ import annotations
@@ -108,12 +110,12 @@ def project(tmp_path, monkeypatch):
     return tmp_path
 
 
-def factory_from(responses: dict[int, list]):
+def factory_from(responses: dict[int, list], expected_key: str | None = FAKE_KEY):
     """A sender that answers per pull number from a list of responses."""
     calls: list[int] = []
 
     def factory(config, key):
-        assert key == FAKE_KEY
+        assert key == expected_key
 
         def send(body):
             number = int(body["input"][0]["content"].split()[1])
@@ -324,4 +326,231 @@ def test_uncommitted_source_changes_block_a_real_run(project, monkeypatch):
     monkeypatch.setattr(run, "uncommitted_source_changes", lambda: [" M src/x.py"])
     factory, calls = factory_from({})
     assert run.main(ARGS, sender_factory=factory) == 1
+    assert calls == []
+
+
+# --- local model, decision F2 ------------------------------------------
+
+
+LOCAL_CONFIG = (CONFIG
+                .replace('endpoint = "https://example.invalid/v1/responses"',
+                         'endpoint = "http://127.0.0.1:11434/v1/responses"\n'
+                         'api_key_name = ""')
+                .replace('model = "gpt-5.6-terra"', 'model = "local-invented"')
+                + '[runtime]\nkind = "ollama"\nbase_url = "http://127.0.0.1:11434"\n'
+                  'expected_num_ctx = 65536\n')
+
+SNAPSHOT = {"kind": "ollama", "version": "0.0.0-invented", "model": "local-invented",
+            "model_digest": "d" * 64, "weights_blob_sha256": "b" * 64,
+            "details": {"family": "invented"}, "parameters": "num_ctx 65536",
+            "num_ctx": 65536}
+
+
+@pytest.fixture
+def local_project(project, monkeypatch):
+    """The invented project with the local configuration and runtime."""
+    (project / "config" / "local_run.toml").write_text(LOCAL_CONFIG, encoding="utf-8")
+
+    def no_key(key):
+        raise AssertionError("a local run must not read a key")
+    monkeypatch.setattr(run, "load_token", no_key)
+    monkeypatch.setattr(run, "describe_runtime", lambda config: dict(SNAPSHOT))
+    return project
+
+
+LOCAL_ARGS = ARGS + ["--config", "config/local_run.toml"]
+
+
+def test_local_config_is_accepted(local_project):
+    config = run.load_config(Path("config/local_run.toml"))
+    assert run.key_name(config) == ""
+    assert config["runtime"]["expected_num_ctx"] == 65536
+
+
+def test_config_without_key_needs_a_local_endpoint(tmp_path):
+    path = tmp_path / "c.toml"
+    path.write_text(LOCAL_CONFIG.replace("http://127.0.0.1:11434/v1/responses",
+                                         "https://example.invalid/v1/responses"),
+                    encoding="utf-8")
+    with pytest.raises(ValueError, match="on this computer, decision F2"):
+        run.load_config(path)
+
+
+def test_key_is_only_sent_over_https(tmp_path):
+    path = tmp_path / "c.toml"
+    path.write_text(CONFIG.replace("https://example.invalid", "http://127.0.0.1:11434"),
+                    encoding="utf-8")
+    with pytest.raises(ValueError, match="only sent over https"):
+        run.load_config(path)
+
+
+def test_runtime_must_be_local(tmp_path):
+    path = tmp_path / "c.toml"
+    path.write_text(LOCAL_CONFIG.replace('base_url = "http://127.0.0.1:11434"',
+                                         'base_url = "http://192.168.1.5:11434"'),
+                    encoding="utf-8")
+    with pytest.raises(ValueError, match="base_url must be on this computer"):
+        run.load_config(path)
+
+
+def test_sender_without_key_sends_no_authorization(monkeypatch):
+    seen = {}
+
+    def fake_post(url, headers, json, timeout):
+        seen.update(headers)
+        return FakeResponse(200, {})
+    monkeypatch.setattr(run.requests, "post", fake_post)
+    config = {"request": {"endpoint": "http://127.0.0.1:1/v1/responses"},
+              "transport": {"timeout_seconds": 1}}
+    run.make_sender(config, None)({})
+    assert "Authorization" not in seen
+    run.make_sender(config, FAKE_KEY)({})
+    assert seen["Authorization"] == f"Bearer {FAKE_KEY}"
+
+
+@pytest.mark.parametrize("text, value", [
+    ("num_ctx                        65536\ntemperature                    1", 65536),
+    ("temperature 1\nnum_ctx 32768", 32768),
+    ("temperature 1", None),
+    ("num_ctx_extra 5", None),
+])
+def test_parse_num_ctx(text, value):
+    assert run.parse_num_ctx(text) == value
+
+
+def test_describe_runtime_keeps_checksums_but_not_paths():
+    config = {"runtime": {"kind": "ollama", "base_url": "http://127.0.0.1:11434/"},
+              "request": {"model": "local-invented"}}
+    blob = "e" * 64
+    urls = []
+
+    def get(url, timeout):
+        urls.append(url)
+        if url.endswith("/api/version"):
+            return FakeResponse(200, {"version": "0.34.4"})
+        return FakeResponse(200, {"models": [
+            {"name": "other:latest", "digest": "0" * 64},
+            {"name": "local-invented:latest", "digest": "d" * 64}]})
+
+    def post(url, json, timeout):
+        urls.append(url)
+        assert json == {"model": "local-invented"}
+        return FakeResponse(200, {
+            "modelfile": f"# comment\nFROM /Users/someone/.ollama/models/blobs/sha256-{blob}\n",
+            "parameters": "num_ctx                        65536\ntemperature 1",
+            "details": {"family": "gptoss", "quantization_level": "MXFP4"}})
+    snapshot = run.describe_runtime(config, get=get, post=post)
+    assert snapshot["version"] == "0.34.4"
+    assert snapshot["model_digest"] == "d" * 64
+    assert snapshot["weights_blob_sha256"] == blob
+    assert snapshot["num_ctx"] == 65536
+    assert "/Users/" not in json.dumps(snapshot)
+    assert urls[0] == "http://127.0.0.1:11434/api/version"
+
+
+def test_describe_runtime_stops_on_http_error():
+    config = {"runtime": {"kind": "ollama", "base_url": "http://127.0.0.1:11434"},
+              "request": {"model": "missing"}}
+    with pytest.raises(requests.HTTPError):
+        run.describe_runtime(config,
+                             get=lambda url, timeout: FakeResponse(200, {"version": "x"}),
+                             post=lambda url, json, timeout: FakeResponse(404, {}))
+
+
+def test_local_run_sends_no_key_and_records_the_runtime(local_project):
+    factory, calls = factory_from({n: [FakeResponse(200, answer(n))] for n in (5, 7, 9)},
+                                  expected_key=None)
+    assert run.main(LOCAL_ARGS, sender_factory=factory, sleep=lambda _s: None) == 0
+    assert calls == [5, 7, 9]
+    out = local_project / "data" / "processed"
+    manifest = json.loads((out / "extraction_test_run.manifest.json").read_text())
+    assert manifest["runtime"]["snapshots"] == [SNAPSHOT]
+    assert manifest["runtime"]["consistent"] is True
+    assert manifest["runtime"]["reasoning_tokens_reported"] is True
+    assert manifest["counts"]["reached_context_limit"] == []
+    assert manifest["per_pull"][0]["reached_context_limit"] is False
+    raw = [json.loads(line) for line in
+           (out / "extraction_test_run.raw.jsonl").read_text().splitlines()]
+    assert all(entry["runtime"] == SNAPSHOT for entry in raw)
+
+
+def test_api_manifest_has_no_runtime_section(project):
+    factory, _calls = factory_from({n: [FakeResponse(200, answer(n))] for n in (5, 7, 9)})
+    run.main(ARGS, sender_factory=factory, sleep=lambda _s: None)
+    manifest = json.loads((project / "data" / "processed" /
+                           "extraction_test_run.manifest.json").read_text())
+    assert "runtime" not in manifest
+    assert "reached_context_limit" not in manifest["counts"]
+    assert "reached_context_limit" not in manifest["per_pull"][0]
+
+
+def test_wrong_context_window_stops_before_sending(local_project, monkeypatch, capsys):
+    monkeypatch.setattr(run, "describe_runtime",
+                        lambda config: {**SNAPSHOT, "num_ctx": 32768})
+    factory, calls = factory_from({}, expected_key=None)
+    assert run.main(LOCAL_ARGS, sender_factory=factory) == 1
+    assert calls == []
+    assert list((local_project / "data" / "processed").glob("extraction_*")) == []
+    assert "expected 65536" in capsys.readouterr().err
+
+
+def test_unreachable_runtime_stops_before_sending(local_project, monkeypatch):
+    def down(config):
+        raise requests.ConnectionError("invented")
+    monkeypatch.setattr(run, "describe_runtime", down)
+    factory, calls = factory_from({}, expected_key=None)
+    assert run.main(LOCAL_ARGS, sender_factory=factory) == 1
+    assert calls == []
+
+
+def test_dry_run_does_not_ask_the_runtime(local_project, monkeypatch):
+    def forbidden(config):
+        raise AssertionError("dry run must not ask the runtime")
+    monkeypatch.setattr(run, "describe_runtime", forbidden)
+    factory, calls = factory_from({}, expected_key=None)
+    assert run.main(LOCAL_ARGS + ["--dry-run"], sender_factory=factory) == 0
+
+
+def test_full_context_window_is_flagged(local_project):
+    big = answer(5)
+    big["usage"] = {"input_tokens": 60000, "output_tokens": 5536,
+                    "output_tokens_details": {"reasoning_tokens": 0}}
+    small = answer(7)
+    small["usage"] = {"input_tokens": 100, "output_tokens": 10,
+                      "output_tokens_details": {"reasoning_tokens": 0}}
+    factory, _calls = factory_from({5: [FakeResponse(200, big)],
+                                    7: [FakeResponse(200, small)],
+                                    9: [FakeResponse(200, small)]}, expected_key=None)
+    run.main(LOCAL_ARGS, sender_factory=factory, sleep=lambda _s: None)
+    manifest = json.loads((local_project / "data" / "processed" /
+                           "extraction_test_run.manifest.json").read_text())
+    assert manifest["counts"]["reached_context_limit"] == [5]
+    assert manifest["runtime"]["reasoning_tokens_reported"] is False
+
+
+def test_runtime_change_during_a_run_is_visible(local_project, monkeypatch):
+    factory, _calls = factory_from({5: [FakeResponse(200, answer(5))]}, expected_key=None)
+    run.main(LOCAL_ARGS + ["--limit", "1"], sender_factory=factory, sleep=lambda _s: None)
+    monkeypatch.setattr(run, "describe_runtime",
+                        lambda config: {**SNAPSHOT, "version": "0.0.1-invented"})
+    factory, _calls = factory_from({7: [FakeResponse(200, answer(7))],
+                                    9: [FakeResponse(200, answer(9))]}, expected_key=None)
+    run.main(LOCAL_ARGS, sender_factory=factory, sleep=lambda _s: None)
+    manifest = json.loads((local_project / "data" / "processed" /
+                           "extraction_test_run.manifest.json").read_text())
+    assert manifest["runtime"]["consistent"] is False
+    assert [s["version"] for s in manifest["runtime"]["snapshots"]] == [
+        "0.0.0-invented", "0.0.1-invented"]
+
+
+def test_rebuild_with_limit_0_does_not_ask_the_runtime(local_project, monkeypatch):
+    factory, _calls = factory_from({n: [FakeResponse(200, answer(n))] for n in (5, 7, 9)},
+                                   expected_key=None)
+    run.main(LOCAL_ARGS, sender_factory=factory, sleep=lambda _s: None)
+
+    def down(config):
+        raise requests.ConnectionError("runtime is off, nothing to send")
+    monkeypatch.setattr(run, "describe_runtime", down)
+    factory, calls = factory_from({}, expected_key=None)
+    assert run.main(LOCAL_ARGS + ["--limit", "0"], sender_factory=factory) == 0
     assert calls == []
