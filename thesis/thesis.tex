@@ -1516,6 +1516,83 @@ jedoch, dass die Entscheidung für EARS+29148 eine begründete Wahl unter
 Unsicherheit ist und keine aus den Quellen ableitbare Notwendigkeit.
 
 
+\section{Konzeption der Klassifikation und der Gap-Analyse}
+\label{sec:konzeption-gap}
+
+Dieser Abschnitt legt fest, wie die rekonstruierten Anforderungen
+klassifiziert und mit einem Raster erwarteter Sicherheitsanforderungen
+abgeglichen werden. Er dient der vierten Forschungsfrage und über die
+Klassifikation auch der ersten. Festgelegt ist bislang der
+Belegbegriff, auf dem die Gap-Analyse aufbaut.
+\textbf{[Noch zu ergänzen: Klassifikationsschema, Sicherheitsraster
+und Kategorien der Gap-Analyse. Die Unterabschnitte folgen mit den
+jeweiligen Entscheidungen.]}
+
+\subsection{Belegbegriff für die Gap-Analyse}
+\label{subsec:belegbegriff-ff4}
+
+Die Belegstärke einer rekonstruierten Anforderung wird nicht vom Modell
+festgelegt, sondern nach festen Regeln berechnet (vgl.\
+Abschnitt~\ref{subsec:anforderungsattribute}). Maßgeblich sind zwei
+Angaben. Die erste ist die Deckung. Jeder Beleg nennt, welche
+Bestandteile der Anforderung er trägt, und das gewählte EARS-Muster
+bestimmt, welche Bestandteile belegt sein müssen. Fehlt einer dieser
+Pflichtbestandteile, gilt die Anforderung als unzureichend belegt. Die
+zweite Angabe ist die Aussageform der Quelle. Fordert die Quelle etwas,
+gilt die Anforderung als direkt belegt; berichtet sie nur, was ist oder
+getan wurde, gilt sie als indirekt belegt. Die Regeln im Einzelnen
+beschreibt \textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zum
+Datenmodell]}.
+
+Unabhängig davon prüft das Prüfprogramm, ob jeder Quellausschnitt
+wörtlich an der angegebenen Stelle des Pull Requests steht. Beide
+Prüfungen sind getrennt. Die Berechnung der Belegstärke bezieht die
+Angaben aller Belege einer Anforderung ein, auch solcher, deren
+Ausschnitt in der Quelle nicht gefunden wird. Eine Anforderung, deren
+Systemreaktion allein ein nicht auffindbarer Ausschnitt trägt, kann
+damit als direkt oder indirekt belegt gelten. Für die
+Unbelegtheitsrate, die für die dritte Forschungsfrage erhoben wird,
+bleibt diese Berechnung unverändert, weil deren Definition vor der
+Zählung festgelegt wurde \textbf{[Noch zu ergänzen: Verweis auf den
+Abschnitt mit den Messgrößen für die dritte Forschungsfrage]}.
+
+Für die Gap-Analyse gilt deshalb ein strengerer Belegbegriff. Ein Beleg
+gilt als gefunden, wenn das Prüfprogramm seinen Ausschnitt annimmt oder
+wenn seine Ablehnung nach einer vorab festgelegten Zuordnungsregel dem
+Prüfprogramm und nicht dem Modell zuzurechnen ist
+\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur Prüfung der
+Quellausschnitte]}. Die Belegstärke wird nach denselben Regeln erneut
+berechnet, jedoch ausschließlich aus den gefundenen Belegen. Eine
+Anforderung ohne gefundenen Beleg ist damit stets unzureichend belegt.
+Als belegt im Sinne der Gap-Analyse gilt eine Anforderung, deren so
+berechnete Belegstärke direkt oder indirekt lautet. Die Grundmenge
+bilden alle Anforderungen des Volllaufs über 395 Pull Requests, soweit
+sie in Datensätzen stehen, die der Schemaprüfung genügen.
+
+Dieser Belegbegriff ist eine Festlegung der vorliegenden Arbeit. Er ist
+in keinem Fall weniger streng als die Unbelegtheitsrate. Jede in seinem
+Sinne belegte Anforderung hat mindestens einen gefundenen Beleg, und
+die Pflichtbestandteile, die die gefundenen Belege tragen, tragen auch
+alle Belege zusammen. Umgekehrt kann eine Anforderung für die
+Unbelegtheitsrate als belegt zählen und für die Gap-Analyse dennoch als
+unzureichend belegt. Die strengere Fassung folgt aus dem Gegenstand der
+vierten Forschungsfrage: Aussagen über Sicherheitsanforderungen dürfen
+nicht über die Belege hinausgehen, auf die sie sich stützen. Ein
+Pflichtbestandteil, den nur ein in der Quelle nicht vorhandener
+Ausschnitt trägt, ist nicht belegt. Die Rechenregeln selbst bleiben
+unverändert; eingeschränkt wird nur ihre Eingabe.
+
+Der Belegbegriff wurde festgelegt und versioniert, bevor Typ,
+Sicherheitsbezug und Belegstatus der Anforderungen des Volllaufs
+gezählt wurden. Bekannt waren zu diesem Zeitpunkt nur die Ergebnisse
+der Prüfung des Volllaufs auf der Ebene der Datensätze und der
+Quellausschnitte. Eine Grenze bleibt bestehen. Gibt das Modell für
+einen wörtlich vorhandenen Ausschnitt an, er trage einen Bestandteil,
+den er tatsächlich nicht enthält, bemerkt die maschinelle Prüfung dies
+nicht. Diese Einschränkung wird in Kapitel~\ref{cha:diskussion}
+aufgegriffen.
+
+
 \chapter{Implementierung}
 \label{cha:implementierung}
 
