@@ -255,10 +255,25 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   Zahlen. Am 28.09.2026 sind die Inhalte aller 28 Zitate der Regel 3
   trotzdem in den Chat gelangt (Nachtrag zu E10 vom 28.09.2026,
   Teil 4). Claude hat daraufhin keine Zuordnung vorgeschlagen.
-- Jedes Paket endet mit mindestens einem Abschnitt in
-  thesis/thesis.tex, bevor der Chat wechselt, weil das Wissen dann noch
-  frisch ist und nicht aus Notizen rekonstruiert werden muss (Wunsch
-  des Verfassers, 30.09.2026).
+- Schreiben im Paket (Wunsch des Verfassers, 01.10.2026, ersetzt die
+  Regel vom 30.09.2026): Sobald in einem Paket ein Teilergebnis
+  feststeht, also eine Entscheidung committet oder ein Messwert
+  gezaehlt ist, schlaegt Claude im selben Chat unaufgefordert den
+  passenden Abschnitt fuer thesis/thesis.tex vor: Zieldatei,
+  Einfuegestelle und Feingliederung. Nach Freigabe folgt der
+  LaTeX-Text. Grund: Das Wissen ist dann frisch und muss nicht aus
+  Notizen rekonstruiert werden. Was noch nicht belegt ist, steht als
+  markierter Platzhalter im Text und wird nicht erfunden. Jedes Paket
+  endet weiterhin mit mindestens einem Abschnitt, bevor der Chat
+  wechselt. Gilt fuer die Pakete G, H und I.
+- Lueckenpruefung (Wunsch des Verfassers, 01.10.2026): Nach Paket H,
+  spaetestens vor dem Korrekturdurchgang am Mo 12.10.2026, geht Claude
+  thesis/thesis.tex Kapitel fuer Kapitel durch. Geprueft wird: Ist
+  jede der vier Forschungsfragen beantwortet? Ist jede Stelle aus
+  STATUS.md und docs/entscheidungen.md mit dem Vermerk "gehoert nach
+  Kapitel 5, 6 oder 7" aufgenommen? Ist jeder Platzhalter aufgeloest
+  oder benannt? Laeuft kein Verweis ins Leere? Ergebnis ist eine Liste
+  der Luecken mit Fundstelle. Claude ergaenzt nichts stillschweigend.
 - Installationen ueber Homebrew koennen andere Pakete mit anheben. Am
   29.09.2026 hob brew install ollama Python von 3.14.6 auf 3.14.7.
   Claude nennt das vorher. Befehle, die nachfragen koennen, werden
@@ -972,6 +987,9 @@ Naechste Schritte in dieser Reihenfolge:
    und ob es nicht gefundene Belege bei der Berechnung der
    Belegstaerke mitzaehlt.
 3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
+3a. Lueckenpruefung von thesis/thesis.tex nach der Regel in
+   "Zusammenarbeit im Chat", nach Paket H, spaetestens vor dem
+   12.10.2026.
 4. Nicht blockierend: zehn Overfull hboxen in Anhang A
    (Korrekturdurchgang 12.10.), der Platzhalter zum Datenmodell in
    4.1.4 (das Datenmodell steht als E1, E6 und der Nachtrag zu E1
@@ -1624,8 +1642,7 @@ bb5d8bb docs: F1 Umfang von FF3 nach dem Kontrollpunkt (Frist Mi 30.09.2026, 12:
 9fedc96 docs: Uebergabe Paket F Teil 1, Nachtrag zu F1 Teil 2 (Ursache nicht entscheidbar, qwen verfehlt das Format, F1 d mit Begruendung), STATUS mit Feingliederung fuer Kapitel 6 und Schreibregel, KI-Protokoll; Manifest des Laufs 2026-09-30_local_qwen_pilot_v2_r1
 3bcf201 tex: Abschnitt 6.1 Kontrollpunkt und Pilotfall der lokalen Modelle (sec:eval-pilot-lokal) mit Tabellen tab:pilot-bedingungen und tab:pilot-ergebnisse; online.bib: Ollama-Dokumentation zur OpenAI-Kompatibilitaet; STATUS: Uebergabe-Commit von Paket F Teil 1 in Commits Paket F nachgetragen
 4914543 docs: F3 Messgroessen fuer FF3 (M1 bis M6, Unbelegtheit auf Ebene der Anforderung nach B8), F1 d und F2 Begruendung 1 berichtigt, Protokollauszug Ollama vom 30.09.2026; tex: Abschnitt 6.1 mit Beleg aus ollama show, Kontextfenster fuer beide Modelle, Denkteil in der Ausgabezahl, Begruendung der Abweichung vom Expose
-Der Uebergabe-Commit vom 01.10.2026 fehlt hier; im naechsten Chat mit
-git log nachtragen.
+4e5f3f4 docs: Uebergabe Paket F Teil 2 und Abschluss Paket F (Abschnitt 6.1, F3 Messgroessen M1 bis M6), STATUS mit Rotem Faden, Kuerzeln, Arbeitsregel zum Abgleich vor Vorschlaegen und Commits 3bcf201 und 4914543, KI-Protokoll, Literaturmatrix L19
 
 ## Aufruf des Ziehungsskripts
 
