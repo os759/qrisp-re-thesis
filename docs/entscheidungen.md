@@ -3137,6 +3137,41 @@ Verfasser hat Weg B gewaehlt.
 Status: festgelegt.
 Bezug: FF4, FF1, Kapitel 4, 6 und 7.
 
+## 2026-10-01 Paket G: Grundzahlen des Volllaufs
+
+### Nachtrag zu F3 (2026-10-01): M2 gezaehlt, beide Pruefpunkte beantwortet
+
+Gezaehlt am 01.10.2026 in Paket G statt in Paket H, mit
+src/analyze/count_requirements.py (Commit af23216). Die Regeln von F3
+und G1 standen vorher fest und sind unveraendert. Das Programm nutzt
+die Pruefungen aus validate_output.py und diagnose_excerpts.py und
+enthaelt keine eigenen Pruefregeln. Alle Zahlen stehen in
+experiments/requirement_counts_2026-09-25_full_v2.json und werden hier
+nicht wiederholt.
+
+1. Erster Pruefpunkt: validate_output.py prueft das Schema zuerst
+   (Funktion check_record). Die Zaehlung findet so viele Datensaetze
+   mit Schemafehler wie die Ablehnungen "Schema" im Nachtrag zu E10 vom
+   28.09.2026, Teil 4. Teil b von M1 im Volllauf ist damit bestaetigt.
+2. Zweiter Pruefpunkt: derive_evidence_strength zaehlt auch nicht
+   gefundene Belege mit (Befund am Code, siehe G1). Die Regel fuer M2
+   bleibt. Wie viele Anforderungen das betrifft, zeigt der Wert
+   strength_changed_by_g1 in der Ergebnisdatei.
+3. Abgleich mit Paket E: Zahl der Zitate, Zahl der abgelehnten Zitate
+   und ihre Verteilung auf die Regeln 1 bis 3 stimmen mit dem Nachtrag
+   zu E10 vom 27.09.2026, Teil 2, ueberein. Die im Chat vorab genannte
+   Erwartung fuer stated_differs_from_all_evidence ist eingetroffen.
+4. Offen fuer Paket H: Angabe (i) aus M2, also bei wie vielen
+   unbelegten Anforderungen das Modell selbst insufficient angab. Das
+   Programm zaehlt sie noch nicht.
+
+Herkunft: Lauf und Ablesung durch den Verfasser, Programm und
+Einordnung von Claude im Chat vom 01.10.2026.
+
+Status: festgelegt.
+Bezug: FF1, FF3, FF4, Kapitel 6.
+
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

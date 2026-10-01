@@ -1,0 +1,130 @@
+{
+  "code_commit": "af23216",
+  "src_and_config_committed": true,
+  "rules": "docs/entscheidungen.md: F3 (M2) and G1",
+  "inputs": {
+    "input": {
+      "path": "data/processed/extraction_2026-09-25_full_v2.jsonl",
+      "sha256": "3dbc74b24438cac24feba080eca69ef66a4b495b4f7fd677de0f22d7d91e569d"
+    },
+    "dataset": {
+      "path": "data/interim/pulls_prepared_2026-08-19.jsonl",
+      "sha256": "138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683"
+    },
+    "model_input": {
+      "path": "data/processed/model_input_2026-09-19.jsonl",
+      "sha256": "61113427c6b7aecea9cd40c8d6905276ab2da5f14838ed698c34078a54ac19ee"
+    },
+    "schema": {
+      "path": "config/requirement_schema_v2.json",
+      "sha256": "d5670a65c992efc38a158308f24e96610837e9f3545befe4e47d6a9fc498effe"
+    },
+    "mentions_map_given": true,
+    "allowlist": [
+      "jaspify",
+      "jax",
+      "pytest",
+      "rus"
+    ]
+  },
+  "counts": {
+    "records": {
+      "read": 395,
+      "schema_valid": 392,
+      "schema_invalid": 3,
+      "processing_status_schema_valid": {
+        "input_unusable": 2,
+        "no_requirements_found": 17,
+        "requirements_found": 373
+      }
+    },
+    "excerpts_all_records": {
+      "total": 2711,
+      "accepted": 2503,
+      "rejected": 208,
+      "rejected_by_rule": {
+        "1": 2,
+        "2": 178,
+        "3": 28
+      }
+    },
+    "requirements": {
+      "total": 1467,
+      "by_type": {
+        "functional_performance": 581,
+        "interface": 708,
+        "process": 148,
+        "quality_non_functional": 20,
+        "usability_quality_in_use": 10
+      },
+      "security_relevant": {
+        "true": 11,
+        "false": 1456
+      },
+      "type_by_security_relevant": {
+        "functional_performance": {
+          "true": 0,
+          "false": 581
+        },
+        "interface": {
+          "true": 10,
+          "false": 698
+        },
+        "process": {
+          "true": 1,
+          "false": 147
+        },
+        "quality_non_functional": {
+          "true": 0,
+          "false": 20
+        },
+        "usability_quality_in_use": {
+          "true": 0,
+          "false": 10
+        }
+      },
+      "strength_stated_by_model": {
+        "direct": 116,
+        "indirect": 1326,
+        "insufficient": 25
+      },
+      "strength_from_all_evidence": {
+        "direct": 115,
+        "indirect": 1319,
+        "insufficient": 33
+      },
+      "stated_differs_from_all_evidence": 8,
+      "partly_found": 144,
+      "m2": {
+        "no_evidence_found": 45,
+        "insufficient_from_all_evidence": 33,
+        "both": 3,
+        "unsupported": 75
+      },
+      "ff4": {
+        "strength_from_found_evidence": {
+          "direct": 107,
+          "indirect": 1163,
+          "insufficient": 197
+        },
+        "supported": 1270,
+        "strength_changed_by_g1": 164,
+        "m2_supported_but_not_ff4": 122,
+        "ff4_supported_but_m2_unsupported": 0
+      },
+      "security_relevant_only": {
+        "total": 11,
+        "by_type": {
+          "interface": 10,
+          "process": 1
+        },
+        "strength_from_found_evidence": {
+          "indirect": 10,
+          "insufficient": 1
+        },
+        "ff4_supported": 10,
+        "m2_unsupported": 1
+      }
+    }
+  }
+}
