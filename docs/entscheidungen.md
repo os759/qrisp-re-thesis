@@ -2690,8 +2690,9 @@ d) Auch c misslingt: FF3 wird ohne Qualitaetsmessung eines lokalen
    Modells beantwortet. Die lokale Seite besteht dann aus dem
    dokumentierten Einrichtungsversuch, dem Einrichtungsaufwand und der
    Datenkontrolle. Das weicht vom Expose ab, das einen praktischen
-   Vergleich vorsieht, und wird vor dem Schreiben mit dem Betreuer
-   abgestimmt.
+   Vergleich auch der Ergebnisqualitaet vorsieht. Die Abweichung ist
+   eine Entscheidung des Verfassers; die Begruendung steht im Nachtrag
+   zu F1, Teil 2, Punkt 5, und in Abschnitt 6.1 der Arbeit.
 
 Begruendung der Schwelle von 16 Stunden: Paket G beginnt laut Zeitplan
 am Do 01.10.2026. Beide Durchgaenge muessen bis dahin fertig sein; 16
@@ -2716,11 +2717,13 @@ API-Modell, mit config/local_run.toml. Versionsnummer, Pruefsumme des
 Modells und Kontextfenster schreibt das Programm in jedes Manifest.
 
 Begruendung:
-1. Aufrufweg. Ollama unterstuetzt /v1/responses mit den Feldern, die
-   run_extraction.py sendet (https://docs.ollama.com/api/openai-compatibility,
-   abgerufen am 29.09.2026). Der Probeaufruf vom 29.09.2026 kam mit
-   status completed und store false zurueck. Ein Unterschied zum
-   API-Modell kann damit nicht am Aufrufweg liegen.
+1. Aufrufweg. Ollama unterstuetzt /v1/responses
+   (https://docs.ollama.com/api/openai-compatibility, abgerufen am
+   29.09.2026, geprueft am 30.09.2026). Die Dokumentation nennt model,
+   max_output_tokens und reasoning.effort als unterstuetzt; das Feld
+   store nennt sie nicht. Der Probeaufruf vom 29.09.2026 kam mit status
+   completed und store false zurueck. Programm, Prompt und Eingabe
+   bleiben damit fuer beide Seiten gleich.
 2. Speicher. Modell und Kontextfenster belegen laut Serverprotokoll
    13 838 von 28 753 MiB Grafikspeicher; ollama ps meldet 100% GPU.
 3. Denkaufwand. gpt-oss kennt die Stufen low, medium und high, Standard
@@ -2889,11 +2892,182 @@ Verfasser, Formulierung durch Claude.
 Status: festgelegt. F1 ist damit abgeschlossen.
 Bezug: FF2, FF3, Kapitel 4, 6 und 7.
 
+### 2026-09-30 F3 Messgroessen fuer FF3
+
+Anlass: Die Projektanweisung erlaubt fuer den Modellvergleich hoechstens
+sechs Messgroessen mit Zahlenwerten. Die uebrigen Vergleichsdimensionen
+werden in Worten beschrieben. Nach F1 d liegt keine gueltige Ausgabe
+eines lokalen Modells vor; die Messgroessen sind darauf zugeschnitten.
+
+Kuerzel: M1 bis M6 sind die Nummern der sechs Messgroessen dieser
+Entscheidung. M1 Formatkonformitaet, M2 Unbelegtheitsrate, M3
+Konsistenz ueber Wiederholungen, M4 Laufzeit je Vorgang, M5 Kosten je
+Vorgang, M6 Speicherbedarf. Ein Vorgang ist ein Pull Request mit
+seinem Quellblock aus der Modelleingabe.
+
+Einschraenkung, fuer Kapitel 7: Fuer M1, M4, M5 und M6 lagen die
+Zahlen des API-Modells und der beiden lokalen Pilotfaelle vor dieser
+Festlegung schon vor. Ein strenges "vorab" ist dort nicht mehr
+moeglich. Die Definitionen folgen deshalb nur aus aelteren, bereits
+committeten Regeln und Dateien: dem Pruefprogramm validate_output.py,
+den Manifesten, den Regeln B1 bis B8 aus E6 und den Regeln 1 bis 3 aus
+den Nachtraegen zu E10. Damit bleibt kein Spielraum, eine Definition
+passend zum Ergebnis zu waehlen. M2 und M3 sind noch nicht gezaehlt;
+ihre Regeln stehen mit diesem Commit fest.
+
+Messgroessen mit Zahlenwerten:
+
+M1 Formatkonformitaet. Oberkategorie Ergebnisqualitaet; FF2, FF3.
+   Kennzahl: Anteil der Antworten, die (a) als JSON-Objekt in der
+   Extraktionsdatei stehen (Manifest, valid_json_object) und (b) die
+   Schemapruefung von validate_output.py bestehen.
+   Daten: API-Modell im Volllauf 2026-09-25_full_v2 (395 Vorgaenge)
+   und im Pilotlauf 2026-09-24_pilot_v2 (20 Vorgaenge); lokale Modelle
+   je ein Vorgang, PR 64, Laeufe 2026-09-30_local_pilot_v2_r1 und
+   2026-09-30_local_qwen_pilot_v2_r1.
+   Stand: Volllauf (a) 395 von 395, (b) 3 Datensaetze mit Schemafehler
+   laut Nachtrag zu E10, Teil 4, also 392 von 395. Zu bestaetigen beim
+   Zaehlen: Das Pruefprogramm prueft das Schema zuerst, sodass die 3
+   alle Schemafehler sind. Pilotlauf: (a) 20 von 20, (b) noch zu
+   zaehlen. Lokal: (a) 0 von 1 je Modell, damit M1 0 von 1.
+
+M2 Unbelegtheitsrate. Oberkategorie Ergebnisqualitaet; FF1, FF3.
+   Einheit: die einzelne Anforderung, also ein Eintrag im Feld
+   requirements eines Datensatzes.
+   Grundmenge (Nenner): alle Anforderungen in den Datensaetzen des
+   Volllaufs 2026-09-25_full_v2, die die Schemapruefung bestehen.
+   Datensaetze mit Schemafehler gehen nur in M1 ein, damit kein Fehler
+   doppelt zaehlt.
+   Eine Anforderung gilt als unbelegt, wenn mindestens eine der zwei
+   Bedingungen zutrifft:
+   (1) Kein Beleg gefunden. Keiner ihrer hoechstens drei Belege steht
+       woertlich in der genannten Quelle (B6). Als gefunden gilt ein
+       Beleg, den das Pruefprogramm annimmt, und ein Beleg, dessen
+       Ablehnung nach Regel 1 dem Pruefprogramm zugeordnet ist. Nicht
+       gefunden ist ein Beleg, dessen Ablehnung nach Regel 2 dem Modell
+       zugeordnet ist, einschliesslich der 28 Faelle, die nach Regel 3
+       von Hand der Regel 2 zugeordnet wurden.
+   (2) Belegstaerke insufficient. Die nach B1 bis B3 berechnete
+       Belegstaerke lautet insufficient: Mindestens ein
+       Pflichtbestandteil der Anforderung fehlt in der Quelle.
+       Massgeblich ist der vom Pruefprogramm berechnete Wert, nicht der
+       vom Modell angegebene.
+   Kennzahl: Zahl der unbelegten Anforderungen geteilt durch die
+   Grundmenge.
+   Begruendung fuer (2): B8 in E6 legt fest, dass die Quote von
+   insufficient ein Messwert fuer die Unbelegtheitsrate ist. Eine
+   Anforderung, deren Pflichtbestandteil in der Quelle fehlt, ist nicht
+   belegt, auch wenn das Modell das offen angibt.
+   Gesondert berichtet, ohne eigene Messgroesse: (i) bei wie vielen
+   unbelegten Anforderungen das Modell selbst insufficient angab und
+   bei wie vielen eine hoehere Stufe (darunter die 8 Ablehnungen nach
+   E6); (ii) Anforderungen mit teils gefundenen, teils nicht gefundenen
+   Belegen; (iii) auf Ebene der Zitate: 206 von 2 711 nach Regel 2
+   abgelehnt.
+   Zu pruefen beim Zaehlen: ob validate_output.py bei der Berechnung
+   nach B1 bis B3 auch nicht gefundene Belege mitzaehlt. Der Befund
+   wird berichtet, die Regel bleibt.
+   Lokal: entfaellt, weil keine gueltige Ausgabe vorliegt.
+   Stand: noch nicht gezaehlt. Zaehlung in Paket H mit einem kleinen
+   Zaehlprogramm, das die Belegpruefung und die Berechnung der
+   Belegstaerke aus validate_output.py und die Zuordnung nach den
+   Regeln 1 bis 3 nutzt und keine eigenen Pruefregeln enthaelt.
+
+M3 Konsistenz ueber Wiederholungen. Oberkategorie Ergebnisqualitaet;
+   FF1, FF3.
+   Daten: die 20 Vorgaenge der Pilotstichprobe (docs/sample_pilot_a8.md)
+   in zwei Durchgaengen, 2026-09-24_pilot_v2 und dieselben 20 Vorgaenge
+   im Volllauf 2026-09-25_full_v2. Konfiguration und Promptdateien
+   haben laut beiden Manifesten dieselben Pruefsummen; der Codestand
+   ist verschieden.
+   Quellstelle: das Paar aus location und locator eines Belegs.
+   Je Vorgang und Durchgang: die Menge der Quellstellen aller Belege
+   aller Anforderungen. Jaccard-Uebereinstimmung: Zahl der
+   Quellstellen, die in beiden Mengen stehen, geteilt durch die Zahl
+   der Quellstellen, die in mindestens einer Menge stehen. Sind beide
+   Mengen leer, ist der Wert 1.
+   Kennzahl: Mittelwert ueber die 20 Vorgaenge. Gesondert berichtet:
+   kleinster Wert und Zahl der Anforderungen je Durchgang.
+   Gezaehlt werden alle Belege, auch abgelehnte, weil M3 das Verhalten
+   des Modells misst und nicht das Ergebnis der Pruefung.
+   Lokal: entfaellt. Stand: noch nicht gezaehlt, Paket H.
+   Grenze: Zwei Durchgaenge an 20 Vorgaengen ergeben keine belastbare
+   Streuung; der Wert ist explorativ.
+
+M4 Laufzeit je Vorgang. Oberkategorie Kosten und Aufwand; FF3.
+   Kennzahl: duration_seconds im Manifest. Das Programm
+   run_extraction.py misst die Zeit auf dem Rechner des Verfassers mit
+   time.monotonic um den Aufruf. Verglichen wird an PR 64, dem einzigen
+   Vorgang mit Werten aller Modelle. Fuer das API-Modell zusaetzlich
+   Median, kleinster und groesster Wert ueber die 395 Vorgaenge des
+   Volllaufs.
+   Stand: bekannt, aus den Manifesten. Grenze: Beim API-Modell enthaelt
+   die Zeit die Uebertragung ueber das Netz; je lokales Modell liegt
+   ein Wert vor.
+
+M5 Kosten je Vorgang. Oberkategorie Kosten und Aufwand; FF3.
+   Kennzahl: Abrechnung im Konto geteilt durch die Zahl der Vorgaenge
+   des Laufs. API-Modell: Volllauf, Abrechnung laut
+   experiments/kostenschaetzung.md, Abschnitt 6.3. Lokal: keine
+   Gebuehren. Strom und Anschaffung des Rechners sind nicht erhoben und
+   werden beschrieben.
+   Stand: bekannt. Grenze: Die Abrechnung ist die Differenz zweier
+   Ablesungen; ob sie Umsatzsteuer enthaelt, ist ungeprueft (6.3).
+
+M6 Speicherbedarf. Oberkategorie Kosten und Aufwand; FF3.
+   Kennzahl: vom Server eingeplanter Grafikspeicher in MiB, Zeile
+   "projected to use ... MiB of device memory" im Serverprotokoll,
+   belegt in docs/ollama_protokollauszug.md. Gesondert berichtet: die
+   Dateigroesse der Gewichte und bei qwen3.6:27b der Bildteil, der in
+   der Projektion nicht enthalten ist.
+   API-Modell: nicht anwendbar. Stand: bekannt.
+
+In Worten beschrieben, ohne Zahlenwert:
+- Einrichtungsaufwand: Arbeitsschritte und aufgetretene Probleme der
+  lokalen Ausfuehrung. Stunden wurden nicht erfasst.
+- Datenkontrolle und Verbleib der Daten: API-Modell mit store false und
+  Missbrauchsprotokoll des Anbieters bis zu 30 Tage
+  (config/api_run.toml); lokal nur auf diesem Rechner,
+  Cloud-Funktionen abgeschaltet (F2).
+- Reproduzierbarkeit: API-Modell ueber einen Namen ohne festen Stand;
+  lokal Pruefsumme der Gewichte und Version der Laufzeitumgebung im
+  Manifest. Alle Modelle mit Temperatur 1.
+- Eindeutigkeit, Verifizierbarkeit, Vollstaendigkeit: in Paket H fuer
+  FF1 am API-Modell bewertet. Fuer FF3 keine Vergleichsgroesse, weil
+  keine lokale Ausgabe vorliegt.
+
+Weitere Festlegungen vom 30.09.2026:
+- Die Gegenpruefung der Zuordnung nach Regel 3 durch Claude entfaellt,
+  weil sie die Inhalte der 28 Zitate im Chat voraussetzen wuerde. Fuer
+  Kapitel 7: Die Zuordnung nach Regel 3 stammt von einer Person.
+- Das Serverprotokoll vom 30.09.2026 bleibt ausserhalb des
+  Repositorys. Die belegenden technischen Zeilen stehen mit
+  Zeilennummer und SHA-256 der Protokolldatei in
+  docs/ollama_protokollauszug.md. Ein Protokoll des Probeaufrufs vom
+  29.09.2026 liegt nicht vor. Die in F2 genannten Werte 13 838 MiB,
+  28 753 MiB und 32 768 Token stehen gleichlautend im Protokoll vom
+  30.09.2026.
+- Laut Zugriffsliste des Servers gingen am 30.09.2026 genau zwei
+  Anfragen an /v1/responses, die beiden gezaehlten Versuche. Die
+  Anfragen an /api/generate um 09:03:52 und 09:05:21 nutzen einen
+  Endpunkt, den run_extraction.py nicht verwendet.
+- Die Abweichung von F1 d vom Expose ist eine Entscheidung des
+  Verfassers. Eine Abstimmung mit dem Betreuer ist nicht vorgesehen.
+
+Herkunft: Vorschlag von Claude im Chat vom 30.09.2026. Auswahl der
+sechs Messgroessen, Ebene der Anforderung fuer M2 und Einschraenkung
+vom Verfasser bestaetigt; Bedingung (2) von M2 nach B8 aus E6 vom
+Verfasser bestaetigt.
+
+Status: festgelegt.
+Bezug: FF1, FF2, FF3, Kapitel 4, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
 - API-Modell und lokales Modell (FF3), Paket E und F: entschieden
   am 19.09.2026 und 29.09.2026, siehe E8 und F2
+- Messgroessen fuer FF3, Paket F: entschieden am 30.09.2026, siehe F3
 - Ausschnitt des Sicherheitsrasters (FF4), Paket G
 - Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
   am 15.09.2026, siehe E4

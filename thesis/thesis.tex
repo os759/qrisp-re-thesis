@@ -1615,7 +1615,9 @@ Felder \texttt{model}, \texttt{max\_output\_tokens} und
 \texttt{store}, das das Programm ebenfalls sendet, nennt sie nicht
 \cite[Abschn.~Responses API]{ollamaopenai}. Beide Antworten meldeten
 \texttt{store} als \texttt{false}. Tabelle~\ref{tab:pilot-bedingungen}
-fasst die Bedingungen zusammen. Die Einrichtung beschreibt
+fasst die Bedingungen zusammen. Die herangezogenen Zeilen aus dem
+Protokoll des Servers stehen in \texttt{docs/ollama\_protokollauszug.md}.
+Die Einrichtung beschreibt
 \textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur lokalen
 Ausführung in Kapitel~\ref{cha:implementierung}]}.
 
@@ -1650,8 +1652,8 @@ Ausführung in Kapitel~\ref{cha:implementierung}]}.
     \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
       Fassung v2, Prüfsummen gleich denen der API-Läufe} \\
     Kontextfenster &
-    65\,536 Token; ohne Festlegung 32\,768 &
-    65\,536 Token \\
+    \multicolumn{2}{>{\raggedright\arraybackslash}p{\dimexpr 8.5cm+2\tabcolsep\relax}@{}}{%
+      65\,536 Token; ohne Festlegung 32\,768, abhängig vom Grafikspeicher} \\
     Denkstufe &
     gesendet \texttt{medium}; das Modell kennt drei Stufen &
     gesendet \texttt{medium}; das Modell kennt nur ein und aus \\
@@ -1675,18 +1677,20 @@ ein abgeleitetes Modell, das aus einer Modelfile-Datei mit dem
 Parameter \texttt{num\_ctx} erzeugt wird
 \cite[Abschn.~Setting the local context size]{ollamaopenai}. Beide
 Modelle liefen so mit einem Fenster von 65\,536 Token. Ohne diese
-Festlegung hätte der Server für gpt-oss:20b laut seinem Protokoll ein
-Fenster von 32\,768 Token gewählt. Das hätte für die längste Eingabe
+Festlegung hätte der Server laut seinem Protokoll ein Fenster von
+32\,768 Token gewählt, bemessen am Grafikspeicher des Rechners. Das hätte für die längste Eingabe
 der Pilotstichprobe zusammen mit 25\,000 Ausgabe-Token nicht
 ausgereicht. Das Aufrufprogramm fragt das Fenster vor dem ersten
 Aufruf ab und sendet nichts, wenn es abweicht.
 
 Die Denkstufe wurde wie beim API-Modell als \texttt{medium} gesendet.
-gpt-oss:20b kennt die Stufen \texttt{low}, \texttt{medium} und
-\texttt{high} mit dem Standard \texttt{medium}. qwen3.6:27b lässt das
-Denken nur ein- oder ausschalten; welche Wirkung die gesendete Stufe
-dort hatte, ist nicht gemessen. \textbf{[Zu prüfen: Beleg für die
-Denkeinstellungen beider Modelle, Ausgabe von \texttt{ollama show}.]}
+Nach der Modellbeschreibung der Laufzeitumgebung (\texttt{ollama show})
+kennt gpt-oss:20b die Stufen \texttt{low}, \texttt{medium} und
+\texttt{high} mit dem Standard \texttt{medium}. qwen3.6:27b kennt dort
+nur die Werte \texttt{false} und \texttt{true} mit dem Standard
+\texttt{true}, lässt das Denken also nur ein- oder ausschalten. Welche
+Wirkung die gesendete Stufe \texttt{medium} bei diesem Modell hatte,
+ist nicht gemessen.
 Für beide Modelle meldet die Laufzeitumgebung null Denk-Token, obwohl
 die Antwort von gpt-oss:20b einen Denkteil enthält. Die Zahl der
 Denk-Token ist lokal daher nicht gemessen. Die Werte für die Auswahl
@@ -1717,9 +1721,11 @@ Kontextfenster wurde nicht erreicht, und das Protokoll des Servers
 meldet für die Anfrage keine Kürzung. Die Antwort kam nach
 98,6~Sekunden und damit weit vor der Zeitgrenze des Programms von
 3\,600~Sekunden. Die gemeldeten 2\,517 Ausgabe-Token liegen weit unter
-der Obergrenze von 25\,000. Weil die Laufzeitumgebung keine Denk-Token
-meldet, bleibt allerdings offen, ob der Denkteil in dieser Zahl
-enthalten ist.
+der Obergrenze von 25\,000. Die Laufzeitumgebung meldet zwar keine
+Denk-Token. Das Protokoll des Servers zählt am Ende der Anfrage aber
+8\,071 Token im Kontext, fast genau die Summe aus 5\,555 Eingabe- und
+2\,517 Ausgabe-Token. Der Denkteil ist in der Ausgabezahl daher
+offenbar enthalten, und die Obergrenze wurde nicht erreicht.
 
 Übrig bleiben zwei Erklärungen. Nach der ersten beendet das Modell
 seine Nachricht mit einem Endzeichen, bevor das Objekt geschlossen
@@ -1794,11 +1800,15 @@ Kosten, Aufwand und Datenkontrolle sind für beide Seiten gemessen oder
 belegt, und zur Qualität liegt der Formatbefund vor.
 
 Stufe~d weicht vom Exposé ab, das einen Vergleich auch der
-Ergebnisqualität vorsieht. \textbf{[Noch zu ergänzen: Stand vor der
-Abgabe. Wird der Vergleich der Ergebnisqualität am Ende nachgeholt,
-sind dieser Absatz und die Begründung oben neu zu fassen. Sonst ist
-hier zu berichten, wie die Abweichung mit dem Betreuer geklärt
-wurde.]}
+Ergebnisqualität vorsieht. Die Abweichung ist eine Entscheidung des
+Verfassers und beruht auf der vorab festgelegten Regel. Unter den
+Bedingungen des API-Modells hat keines der beiden lokalen Modelle eine
+Antwort geliefert, die als JSON-Objekt in der Extraktionsdatei steht.
+Damit fehlen lokal rekonstruierte Anforderungen, deren Qualität sich
+bewerten ließe. Eine Bewertung unter geänderten Bedingungen, etwa mit
+einer Formathilfe der Laufzeitumgebung, würde nicht mehr dieselbe
+Pipeline vergleichen. Die Forschungsfrage wird deshalb in dem Umfang
+beantwortet, den die vorliegenden Daten tragen.
 
 Die Forschungsfrage vergleicht danach Kosten, Aufwand und
 Datenkontrolle. Auf der lokalen Seite stehen dafür der dokumentierte
