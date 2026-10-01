@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 29.09.2026
+Letzte Aktualisierung: 01.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -146,15 +146,32 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     Ergebnis beschlossen waere und die Zeit fuer die Pakete G und H
     fehlt.
 
-Warum der naechste Schritt jetzt kommt: Der Kontrollpunkt ist
-entschieden, und alles dazu ist noch frisch. Deshalb wird zuerst der
-Abschnitt zum Pilotfall in Kapitel 6 geschrieben, weil jedes Paket
-jetzt mit einem Abschnitt in thesis.tex endet. Danach werden die
-Messgroessen fuer FF3 festgelegt, angepasst an den kleineren Umfang,
-weil sie vor jeder Auswertung feststehen muessen. Paket G folgt ab
-Do 01.10.2026.
+12. Abschnitt 6.1 und Messgroessen (30.09. und 01.10.2026): Der
+    Bericht ueber beide lokalen Versuche steht jetzt als Abschnitt 6.1
+    in der Arbeit, weil jedes Paket mit einem Abschnitt endet. Die
+    Abweichung vom Expose ist dort als Entscheidung des Verfassers
+    begruendet, weil es ohne gueltige lokale Ausgabe keine Qualitaet
+    zu vergleichen gibt. Eine Abstimmung mit dem Betreuer ist nicht
+    vorgesehen. Danach wurden in F3 (Entscheidung Messgroessen fuer
+    FF3) sechs Messgroessen festgelegt, weil sie vor jeder Zaehlung
+    feststehen muessen: M1 Formatkonformitaet, M2 Unbelegtheitsrate,
+    M3 Konsistenz ueber Wiederholungen, M4 Laufzeit je Vorgang, M5
+    Kosten je Vorgang, M6 Speicherbedarf. Eine Anforderung gilt als
+    unbelegt, wenn keiner ihrer Belege woertlich in der Quelle steht
+    oder die berechnete Belegstaerke insufficient lautet; der zweite
+    Teil folgt aus Regel B8 der Entscheidung E6. Ein Auszug aus dem
+    Serverprotokoll steht jetzt im Repository, weil Abschnitt 6.1
+    sich darauf stuetzt.
 
-Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1 und Anhang A.
+Warum der naechste Schritt jetzt kommt: Paket F ist abgeschlossen.
+Paket G (Klassifikation, Sicherheitsraster, Gap-Analyse) beginnt
+jetzt, weil FF4 als einzige Forschungsfrage noch kein Ergebnis hat
+und laut Zeitplan nur bis So 04.10.2026 Zeit hat. Danach folgt Paket
+H mit der Bewertung und den Zaehlungen fuer M2 und M3, weil die
+Auswertung dort ohnehin laeuft.
+
+Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1, Abschnitt 6.1
+und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
 Reserve. Das Risiko lokales Modell ist erledigt; groesstes Risiko ist
 jetzt der Umfang der Pakete G und H neben dem Schreiben.
@@ -249,6 +266,13 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
 - Eine Erfolgsbedingung trennt technisches Gelingen von der
   Messgroesse. F1 hat beides verbunden: Ein Formatfehler, selbst ein
   Messwert, zaehlte als misslungener Pilotfall (30.09.2026).
+- Vor jedem Vorschlag prueft Claude STATUS.md und
+  docs/entscheidungen.md auf bestehende Regeln und Festlegungen, weil
+  sonst Widersprueche entstehen. Anlass: Die Unbelegtheit wurde am
+  30.09.2026 zuerst ohne Abgleich mit Regel B8 aus E6 vorgeschlagen
+  (Wunsch des Verfassers, 30.09.2026).
+- Fragen an den Verfasser stellt Claude ohne doppelte Verneinung, weil
+  die Antwort sonst mehrdeutig ist (Frage zu 09:03:52 am 30.09.2026).
 
 ## Kuerzel
 
@@ -290,6 +314,12 @@ docs/entscheidungen.md, ausser den oben genannten Regeln E1 bis E3.
 Stufen a bis d = Stufen von F1, Umfang von FF3 nach dem Kontrollpunkt;
 es gilt Stufe d. Pilotfall = PR 64, gesendet an ein lokales Modell
 nach F1.
+F3 = Entscheidung Messgroessen fuer FF3 vom 30.09.2026.
+M1 bis M6 = die sechs Messgroessen aus F3: M1 Formatkonformitaet, M2
+Unbelegtheitsrate (Ebene der Anforderung), M3 Konsistenz ueber
+Wiederholungen, M4 Laufzeit je Vorgang, M5 Kosten je Vorgang, M6
+Speicherbedarf. M3 ist nicht der Prozessor Apple M3 Pro aus dem
+Abschnitt Umgebung.
 K1 bis K10 = Kriterien der Formatauswahl, docs/formatauswahl.md
 Abschnitt 2. R1 bis R11 = Regeln fuer die Noten, dort Abschnitt 4.
 Ebenen (a) bis (d) = die vier Ebenen einer Anforderung: (a) Sicht,
@@ -439,6 +469,18 @@ Arbeitspaket E (Prompt und API-Modell) abgeschlossen am 29.09.2026:
 - Links je Beleg (Teilschritt 10 von A8) und Messwerte des Volllaufs
   in experiments/kostenschaetzung.md, Abschnitt 6.3
 - Stand am Ende von Paket E als Git-Tag thesis-v1.0 eingefroren
+
+Arbeitspaket F (Lokales Modell und Modellvergleich) abgeschlossen am
+01.10.2026:
+- Kontrollpunkt mit gpt-oss:20b und qwen3.6:27b, beide nicht
+  gelungen, es gilt F1 d (FF3 ohne Qualitaetsmessung eines lokalen
+  Modells)
+- Abschnitt 6.1 sec:eval-pilot-lokal mit den Tabellen
+  tab:pilot-bedingungen und tab:pilot-ergebnisse, BibTeX-Eintrag
+  ollamaopenai in online.bib
+- F3 Messgroessen fuer FF3; F1 d und F2 Begruendung 1 berichtigt
+- docs/ollama_protokollauszug.md mit den belegenden Zeilen des
+  Serverprotokolls vom 30.09.2026
 
 ## Datensaetze (alle lokal, nicht im Repository)
 
@@ -857,11 +899,31 @@ config/local_run_qwen.toml. Der Pilotfall ist mit beiden Modellen
 nicht gelungen, es gilt F1 d (Nachtrag zu F1, Teil 1 und 2). Messwerte
 in den Manifesten der Laeufe 2026-09-30_local_pilot_v2_r1 und
 2026-09-30_local_qwen_pilot_v2_r1. Rohdateien lokal, Serverprotokoll
-unter ~/qrisp-ollama-logs/.
+unter ~/qrisp-ollama-logs/, Auszug in docs/ollama_protokollauszug.md.
 
-Freigegebene Feingliederung fuer den ersten Abschnitt in Kapitel 6,
-freigegeben vom Verfasser am 30.09.2026. Zieldatei thesis/thesis.tex,
-im Kapitel cha:evaluation. Der Platzhalter des Kapitels bleibt, weil
+Abschnitt 6.1 Kontrollpunkt und Pilotfall der lokalen Modelle
+(sec:eval-pilot-lokal) steht in thesis/thesis.tex, im Kapitel
+cha:evaluation hinter dem Platzhalter des Kapitels. Die Uebersetzung
+laeuft ohne Fehler und ohne undefinierte Verweise; das Dokument hat
+60 Seiten, Kapitel 6 die Seiten 35 bis 41. Zwei Platzhalter bleiben:
+Verweis auf den Abschnitt zur lokalen Ausfuehrung in Kapitel 5 und
+Verweis auf den Abschnitt mit den Messgroessen. Zusaetzliche Befunde
+im Abschnitt: Der Denkteil der lokalen Modelle steckt offenbar in der
+gemeldeten Ausgabezahl, weil das Serverprotokoll am Ende jeder Anfrage
+fast genau Eingabe plus Ausgabe als Token im Kontext zaehlt
+(Schlussfolgerung von Claude). Die Ollama-Dokumentation nennt das Feld
+store fuer /v1/responses nicht; F2 ist entsprechend berichtigt.
+
+Messgroessen fuer FF3 stehen als F3 in docs/entscheidungen.md. M1,
+M4, M5 und M6 sind aus vorhandenen Daten bekannt. M2, M3 und Teil b
+von M1 im Pilotlauf werden in Paket H gezaehlt, weil die Auswertung
+dort ohnehin laeuft. Weil vier Zahlen vor der Festlegung bekannt
+waren, folgen die Definitionen nur aus aelteren Regeln; das gehoert
+nach Kapitel 7.
+
+Die freigegebene Feingliederung vom 30.09.2026 ist umgesetzt und
+bleibt nur zur Nachvollziehbarkeit stehen. Zieldatei war
+thesis/thesis.tex, im Kapitel cha:evaluation. Der Platzhalter des Kapitels bleibt, weil
 Design und Auswertung noch fehlen; die genaue Zeile legt der neue Chat
 fest.
   \section{Kontrollpunkt und Pilotfall der lokalen Modelle},
@@ -899,24 +961,21 @@ fest.
   den Modellen erst nach dem Lesen.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Paket F Teil 2 im neuen Chat: zuerst den Abschnitt
-   sec:eval-pilot-lokal nach der Feingliederung oben schreiben
-   (Fliesstext, Begruendung je Absatz, offene Belege, BibTeX).
-2. Messgroessen fuer FF3 vorab festlegen, hoechstens sechs mit
-   Zahlenwerten, angepasst an F1 d. API-Seite mit den vorhandenen
-   Laeufen: zwei Durchgaenge an 20 Vorgaengen fuer die Konsistenz;
-   Material fuer die Unbelegtheitsrate sind die Zitatablehnungen nach
-   Regel 2 und die Ablehnungen nach E6 (Nachtrag zu E10 vom
-   28.09.2026, Teil 4). Welche davon als unbelegt zaehlen, legt die
-   Definition fest. Lokale Seite: Laufzeit, Speicherbedarf,
-   Einrichtungsaufwand, Datenkontrolle.
-3. Paket G ab Do 01.10.2026 (Klassifikation, Sicherheitsraster,
-   Gap-Analyse, FF4), am Ende mit einem Abschnitt in thesis.tex.
-4. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
-5. Nicht blockierend, aus Paket C uebernommen: zehn Overfull hboxen
-   in Anhang A (Korrekturdurchgang 12.10.) und der Platzhalter zum
-   Datenmodell in 4.1.4. Der Platzhalter kann jetzt gefuellt werden;
-   das Datenmodell steht als E1, E6 und der Nachtrag zu E1 fest.
+1. Paket G im neuen Chat ab Do 01.10.2026: Klassifikation,
+   Sicherheitsraster, Gap-Analyse (FF4), am Ende mit einem Abschnitt in
+   thesis.tex. Vor jedem Vorschlag prueft Claude STATUS.md und
+   docs/entscheidungen.md auf bestehende Regeln.
+2. Paket H: Bewertung, dazu die Zaehlung von M1 (Teil b im
+   Pilotlauf), M2 und M3 nach F3 mit einem kleinen Zaehlprogramm ohne
+   eigene Pruefregeln. Die Zaehlung klaert die zwei offenen
+   Pruefpunkte aus F3: ob validate_output.py das Schema zuerst prueft
+   und ob es nicht gefundene Belege bei der Berechnung der
+   Belegstaerke mitzaehlt.
+3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
+4. Nicht blockierend: zehn Overfull hboxen in Anhang A
+   (Korrekturdurchgang 12.10.), der Platzhalter zum Datenmodell in
+   4.1.4 (das Datenmodell steht als E1, E6 und der Nachtrag zu E1
+   fest) und zwei Platzhalter in Abschnitt 6.1.
 
 ## Getroffene Entscheidungen
 
@@ -1261,7 +1320,10 @@ Extern, mit Vorlauf:
 - Erledigt am 28.09.2026: Links fuer Teilschritt 10. GitHub hat je
   Kommentar einen eigenen Link geliefert; Variante B (Nachtrag zu E10
   vom 28.09.2026, Teil 4).
-- Gegenpruefung der Zuordnung nach Regel 3 durch Claude: angeboten
+- Erledigt am 30.09.2026: Die Gegenpruefung entfaellt (F3), weil es
+  keinen Weg ohne Mehraufwand gibt. Fuer Kapitel 7: Die Zuordnung nach
+  Regel 3 stammt von einer Person. Bisheriger Stand:
+  Gegenpruefung der Zuordnung nach Regel 3 durch Claude: angeboten
   am 28.09.2026. Der Verfasser wuenscht sie seit dem 30.09.2026, wenn
   sie keinen Mehraufwand macht. Sie braucht die Inhalte der 28 Zitate,
   die nach der Regel zu Inhalten nicht in den Chat gehen. Deshalb nur,
@@ -1340,9 +1402,23 @@ Technisch und redaktionell:
 - Erledigt am 30.09.2026: Lokale Inferenz braucht kein eigenes
   Python. Ollama ist ein eigenes Programm; run_extraction.py sendet nur
   HTTP-Anfragen (F2).
-- Serverprotokolle von Ollama liegen lokal unter ~/qrisp-ollama-logs/,
-  nicht im Repository (F2). Vor der Abgabe entscheiden, ob ein Auszug
-  mit Zahlen (Zeitmessung, truncated) ins Repository kommt.
+- Erledigt am 01.10.2026: Auszug des Serverprotokolls vom 30.09.2026
+  in docs/ollama_protokollauszug.md, mit Zeilennummern und SHA-256 der
+  Protokolldatei (F3). Das vollstaendige Protokoll bleibt lokal unter
+  ~/qrisp-ollama-logs/. Ein Protokoll des Probeaufrufs vom 29.09.2026
+  liegt nicht vor; seine Werte aus F2 stehen gleichlautend im
+  Protokoll vom 30.09.2026.
+- Anfrage an /api/generate um 09:03:52 am 30.09.2026: Der Verfasser
+  erinnert sich nicht sicher, nimmt aber an, dass keine Daten dieser
+  Arbeit gesendet wurden. Gestuetzt wird das durch das Protokoll: Nur
+  die Zeilen 335 und 1475 melden das Ende einer Verarbeitung (stop
+  processing), beide gehoeren zu den gezaehlten Versuchen. Das ist
+  eine Schlussfolgerung von Claude, keine Gewissheit. Fuer Kapitel 7
+  als Restunsicherheit festhalten.
+- Ollama-Dokumentation (L19 in der Literaturmatrix) hat Claude am
+  30.09.2026 gelesen, der Verfasser noch nicht. Vor der Abgabe die
+  Abschnitte Responses API und Setting the local context size selbst
+  ansehen.
 - tests/README.md nennt noch 373 Tests. Beim naechsten Code-Commit
   oder in Paket I auf den Stand der Testsuite nachziehen.
 - Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
@@ -1350,6 +1426,9 @@ Technisch und redaktionell:
   Z. 508 Verweis auf die Entscheidungsmatrix ·
   Z. 903 Femmer et al. - Primaerquelle beschaffen oder Satz streichen ·
   Z. 910, 915, 921, 929, 937, 944, 951, 959 noch leere Kapitel
+  Neu 01.10.2026, geprueft: Z. 1621 Verweis auf Kapitel 5 und
+  Z. 1819 Verweis auf den Abschnitt mit den Messgroessen, beide in
+  Abschnitt 6.1.
   Achtung: Diese Nummern sind aus dem Versatz +144 errechnet, nicht
   einzeln geprueft. Vor dem Bearbeiten nachsehen.
 - Overfull hboxen, Behebung am 12.10.: vorspann.tex Z. 4-16 (86,6pt) ·
@@ -1543,6 +1622,10 @@ bb5d8bb docs: F1 Umfang von FF3 nach dem Kontrollpunkt (Frist Mi 30.09.2026, 12:
 767a381 docs: Nachtrag zu F1 Teil 1, Pilotfall mit gpt-oss nicht gelungen (Antwort endet mitten im JSON-Objekt), Lesart 1, Zuordnungsregel fuer den zweiten Versuch; Manifest des Laufs 2026-09-30_local_pilot_v2_r1
 6a2ff11 code: Ersatzmodell qwen3.6:27b fuer den zweiten Versuch nach F1 c (Stoppgrund nicht entscheidbar), Modelfile mit Kontextfenster 65536 und config/local_run_qwen.toml
 9fedc96 docs: Uebergabe Paket F Teil 1, Nachtrag zu F1 Teil 2 (Ursache nicht entscheidbar, qwen verfehlt das Format, F1 d mit Begruendung), STATUS mit Feingliederung fuer Kapitel 6 und Schreibregel, KI-Protokoll; Manifest des Laufs 2026-09-30_local_qwen_pilot_v2_r1
+3bcf201 tex: Abschnitt 6.1 Kontrollpunkt und Pilotfall der lokalen Modelle (sec:eval-pilot-lokal) mit Tabellen tab:pilot-bedingungen und tab:pilot-ergebnisse; online.bib: Ollama-Dokumentation zur OpenAI-Kompatibilitaet; STATUS: Uebergabe-Commit von Paket F Teil 1 in Commits Paket F nachgetragen
+4914543 docs: F3 Messgroessen fuer FF3 (M1 bis M6, Unbelegtheit auf Ebene der Anforderung nach B8), F1 d und F2 Begruendung 1 berichtigt, Protokollauszug Ollama vom 30.09.2026; tex: Abschnitt 6.1 mit Beleg aus ollama show, Kontextfenster fuer beide Modelle, Denkteil in der Ausgabezahl, Begruendung der Abweichung vom Expose
+Der Uebergabe-Commit vom 01.10.2026 fehlt hier; im naechsten Chat mit
+git log nachtragen.
 
 ## Aufruf des Ziehungsskripts
 
@@ -1679,6 +1762,11 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
+
+Stand 01.10.2026, W9. Paket F abgeschlossen: Abschnitt 6.1
+geschrieben, Messgroessen F3 festgelegt. Paket G beginnt heute wie
+geplant. Bis zur internen Abgabe am 13.10.2026 verbleiben 12 Tage,
+bis zur Abgabe 14 Tage.
 
 Stand 30.09.2026, W9. Kontrollpunkt entschieden, es gilt F1 d. Die
 Laeufe des lokalen Modells ueber die Stichprobe entfallen. Paket F
