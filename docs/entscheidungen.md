@@ -3062,6 +3062,81 @@ Verfasser bestaetigt.
 Status: festgelegt.
 Bezug: FF1, FF2, FF3, Kapitel 4, 6 und 7.
 
+## 2026-10-01 Paket G: Belegbegriff fuer FF4
+
+### 2026-10-01 G1 Belegbegriff fuer die Gap-Analyse
+
+Festgelegt vor jeder Zaehlung in Paket G, damit die Regel nicht nach
+dem Ergebnis gewaehlt wird. Bekannt waren nur die Zahlen der Pruefung
+aus Paket E (Nachtraege zu E10 vom 27.09. und 28.09.2026). Wie viele
+Anforderungen sicherheitsrelevant sind und welchen Typ sie haben, war
+nicht gezaehlt.
+
+Anlass: Befund am Code vom 01.10.2026. Die Funktion
+derive_evidence_strength in src/extract/validate_output.py berechnet
+die Belegstaerke aus der Angabe supports aller Belege einer
+Anforderung, auch aus Belegen, die nicht woertlich in der Quelle
+stehen. Das beantwortet den zweiten Pruefpunkt aus F3, M2, am Code;
+die Zaehlung zeigt, wie viele Anforderungen das betrifft. Nach F3
+bleibt die Regel fuer M2 unveraendert. Fuer FF4 hiesse das aber: Eine
+Anforderung, deren Systemreaktion nur ein nicht gefundenes Zitat
+traegt, gaelte als mit Beleg rekonstruierbar.
+
+Entscheidung:
+1. Grundmenge wie bei M2: alle Anforderungen in den Datensaetzen des
+   Volllaufs 2026-09-25_full_v2, die die Schemapruefung bestehen.
+2. Gefunden ist ein Beleg wie bei M2, Bedingung (1): validate_output.py
+   nimmt ihn an (Funktion excerpt_found), oder diagnose_excerpts.py
+   ordnet seine Ablehnung einer Ursache der Regel 1 zu (Funktion
+   classify). Belege mit einer Ursache der Regel 2 oder 3 gelten als
+   nicht gefunden. Alle Faelle der Regel 3 hat der Verfasser der
+   Regel 2 zugeordnet (Nachtrag zu E10 vom 28.09.2026, Teil 4).
+3. Belegstaerke fuer FF4: berechnet nach B1 bis B3 aus E6 mit derselben
+   Funktion derive_evidence_strength, aber nur aus den gefundenen
+   Belegen. Ohne gefundenen Beleg lautet sie insufficient.
+4. Fuer FF4 belegt ist eine Anforderung, deren Belegstaerke fuer FF4
+   direct oder indirect lautet.
+5. M2 und alle uebrigen Festlegungen von F3 bleiben unveraendert.
+
+Folge: Jede fuer FF4 belegte Anforderung ist auch nach M2 belegt, aber
+nicht umgekehrt. Sie hat mindestens einen gefundenen Beleg, und was die
+gefundenen Belege an Pflichtbestandteilen tragen, tragen auch alle
+Belege zusammen.
+
+Begruendung:
+- Aussagen zur Sicherheit duerfen nicht ueber die Belege hinausgehen.
+  Ein Pflichtbestandteil, den nur ein nicht vorhandenes Zitat traegt,
+  ist nicht belegt.
+- Die Rechenregel bleibt die aus E6. Beschraenkt wird nur ihre Eingabe
+  auf gefundene Belege. Eine neue Pruefregel entsteht nicht.
+- M2 bleibt so, wie F3 es festgelegt hat. Die Zahlen fuer FF3 aendern
+  sich dadurch nicht.
+
+Alternativen:
+- Weg A, M2 unveraendert fuer FF4 uebernehmen. Verworfen wegen des
+  Anlasses.
+- Nur Anforderungen aus Datensaetzen, die validate_output.py annimmt.
+  Verworfen: Das Pruefprogramm lehnt ganze Datensaetze ab. Ein falsches
+  Zitat wuerde alle Anforderungen eines Pull Requests entfernen, auch
+  gut belegte.
+
+Nicht Teil dieser Entscheidung: wie die Stufen direct und indirect den
+Kategorien der Gap-Analyse zugeordnet werden. Das legt die Entscheidung
+zur Gap-Analyse fest.
+
+Grenze fuer Kapitel 7: Wie in E6 faellt ein echter Ausschnitt mit
+falsch angegebenem supports maschinell nicht auf. G1 aendert daran
+nichts.
+
+Umsetzung: Zaehlprogramm in Paket G. Es importiert die genannten
+Funktionen und enthaelt keine eigenen Pruefregeln.
+
+Herkunft: Befund und Vorschlag von Claude im Chat vom 01.10.2026. Der
+Verfasser hat Weg B gewaehlt.
+
+Status: festgelegt.
+Bezug: FF4, FF1, Kapitel 4, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
