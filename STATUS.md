@@ -1,11 +1,11 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 01.10.2026
+Letzte Aktualisierung: 02.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
 
-Stand 30.09.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
+Stand 02.10.2026. Dieser Abschnitt erzaehlt ohne Kuerzel, wie die
 Arbeit bis heute gelaufen ist und warum. Einzelheiten stehen weiter
 unten und in docs/entscheidungen.md.
 
@@ -163,18 +163,40 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     Serverprotokoll steht jetzt im Repository, weil Abschnitt 6.1
     sich darauf stuetzt.
 
-Warum der naechste Schritt jetzt kommt: Paket F ist abgeschlossen.
-Paket G (Klassifikation, Sicherheitsraster, Gap-Analyse) beginnt
-jetzt, weil FF4 als einzige Forschungsfrage noch kein Ergebnis hat
-und laut Zeitplan nur bis So 04.10.2026 Zeit hat. Danach folgt Paket
-H mit der Bewertung und den Zaehlungen fuer M2 und M3, weil die
-Auswertung dort ohnehin laeuft.
+13. Belegbegriff und Grundzahlen (01. und 02.10.2026): Paket G hat
+    mit einer Zaehlung begonnen, weil Stichprobe und Gap-Analyse ohne
+    Grundzahlen geraten waeren. Vorher stand eine neue Regel fest, G1
+    (Belegbegriff fuer FF4): Fuer die Sicherheitsfrage zaehlt eine
+    Anforderung nur als belegt, wenn ihre Pflichtteile von Zitaten
+    getragen werden, die wirklich im Pull Request stehen. Anlass war
+    ein Befund am Code, weil die Berechnung der Belegstaerke auch
+    nicht gefundene Zitate mitzaehlt. Die Unbelegtheitsrate fuer FF3
+    blieb unveraendert, weil ihre Regel schon vorher feststand. Ein
+    neues Zaehlprogramm ruft nur die vorhandenen Pruefungen auf, weil
+    eine zweite Pruefregel abweichende Zahlen erzeugen koennte. Es hat
+    alle bekannten Zahlen aus Paket E bestaetigt. Das Modell hat nur
+    sehr wenige Anforderungen als sicherheitsrelevant markiert; die
+    Pruefung der Klassifikation muss deshalb besonders nach
+    uebersehenen Faellen suchen. Belegbegriff und Grundzahlen stehen
+    als Abschnitte 4.2 und 6.2 in der Arbeit, weil seit dem 01.10.2026
+    jedes Teilergebnis sofort geschrieben wird.
 
-Geschrieben sind Teile von Kapitel 2, Abschnitt 4.1, Abschnitt 6.1
-und Anhang A.
+Warum der naechste Schritt jetzt kommt: Als Naechstes wird das
+Sicherheitsraster fuer FF4 gewaehlt, also die Liste der
+Sicherheitsanforderungen, die eine Pruefung nach Common Criteria oder
+BSI erwarten wuerde. Es kommt vor der Klassifikationsregel und vor
+der Pruefung der Etiketten, weil beide sich darauf stuetzen: Die
+vorlaeufige Definition von "sicherheitsrelevant" aus E7 (Prompt
+Version 1) soll am Raster geprueft werden, und Suchwoerter fuer
+uebersehene Faelle muessen aus dem Raster kommen. Common Criteria und
+die BSI-Richtlinie TR-03185 sind dafuer erst zu lesen; das ist der
+Engpass von Paket G.
+
+Geschrieben sind Teile von Kapitel 2, die Abschnitte 4.1, 4.2, 6.1
+und 6.2 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve. Das Risiko lokales Modell ist erledigt; groesstes Risiko ist
-jetzt der Umfang der Pakete G und H neben dem Schreiben.
+Reserve. Groesstes Risiko ist der Umfang von Paket G bis So
+04.10.2026 neben Paket H.
 
 
 ## Zusammenarbeit im Chat
@@ -359,6 +381,12 @@ zu E10 vom 28.09.2026, Teil 3).
 Unterarten pruefprogramm, zusammengesetzt, umformuliert, zeichen,
 ohne_gegenstueck = Art der Abweichung eines Zitats nach Regel 3,
 festgelegt in Teil 3 und Teil 3a desselben Nachtrags.
+G1 = Entscheidung Belegbegriff fuer die Gap-Analyse (FF4) vom
+01.10.2026: Belegstaerke nur aus gefundenen Belegen, belegt bei direct
+oder indirect. G2 ff. = weitere Entscheidungen von Paket G.
+Schritte 1 bis 9 von Paket G = Arbeitsplan aus dem Phasenstart vom
+01.10.2026, siehe Abschnitt Aktuell. Nicht zu verwechseln mit den
+Teilschritten 1 bis 12 von A8.
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
@@ -655,9 +683,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-392 Tests, ausfuehren aus der Projektwurzel:
+414 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 30.09.2026 (392 passed) unter Python 3.14.7,
+Zuletzt gruen am 02.10.2026 (414 passed) unter Python 3.14.7,
 abgelesen vom Aktualisierungsskript.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
@@ -679,7 +707,10 @@ Ursachensuche fuer abgelehnte Zitate), test_inspect_excerpts.py
 (35 Tests, Anzeige und Auszaehlung fuer Regel 3),
 test_breakdown_rejections.py (17 Tests, Ablehnungen nach
 Art), test_cost_report.py (18 Tests, Abschnitt 6.3 aus dem
-Manifest), test_add_links.py (18 Tests, Links je Beleg). Die
+Manifest), test_add_links.py (18 Tests, Links je Beleg),
+test_count_requirements.py (22 Tests, Zaehlprogramm nach F3 und G1
+seit 01.10.2026, geprueft gegen 16 absichtlich eingebaute Fehler,
+setzt seinen Importpfad selbst). Die
 beiden neuen Dateien vom 21. und 22.09.2026, test_diagnose_excerpts.py
 und die vier Dateien vom 28.09.2026 setzen ihren Importpfad selbst.
 Die vier Dateien vom 28.09.2026 wurden in der Umgebung von Claude
@@ -975,17 +1006,55 @@ fest.
   OpenAI-Kompatibilitaet, abgerufen am 29.09.2026. Weitere Quellen zu
   den Modellen erst nach dem Lesen.
 
+Paket G, Schritte 0 und 1 am 01. und 02.10.2026: G1 (Belegbegriff
+fuer die Gap-Analyse) committet, bevor gezaehlt wurde. Zaehlprogramm
+src/analyze/count_requirements.py, Lauf mit dem Code-Commit aus der
+Ergebnisdatei experiments/requirement_counts_2026-09-25_full_v2.json;
+alle bekannten Zahlen aus Paket E bestaetigt, beide Pruefpunkte aus
+F3 beantwortet (Nachtrag zu F3 vom 01.10.2026). Abschnitt 4.2
+(sec:konzeption-gap, Belegbegriff) und Abschnitt 6.2
+(sec:eval-grundzahlen, Grundzahlen) stehen in thesis/thesis.tex. Die
+Uebersetzung laeuft ohne Fehler und ohne undefinierte Verweise, mit
+14 Overfull hboxen, keine davon im neuen Text.
+
+Arbeitsplan Paket G (Phasenstart 01.10.2026, Reihenfolge vom
+Verfasser freigegeben):
+1. Grundzahlen zaehlen - erledigt.
+2. Sicherheitsraster: Common Criteria CC:2022 Teil 2 und 3, BSI
+   TR-03185 und 29148 Abschn. 9.6 lesen, Ausschnitt festlegen und
+   begruenden (naechste freie Nummer G2).
+3. Kategorie "nachweislich fehlende Sicherheitsfunktion" beibehalten
+   oder streichen; Pflichtentscheidung nach der Projektanweisung.
+4. Klassifikationsschema: Zuordnung der sechs Typwerte zu funktional
+   und nicht-funktional mit Fundstellen aus 29148, weil das Expose
+   diese Dreiteilung verlangt (Wunsch des Verfassers vom 01.10.2026:
+   Claude macht die belegte Zuordnung); endgueltige Definition von
+   security_relevant am Raster; Regeln und Grenzfaelle.
+5. Pruefplan fuer die Klassifikation, vor der Durchfuehrung
+   committet: alle als sicherheitsrelevant markierten Anforderungen
+   von Hand, dazu eine Suche nach uebersehenen Faellen, etwa mit
+   Suchwoertern aus dem Raster (offen); gemeinsame oder getrennte
+   Stichprobe mit der Evaluation nach E2 (offen).
+6. Pruefung von Hand durch den Verfasser, nur Zahlen in den Chat.
+7. Dependabot-Sichtung nach E4 und D7; offen, ob alle 28 oder nur die
+   25 abgeschlossenen Beitraege.
+8. Gap-Analyse mit den vier Kategorien der Projektanweisung.
+9. Zu jedem Teilergebnis ein Abschnitt in thesis.tex.
+Verschoben (Verfasser einverstanden am 01.10.2026): Kriterienliste v1
+auf Mo 05.10.2026 vor der ersten Bewertung, wie E2 es erlaubt;
+Literatursuche Phase 2 und Kapitel 5 aus W9 heraus.
+
 Naechste Schritte in dieser Reihenfolge:
-1. Paket G im neuen Chat ab Do 01.10.2026: Klassifikation,
-   Sicherheitsraster, Gap-Analyse (FF4), am Ende mit einem Abschnitt in
-   thesis.tex. Vor jedem Vorschlag prueft Claude STATUS.md und
-   docs/entscheidungen.md auf bestehende Regeln.
+1. Paket G, Schritte 2 bis 9 des Arbeitsplans oben, im neuen Chat ab
+   Fr 02.10.2026, bis So 04.10.2026. Zuerst Schritt 2
+   (Sicherheitsraster): Claude liest die Primaerquellen selbst und
+   legt Optionen mit Fundstellen vor. Vor jedem Vorschlag prueft
+   Claude STATUS.md und docs/entscheidungen.md auf bestehende Regeln.
 2. Paket H: Bewertung, dazu die Zaehlung von M1 (Teil b im
-   Pilotlauf), M2 und M3 nach F3 mit einem kleinen Zaehlprogramm ohne
-   eigene Pruefregeln. Die Zaehlung klaert die zwei offenen
-   Pruefpunkte aus F3: ob validate_output.py das Schema zuerst prueft
-   und ob es nicht gefundene Belege bei der Berechnung der
-   Belegstaerke mitzaehlt.
+   Pilotlauf) und M3 nach F3. M2 ist am 01.10.2026 gezaehlt, beide
+   Pruefpunkte aus F3 sind beantwortet (Nachtrag zu F3 vom
+   01.10.2026). Offen ist dort nur Angabe (i), Punkt 4 des Nachtrags;
+   dafuer wird src/analyze/count_requirements.py erweitert.
 3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
 3a. Lueckenpruefung von thesis/thesis.tex nach der Regel in
    "Zusammenarbeit im Chat", nach Paket H, spaetestens vor dem
@@ -1137,6 +1206,14 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - K10 fuer Ebene (c) bleibt bei Note 1 (08.09.2026). Die Matrix
   soll nicht vom Ergebnis der Entscheidung abhaengen, die sie
   stuetzt. Der Vorbehalt ist durch einen datierten Nachtrag ersetzt.
+- G1 (01.10.2026): Belegbegriff fuer die Gap-Analyse. Fuer FF4 gilt
+  eine Anforderung als belegt, wenn die Belegstaerke aus den
+  gefundenen Belegen allein direct oder indirect lautet. M2 bleibt
+  unveraendert, weil seine Regel vor der Zaehlung feststand.
+- Nachtrag zu F3 (01.10.2026): M2 in Paket G gezaehlt, beide
+  Pruefpunkte beantwortet; die Zahlen stehen nur in der Ergebnisdatei.
+- Literaturmatrix L07 am 01.10.2026 nach Abschnitt 2.1.7 berichtigt,
+  weil bei diesem Widerspruch thesis.tex gilt (Wunsch des Verfassers).
 
 ## LaTeX-Konventionen
 
@@ -1164,6 +1241,13 @@ tab:entscheidungsmatrix
 Anhang A (seit 11.09.2026): cha:anhang-einzelbegruendungen ·
 sec:anhang-k1 bis sec:anhang-k5; Durchgang 2 fuegt sec:anhang-k6
 bis sec:anhang-k10 an.
+Abschnitt 4.2 (seit 01.10.2026): sec:konzeption-gap ·
+subsec:belegbegriff-ff4
+Abschnitt 6.2 (seit 02.10.2026): sec:eval-grundzahlen ·
+subsec:grundzahlen-daten · subsec:grundzahlen-typen ·
+subsec:grundzahlen-belege · tab:typverteilung · tab:belegstatus
+Lange Dateinamen im Fliesstext mit \path{...} aus dem Paket url, weil
+\texttt{...} nicht umbricht (02.10.2026).
 
 Tabellenspalten in Markdown-Dateien:
 suchprotokoll.md: | Datum | Portal | Suchstring | Filter | Treffer |
@@ -1439,34 +1523,39 @@ Technisch und redaktionell:
   ansehen.
 - tests/README.md nennt noch 373 Tests. Beim naechsten Code-Commit
   oder in Paket I auf den Stand der Testsuite nachziehen.
-- Platzhalter in thesis.tex: Z. 20 Abgabedatum · Z. 23 Korreferent ·
-  Z. 29 Abstract · Z. 39 Einleitung · Z. 443 SATZ UEBERARBEITEN ·
-  Z. 508 Verweis auf die Entscheidungsmatrix ·
-  Z. 903 Femmer et al. - Primaerquelle beschaffen oder Satz streichen ·
-  Z. 910, 915, 921, 929, 937, 944, 951, 959 noch leere Kapitel
-  Neu 01.10.2026, geprueft: Z. 1621 Verweis auf Kapitel 5 und
-  Z. 1819 Verweis auf den Abschnitt mit den Messgroessen, beide in
-  Abschnitt 6.1.
-  Achtung: Diese Nummern sind aus dem Versatz +144 errechnet, nicht
-  einzeln geprueft. Vor dem Bearbeiten nachsehen.
-- Overfull hboxen, Behebung am 12.10.: vorspann.tex Z. 4-16 (86,6pt) ·
-  thesis.tex Z. 263-269 (12,7pt) · Z. 288-295 (12,9pt) ·
-  Z. 444-445 (14,5pt) · Z. 912 (1,4pt)
-    Neu 11.09.2026: zehn Overfull hboxen in Anhang A, alle in
-  Beleg-Zeilen mit mehreren Zitaten. Stand nach dem Lauf vom
-  11.09.2026 mit allen Aenderungen des Tages:
-  thesis.tex Z. 1626-1636 (9,76654pt) ·
-  Z. 1688-1695 (9,05933pt) ·
-  Z. 1697-1708 (12,99223pt) ·
-  Z. 1754-1764 (9,21904pt) ·
-  Z. 1878-1888 (15,40123pt) ·
-  Z. 1971-1978 (9,05933pt) ·
-  Z. 1980-1987 (15,40123pt) ·
-  Z. 2043-2053 (9,21904pt) ·
-  Z. 2101-2110 (9,21904pt) ·
-  Z. 2167-2176 (15,40123pt)
-  Achtung: Die Zeilenangaben der aelteren Eintraege oben stimmen mit
-  dem Log vom 11.09.2026 nicht mehr ueberein. Am 12.10. neu erheben.
+- Platzhalter in thesis.tex, Stand 02.10.2026, vom
+  Aktualisierungsskript aus den Zeilen mit \textbf{[ gelesen:
+  Z. 20: Noch zu ergaenzen: Abgabedatum
+  Z. 23: Noch zu ergaenzen: Korreferent
+  Z. 29: Noch zu ergaenzen: Abstract. Wird zuletzt geschrieben, wenn die ...
+  Z. 39: Noch zu ergaenzen: Motivation, Problemstellung, Zielsetzung, ...
+  Z. 902: Zu pruefen: Primaerquelle Femmer et al.\ noch nicht gelesen; ...
+  Z. 909: Noch zu ergaenzen
+  Z. 914: Noch zu ergaenzen
+  Z. 920: Noch zu ergaenzen: LLMs im Requirements Engineering, ...
+  Z. 928: Noch zu ergaenzen: Architektur, Datenmodell, Prompt-Design, ...
+  Z. 1422: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
+  Z. 1527: Noch zu ergaenzen: Klassifikationsschema, Sicherheitsraster ...
+  Z. 1544: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
+  Z. 1556: Noch zu ergaenzen: Verweis auf den ...
+  Z. 1563: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung der ...
+  Z. 1599: Noch zu ergaenzen: GitHub-API, Aufbereitung, Extraktion, ...
+  Z. 1606: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
+  Z. 1698: Noch zu ergaenzen: Verweis auf den Abschnitt zur lokalen ...
+  Z. 1896: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 1973: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung der ...
+  Z. 1981: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
+  Z. 2041: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 2092: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
+  Z. 2100: Noch zu ergaenzen
+  Die Eintraege Z. 443 (SATZ UEBERARBEITEN) und Z. 508 (Verweis
+  auf die Entscheidungsmatrix) der alten Liste kommen darin nicht
+  mehr vor; vermutlich frueher erledigt, nicht geprueft.
+- Overfull hboxen, Behebung am 12.10.: Stand 02.10.2026 14
+  Stueck, vom Aktualisierungsskript aus thesis/thesis.log gezaehlt.
+  Die Liste mit Zeilennummern gibt nach einer Uebersetzung
+  grep "Overfull" thesis/thesis.log aus. Zeilennummern stehen hier
+  nicht mehr, weil sie sich mit jedem neuen Abschnitt verschieben.
 - Literaturverzeichnis beginnt ohne Seitenumbruch unter dem Fazit und
   fehlt im Inhaltsverzeichnis (Befund 10.09.2026). Eine Behebung
   aendert die Vorlagenstruktur und braucht Abstimmung; Paket I.
@@ -1644,6 +1733,18 @@ bb5d8bb docs: F1 Umfang von FF3 nach dem Kontrollpunkt (Frist Mi 30.09.2026, 12:
 4914543 docs: F3 Messgroessen fuer FF3 (M1 bis M6, Unbelegtheit auf Ebene der Anforderung nach B8), F1 d und F2 Begruendung 1 berichtigt, Protokollauszug Ollama vom 30.09.2026; tex: Abschnitt 6.1 mit Beleg aus ollama show, Kontextfenster fuer beide Modelle, Denkteil in der Ausgabezahl, Begruendung der Abweichung vom Expose
 4e5f3f4 docs: Uebergabe Paket F Teil 2 und Abschluss Paket F (Abschnitt 6.1, F3 Messgroessen M1 bis M6), STATUS mit Rotem Faden, Kuerzeln, Arbeitsregel zum Abgleich vor Vorschlaegen und Commits 3bcf201 und 4914543, KI-Protokoll, Literaturmatrix L19
 
+## Commits Paket G
+
+24e803e docs: G1 Belegbegriff fuer die Gap-Analyse (FF4), vor der Zaehlung festgelegt: Belegstaerke nur aus gefundenen Belegen, M2 unveraendert
+6822271 docs: STATUS mit Uebergabe-Commit 4e5f3f4, Regeln Schreiben im Paket und Lueckenpruefung, Schritt 3a; Literaturmatrix L07 nach Abschn. 2.1.7 berichtigt (29148 Abschn. 8.5.1)
+c76feb1 tex: Abschnitt 4.2 Konzeption der Klassifikation und der Gap-Analyse (sec:konzeption-gap) mit Unterabschnitt Belegbegriff (subsec:belegbegriff-ff4) nach G1, vier markierte Platzhalter
+af23216 code: Zaehlprogramm count_requirements.py fuer Typ, Sicherheitsbezug und Belegstatus nach F3 (M2) und G1, ohne eigene Pruefregeln, 22 Tests
+45264f4 docs: Grundzahlen des Volllaufs nach F3 (M2) und G1 in experiments/requirement_counts_2026-09-25_full_v2.json, Nachtrag zu F3 (beide Pruefpunkte beantwortet, M2 in Paket G gezaehlt)
+a0e211f tex: Abschnitt 6.2 Grundzahlen des Volllaufs (sec:eval-grundzahlen) mit Tabellen tab:typverteilung und tab:belegstatus, Zahlen aus experiments/requirement_counts_2026-09-25_full_v2.json, drei markierte Platzhalter
+ead09fe tex: Abschnitt 6.2 ohne Overfull hboxen (Dateipfad mit path-Befehl aus dem Paket url, Spaltenbreiten in tab:typverteilung); docs: ueberzaehlige Leerzeile vor Offene Entscheidungen entfernt
+Der Uebergabe-Commit vom 02.10.2026 fehlt hier; im naechsten Chat mit
+git log nachtragen.
+
 ## Aufruf des Ziehungsskripts
 
 python src/analyze/draw_sample.py \
@@ -1779,6 +1880,13 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
+
+Stand 02.10.2026, W9. Paket G, Schritte 0 und 1 erledigt: G1,
+Grundzahlen, Abschnitte 4.2 und 6.2. Offen in Paket G: Schritte 2 bis
+9 bis So 04.10. Kriterienliste v1 auf Mo 05.10. verschoben,
+Literatursuche Phase 2 und Kapitel 5 aus W9 heraus (Verfasser
+einverstanden am 01.10.2026). Bis zur internen Abgabe am 13.10.2026
+verbleiben 11 Tage, bis zur Abgabe 13 Tage.
 
 Stand 01.10.2026, W9. Paket F abgeschlossen: Abschnitt 6.1
 geschrieben, Messgroessen F3 festgelegt. Paket G beginnt heute wie
