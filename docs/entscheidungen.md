@@ -3171,7 +3171,6 @@ Einordnung von Claude im Chat vom 01.10.2026.
 Status: festgelegt.
 Bezug: FF1, FF3, FF4, Kapitel 6.
 
-
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
