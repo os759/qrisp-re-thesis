@@ -1941,6 +1941,151 @@ die Übertragung über das Netz, bei den lokalen Modellen nicht.
 \end{table}
 
 
+\section{Grundzahlen des Volllaufs}
+\label{sec:eval-grundzahlen}
+
+Dieser Abschnitt berichtet die Grundzahlen des Volllaufs, in dem das
+API-Modell gpt-5.6-terra alle 395 Pull Requests der Grundgesamtheit
+verarbeitet hat. Sie bilden die Grundmenge für die Prüfung der
+Klassifikation und für die Gap-Analyse. Gezählt hat ein Programm, das
+die vorhandenen Prüfungen aufruft und keine eigenen Prüfregeln
+enthält. Programmstand und Ergebnis sind versioniert: Gezählt wurde mit
+Commit~\texttt{af23216}, die Zahlen stehen in der Datei
+\texttt{experiments/requirement\_counts\_2026-09-25\_full\_v2.json}. Die
+Regeln für den Belegstatus standen vor der Zählung fest
+(Abschnitt~\ref{subsec:belegbegriff-ff4}).
+
+\subsection{Datengrundlage}
+\label{subsec:grundzahlen-daten}
+
+Von den 395 Antworten des Modells verletzen drei das Ausgabeschema.
+Ihre Anforderungen gehen nicht in die Zählung ein. Unter den übrigen
+392 Antworten meldet das Modell für 373 Pull Requests mindestens eine
+Anforderung, für 17 keine und für zwei eine unbrauchbare Eingabe.
+Zusammen enthalten diese 392 Antworten 1\,467 rekonstruierte
+Anforderungen.
+
+Über alle 395 Antworten hinweg nennen die Anforderungen 2\,711
+Quellausschnitte. Davon nimmt das Prüfprogramm 2\,503 an und lehnt 208
+ab. Zwei Ablehnungen sind nach der vorab festgelegten Zuordnungsregel
+dem Prüfprogramm zuzurechnen; diese beiden Ausschnitte gelten als
+gefunden. Die übrigen 206 Ablehnungen gehen auf das Modell zurück
+\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur Prüfung der
+Quellausschnitte]}.
+
+\subsection{Typen und Sicherheitsbezug}
+\label{subsec:grundzahlen-typen}
+
+Typ und Sicherheitsbezug hat das Modell selbst vergeben. Die Werte
+dieses Unterabschnitts sind deshalb Etiketten des Modells und noch
+nicht geprüft \textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur
+Prüfung der Klassifikation]}. Tabelle~\ref{tab:typverteilung} zeigt
+die Verteilung. Knapp die Hälfte der Anforderungen ordnet das Modell
+als Schnittstellenanforderungen ein, rund zwei Fünftel als funktional
+und leistungsbezogen und rund ein Zehntel als Prozessanforderungen.
+Auf Qualität und Gebrauchstauglichkeit entfallen zusammen 30
+Anforderungen. Anforderungen an menschliche Faktoren kommen nicht vor.
+
+Als sicherheitsrelevant markiert das Modell elf Anforderungen, das sind
+0,7\,\% der Gesamtzahl. Zehn davon sind Schnittstellenanforderungen,
+eine ist eine Prozessanforderung. Eine Deutung dieser Verteilung folgt
+erst nach der Prüfung der Etiketten in Kapitel~\ref{cha:diskussion}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Anforderungen des Volllaufs nach Typ und Sicherheitsbezug,
+    Etiketten des Modells}
+  \label{tab:typverteilung}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.6cm}%
+                    >{\raggedleft\arraybackslash}p{1.6cm}%
+                    >{\raggedleft\arraybackslash}p{1.6cm}%
+                    >{\raggedleft\arraybackslash}p{2.2cm}@{}}
+    \toprule
+    \textbf{Typ (Schemawert)} & \textbf{Anzahl} & \textbf{Anteil} &
+    \textbf{davon sicherheits\-relevant} \\
+    \midrule
+    funktional und leistungsbezogen
+      (\texttt{functional\_performance}) & 581 & 39,6\,\% & 0 \\
+    Schnittstelle (\texttt{interface}) & 708 & 48,3\,\% & 10 \\
+    Prozess (\texttt{process}) & 148 & 10,1\,\% & 1 \\
+    Qualität, nichtfunktional
+      (\texttt{quality\_non\_functional}) & 20 & 1,4\,\% & 0 \\
+    Gebrauchstauglichkeit und Nutzungsqualität
+      (\texttt{usability\_quality\_in\_use}) & 10 & 0,7\,\% & 0 \\
+    menschliche Faktoren (\texttt{human\_factors}) & 0 & 0,0\,\% & 0 \\
+    \midrule
+    Summe & 1\,467 & 100\,\% & 11 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Anteile auf eine Nachkommastelle gerundet. Grundmenge: Anforderungen
+  aus den 392 Antworten ohne Schemafehler. Quelle:
+  \texttt{experiments/requirement\_counts\_2026-09-25\_full\_v2.json}.
+\end{table}
+
+\subsection{Belegstatus}
+\label{subsec:grundzahlen-belege}
+
+Tabelle~\ref{tab:belegstatus} stellt die Belegstärke in drei Fassungen
+nebeneinander: wie das Modell sie angibt, wie sie sich nach den Regeln
+aus allen Belegen ergibt und wie sie sich nur aus den gefundenen
+Belegen ergibt. Die Angabe des Modells und die Berechnung aus allen
+Belegen weichen bei acht Anforderungen voneinander ab.
+
+Für die Unbelegtheitsrate gelten 75 Anforderungen als unbelegt, das
+sind 5,1\,\% der 1\,467. Bei 45 Anforderungen wird kein Beleg gefunden,
+bei 33 ergibt die Berechnung aus allen Belegen die Stufe
+\emph{unzureichend}. Drei Anforderungen erfüllen beide Bedingungen
+\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt mit den
+Messgrößen für die dritte Forschungsfrage]}.
+
+Nach dem Belegbegriff der Gap-Analyse sind 1\,270 Anforderungen belegt,
+das sind 86,6\,\%. Bei 144 Anforderungen wird nur ein Teil der Belege
+gefunden. Gegenüber der Unbelegtheitsrate schließt der strengere
+Belegbegriff 122 weitere Anforderungen aus. Den umgekehrten Fall gibt
+es nicht: Keine Anforderung ist für die Gap-Analyse belegt und für die
+Unbelegtheitsrate zugleich unbelegt. Das entspricht der Eigenschaft,
+die Abschnitt~\ref{subsec:belegbegriff-ff4} aus der Definition
+herleitet.
+
+Von den elf als sicherheitsrelevant markierten Anforderungen sind zehn
+im Sinne der Gap-Analyse belegt, alle mit der Stufe \emph{indirekt}.
+Bei keiner dieser zehn fordert die zitierte Quelle etwas; sie berichtet
+jeweils, was getan wurde oder der Fall ist. Die elfte Anforderung ist
+unzureichend belegt und zählt auch für die Unbelegtheitsrate als
+unbelegt.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Belegstärke der 1\,467 Anforderungen in drei Fassungen}
+  \label{tab:belegstatus}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.2cm}%
+                    >{\raggedleft\arraybackslash}p{2.6cm}%
+                    >{\raggedleft\arraybackslash}p{2.6cm}%
+                    >{\raggedleft\arraybackslash}p{2.6cm}@{}}
+    \toprule
+    \textbf{Belegstärke} & \textbf{laut Modell} &
+    \textbf{aus allen Belegen} & \textbf{aus gefundenen Belegen} \\
+    \midrule
+    direkt       &    116 &    115 &    107 \\
+    indirekt     & 1\,326 & 1\,319 & 1\,163 \\
+    unzureichend &     25 &     33 &    197 \\
+    \midrule
+    Summe        & 1\,467 & 1\,467 & 1\,467 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Die Spalte \emph{aus allen Belegen} liegt der Unbelegtheitsrate
+  zugrunde, die Spalte \emph{aus gefundenen Belegen} dem Belegbegriff der
+  Gap-Analyse (Abschnitt~\ref{subsec:belegbegriff-ff4}). Quelle:
+  \texttt{experiments/requirement\_counts\_2026-09-25\_full\_v2.json}.
+\end{table}
+
+
 \chapter{Diskussion}
 \label{cha:diskussion}
 
