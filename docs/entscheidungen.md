@@ -3171,13 +3171,97 @@ Einordnung von Claude im Chat vom 01.10.2026.
 Status: festgelegt.
 Bezug: FF1, FF3, FF4, Kapitel 6.
 
+## 2026-10-02 Paket G: Kategorien der Gap-Analyse
+
+### 2026-10-02 G3 Kategorie "nachweislich fehlende Sicherheitsfunktion" gestrichen
+
+Pflichtentscheidung nach der Projektanweisung (Methodik Punkt 7),
+Schritt 3 des Arbeitsplans von Paket G. Festgelegt vor jeder
+Zuordnung rekonstruierter Anforderungen zum Raster.
+
+Entscheidung: Die Gap-Analyse verwendet die vier Kategorien der
+Projektanweisung: (1) Sicherheitsanforderung mit Beleg in der
+untersuchten Historie rekonstruierbar; (2) Hinweise auf eine
+Umsetzung oder ein sicherheitsbezogenes Verhalten, aber keine
+explizite Anforderung; (3) anhand der untersuchten Historie nicht
+entscheidbar; (4) fuer Qrisp oder den Untersuchungsrahmen nicht
+relevant. Die Kategorie "nachweislich fehlende Sicherheitsfunktion"
+wird gestrichen.
+
+Begruendung:
+1. Die Projektanweisung erlaubt die Kategorie nur, wenn eine
+   zusaetzliche Code-, Test- oder Systempruefung im
+   Untersuchungsumfang eindeutige Belege liefert. Der Arbeitsplan von
+   Paket G enthaelt keine solche Pruefung, und bis zur Abgabe ist
+   keine vorgesehen.
+2. Es fehlt ein Massstab. Nach CC:2022 Teil 3 Abschn. 3.28 ist eine
+   Schwachstelle eine Schwaeche, mit der sich die
+   Sicherheitsfunktionen (SFR) verletzen lassen. Sicherheitsfunktionen
+   dienen Sicherheitszielen aus einem Schutzprofil oder einer
+   Sicherheitsvorgabe (Teil 2, Einleitung). Qrisp hat kein solches
+   Dokument. Ob eine Funktion "fehlt", laesst sich ohne festgelegte
+   Ziele nicht entscheiden (Einordnung von Claude).
+3. TR-03185 Abschn. 2.2.3 bestimmt keine Rolle, die ein
+   Open-Source-Projekt konform machen muss, und nennt mehrere
+   moegliche Umsetzende. Ein fehlender Eintrag in der Historie ist
+   damit kein Versaeumnis einer bestimmten Stelle.
+4. Abgrenzung der Arbeit: keine Zertifizierung, und keine Aussage, dass
+   Qrisp eine Sicherheitsanforderung nicht erfuellt, wenn nur kein
+   Beleg gefunden wurde.
+
+Schreibauftrag (Wunsch des Verfassers vom 02.10.2026): Abschnitt 4.2
+und Kapitel 7 erklaeren ausfuehrlich, warum die Kategorie fuer Qrisp
+nicht tragfaehig ist (Punkte 1 bis 4). Dazu beschreibt die Arbeit aus
+den Quellen, was eine Software fuer eine Sicherheitspruefung mindestens
+braucht. Fundstellen, von Claude am 02.10.2026 gelesen, vom Verfasser
+noch nicht:
+a) CC:2022 Teil 3 Abschn. 7.4.2 (APE_SPD.1): Sicherheitsproblem-
+   definition mit Bedrohungen (Angreifer, Schutzgut, schaedliche
+   Handlung), organisatorischen Sicherheitsregeln und Annahmen ueber
+   die Einsatzumgebung. Die Entsprechung fuer die Sicherheitsvorgabe,
+   ASE_SPD.1 in Abschn. 9.4.2, ist am Text noch zu pruefen.
+b) Teil 3 Abschn. 7.5 (APE_OBJ): Sicherheitsziele, die das Problem
+   abdecken und zwischen Produkt und Einsatzumgebung aufteilen.
+c) Teil 3 Abschn. 7.7 (APE_REQ): Sicherheitsfunktionen und
+   Anforderungen an die Vertrauenswuerdigkeit als klare, eindeutige
+   Beschreibung.
+d) Teil 3 Abschn. 7.2.2 (APE_INT.1): Beschreibung des
+   Evaluationsgegenstands mit Typ und Fremdbestandteilen.
+e) Teil 3 Abschn. 5.3.4 und 5.3.5: Vertrauen entsteht durch Evaluation
+   des Produkts; Liste der Pruefverfahren, etwa Tests,
+   Schwachstellenanalyse und Penetrationstests.
+f) Teil 3 Abschn. 12.1: Nachweise entstehen regelmaessig waehrend
+   Entwicklung, Herstellung, Auslieferung und Wartung.
+g) TR-03185 Abschn. 2.3: die 20 Mindestanforderungen an ein
+   Open-Source-Projekt (SR10 bis SR29 im Entwurf G2).
+h) Zum Vergleich TR-03185 Teil 1, Tabelle 14, PROD.PM.A.2: Bei
+   proprietaerer Software muessen alle Anforderungen an die
+   Informationssicherheit zu Projektbeginn erfasst und dokumentiert
+   sein; Abschn. 1.2.1 setzt voraus, dass sie vorliegen. Fuer Qrisp
+   liegt kein solches Dokument vor; das ist der Anlass von FF4.
+i) 29148 Abschn. 9.6.18 c als Inhaltsblock einer Spezifikation
+   (Abschnitt 2.1.7 der Arbeit).
+
+Folge: Die Tabellen der Gap-Analyse haben vier Kategorien. Kapitel 7
+nennt die Streichung als Grenze: Die Arbeit kann Dokumentationsluecken
+zeigen, aber keine fehlenden Funktionen.
+
+Herkunft: Vorschlag von Claude im Chat vom 02.10.2026. Der Verfasser
+hat das Streichen gewaehlt und den Schreibauftrag erteilt.
+
+Status: festgelegt.
+Bezug: FF4, Kapitel 2, 4 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
 - API-Modell und lokales Modell (FF3), Paket E und F: entschieden
   am 19.09.2026 und 29.09.2026, siehe E8 und F2
 - Messgroessen fuer FF3, Paket F: entschieden am 30.09.2026, siehe F3
-- Ausschnitt des Sicherheitsrasters (FF4), Paket G
+- Ausschnitt des Sicherheitsrasters (FF4), Paket G: Option C
+  gewaehlt am 02.10.2026, Entwurf G2 in STATUS.md, Freigabe offen
+- Kategorie "nachweislich fehlende Sicherheitsfunktion" (FF4), Paket
+  G: entschieden am 02.10.2026, siehe G3
 - Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
   am 15.09.2026, siehe E4
 - Budget der Modelleingabe (FF1), Paket E: entschieden am

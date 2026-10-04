@@ -180,17 +180,30 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     uebersehenen Faellen suchen. Belegbegriff und Grundzahlen stehen
     als Abschnitte 4.2 und 6.2 in der Arbeit, weil seit dem 01.10.2026
     jedes Teilergebnis sofort geschrieben wird.
+14. Sicherheitsraster und Streichung einer Kategorie (02.10.2026):
+    Claude hat Common Criteria CC:2022 Teil 2 und 3, die
+    BSI-Richtlinie TR-03185 in Version 1.1.1 und 29148 Abschn. 9.6
+    gelesen, weil das Raster fuer FF4 auf gelesenen Primaerquellen
+    stehen muss. Die BSI-Richtlinie hat seit 2026 keine getrennten
+    Teile mehr; ihr Teil fuer Open-Source-Software enthaelt 20
+    Anforderungen. Der Verfasser hat Option C gewaehlt, weil sie die
+    Sicht auf das Produkt und auf den Entwicklungsprozess verbindet.
+    Common Criteria dienen nur als Ordnungsrahmen, weil Qrisp keine
+    Sicherheitsziele hat, an denen ihre Anforderungen haengen. Der
+    Entwurf G2 (Aufnahmeregel und 29 Eintraege SR01 bis SR29) steht
+    im Abschnitt Aktuell und ist noch nicht freigegeben. G3 streicht
+    die Kategorie "nachweislich fehlende Sicherheitsfunktion", weil
+    keine Code-, Test- oder Systempruefung zum Umfang gehoert und es
+    ohne Sicherheitsziele keinen Massstab fuer "fehlt" gibt.
 
-Warum der naechste Schritt jetzt kommt: Als Naechstes wird das
-Sicherheitsraster fuer FF4 gewaehlt, also die Liste der
-Sicherheitsanforderungen, die eine Pruefung nach Common Criteria oder
-BSI erwarten wuerde. Es kommt vor der Klassifikationsregel und vor
-der Pruefung der Etiketten, weil beide sich darauf stuetzen: Die
-vorlaeufige Definition von "sicherheitsrelevant" aus E7 (Prompt
-Version 1) soll am Raster geprueft werden, und Suchwoerter fuer
-uebersehene Faelle muessen aus dem Raster kommen. Common Criteria und
-die BSI-Richtlinie TR-03185 sind dafuer erst zu lesen; das ist der
-Engpass von Paket G.
+Warum der naechste Schritt jetzt kommt: Als Naechstes gibt der
+Verfasser den Entwurf G2 frei; dann kommen Regel und Raster in einem
+Commit nach docs/entscheidungen.md. Das muss vor Schritt 4 geschehen,
+weil die endgueltige Definition von "sicherheitsrelevant" am Raster
+geprueft wird, und vor Schritt 5, weil die Suchwoerter fuer
+uebersehene Faelle aus dem Raster kommen. Danach folgen Abschnitt 2.4
+und der Unterabschnitt Sicherheitsraster in 4.2, weil jedes
+Teilergebnis sofort geschrieben wird.
 
 Geschrieben sind Teile von Kapitel 2, die Abschnitte 4.1, 4.2, 6.1
 und 6.2 und Anhang A.
@@ -383,7 +396,21 @@ ohne_gegenstueck = Art der Abweichung eines Zitats nach Regel 3,
 festgelegt in Teil 3 und Teil 3a desselben Nachtrags.
 G1 = Entscheidung Belegbegriff fuer die Gap-Analyse (FF4) vom
 01.10.2026: Belegstaerke nur aus gefundenen Belegen, belegt bei direct
-oder indirect. G2 ff. = weitere Entscheidungen von Paket G.
+oder indirect. G2 = Entscheidung Ausschnitt des Sicherheitsrasters
+fuer FF4; Entwurf vom 02.10.2026 mit Option C im Abschnitt Aktuell,
+noch nicht freigegeben. G3 = Entscheidung vom 02.10.2026, die
+Kategorie "nachweislich fehlende Sicherheitsfunktion" zu streichen.
+G4 ff. = weitere Entscheidungen von Paket G.
+SR01 bis SR29 = Eintraege des Sicherheitsrasters im Entwurf G2; SR01
+bis SR09 aus 29148, SR10 bis SR29 aus TR-03185 Abschn. 2.3.
+Option A bis D = Optionen fuer den Ausschnitt des Rasters vom
+02.10.2026: A Produktsicht, B Lebenszyklussicht, C Kombination
+(gewaehlt), D nur 29148 (verworfen, weil das Expose CC- bzw.
+BSI-Orientierung verlangt).
+TR-03185 = Technische Richtlinie des BSI "Secure Software Lifecycle".
+CC = Common Criteria. T2, T3 = Teil 2 (Sicherheitsfunktionen) und
+Teil 3 (Vertrauenswuerdigkeit) von CC:2022. ALC = Lebenszyklus-Klasse
+in Teil 3.
 Schritte 1 bis 9 von Paket G = Arbeitsplan aus dem Phasenstart vom
 01.10.2026, siehe Abschnitt Aktuell. Nicht zu verwechseln mit den
 Teilschritten 1 bis 12 von A8.
@@ -1022,9 +1049,11 @@ Verfasser freigegeben):
 1. Grundzahlen zaehlen - erledigt.
 2. Sicherheitsraster: Common Criteria CC:2022 Teil 2 und 3, BSI
    TR-03185 und 29148 Abschn. 9.6 lesen, Ausschnitt festlegen und
-   begruenden (naechste freie Nummer G2).
+   begruenden (naechste freie Nummer G2). Gelesen und Option C
+   gewaehlt am 02.10.2026; Entwurf G2 unten, Freigabe offen.
 3. Kategorie "nachweislich fehlende Sicherheitsfunktion" beibehalten
    oder streichen; Pflichtentscheidung nach der Projektanweisung.
+   Erledigt am 02.10.2026: gestrichen, siehe G3, mit Schreibauftrag.
 4. Klassifikationsschema: Zuordnung der sechs Typwerte zu funktional
    und nicht-funktional mit Fundstellen aus 29148, weil das Expose
    diese Dreiteilung verlangt (Wunsch des Verfassers vom 01.10.2026:
@@ -1044,12 +1073,88 @@ Verschoben (Verfasser einverstanden am 01.10.2026): Kriterienliste v1
 auf Mo 05.10.2026 vor der ersten Bewertung, wie E2 es erlaubt;
 Literatursuche Phase 2 und Kapitel 5 aus W9 heraus.
 
+Entwurf G2, Ausschnitt des Sicherheitsrasters (02.10.2026, vom
+Verfasser noch nicht freigegeben). Option C ist gewaehlt. Der
+Verfasser verlangt, dass die Arbeit die Wahl gegenueber A und B
+ausfuehrlich begruendet, und nur so viel Aufwand wie noetig. Regel
+und Raster kommen nach der Freigabe zusammen in einem Commit nach
+docs/entscheidungen.md.
+
+Aufnahmeregel (Entwurf):
+1. Fester Quellpool: 29148 Abschn. 9.6.15 e und f, 9.6.17 d und
+   9.6.18 c 1 bis 6 (9 Eintraege) sowie alle 20 Anforderungen aus
+   TR-03185 Abschn. 2.3 (Teil fuer Open-Source-Software). Keine
+   weiteren Quellen. Teil 1 der TR nicht, weil Abschn. 2.1 sagt, dass
+   ein Lebenszyklus fuer proprietaere Software auf Open Source nicht
+   passt.
+2. Common Criteria nur als Ordnungsrahmen: Jeder Eintrag erhaelt
+   einen Verweis auf eine Klasse von Teil 2 oder eine Familie von
+   Teil 3. Der Verweis beeinflusst keine Kategorie, weil
+   Sicherheitsfunktionen Sicherheitszielen aus Schutzprofil oder
+   Sicherheitsvorgabe dienen (Teil 2, Einleitung) und Qrisp keine
+   hat.
+3. "Nicht relevant" nur vorab und nur bei klarer Lage, wenn der
+   Eintrag etwas voraussetzt, das eine Bibliothek ohne eigenen
+   Betrieb nicht hat. Im Zweifel relevant, weil die Kategorie einen
+   Eintrag aus der Lueckenbetrachtung nimmt.
+Rueckfall auf Option A, falls kein TR-Eintrag die Regel erfuellt:
+greift nicht, alle 20 bleiben. Aufwand in Schritt 8: 27 Eintraege
+statt 7 bei Option A.
+
+Raster (Inhalt / CC-Bezug / Relevanz). Der CC-Bezug beruht bei Teil 3
+auf den gelesenen Zielen der Familien, bei Teil 2 nur auf den
+Familiennamen im Inhaltsverzeichnis:
+- SR01 29148 9.6.18 c 1: kryptografische Verfahren / T2 FCS / relevant
+- SR02 29148 9.6.18 c 2: Protokoll- oder Verlaufsdaten fuehren / T2 FAU / relevant
+- SR03 29148 9.6.18 c 3: Funktionen bestimmten Modulen zuweisen / keine eindeutige / relevant
+- SR04 29148 9.6.18 c 4: Kommunikation zwischen Programmteilen begrenzen / T2 FDP_IFC/FDP_IFF / relevant
+- SR05 29148 9.6.18 c 5: Integritaet kritischer Variablen pruefen / T2 FDP_SDI / relevant
+- SR06 29148 9.6.18 c 6: Datenschutz sicherstellen / T2 FPR / relevant
+- SR07 29148 9.6.15 e: Integritaetsbedingungen einer Datenbank / T2 FDP_SDI / nicht relevant: keine Datenbank (Abschn. 2.1.7, L07)
+- SR08 29148 9.6.15 f: Sicherheit einer Datenbank / T2 FDP / nicht relevant: keine Datenbank (Abschn. 2.1.7, L07)
+- SR09 29148 9.6.17 d: Verarbeitungsschritte nachverfolgen / T2 FAU / relevant
+- SR10 TR GV.01: Beitragsregeln dokumentieren / T3 ALC_LCD / relevant
+- SR11 TR GV.02: Repository vor unbefugten Handlungen schuetzen / T3 ALC_CMC, ALC_DVS / relevant
+- SR12 TR LE.01: Lizenz fuer alle Inhalte angeben / keine / relevant
+- SR13 TR LE.02: Lizenztexte bereitstellen / keine / relevant
+- SR14 TR QA.01: Liste der Fremdkomponenten / T3 ALC_CMS / relevant
+- SR15 TR QA.02: Quelltext oeffentlich lesbar / keine / relevant
+- SR16 TR QA.03: Melden von Fehlern beschreiben / T3 ALC_FLR / relevant
+- SR17 TR QA.04: Testverfahren einrichten und nutzen / T3 Klasse ATE / relevant
+- SR18 TR QA.05: Speichersicherheitsfehler vermeiden (SHOULD) / T3 ALC_TAT / relevant
+- SR19 TR QA.06: Aenderungen begutachten lassen (SHOULD) / T3 ALC_CMC / relevant
+- SR20 TR BR.01: Bauanleitung oeffentlich / T3 ALC_TAT / relevant
+- SR21 TR BR.02: eindeutige, steigende Versionsnummern / T3 ALC_CMC / relevant
+- SR22 TR BR.03: Integritaet bei der Verteilung / T3 ALC_DEL / relevant
+- SR23 TR BR.04: Aenderungsprotokoll je Veroeffentlichung / T3 ALC_CMC, ALC_FLR / relevant
+- SR24 TR BR.05: Pakete enthalten nur Inhalte aus dem Repository / T3 ALC_TDA / relevant
+- SR25 TR BR.06: reproduzierbare Builds (SHOULD) / T3 ALC_TDA / relevant
+- SR26 TR VM.01: Sicherheitskontakt angeben / T3 ALC_FLR / relevant
+- SR27 TR VM.02: bekannte Schwachstellen veroeffentlichen / T3 ALC_FLR / relevant
+- SR28 TR DE.01: Einstellung mitteilen (SHOULD) / keine / relevant
+- SR29 TR DE.02: Migrationswege (MAY) / keine / relevant
+
+Quellen von Paket G Teil 2 (unter literatur/pdf/, nicht versioniert,
+Pruefsummen vom Skript aus den Dateien gelesen):
+- BSI-TR-03185.pdf, Version 1.1.1 vom 02.07.2026, SHA-256
+  199c87754dec3eab884c18da6c3f6030e6fa7ced282f06e87fed7fe7841e8329
+- CC2022PART3R1.pdf, CC:2022 Teil 3 Revision 1, SHA-256
+  96d471dec3b1d79da2429dd71cbde379b31d6d866be8ae3e5b2b081d6846a5b8
+- CC:2022 Teil 2 Revision 1 nur online auf dem CC-Portal gelesen
+  (Inhaltsverzeichnis, Einleitung, Abschn. 1 bis 6).
+
+Vorgemerkt fuer die Lueckenpruefung (3a): thesis.tex Z. 1456 bis 1457
+sagt, das Qrisp-Team entscheide in Kapitel 6. Nach E2 (Form der
+Evaluation) bewertet das Team erst nach der Abgabe.
+
 Naechste Schritte in dieser Reihenfolge:
-1. Paket G, Schritte 2 bis 9 des Arbeitsplans oben, im neuen Chat ab
-   Fr 02.10.2026, bis So 04.10.2026. Zuerst Schritt 2
-   (Sicherheitsraster): Claude liest die Primaerquellen selbst und
-   legt Optionen mit Fundstellen vor. Vor jedem Vorschlag prueft
-   Claude STATUS.md und docs/entscheidungen.md auf bestehende Regeln.
+1. Paket G im neuen Chat ab Fr 02.10.2026, bis So 04.10.2026: zuerst
+   Freigabe des Entwurfs G2 durch den Verfasser, dann G2 nach
+   docs/entscheidungen.md (Regel und Raster in einem Commit). Danach
+   Abschnitt 2.4 (sec:cc-bsi) und Unterabschnitt Sicherheitsraster in
+   4.2 mit dem Schreibauftrag aus G3, dann die Schritte 4 bis 9 des
+   Arbeitsplans. Vor jedem Vorschlag prueft Claude STATUS.md und
+   docs/entscheidungen.md auf bestehende Regeln.
 2. Paket H: Bewertung, dazu die Zaehlung von M1 (Teil b im
    Pilotlauf) und M3 nach F3. M2 ist am 01.10.2026 gezaehlt, beide
    Pruefpunkte aus F3 sind beantwortet (Nachtrag zu F3 vom
@@ -1214,6 +1319,13 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Pruefpunkte beantwortet; die Zahlen stehen nur in der Ergebnisdatei.
 - Literaturmatrix L07 am 01.10.2026 nach Abschnitt 2.1.7 berichtigt,
   weil bei diesem Widerspruch thesis.tex gilt (Wunsch des Verfassers).
+- Option C fuer den Ausschnitt des Sicherheitsrasters (02.10.2026):
+  Eintraege aus 29148 und TR-03185 Teil 2, Common Criteria als
+  Ordnungsrahmen. Der Entwurf G2 ist noch nicht freigegeben.
+- G3 (02.10.2026): Kategorie "nachweislich fehlende
+  Sicherheitsfunktion" gestrichen, weil keine Code-, Test- oder
+  Systempruefung zum Umfang gehoert. Schreibauftrag fuer 4.2 und
+  Kapitel 7 in G3.
 
 ## LaTeX-Konventionen
 
@@ -1742,8 +1854,7 @@ af23216 code: Zaehlprogramm count_requirements.py fuer Typ, Sicherheitsbezug und
 45264f4 docs: Grundzahlen des Volllaufs nach F3 (M2) und G1 in experiments/requirement_counts_2026-09-25_full_v2.json, Nachtrag zu F3 (beide Pruefpunkte beantwortet, M2 in Paket G gezaehlt)
 a0e211f tex: Abschnitt 6.2 Grundzahlen des Volllaufs (sec:eval-grundzahlen) mit Tabellen tab:typverteilung und tab:belegstatus, Zahlen aus experiments/requirement_counts_2026-09-25_full_v2.json, drei markierte Platzhalter
 ead09fe tex: Abschnitt 6.2 ohne Overfull hboxen (Dateipfad mit path-Befehl aus dem Paket url, Spaltenbreiten in tab:typverteilung); docs: ueberzaehlige Leerzeile vor Offene Entscheidungen entfernt
-Der Uebergabe-Commit vom 02.10.2026 fehlt hier; im naechsten Chat mit
-git log nachtragen.
+4f302b3 docs: Uebergabe Paket G Teil 1 (Schritte 0 und 1): STATUS mit Rotem Faden, Kuerzel G1, Arbeitsplan Paket G, Commits Paket G, Testsuite, Platzhalter und Overfull-Stand aus den Quellen gelesen; KI-Protokoll
 
 ## Aufruf des Ziehungsskripts
 
