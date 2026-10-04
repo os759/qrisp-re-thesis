@@ -3252,14 +3252,148 @@ hat das Streichen gewaehlt und den Schreibauftrag erteilt.
 Status: festgelegt.
 Bezug: FF4, Kapitel 2, 4 und 7.
 
+## 2026-10-04 Paket G: Ausschnitt des Sicherheitsrasters
+
+### 2026-10-04 G2 Ausschnitt des Sicherheitsrasters fuer die Gap-Analyse
+
+Schritt 2 des Arbeitsplans von Paket G. Entwurf vom 02.10.2026, vom
+Verfasser am 04.10.2026 mit den Aenderungen an Regel 2, der Spalte
+Stufe und der Kennzeichnung bei SR07 und SR08 freigegeben. Die Nummer
+G2 war am 02.10.2026 vergeben; G3 wurde vorher festgelegt.
+
+Festgelegt vor jeder Zuordnung rekonstruierter Anforderungen zum
+Raster (Schritt 8) und vor der endgueltigen Definition von
+security_relevant (Schritt 4). Bekannt waren die Grundzahlen in
+experiments/requirement_counts_2026-09-25_full_v2.json. Die
+Aufnahmeregel laesst bei der Auswahl keinen Spielraum: Aus dem festen
+Quellpool werden alle Eintraege uebernommen. Einziger Ermessensschritt
+ist die Einstufung "nicht relevant" nach Regel 3. Sie stuetzt sich nur
+auf die Art des Systems, nicht auf rekonstruierte Anforderungen.
+
+Zweck: Das Raster ist die Liste erwarteter Sicherheitsanforderungen,
+gegen die die Gap-Analyse fuer FF4 die rekonstruierten Anforderungen
+abgleicht. Die Kategorien der Gap-Analyse stehen in G3.
+
+Entscheidung: Option C. Das Raster verbindet die Sicht auf das Produkt
+(Eintraege aus ISO/IEC/IEEE 29148:2018) mit der Sicht auf den
+Entwicklungsprozess (Eintraege aus BSI TR-03185 Version 1.1.1).
+Common Criteria CC:2022 dienen nur als Ordnungsrahmen.
+
+Aufnahmeregel:
+1. Fester Quellpool, keine weiteren Quellen:
+   a) 29148 Abschn. 9.6.15 e und f, 9.6.17 d sowie 9.6.18 c 1 bis 6,
+      zusammen 9 Eintraege;
+   b) alle 20 Anforderungen aus TR-03185 Abschn. 2.3, dem Teil fuer
+      Open-Source-Software.
+   Teil 1 der TR (proprietaere Software) wird nicht aufgenommen. Die TR
+   stellt in Abschn. 2.1 selbst fest, dass ein fuer proprietaere
+   Software modellierter Lebenszyklus auf Open-Source-Software nicht
+   passt. Teil 1 dient nur dem Vergleich (G3, Schreibauftrag h).
+2. Common Criteria nur als Ordnungsrahmen. Jeder Eintrag erhaelt einen
+   Verweis auf eine Klasse oder Familie von CC:2022 Teil 2
+   (Sicherheitsfunktionen) oder Teil 3 (Vertrauenswuerdigkeit), soweit
+   eine passende erkennbar ist; sonst steht "keine". Der Verweis
+   beeinflusst keine Kategorie der Gap-Analyse, weil
+   Sicherheitsfunktionen Sicherheitszielen aus einem Schutzprofil oder
+   einer Sicherheitsvorgabe dienen (Teil 2, Einleitung) und Qrisp kein
+   solches Dokument hat.
+3. "Nicht relevant" (Kategorie 4 nach G3) wird nur hier im Raster
+   vergeben und nur bei klarer Lage: wenn der Eintrag etwas
+   voraussetzt, das eine Programmbibliothek ohne eigenen Betrieb nicht
+   hat. Im Zweifel gilt ein Eintrag als relevant, weil die Kategorie
+   ihn aus der Lueckenbetrachtung nimmt.
+Rueckfallregel: Haette kein TR-Eintrag Regel 3 bestanden, gaelte
+Option A. Sie greift nicht; alle 20 bleiben. Aufwand in Schritt 8:
+27 relevante Eintraege statt 7 bei Option A.
+
+Raster:
+
+| Nr. | Quelle | Inhalt (Kurzform, eigene Worte) | Stufe in der Quelle | CC-Bezug | Relevanz |
+|---|---|---|---|---|---|
+| SR01 | 29148 9.6.18 c 1 | bestimmte kryptografische Verfahren einsetzen | keine (Beispiel) | T2 FCS | relevant |
+| SR02 | 29148 9.6.18 c 2 | bestimmte Protokoll- oder Verlaufsdaten fuehren | keine (Beispiel) | T2 FAU | relevant |
+| SR03 | 29148 9.6.18 c 3 | bestimmte Funktionen verschiedenen Modulen zuweisen | keine (Beispiel) | keine | relevant |
+| SR04 | 29148 9.6.18 c 4 | Kommunikation zwischen Programmteilen begrenzen | keine (Beispiel) | T2 FDP_IFC, FDP_IFF | relevant |
+| SR05 | 29148 9.6.18 c 5 | Integritaet kritischer Variablen pruefen | keine (Beispiel) | T2 FDP_SDI | relevant |
+| SR06 | 29148 9.6.18 c 6 | Datenschutz sicherstellen | keine (Beispiel) | T2 FPR | relevant |
+| SR07 | 29148 9.6.15 e | Integritaetsbedingungen einer Datenbank | keine (Inhaltsvorgabe) | T2 FDP_SDI | nicht relevant: Qrisp ist eine Programmbibliothek ohne eigene Datenbank (Einordnung des Verfassers, Abschn. 2.1.7 der Arbeit) |
+| SR08 | 29148 9.6.15 f | Sicherheit einer Datenbank | keine (Inhaltsvorgabe) | T2 FDP | nicht relevant: wie SR07 |
+| SR09 | 29148 9.6.17 d | Verarbeitungsschritte nachverfolgbar machen | keine (Inhaltsvorgabe) | T2 FAU | relevant |
+| SR10 | TR GV.01 | Beitragsregeln dokumentieren; erwartete Qualitaet angeben | MUST; Zusatz SHOULD | T3 ALC_LCD | relevant |
+| SR11 | TR GV.02 | Repository, Webseiten und sensible Daten vor unbefugten Handlungen schuetzen | MUST | T3 ALC_CMC, ALC_DVS | relevant |
+| SR12 | TR LE.01 | Lizenz fuer alle Inhalte angeben, auch fuer die Dokumentation | MUST | keine | relevant |
+| SR13 | TR LE.02 | Lizenztexte oder Verweise darauf bereitstellen | MUST | keine | relevant |
+| SR14 | TR QA.01 | Liste der Fremdkomponenten bereitstellen | MUST | T3 ALC_CMS | relevant |
+| SR15 | TR QA.02 | gesamten Quelltext oeffentlich lesbar machen | MUST | keine | relevant |
+| SR16 | TR QA.03 | beschreiben, wie Fehler gemeldet werden | MUST | T3 ALC_FLR | relevant |
+| SR17 | TR QA.04 | Testverfahren einrichten und nutzen | MUST | T3 Klasse ATE | relevant |
+| SR18 | TR QA.05 | Speichersicherheitsfehler vermeiden oder verringern | SHOULD | T3 ALC_TAT | relevant |
+| SR19 | TR QA.06 | alle Aenderungen am Quelltext begutachten lassen | SHOULD | T3 ALC_CMC | relevant |
+| SR20 | TR BR.01 | Bauanleitung fuer alle Bestandteile oeffentlich machen | MUST | T3 ALC_TAT | relevant |
+| SR21 | TR BR.02 | eindeutige, stetig steigende Versionskennungen vergeben | MUST | T3 ALC_CMC | relevant |
+| SR22 | TR BR.03 | bei der Verteilung Integritaet wahren oder pruefbar machen; Echtheit | MUST; Zusatz MAY | T3 ALC_DEL | relevant |
+| SR23 | TR BR.04 | je Veroeffentlichung Aenderungen an Funktion und Sicherheit protokollieren | MUST | T3 ALC_CMC, ALC_FLR | relevant |
+| SR24 | TR BR.05 | Quellpakete enthalten nur Inhalte aus dem Repository | MUST NOT (Verbot) | T3 ALC_TDA | relevant |
+| SR25 | TR BR.06 | Builds reproduzierbar machen | SHOULD | T3 ALC_TDA | relevant |
+| SR26 | TR VM.01 | Sicherheitskontakt dokumentieren; vertrauliches Melden ermoeglichen | MUST; Zusatz SHOULD | T3 ALC_FLR | relevant |
+| SR27 | TR VM.02 | entdeckte Schwachstellen in angemessener Frist veroeffentlichen | MUST | T3 ALC_FLR | relevant |
+| SR28 | TR DE.01 | Einstellung des Projekts oder von Teilen mitteilen | SHOULD | keine | relevant |
+| SR29 | TR DE.02 | Migrationswege aufzeigen | MAY | keine | relevant |
+
+Erlaeuterungen zum Raster:
+- Stufe: Modalverb der TR nach deren Abschn. 2.2.1 (RFC 2119 und
+  DIN 820-2). 29148 fuehrt 9.6.18 c ausdruecklich als unvollstaendige
+  Beispielliste und 9.6.15 und 9.6.17 als Inhaltsvorgaben einer
+  Spezifikation; dort gibt es keine Stufe je Eintrag.
+- CC-Bezug: Einordnung des Verfassers, steht so in keiner Quelle. Bei
+  Teil 3 beruht er auf den gelesenen Zielen der Familien in
+  Kapitel 12, bei Teil 2 nur auf den Familiennamen im
+  Inhaltsverzeichnis. T2 = Teil 2, T3 = Teil 3. Klassen und Familien:
+  FCS kryptografische Unterstuetzung, FAU Sicherheitsprotokollierung,
+  FDP Schutz von Nutzerdaten (FDP_IFC und FDP_IFF
+  Informationsflusskontrolle, FDP_SDI Integritaet gespeicherter
+  Daten), FPR Privatsphaere; ALC Lebenszyklus mit ALC_LCD
+  Lebenszyklusfestlegung, ALC_CMC und ALC_CMS Faehigkeiten und Umfang
+  der Konfigurationsverwaltung, ALC_DVS Sicherheit der
+  Entwicklungsumgebung, ALC_FLR Fehlerbehebung, ALC_TAT Werkzeuge und
+  Techniken, ALC_DEL Auslieferung, ALC_TDA Entwicklungsartefakte;
+  ATE Tests.
+- Inhalt: Kurzform in eigenen Worten, kein Zitat.
+
+Begruendung fuer Option C:
+- Option D (nur 29148) ist verworfen, weil das Expose eine CC- bzw.
+  BSI-Orientierung verlangt.
+- Option A (Produktsicht) haette 7 relevante Eintraege, Option B
+  (Lebenszyklussicht) nur die Eintraege der TR. Option C deckt
+  Produkt und Entwicklungsprozess zugleich ab. Der Preis ist der
+  hoehere Aufwand in Schritt 8.
+- Eine Pull-Request-Historie dokumentiert vor allem den
+  Entwicklungsprozess; ohne die Lebenszyklussicht bliebe dieser Teil
+  der Historie fuer FF4 ungenutzt (Einordnung des Verfassers).
+- Die ausfuehrliche Begruendung gegenueber A und B steht in Abschnitt
+  4.2 der Arbeit (Wunsch des Verfassers vom 02.10.2026).
+
+Grenzen fuer Kapitel 7: Der CC-Bezug zu Teil 2 beruht nur auf
+Familiennamen. Die Einstufung von SR07 und SR08 ist nicht am Code von
+Qrisp geprueft. Das Raster ist ein Ausschnitt; eine Konformitaet mit
+29148, TR-03185 oder den Common Criteria wird nicht beansprucht.
+
+Herkunft: Lektuere der Quellen, Optionen A bis D und Entwurf von Claude
+im Chat vom 02.10.2026; Abgleich mit den Quellen und Aenderungen im
+Chat vom 04.10.2026. Wahl von Option C und Freigabe durch den
+Verfasser.
+
+Status: festgelegt.
+Bezug: FF4, Kapitel 2, 4, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
 - API-Modell und lokales Modell (FF3), Paket E und F: entschieden
   am 19.09.2026 und 29.09.2026, siehe E8 und F2
 - Messgroessen fuer FF3, Paket F: entschieden am 30.09.2026, siehe F3
-- Ausschnitt des Sicherheitsrasters (FF4), Paket G: Option C
-  gewaehlt am 02.10.2026, Entwurf G2 in STATUS.md, Freigabe offen
+- Ausschnitt des Sicherheitsrasters (FF4), Paket G: entschieden am
+  04.10.2026, siehe G2
 - Kategorie "nachweislich fehlende Sicherheitsfunktion" (FF4), Paket
   G: entschieden am 02.10.2026, siehe G3
 - Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
