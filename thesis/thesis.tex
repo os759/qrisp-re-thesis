@@ -911,7 +911,198 @@ vor einer inhaltlichen Verwendung beschaffen oder Satz streichen]}
 \section{Common Criteria und BSI-orientierte Prüfungen im Überblick}
 \label{sec:cc-bsi}
 
-\textbf{[Noch zu ergänzen]}
+Die vierte Forschungsfrage fragt, welche Sicherheitsanforderungen sich
+aus der Entwicklungshistorie rekonstruieren lassen, die eine an den
+Vorgaben des BSI oder an den Common Criteria orientierte Prüfung
+erwartet. Dieser Abschnitt stellt
+die beiden dafür herangezogenen Rahmenwerke vor: die Common Criteria in
+der Fassung CC:2022 und die Technische Richtlinie TR-03185 des
+Bundesamts für Sicherheit in der Informationstechnik (BSI). Beide dienen
+in der vorliegenden Arbeit als Orientierung für ein Raster erwarteter
+Sicherheitsanforderungen, nicht als Maßstab einer Zertifizierung.
+Welcher Ausschnitt verwendet wird, legt
+Abschnitt~\ref{subsec:sicherheitsraster} fest.
+
+\subsection{Common Criteria}
+\label{subsec:common-criteria}
+
+Die Common Criteria for Information Technology Security Evaluation
+liegen in der Fassung CC:2022 in fünf Teilen vor. Diese Fassung wurde
+zunächst als Normenreihe ISO/IEC 15408:2022 entwickelt und anschließend
+von den Teilnehmerstaaten des Abkommens über die gegenseitige
+Anerkennung von Common-Criteria-Zertifikaten (CCRA) als neue Fassung
+veröffentlicht \cite[Vorwort]{cc2022teil2}. Die vorliegende Arbeit
+stützt sich auf zwei der Teile. Teil~2 enthält einen Katalog von
+Komponenten, aus denen Sicherheitsfunktionsanforderungen (security
+functional requirements, SFR) gebildet werden. Diese beschreiben das
+Sicherheitsverhalten, das von einem Evaluationsgegenstand (Target of
+Evaluation, TOE) erwartet wird \cite[Einleitung und Abschn.~1]{cc2022teil2}.
+Teil~3 enthält die Komponenten für Anforderungen an die
+Vertrauenswürdigkeit (security assurance requirements, SAR). Sie
+beschreiben die Tätigkeiten, mit denen Vertrauen in den
+Evaluationsgegenstand gewonnen wird \cite[Abschn.~7.7.1]{cc2022teil3}.
+Beide Kataloge sind in Klassen, Familien und Komponenten gegliedert
+\cite[Abschn.~7.1.1]{cc2022teil2}\cite[Abschn.~6.2]{cc2022teil3}.
+Teil~2 umfasst elf Klassen, darunter die Sicherheitsprotokollierung
+(FAU), die kryptografische Unterstützung (FCS), den Schutz von
+Nutzerdaten (FDP) und die Privatsphäre (FPR)
+\cite[Abschn.~8--18]{cc2022teil2}. Teil~1 mit dem allgemeinen Modell
+wurde für diese Arbeit nicht herangezogen.
+
+Sicherheitsfunktionsanforderungen stehen nicht für sich. Sie werden in
+einem Schutzprofil (Protection Profile, PP) oder einer
+Sicherheitsvorgabe (Security Target, ST) zusammengestellt und sollen die
+dort festgelegten Sicherheitsziele erfüllen
+\cite[Einleitung]{cc2022teil2}. Was ein solches Dokument mindestens
+enthalten muss, legt Teil~3 in den Anforderungen an seine Evaluation
+fest. Es beschreibt den Evaluationsgegenstand, seinen Typ und die
+Hard- und Software außerhalb des Gegenstands, die ihm zur Verfügung
+steht \cite[Abschn.~7.2.2]{cc2022teil3}. Es definiert das
+Sicherheitsproblem durch Bedrohungen, organisatorische
+Sicherheitsregeln und Annahmen über die Einsatzumgebung; jede Bedrohung
+ist durch einen Angreifer, ein Schutzgut und eine schädliche Handlung
+zu beschreiben \cite[Abschn.~7.4.2 und 9.4.2]{cc2022teil3}. Die
+Sicherheitsziele sollen dieses Problem vollständig abdecken und klar
+zwischen Evaluationsgegenstand und Einsatzumgebung aufteilen
+\cite[Abschn.~7.5.1]{cc2022teil3}. Die Sicherheitsanforderungen
+schließlich sollen das erwartete Sicherheitsverhalten klar, eindeutig
+und wohldefiniert beschreiben \cite[Abschn.~7.7.1]{cc2022teil3}.
+
+Vertrauen in ein Produkt entsteht nach Teil~3 nicht aus unbelegten
+Behauptungen, sondern aus einer aktiven Untersuchung des Produkts
+\cite[Abschn.~5.3.4]{cc2022teil3}. Als Evaluationstechniken nennt der
+Standard unter anderem die Analyse von Prozessen und
+Entwurfsdarstellungen, die Analyse vorgelegter und eigene
+Funktionstests, die Schwachstellenanalyse und Penetrationstests
+\cite[Abschn.~5.3.5]{cc2022teil3}. Eine Schwachstelle ist definiert als
+Schwäche des Evaluationsgegenstands, mit der sich in einer bestimmten
+Umgebung die Sicherheitsfunktionsanforderungen verletzen lassen
+\cite[Abschn.~3.28]{cc2022teil3}. Als Ursachen von Schwachstellen nennt
+der Standard Mängel in den Anforderungen, im Entwurf, in der
+Entwicklung, bei Auslieferung, Installation und Konfiguration, im
+Betrieb und in der Wartung. An erster Stelle steht der Fall, dass ein
+Produkt alle geforderten Funktionen besitzt und dennoch Schwachstellen
+enthält, weil die Anforderungen unzureichend sind
+\cite[Abschn.~5.3.3]{cc2022teil3}.
+
+Die Klasse ALC der Vertrauenswürdigkeitsanforderungen betrifft
+Sicherheitsmaßnahmen in Entwicklung, Herstellung, Auslieferung und
+Wartung. Das Vertrauen in die Übereinstimmung von Anforderungen und
+Produkt ist nach Teil~3 größer, wenn Sicherheitsanalysen und Nachweise
+regelmäßig als fester Bestandteil dieser Tätigkeiten entstehen. Die
+Klasse umfasst neun Familien, darunter ALC\_LCD (Festlegung des
+Lebenszyklusmodells), ALC\_CMC und ALC\_CMS
+(Konfigurationsverwaltung), ALC\_DVS (Sicherheit der
+Entwicklungsumgebung), ALC\_TAT (Werkzeuge und Techniken), ALC\_DEL
+(Auslieferung) und ALC\_FLR (Umgang mit Sicherheitsmängeln)
+\cite[Abschn.~12.1]{cc2022teil3}. Tests bilden eine eigene Klasse
+(ATE) \cite[Kap.~13]{cc2022teil3}.
+
+\subsection{BSI TR-03185 Secure Software Lifecycle}
+\label{subsec:tr03185}
+
+Die Technische Richtlinie TR-03185 des BSI formuliert Anforderungen an
+einen sicheren Software-Lebenszyklus. Sie ist nach den Vorgaben des
+IT-Grundschutzes für sichere Softwareentwicklungsprozesse entstanden
+und um weitere Normen und Rahmenwerke ergänzt \cite[Abschn.~0]{bsitr03185}.
+In der verwendeten Version~1.1.1 vom 2.~Juli~2026 führt sie zwei zuvor
+getrennt veröffentlichte Teile zusammen: Teil~1 behandelt proprietäre
+Software, Teil~2 Open-Source-Software
+\cite[Dokumenthistorie und Abschn.~0]{bsitr03185}.
+
+Teil~1 richtet sich an Hersteller und unterscheidet deren Sicht als
+Nutzer von Entwicklungswerkzeugen und als Produzent von Software. Den
+Prozess, Anforderungen an die zu erstellende Software festzulegen,
+behandelt er ausdrücklich nicht. Er setzt voraus, dass die
+einschlägigen Anforderungen an die Informationssicherheit vorliegen
+oder dem Hersteller übergeben werden \cite[Abschn.~1.2.1]{bsitr03185}.
+Entsprechend verlangt er, dass alle Anforderungen an die
+Informationssicherheit der zu entwickelnden Software zu Projektbeginn
+erfasst, dokumentiert und bekannt sind und fortlaufend aktualisiert
+werden \cite[Tab.~14, PROD.PM.A.2]{bsitr03185}.
+
+Teil~2 begründet seine Eigenständigkeit mit grundlegenden Unterschieden
+in den Rollen und im Entwicklungsprozess sowie mit den Eigenschaften
+von Open-Source-Lizenzen. Ein für proprietäre Software modellierter
+Lebenszyklus passe deshalb nicht \cite[Abschn.~2.1]{bsitr03185}. Teil~2
+soll Entwickelnde und Projektverantwortliche möglichst wenig zusätzlich
+belasten, ist von Werkzeugen und Entwicklungsprozessen unabhängig und
+soll mit dem Cyber Resilience Act der Europäischen Union und dem
+IT-Grundschutz vereinbar sein \cite[Abschn.~2.1.1]{bsitr03185}. Eine
+Partei, die ein Projekt richtlinienkonform machen muss, legt er bewusst
+nicht fest. Er nennt stattdessen mehrere mögliche Umsetzende in einer
+Rangfolge: Hersteller und sogenannte Stewards, deren Produkte von der
+Software abhängen und die sich im Ursprungsprojekt beteiligen, die
+Projektverantwortlichen selbst und schließlich Hersteller oder Stewards,
+die eine abgeleitete Fassung des Projekts pflegen
+\cite[Abschn.~2.2.2 und 2.2.3]{bsitr03185}.
+
+Teil~2 umfasst 20 Anforderungen in sechs Bereichen
+(Tabelle~\ref{tab:tr03185-bereiche}). Ihre Verbindlichkeit drückt er
+mit großgeschriebenen Modalverben aus, deren Bedeutung sich auf RFC~2119
+und DIN~820-2 stützt \cite[Abschn.~2.2.1]{bsitr03185}
+(vgl.\ Abschnitt~\ref{subsec:rfc2119}). Die Anforderungen sind aus
+anderen Rahmenwerken zusammengestellt oder von ihnen angeregt, etwa vom
+IT-Grundschutz-Kompendium, vom Cyber Resilience Act, von der OpenSSF
+Security Baseline und vom Secure Software Development Framework des
+NIST. Die Richtlinie betont, dass sie aus diesen Quellen weder
+unmittelbar abgeleitet noch ihnen gleichwertig sind
+\cite[Abschn.~2.3]{bsitr03185}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Bereiche der Anforderungen in Teil~2 der TR-03185 nach
+           \cite[Abschn.~2.3.1--2.3.6]{bsitr03185}. Gegenstände in
+           eigenen Worten verkürzt}
+  \label{tab:tr03185-bereiche}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.5cm}%
+                    >{\raggedright\arraybackslash}p{6.8cm}@{}}
+    \toprule
+    \textbf{Bereich} & \textbf{Anzahl} & \textbf{Gegenstände} \\
+    \midrule
+    Governance (GV) & 2 & Beitragsregeln, Schutz des Repositorys \\
+    Recht (LE) & 2 & Lizenzangaben \\
+    Qualität (QA) & 6 & Fremdkomponenten, offener Quelltext,
+      Fehlermeldung, Tests, Speichersicherheit, Begutachtung \\
+    Build und Veröffentlichung (BR) & 6 & Bauanleitung,
+      Versionskennungen, Integrität, Änderungsprotokoll, Paketinhalt,
+      Reproduzierbarkeit \\
+    Schwachstellen\-management (VM) & 2 & Sicherheitskontakt,
+      Veröffentlichung von Schwachstellen \\
+    Außerbetriebnahme (DE) & 2 & Einstellung, Migrationswege \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Einordnung für die vorliegende Arbeit}
+\label{subsec:cc-bsi-einordnung}
+
+Nach Einschätzung des Verfassers ergänzen sich die beiden Rahmenwerke
+für den Zweck dieser Arbeit. Die Sicherheitsfunktionsanforderungen der
+Common Criteria beschreiben Eigenschaften eines Produkts. Die
+Anforderungen aus Teil~2 der TR-03185 beschreiben dagegen überwiegend
+das Projekt und seinen Entwicklungsprozess, etwa Beitragsregeln,
+Versionsvergabe oder den Umgang mit Schwachstellen. Sie stehen damit
+der Klasse ALC der Common Criteria näher als deren Teil~2.
+
+Gemeinsam ist den Common Criteria und Teil~1 der TR-03185, dass sie
+festgelegte Sicherheitsanforderungen als Ausgangspunkt voraussetzen: die
+Common Criteria in Gestalt der Sicherheitsziele und
+Sicherheitsfunktionsanforderungen eines Schutzprofils oder einer
+Sicherheitsvorgabe, Teil~1 der TR-03185 in Gestalt der zu Projektbeginn
+dokumentierten Anforderungen. Für Qrisp liegt nach Kenntnis des
+Verfassers keines dieser Dokumente vor. Daraus zieht die Arbeit zwei
+Folgerungen. Erstens muss ein Raster erwarteter Sicherheitsanforderungen
+aus Quellen gewonnen werden, die ohne ein solches Dokument anwendbar
+sind (Abschnitt~\ref{subsec:sicherheitsraster}). Zweitens lässt sich der
+Schwachstellenbegriff der Common Criteria nicht unmittelbar auf Qrisp
+anwenden, weil er festgelegte Sicherheitsfunktionsanforderungen
+voraussetzt (Abschnitt~\ref{subsec:gap-kategorien}). Dass Teil~3 Mängel
+in den Anforderungen als erste Ursache von Schwachstellen nennt, stützt
+zugleich die Annahme, dass eine fehlende Dokumentation von
+Sicherheitsanforderungen selbst sicherheitsrelevant ist; das ist eine
+Schlussfolgerung des Verfassers, keine Aussage der Quelle.
 
 
 \chapter{Verwandte Arbeiten}
@@ -1522,11 +1713,10 @@ Unsicherheit ist und keine aus den Quellen ableitbare Notwendigkeit.
 Dieser Abschnitt legt fest, wie die rekonstruierten Anforderungen
 klassifiziert und mit einem Raster erwarteter Sicherheitsanforderungen
 abgeglichen werden. Er dient der vierten Forschungsfrage und über die
-Klassifikation auch der ersten. Festgelegt ist bislang der
-Belegbegriff, auf dem die Gap-Analyse aufbaut.
-\textbf{[Noch zu ergänzen: Klassifikationsschema, Sicherheitsraster
-und Kategorien der Gap-Analyse. Die Unterabschnitte folgen mit den
-jeweiligen Entscheidungen.]}
+Klassifikation auch der ersten. Festgelegt sind der Belegbegriff,
+das Raster erwarteter Sicherheitsanforderungen und die Kategorien
+der Gap-Analyse.
+\textbf{[Noch zu ergänzen: Klassifikationsschema.]}
 
 \subsection{Belegbegriff für die Gap-Analyse}
 \label{subsec:belegbegriff-ff4}
@@ -1591,6 +1781,276 @@ einen wörtlich vorhandenen Ausschnitt an, er trage einen Bestandteil,
 den er tatsächlich nicht enthält, bemerkt die maschinelle Prüfung dies
 nicht. Diese Einschränkung wird in Kapitel~\ref{cha:diskussion}
 aufgegriffen.
+
+
+\subsection{Raster erwarteter Sicherheitsanforderungen}
+\label{subsec:sicherheitsraster}
+
+Die Gap-Analyse vergleicht die rekonstruierten Anforderungen mit einem
+Raster von Sicherheitsanforderungen, die eine an den Vorgaben des BSI
+oder an den Common Criteria orientierte Prüfung erwarten lässt. Verwendet wird kein
+vollständiger Katalog, sondern ein begründet ausgewählter Ausschnitt.
+Damit das Raster nicht nachträglich an das Ergebnis angepasst werden
+kann, wurde es festgelegt und versioniert, bevor eine rekonstruierte
+Anforderung ihm zugeordnet wurde.
+
+Zur Wahl standen vier Zuschnitte. Option~D hätte sich auf die
+Inhaltsvorgaben von ISO/IEC/IEEE~29148 beschränkt. Sie scheidet aus,
+weil die vierte Forschungsfrage ausdrücklich eine an den Vorgaben des
+BSI oder an den Common Criteria orientierte Prüfung zum Maßstab nimmt. Option~A
+(Produktsicht) beschränkt das Raster auf Anforderungen an Eigenschaften
+der Software selbst, wie sie die Sicherheitsbeispiele von
+ISO/IEC/IEEE~29148 beschreiben (Abschnitt~\ref{subsec:srs-inhalte}),
+geordnet nach den Klassen von Teil~2 der Common Criteria. Option~B
+(Lebenszyklussicht) beschränkt es auf Anforderungen an das Projekt und
+seinen Entwicklungsprozess, wie sie Teil~2 der TR-03185 enthält.
+Option~C verbindet beide Sichten.
+
+Gewählt ist Option~C. Für sie sprechen drei Gründe. Erstens betreffen
+die beiden Quellen verschiedene Gegenstände
+(Abschnitt~\ref{subsec:cc-bsi-einordnung}). Ein Raster, das nur eine
+Seite betrachtet, ließe die andere außer Acht, obwohl auch die Common
+Criteria neben den Sicherheitsfunktionen ausdrücklich Nachweise aus dem
+Lebenszyklus verlangen (Abschnitt~\ref{subsec:common-criteria}).
+Zweitens passt die Lebenszyklussicht zum Datenmaterial. Eine
+Pull-Request-Historie dokumentiert in erster Linie den
+Entwicklungsprozess, etwa Begutachtungen, Änderungen an Tests,
+Versionswechsel und Abhängigkeiten. Unter Option~A bliebe dieser Teil
+des Materials für die vierte Forschungsfrage ungenutzt; das ist eine
+Einschätzung des Verfassers. Drittens ist Teil~2 der TR-03185 eigens
+für Open-Source-Software formuliert und legt keine verantwortliche
+Partei fest (Abschnitt~\ref{subsec:tr03185}). Er setzt damit nicht
+voraus, was einem offen entwickelten Projekt wie Qrisp fehlt.
+Option~B allein hätte dagegen die Produktsicht aufgegeben, die
+ISO/IEC/IEEE~29148 als Inhaltsblock einer Spezifikation vorsieht. Der
+Preis von Option~C ist der Aufwand: In der Gap-Analyse sind 27 statt
+7 einschlägige Einträge zu prüfen.
+
+Die Aufnahme in das Raster folgt drei Regeln.
+\begin{enumerate}
+  \item \emph{Fester Quellpool.} Aufgenommen werden aus
+    ISO/IEC/IEEE~29148 die sechs Sicherheitsbeispiele unter den
+    Produktattributen, die Integritätsbedingungen und die Sicherheit
+    aus den Vorgaben zu gespeicherten Informationen sowie die
+    Nachverfolgung von Verarbeitungsschritten
+    \cite[Abschn.~9.6.15\,e--f, 9.6.17\,d und 9.6.18\,c]{iso29148},
+    zusammen neun Einträge, außerdem alle 20 Anforderungen aus Teil~2
+    der TR-03185 \cite[Abschn.~2.3]{bsitr03185}. Weitere Quellen werden
+    nicht herangezogen. Teil~1 der Richtlinie bleibt außen vor, weil die
+    Richtlinie selbst feststellt, dass ein für proprietäre Software
+    modellierter Lebenszyklus nicht auf Open-Source-Software passt
+    \cite[Abschn.~2.1]{bsitr03185}.
+  \item \emph{Common Criteria als Ordnungsrahmen.} Jeder Eintrag
+    erhält, soweit erkennbar, einen Verweis auf eine Klasse oder
+    Familie aus Teil~2 oder Teil~3 der Common Criteria. Der Verweis
+    ordnet ein, beeinflusst aber keine Kategorie der Gap-Analyse.
+    Sicherheitsfunktionsanforderungen dienen den Sicherheitszielen
+    eines Schutzprofils oder einer Sicherheitsvorgabe
+    \cite[Einleitung]{cc2022teil2}, und für Qrisp liegt kein solches
+    Dokument vor.
+  \item \emph{Nicht einschlägige Einträge.} Als nicht relevant wird ein
+    Eintrag nur vorab und nur dann eingestuft, wenn er etwas
+    voraussetzt, das eine Programmbibliothek ohne eigenen Betrieb nicht
+    hat. Im Zweifel gilt er als relevant, weil die Einstufung ihn aus
+    der Lückenbetrachtung herausnimmt.
+\end{enumerate}
+Da aus dem Quellpool alle Einträge übernommen werden, lässt die erste
+Regel bei der Auswahl keinen Spielraum. Einziger Ermessensschritt ist
+die dritte Regel. Sie stützt sich auf die Art des Systems, nicht auf
+rekonstruierte Anforderungen. Für den Fall, dass kein Eintrag der
+Richtlinie die dritte Regel bestanden hätte, war ein Rückfall auf
+Option~A vorgesehen; er tritt nicht ein.
+
+Tabellen~\ref{tab:sicherheitsraster-produkt}
+und~\ref{tab:sicherheitsraster-prozess} zeigen das Raster mit 29 Einträgen.
+Zwei davon sind als nicht relevant eingestuft. Die Vorgaben zu
+Integritätsbedingungen und Sicherheit einer Datenbank setzen eine
+Datenhaltung voraus, die eine Programmbibliothek ohne eigenen Betrieb
+nicht hat (vgl.\ Abschnitt~\ref{subsec:srs-inhalte}). Diese Einstufung
+ist eine Einordnung des Verfassers und wurde nicht am Quelltext von
+Qrisp geprüft. Es bleiben 27 relevante Einträge. Die Spalte Stufe gibt
+das Modalverb der TR-03185 wieder; ISO/IEC/IEEE~29148 führt die
+übernommenen Einträge als Beispiele bzw.\ Inhaltsvorgaben ohne eigene
+Stufe. Der Bezug zu den Common Criteria ist eine Einordnung des
+Verfassers. Bei Teil~3 beruht er auf den Zielen der Familien, bei
+Teil~2 nur auf den Bezeichnungen der Klassen und Familien.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Raster erwarteter Sicherheitsanforderungen, Teil~1: Einträge
+           aus ISO/IEC/IEEE~29148. Inhalte in eigenen Worten verkürzt
+           nach \cite[Abschn.~9.6.15, 9.6.17, 9.6.18]{iso29148}}
+  \label{tab:sicherheitsraster-produkt}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.1cm}%
+                    >{\raggedright\arraybackslash}p{2.3cm}%
+                    >{\raggedright\arraybackslash}p{6.6cm}%
+                    >{\raggedright\arraybackslash}p{2.6cm}@{}}
+    \toprule
+    \textbf{Nr.} & \textbf{Quelle} & \textbf{Inhalt} &
+      \textbf{CC-Bezug} \\
+    \midrule
+    SR01 & 29148 9.6.18\,c\,1 & bestimmte kryptografische Verfahren
+      einsetzen & T2 FCS \\
+    SR02 & 29148 9.6.18\,c\,2 & bestimmte Protokoll- oder
+      Verlaufsdaten führen & T2 FAU \\
+    SR03 & 29148 9.6.18\,c\,3 & bestimmte Funktionen verschiedenen
+      Modulen zuweisen & keiner \\
+    SR04 & 29148 9.6.18\,c\,4 & Kommunikation zwischen Programmteilen
+      begrenzen & T2 FDP\_IFC, FDP\_IFF \\
+    SR05 & 29148 9.6.18\,c\,5 & Integrität kritischer Variablen prüfen
+      & T2 FDP\_SDI \\
+    SR06 & 29148 9.6.18\,c\,6 & Datenschutz sicherstellen & T2 FPR \\
+    SR07* & 29148 9.6.15\,e & Integritätsbedingungen einer Datenbank &
+      T2 FDP\_SDI \\
+    SR08* & 29148 9.6.15\,f & Sicherheit einer Datenbank & T2 FDP \\
+    SR09 & 29148 9.6.17\,d & Verarbeitungsschritte nachverfolgbar
+      machen & T2 FAU \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  * nicht relevant nach der dritten Regel, weil eine Datenbank
+  vorausgesetzt wird. T2: Teil~2 der Common Criteria. Die Norm führt
+  diese Einträge ohne Verbindlichkeitsstufe. Festlegung des Rasters in
+  \path{docs/entscheidungen.md}.
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Raster erwarteter Sicherheitsanforderungen, Teil~2: Einträge
+           aus Teil~2 der TR-03185. Inhalte in eigenen Worten verkürzt
+           nach \cite[Abschn.~2.3]{bsitr03185}}
+  \label{tab:sicherheitsraster-prozess}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.1cm}%
+                    >{\raggedright\arraybackslash}p{1.6cm}%
+                    >{\raggedright\arraybackslash}p{5.45cm}%
+                    >{\raggedright\arraybackslash}p{2.1cm}%
+                    >{\raggedright\arraybackslash}p{2.3cm}@{}}
+    \toprule
+    \textbf{Nr.} & \textbf{Quelle} & \textbf{Inhalt} & \textbf{Stufe} &
+      \textbf{CC-Bezug} \\
+    \midrule
+    SR10 & TR GV.01 & Beitragsregeln dokumentieren, erwartete Qualität
+      angeben & MUST; Zusatz SHOULD & T3 ALC\_LCD \\
+    SR11 & TR GV.02 & Repository, Webseiten und sensible Daten vor
+      unbefugten Handlungen schützen & MUST & T3 ALC\_CMC, ALC\_DVS \\
+    SR12 & TR LE.01 & Lizenz für alle Inhalte angeben, auch für die
+      Dokumentation & MUST & keiner \\
+    SR13 & TR LE.02 & Lizenztexte oder Verweise darauf bereitstellen &
+      MUST & keiner \\
+    SR14 & TR QA.01 & Liste der Fremdkomponenten bereitstellen & MUST &
+      T3 ALC\_CMS \\
+    SR15 & TR QA.02 & gesamten Quelltext öffentlich lesbar machen &
+      MUST & keiner \\
+    SR16 & TR QA.03 & beschreiben, wie Fehler gemeldet werden & MUST &
+      T3 ALC\_FLR \\
+    SR17 & TR QA.04 & Testverfahren einrichten und nutzen & MUST &
+      T3 Klasse ATE \\
+    SR18 & TR QA.05 & Speichersicherheitsfehler vermeiden oder
+      verringern & SHOULD & T3 ALC\_TAT \\
+    SR19 & TR QA.06 & alle Änderungen am Quelltext begutachten lassen &
+      SHOULD & T3 ALC\_CMC \\
+    SR20 & TR BR.01 & Bauanleitung für alle Bestandteile öffentlich
+      machen & MUST & T3 ALC\_TAT \\
+    SR21 & TR BR.02 & eindeutige, stetig steigende Versionskennungen
+      vergeben & MUST & T3 ALC\_CMC \\
+    SR22 & TR BR.03 & Integrität bei der Verteilung wahren oder prüfbar
+      machen; Echtheit & MUST; Zusatz MAY & T3 ALC\_DEL \\
+    SR23 & TR BR.04 & je Veröffentlichung Änderungen an Funktion und
+      Sicherheit protokollieren & MUST & T3 ALC\_CMC, ALC\_FLR \\
+    SR24 & TR BR.05 & Quellpakete enthalten nur Inhalte aus dem
+      Repository & MUST NOT & T3 ALC\_TDA \\
+    SR25 & TR BR.06 & Builds reproduzierbar machen & SHOULD &
+      T3 ALC\_TDA \\
+    SR26 & TR VM.01 & Sicherheitskontakt dokumentieren, vertrauliches
+      Melden ermöglichen & MUST; Zusatz SHOULD & T3 ALC\_FLR \\
+    SR27 & TR VM.02 & entdeckte Schwachstellen in angemessener Frist
+      veröffentlichen & MUST & T3 ALC\_FLR \\
+    SR28 & TR DE.01 & Einstellung des Projekts oder von Teilen
+      mitteilen & SHOULD & keiner \\
+    SR29 & TR DE.02 & Migrationswege aufzeigen & MAY & keiner \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  T3: Teil~3 der Common Criteria. Stufe: Modalverb nach
+  \cite[Abschn.~2.2.1]{bsitr03185}. Festlegung des Rasters in
+  \path{docs/entscheidungen.md}.
+\end{table}
+
+Das Raster ist ein Ausschnitt. Eine Konformität mit
+ISO/IEC/IEEE~29148, der TR-03185 oder den Common Criteria wird nicht
+beansprucht. Die Zuordnung zu Teil~2 der Common Criteria stützt sich
+nur auf die Bezeichnungen, nicht auf die Texte der Komponenten. Beide
+Einschränkungen werden in Kapitel~\ref{cha:diskussion} aufgegriffen.
+
+\subsection{Kategorien der Gap-Analyse}
+\label{subsec:gap-kategorien}
+
+Jeder Eintrag des Rasters wird einer von vier Kategorien zugeordnet:
+\begin{enumerate}
+  \item Die Sicherheitsanforderung ist mit Beleg in der untersuchten
+    Historie rekonstruierbar.
+  \item Die Historie enthält Hinweise auf eine Umsetzung oder ein
+    sicherheitsbezogenes Verhalten, aber keine ausdrücklich formulierte
+    Anforderung.
+  \item Anhand der untersuchten Historie ist der Eintrag nicht
+    entscheidbar bzw.\ nicht rekonstruierbar.
+  \item Der Eintrag ist für Qrisp oder den Untersuchungsrahmen nicht
+    relevant.
+\end{enumerate}
+Die vierte Kategorie wird nur bei der Festlegung des Rasters vergeben,
+also vor jeder Zuordnung (Abschnitt~\ref{subsec:sicherheitsraster}). Wie die
+Belegstufen aus Abschnitt~\ref{subsec:belegbegriff-ff4} den ersten
+beiden Kategorien zugeordnet werden, wird vor der Zuordnung gesondert
+festgelegt \textbf{[Noch zu ergänzen: Regel für die Zuordnung der
+Belegstufen zu den Kategorien und Verweis auf deren Abschnitt]}.
+
+Eine weitere Kategorie, die eine Sicherheitsfunktion als nachweislich
+fehlend ausweist, wurde erwogen und verworfen. Dafür gibt es vier
+Gründe. Erstens setzt eine solche Aussage eine Prüfung des Quelltexts,
+der Tests oder des laufenden Systems voraus, die eindeutige Belege
+liefert. Eine solche Prüfung gehört nicht zum Untersuchungsumfang; die
+Arbeit untersucht ausschließlich die Pull-Request-Historie. Fehlt dort
+ein Beleg, zeigt das nur, dass die Historie nichts dazu enthält, nicht
+aber, dass die Funktion fehlt.
+
+Zweitens fehlt ein Maßstab. Nach den Common Criteria ist eine
+Schwachstelle über die festgelegten Sicherheitsfunktionsanforderungen
+definiert, und diese dienen den Sicherheitszielen eines Schutzprofils
+oder einer Sicherheitsvorgabe. Eine Evaluation setzt zudem eine
+Beschreibung des Gegenstands, eine Definition des Sicherheitsproblems
+und daraus abgeleitete Sicherheitsziele voraus
+(Abschnitt~\ref{subsec:common-criteria}). Für Qrisp liegt nach Kenntnis
+des Verfassers keines dieser Elemente vor. Nach Einschätzung des
+Verfassers lässt sich ohne festgelegte Ziele nicht entscheiden, ob eine
+Sicherheitsfunktion fehlt, denn das Fehlen wäre nur gegenüber einem Ziel
+feststellbar, das nicht formuliert ist.
+
+Drittens bestimmt Teil~2 der TR-03185 keine Partei, die ein
+Open-Source-Projekt richtlinienkonform machen muss
+(Abschnitt~\ref{subsec:tr03185}). Ein fehlender Eintrag in der Historie
+ist damit nicht das Versäumnis einer bestimmten Stelle. Anders liegt der
+Fall bei Teil~1 für proprietäre Software: Dort müssen alle Anforderungen
+an die Informationssicherheit zu Projektbeginn dokumentiert sein
+\cite[Tab.~14, PROD.PM.A.2]{bsitr03185}. Teil~2 enthält keine
+entsprechende Pflicht. Dass für Qrisp kein solches Dokument vorliegt,
+ist deshalb kein Verstoß gegen die Richtlinie, sondern der Anlass der
+vierten Forschungsfrage; diese Einordnung stammt vom Verfasser.
+
+Viertens strebt die Arbeit keine Zertifizierung von Qrisp an und trifft
+keine Aussage, dass Qrisp eine Sicherheitsanforderung nicht erfüllt,
+wenn lediglich kein Beleg gefunden wurde. Die Gap-Analyse kann damit
+Dokumentationslücken aufzeigen, also erwartete Sicherheitsanforderungen,
+zu denen die Historie keinen oder nur einen schwachen Beleg enthält.
+Aussagen über fehlende Funktionen trifft sie nicht. Diese Grenze wird in
+Kapitel~\ref{cha:diskussion} aufgegriffen.
 
 
 \chapter{Implementierung}
