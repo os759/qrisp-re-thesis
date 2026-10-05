@@ -3386,6 +3386,338 @@ Verfasser.
 Status: festgelegt.
 Bezug: FF4, Kapitel 2, 4, 6 und 7.
 
+## 2026-10-05 Paket G: Klassifikationsschema und Pruefplan
+
+### 2026-10-05 G4 Klassifikationsschema: Arten der Anforderungen und Sicherheitsbezug
+
+Schritt 4 des Arbeitsplans von Paket G. Festgelegt vor dem Pruefplan
+(Schritt 5) und vor jeder Pruefung der Klassifikation von Hand
+(Schritt 6). Bekannt waren die Grundzahlen in
+experiments/requirement_counts_2026-09-25_full_v2.json, also die
+Verteilung der vom Modell vergebenen Typwerte und die Zahl der als
+sicherheitsrelevant markierten Anforderungen. Inhalte einzelner
+Anforderungen wurden fuer diese Entscheidung nicht herangezogen.
+
+Zweck: G4 legt den Massstab fest, an dem Schritt 6 die Etiketten des
+Modells prueft (Felder type und security_relevant). Ausserdem fasst G4
+die sechs Typwerte zu den Arten zusammen, die das Expose nennt:
+funktional, nicht-funktional, sicherheitsrelevant.
+
+#### 1 Typwerte und Arten
+
+Befund an ISO/IEC/IEEE 29148:2018:
+- Abschn. 5.2.8.3 ordnet nur zwei der sechs Werte ausdruecklich einer
+  Art zu: Functional/Performance ist funktional, Leistung gilt dabei
+  als Attribut einer Funktion. Quality (Non-Functional) ist
+  nicht-funktional; die Norm nennt dort auch security.
+- Usability/Quality-in-Use: NOTE 2 in Abschn. 5.2.8.3 verweist auf
+  Leitlinien fuer Software-Qualitaetsanforderungen (SQuaRE). Abschn.
+  9.6.13 spricht von Anforderungen an Gebrauchstauglichkeit und
+  Nutzungsqualitaet. Das stuetzt "nicht-funktional" mittelbar.
+- Human Factors: Abschn. 5.2.8.3 beschreibt sie ueber Merkmale wie
+  Betriebssicherheit (safety), Leistung, Effektivitaet, Effizienz,
+  Zuverlaessigkeit und Zufriedenheit. Das sind Qualitaetsmerkmale; das
+  Wort nicht-funktional faellt nicht. Mittelbar gestuetzt.
+- Interface und Process ordnet die Norm keiner der beiden Arten zu.
+  Abschn. 6.4.2 b) zaehlt functional, performance, process,
+  non-functional und interface als nebeneinanderstehende Arten auf.
+  Abschn. 3.1.27 nennt externe Schnittstellen neben Funktionen,
+  Leistung, Randbedingungen und Attributen. Process Requirements sind
+  nach Abschn. 5.2.8.3 meist Vorgaben aus Vertrag oder
+  Leistungsbeschreibung, auch aus Unternehmensrichtlinien.
+
+Entscheidung (Variante normnah):
+
+| Typwert | Art | Grundlage in 29148 |
+|---|---|---|
+| functional_performance | funktional | 5.2.8.3, ausdruecklich |
+| quality_non_functional | nicht-funktional | 5.2.8.3, ausdruecklich |
+| usability_quality_in_use | nicht-funktional | 5.2.8.3 NOTE 2, 9.6.13; mittelbar |
+| human_factors | nicht-funktional | 5.2.8.3; mittelbar |
+| interface | Schnittstelle, eigene Art | 6.4.2 b), 3.1.27 |
+| process | Prozess, eigene Art | 6.4.2 b), 5.2.8.3 |
+
+Die Art wird aus dem Typwert abgeleitet und nicht eigens vergeben.
+Geprueft wird deshalb der Typwert. Die Dreiteilung des Expose wird um
+zwei Arten erweitert, weil die Norm Schnittstellen- und
+Prozessanforderungen als eigene Arten fuehrt. Die drei Arten des
+Expose bleiben vollstaendig erhalten. Das Wort "oder" im Expose wird
+nicht ausschliessend gelesen (Entscheidung des Verfassers vom
+05.10.2026): Eine Anforderung hat genau eine Art und kann zusaetzlich
+sicherheitsrelevant sein (E1).
+
+Verworfen: Variante zweigeteilt (interface zu funktional, process zu
+nicht-funktional). Sie haette jeder Anforderung eine der beiden Arten
+gegeben, stuetzt sich aber fuer zwei Typwerte auf eine Setzung gegen
+die Aufzaehlung in Abschn. 6.4.2 b).
+
+#### 2 Sicherheitsbezug: endgueltige Definition von security_relevant
+
+Das Feld bleibt vom Typwert unabhaengig (E1). Es beantwortet eine
+Frage: Dient die Anforderung dem Schutz vor Schaden? Es beantwortet
+nicht, ob die Anforderung einem Eintrag des Rasters aus G2 entspricht.
+Das prueft die Gap-Analyse (Schritt 8) gesondert, auch fuer
+Anforderungen ohne Markierung.
+
+Definition: security_relevant ist wahr, wenn Anforderungssatz,
+rationale oder die zitierten Belege erkennen lassen, dass die
+Anforderung mindestens einem dieser Zwecke dient. Sonst ist es falsch.
+Zweck 1: Schutz von Qrisp, seinem Repository, seinen ausgelieferten
+  Paketen oder der von Qrisp verarbeiteten Daten vor zufaelligem oder
+  boeswilligem Zugriff, Gebrauch, Veraenderung, Zerstoerung oder
+  Offenlegung. Grundlage: 29148 Abschn. 9.6.18 c; Repository und
+  Pakete nach TR-03185 GV.02 und BR.03 (SR11, SR22).
+Zweck 2: Umgang mit nicht vertrauenswuerdigen Eingaben. Das sind
+  Daten, die der aufrufende Code nicht selbst erzeugt, etwa Dateien,
+  Netzwerkantworten, Antworten fremder Dienste oder serialisierte
+  Objekte, soweit die Anforderung einen Schaden nach Zweck 1 abwenden
+  soll.
+Zweck 3: Beheben, Melden oder Veroeffentlichen von Schwachstellen in
+  Qrisp oder in seinen Abhaengigkeiten. Grundlage: TR-03185 VM.01 und
+  VM.02 (SR26, SR27).
+
+Grenzfallregeln:
+1. Die Pruefung von Aufrufparametern (Typ, Wertebereich, Form) ist
+   nicht sicherheitsrelevant. 29148 fuehrt die Pruefung von Eingaben
+   unter Functions (Abschn. 9.6.12 a). Ausnahme nur nach Zweck 2.
+2. Fehlerbehandlung, Absturzfreiheit und Wiederherstellung sind nicht
+   sicherheitsrelevant. 29148 fuehrt sie unter Functions (Abschn.
+   9.6.12 c) und Availability (Abschn. 9.6.18 b), nicht unter Security
+   (Abschn. 9.6.18 c). Ausnahme: Der Ausfall laesst sich durch
+   Eingaben nach Zweck 2 herbeifuehren.
+3. Das Anheben oder Festlegen der Version einer Abhaengigkeit ist nur
+   sicherheitsrelevant, wenn die Quelle eine Schwachstelle oder einen
+   Sicherheitsgrund nennt.
+4. Allgemeine Entwicklungspraxis (Tests, Begutachtung, Lizenzen,
+   Versionsnummern, Aenderungsprotokoll, Bauanleitung, Beitragsregeln)
+   ist nicht sicherheitsrelevant, ausser die Quelle nennt einen
+   Sicherheitszweck. Sie kann trotzdem einem Eintrag des Rasters
+   entsprechen.
+5. Der Umgang mit Zugangsdaten fuer fremde Dienste (Schluessel, Token)
+   ist sicherheitsrelevant nach Zweck 1.
+6. Belegbasis: Massgeblich ist, was Satz, rationale und Belege sagen.
+   Ein Sicherheitszweck, der dort nicht erkennbar ist, wird nicht aus
+   eigenem Wissen ergaenzt.
+7. Bei der Pruefung von Hand gibt es drei Antworten: ja, nein, unklar.
+   "unklar" wird getrennt gezaehlt und nicht als Fehler des Modells
+   gewertet.
+
+Messung am Raster aus G2 (Einordnung, Entwurf von Claude): Ist eine
+Anforderung, die einen Eintrag des Rasters betrifft, nach dieser
+Definition sicherheitsrelevant?
+- stets: SR01 bis SR06 (die Beispiele aus 29148 Abschn. 9.6.18 c,
+  Zweck 1), SR11 und SR22 (Zweck 1), SR26 und SR27 (Zweck 3).
+  Zusammen 10 Eintraege.
+- nur mit einem in der Quelle genannten Sicherheitszweck: SR09, SR10,
+  SR12 bis SR21, SR23 bis SR25, SR28 und SR29. Zusammen 17 Eintraege.
+- nicht relevant nach G2: SR07 und SR08.
+Die Einstufung aendert G2 nicht. Alle 27 relevanten Eintraege bleiben
+Gegenstand der Gap-Analyse.
+
+Abweichungen von der vorlaeufigen Definition aus E7, nach der das
+Modell im Volllauf etikettiert hat (prompts/extraction_system_v2.md,
+Feldregel security_relevant):
+1. erweitert um zufaellige Einwirkung und um Offenlegung (9.6.18 c);
+2. erweitert um Repository und ausgelieferte Pakete (SR11, SR22);
+3. eingeschraenkt: Ausfall zaehlt nur noch ueber Zweck 2
+   (Grenzfallregel 2);
+4. praezisiert: nicht vertrauenswuerdige Eingaben (Grenzfallregel 1).
+Folge fuer Schritt 6: Weicht das Urteil des Verfassers vom Etikett des
+Modells ab, wird vermerkt, ob die Abweichung auf eine der
+Abweichungen 1 bis 4 zurueckgeht. Nur die uebrigen zaehlen als
+Fehlurteil des Modells.
+
+#### 3 Massstab fuer den Typwert
+
+Massstab sind die Feldregeln zu type in
+prompts/extraction_system_v2.md. Sie geben 29148 Abschn. 5.2.8.3
+wieder. So gelten fuer Modell und Pruefung dieselben Definitionen.
+Ergaenzend gelten vier Typregeln:
+1. interface oder functional_performance: interface, wenn der Satz
+   festlegt, wie etwas aufgerufen, uebergeben oder verbunden wird
+   (Name, Parameter, Rueckgabe, Datenformat, Zusammenspiel mit fremden
+   Bibliotheken oder Diensten oder zwischen Teilen von Qrisp).
+   functional_performance, wenn er festlegt, was Qrisp berechnet oder
+   bewirkt. Trifft beides zu, entscheidet, was der shall-Teil festlegt:
+   die Form des Zusammenspiels oder das Ergebnis.
+2. process: wenn die Anforderung Entwicklung, Tests, Dokumentation
+   oder Veroeffentlichung betrifft und nicht das Verhalten der
+   ausgelieferten Software.
+3. Die Leistung einer bestimmten Funktion ist functional_performance,
+   nicht quality_non_functional (Abschn. 5.2.8.3: Leistung ist
+   Attribut einer Funktion).
+4. usability_quality_in_use oder human_factors: Vorrangregel aus dem
+   Nachtrag zu E1.
+In der Variante normnah aendert Typregel 1 die Art. Sie ist deshalb in
+Schritt 6 eigens zu pruefen.
+
+Nicht Teil dieser Entscheidung: Stichprobe, Umfang, Suchwoerter fuer
+uebersehene Faelle und Ablauf der Pruefung (G5); die Zuordnung der
+Belegstufen zu den Kategorien der Gap-Analyse (Schritt 8).
+
+Grenzen fuer Kapitel 7:
+- Nur zwei der sechs Typwerte ordnet die Norm ausdruecklich einer Art
+  zu; zwei weitere nur mittelbar.
+- Leistungsanforderungen stecken im Wert functional_performance und
+  sind nicht getrennt zaehlbar. Tabelle 2.1 der Arbeit wird an G4
+  angepasst (Zeilen 9.6.11 und 9.6.14).
+- Der Prompt fasst process weiter als die Norm, die damit vor allem
+  Vorgaben aus Vertrag oder Leistungsbeschreibung meint.
+- Das Modell hat nach der vorlaeufigen Definition etikettiert
+  (Abweichungen 1 bis 4).
+- Die Verteilung der Typwerte war bei der Entscheidung bekannt.
+
+Herkunft: Lektuere von 29148 Abschn. 3.1, 5.2.8.3, 6.4.2 und 9.6.10
+bis 9.6.19 und Entwurf von Claude im Chat vom 05.10.2026. Wahl der
+Variante normnah, Lesart des Expose und Freigabe durch den Verfasser.
+
+Status: festgelegt.
+Bezug: FF1, FF4, Kapitel 4, 6 und 7.
+
+### 2026-10-05 G5 Pruefplan fuer die Klassifikation und die Dependabot-Sichtung
+
+Schritt 5 des Arbeitsplans von Paket G. Festgelegt vor der Pruefung
+von Hand (Schritt 6) und vor der Dependabot-Sichtung (Schritt 7).
+Massstab ist G4. Bekannt waren die Grundzahlen wie bei G4; Treffer der
+Suchwortsuche und die Stichprobe lagen noch nicht vor.
+
+#### 1 Gegenstand
+
+Geprueft werden die Etiketten type und security_relevant. Grundmenge
+sind die 1 467 Anforderungen aus den 392 schemagueltigen Datensaetzen
+des Volllaufs 2026-09-25_full_v2, wie in G1 Punkt 1. Die Pruefung
+haengt nicht vom Belegstatus ab; der Belegbegriff aus G1 gilt erst in
+der Gap-Analyse.
+
+#### 2 Pruefmenge
+
+Drei Teilmengen:
+- Menge markiert: alle 11 vom Modell als sicherheitsrelevant
+  markierten Anforderungen.
+- Menge Suchtreffer: Anforderungen ohne Markierung, bei denen die
+  Suchwortsuche nach Punkt 3 trifft.
+- Menge Stichprobe: alle Anforderungen der Pull Requests der
+  Evaluationsstichprobe nach E2 (Punkt 4).
+Eine Anforderung in mehreren Mengen wird einmal geprueft und fuer jede
+Menge gezaehlt.
+
+#### 3 Suchwortsuche
+
+Durchsucht werden Anforderungssatz, rationale und alle Zitate, weil
+G4 (Grenzfallregel 6) das Urteil auf diese drei stuetzt. Gesucht wird
+eine Teilzeichenfolge ohne Beachtung der Gross- und Kleinschreibung.
+Die Liste ist abschliessend:
+
+secur, vulnerab, cve-, ghsa-, advisory, exploit, attack, malicious,
+tamper, integrity, authenti, authoriz, permission, access control,
+credential, secret, password, api key, api_key, apikey, token,
+encrypt, decrypt, cryptograph, checksum, sha256, privacy,
+personal data, confidential, disclos, leak, audit, untrusted,
+sanitiz, sanitis, injection, pickle, deserializ, deserialis, eval(,
+exec(, subprocess, shell=true, arbitrary code, denial of service,
+resource exhaustion, dependabot
+
+Herleitung: Wortfelder der Zwecke 1 bis 3 aus G4 und der stets
+sicherheitsrelevanten Rastereintraege SR01 bis SR06, SR11, SR22, SR26
+und SR27. Bewusst nicht aufgenommen: hash, sign, signature, key, log,
+weil sie in Python-Quelltext und in der Programmierschnittstelle von
+Qrisp ueberwiegend ohne Sicherheitsbezug vorkommen.
+
+Obergrenze: Trifft die Suche mehr als 150 Anforderungen ausserhalb der
+Menge markiert, werden alle Treffer in Satz oder rationale geprueft.
+Von den Treffern nur in Zitaten wird dann eine Zufallsauswahl von 50
+geprueft (Startwert 20261005). Begruendung: Zeitbudget von rund einer
+Minute je Anforderung.
+
+Vor der Pruefung werden nur Trefferzahlen gemeldet, keine Inhalte.
+
+#### 4 Stichprobe, gemeinsam mit E2
+
+Gezogen mit src/analyze/draw_sample.py, Startwert 20261005,
+Schichtgroessen wie im Pilot (S6=1, S5=4, S4=3, S3=3, S2=4, S1=5),
+ohne die zwoelf Faelle aus Paket C und die 20 Faelle des Pilots,
+Ausgabe docs/sample_eval_e2.md. Nach den Zahlen des Pilots reicht jede
+Schicht aus. Reicht eine nicht, gilt das Verhalten von draw_sample.py:
+Die fehlenden Plaetze gehen an Schicht S1, wie bei allen bisherigen
+Ziehungen. Diese Pull Requests bilden zugleich die Stichprobe der
+Bewertung nach E2. Welche ihrer Anforderungen nach E2 bewertet werden,
+legt die Kriterienliste v1 fest.
+Begruendung: ein Lesedurchgang statt zwei. Einschraenkung: Die
+Stichprobe ist nach Pull Requests geschichtet und keine einfache
+Zufallsauswahl von Anforderungen. Anteile aus ihr sind Schaetzungen
+mit dieser Einschraenkung.
+
+#### 5 Ablauf
+
+Programm: src/classify/check_classification.py. Arbeitsordner
+eval/responses/classification_check_2026-10-06/ (nicht versioniert).
+1. Das Programm erzeugt aus den drei Mengen einen Pruefbogen in
+   zufaelliger Reihenfolge (Startwert 20261005). Er zeigt je
+   Anforderung Kennung, Pull-Request-Nummer mit Link, Satz, rationale
+   und die Zitate mit Fundort. Er zeigt weder die Etiketten des Modells
+   noch die Menge.
+2. Der Verfasser traegt je Anforderung ein: Typwert, sicherheitsrelevant
+   (ja, nein, unklar), bei ja den Zweck nach G4, die angewandte
+   Grenzfall- oder Typregel und eine Notiz. Der Link dient nur dem
+   Verstaendnis eines Zitats. Grundlage des Urteils bleiben Satz,
+   rationale und Zitate.
+3. Erst danach vergleicht das Programm mit den Etiketten des Modells
+   und nennt die Abweichungen nur mit Kennung.
+4. Zu jeder Abweichung beim Sicherheitsbezug traegt der Verfasser nach,
+   ob sie auf eine der Abweichungen 1 bis 4 aus G4 zurueckgeht. Das
+   Urteil aus Schritt 2 wird dabei nicht geaendert; das Programm
+   prueft das ueber die Pruefsumme der Antwortdatei.
+5. Pruefbogen und Antworten bleiben lokal unter eval/responses/, weil
+   sie Inhalte der Pull Requests enthalten. Versioniert werden das
+   Programm und die Ergebnisdatei
+   experiments/classification_check_2026-10-06.json mit Zahlen und den
+   Pruefsummen von Bogen und Antworten. In den Chat gehen nur Zahlen.
+
+#### 6 Kennzahlen
+
+Sicherheitsbezug:
+- Menge markiert: Zahl der Urteile ja, nein und unklar; bei nein die
+  Zahl der Abweichungen, die auf die Definition zurueckgehen.
+- Mengen Suchtreffer und Stichprobe: Zahl der uebersehenen Faelle
+  (Verfasser ja, Modell nein), jeweils mit dem Anteil an der Menge.
+Typwert, nur in der Menge Stichprobe:
+- Anteil der Uebereinstimmung zwischen Modell und Verfasser;
+- Kreuztabelle der sechs Typwerte;
+- Uebereinstimmung der Art nach G4 (vier Arten).
+Weitere Auswertungen gelten als explorativ und werden so gekennzeichnet.
+
+#### 7 Dependabot-Sichtung (Schritt 7)
+
+Grundmenge: die 25 abgeschlossenen Dependabot-Beitraege (Nachtrag zu
+E4), weil E4 offene Vorgaenge ausschliesst, deren Inhalt sich noch
+aendern kann. Das Programm aus Punkt 5 prueft je Beitrag Titel,
+Beschreibung und Kommentare:
+a) Enthaelt der Text eine Schwachstellenkennung (CVE- oder GHSA-), gilt
+   der Beitrag als Hinweis auf eine behobene Schwachstelle.
+b) Enthaelt er nur secur oder vulnerab, liest der Verfasser den
+   Beitrag lokal und entscheidet mit ja, nein oder unklar, ob er eine
+   durch die Aktualisierung behobene Schwachstelle nennt.
+Gezaehlt werden die Hinweise insgesamt sowie getrennt nach
+uebernommenen und ohne Uebernahme geschlossenen Beitraegen. Ergebnis
+in experiments/dependabot_check_2026-10-06.json. In den Chat gehen nur
+Zahlen. Was die Hinweise fuer die Gap-Analyse bedeuten, legt Schritt 8
+fest.
+
+Grenzen fuer Kapitel 7:
+- Eine Person prueft (wie E2).
+- Faelle ohne eines der Suchwoerter findet nur die Stichprobe.
+- Die Stichprobe ist nach Pull Requests geschichtet.
+- Texte der Dependabot-Beitraege stammen von einem Programm und aus den
+  Versionshinweisen fremder Bibliotheken, nicht vom Qrisp-Team.
+
+Herkunft: Entwurf von Claude im Chat vom 05.10.2026, Freigabe durch
+den Verfasser. Nach der Freigabe hat Claude Punkt 4 an das Verhalten
+von draw_sample.py angepasst und Programm und Ablageorte in Punkt 5 und
+7 ergaenzt; vom Verfasser vor dem Commit bestaetigt.
+
+Status: festgelegt.
+Bezug: FF1, FF4, Kapitel 4, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
@@ -3396,6 +3728,10 @@ Bezug: FF4, Kapitel 2, 4, 6 und 7.
   04.10.2026, siehe G2
 - Kategorie "nachweislich fehlende Sicherheitsfunktion" (FF4), Paket
   G: entschieden am 02.10.2026, siehe G3
+- Klassifikationsschema (FF1, FF4), Paket G: entschieden am
+  05.10.2026, siehe G4
+- Pruefplan fuer die Klassifikation und die Dependabot-Sichtung
+  (FF1, FF4), Paket G: entschieden am 05.10.2026, siehe G5
 - Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
   am 15.09.2026, siehe E4
 - Budget der Modelleingabe (FF1), Paket E: entschieden am
