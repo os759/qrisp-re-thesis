@@ -1,0 +1,46 @@
+{
+  "rules": "docs/entscheidungen.md: G5 section 7",
+  "code_commit": "ff094b5",
+  "inputs": {
+    "dataset": {
+      "path": "data/interim/pulls_prepared_2026-08-19.jsonl",
+      "sha256": "138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683"
+    }
+  },
+  "files": {
+    "answers": "e127fef6e122e358d2b12d24fbf88d43b7b36bd6d217e1b246c6d1afc3298781",
+    "sheet": "35942c0607587700dda4b1299322e809d9c9ff33fb5765e8e8c86437ee47d007"
+  },
+  "counts": {
+    "closed_unmerged": {
+      "records": 19,
+      "class_id": 0,
+      "class_word": 18,
+      "class_none": 1,
+      "word_answer_ja": 0,
+      "word_answer_nein": 18,
+      "word_answer_unklar": 0,
+      "hints": 0
+    },
+    "merged": {
+      "records": 6,
+      "class_id": 0,
+      "class_word": 4,
+      "class_none": 2,
+      "word_answer_ja": 0,
+      "word_answer_nein": 4,
+      "word_answer_unklar": 0,
+      "hints": 0
+    },
+    "total": {
+      "records": 25,
+      "class_id": 0,
+      "class_word": 22,
+      "class_none": 3,
+      "word_answer_ja": 0,
+      "word_answer_nein": 22,
+      "word_answer_unklar": 0,
+      "hints": 0
+    }
+  }
+}

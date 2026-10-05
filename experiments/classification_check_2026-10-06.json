@@ -1,0 +1,158 @@
+{
+  "rules": "docs/entscheidungen.md: G4 and G5",
+  "code_commit": "ff094b5",
+  "inputs": {
+    "input": {
+      "path": "data/processed/extraction_2026-09-25_full_v2.jsonl",
+      "sha256": "3dbc74b24438cac24feba080eca69ef66a4b495b4f7fd677de0f22d7d91e569d"
+    },
+    "sample": {
+      "path": "docs/sample_eval_e2.md",
+      "sha256": "a330656f8a3045237e70918b5672990ebd4cebb99e5a67ff6137b4f48da8767a"
+    },
+    "schema": {
+      "path": "/Users/omar/Developer/qrisp-re-thesis/config/requirement_schema_v2.json",
+      "sha256": "d5670a65c992efc38a158308f24e96610837e9f3545befe4e47d6a9fc498effe"
+    }
+  },
+  "files": {
+    "sheet": "278a34440a8c0705f00a95ad4cccd94f639b5f7ccebd6ca0eadcb88fcdc17cfc",
+    "answers": "1929b4cc9ea02d573a6670b700c3a214fbb1425aba3f13020ac50faab5371c3c",
+    "follow_up": "ccf94dec4812dbaaace1f59b8571f2f3d98bf43f3fc8585c3096e904c2206a7b"
+  },
+  "sets": {
+    "requirements_in_base_set": 1467,
+    "marked": 11,
+    "search_hits_outside_marked": 39,
+    "of_which_in_sentence_or_rationale": 11,
+    "of_which_only_in_excerpts": 28,
+    "cap_applied": false,
+    "search_hits_checked": 39,
+    "sample_pull_requests": 20,
+    "sample_pull_requests_with_requirements": 18,
+    "sample_requirements": 85,
+    "sheet_rows": 130,
+    "requirements_per_keyword": {
+      "authenti": 3,
+      "cryptograph": 1,
+      "dependabot": 3,
+      "encrypt": 1,
+      "eval(": 1,
+      "injection": 4,
+      "leak": 1,
+      "permission": 1,
+      "token": 24
+    }
+  },
+  "counts": {
+    "security": {
+      "marked": {
+        "n": 11,
+        "model_true": 11,
+        "author_ja": 3,
+        "author_nein": 8,
+        "author_unklar": 0,
+        "confirmed": 3,
+        "rejected": 8,
+        "rejected_by_definition": 4,
+        "rejected_misjudged": 4,
+        "missed": 0,
+        "missed_by_definition": 0,
+        "missed_misjudged": 0
+      },
+      "search_hits_checked": {
+        "n": 39,
+        "model_true": 0,
+        "author_ja": 1,
+        "author_nein": 38,
+        "author_unklar": 0,
+        "confirmed": 0,
+        "rejected": 0,
+        "rejected_by_definition": 0,
+        "rejected_misjudged": 0,
+        "missed": 1,
+        "missed_by_definition": 0,
+        "missed_misjudged": 1
+      },
+      "sample": {
+        "n": 85,
+        "model_true": 0,
+        "author_ja": 0,
+        "author_nein": 85,
+        "author_unklar": 0,
+        "confirmed": 0,
+        "rejected": 0,
+        "rejected_by_definition": 0,
+        "rejected_misjudged": 0,
+        "missed": 0,
+        "missed_by_definition": 0,
+        "missed_misjudged": 0
+      }
+    },
+    "type_sample": {
+      "n": 85,
+      "type_agree": 64,
+      "kind_agree": 64,
+      "confusion_model_rows_author_columns": {
+        "functional_performance": {
+          "functional_performance": 25,
+          "interface": 10,
+          "process": 0,
+          "quality_non_functional": 0,
+          "usability_quality_in_use": 0,
+          "human_factors": 0
+        },
+        "interface": {
+          "functional_performance": 8,
+          "interface": 39,
+          "process": 0,
+          "quality_non_functional": 0,
+          "usability_quality_in_use": 0,
+          "human_factors": 0
+        },
+        "process": {
+          "functional_performance": 0,
+          "interface": 0,
+          "process": 0,
+          "quality_non_functional": 0,
+          "usability_quality_in_use": 0,
+          "human_factors": 0
+        },
+        "quality_non_functional": {
+          "functional_performance": 2,
+          "interface": 0,
+          "process": 0,
+          "quality_non_functional": 0,
+          "usability_quality_in_use": 0,
+          "human_factors": 0
+        },
+        "usability_quality_in_use": {
+          "functional_performance": 0,
+          "interface": 0,
+          "process": 1,
+          "quality_non_functional": 0,
+          "usability_quality_in_use": 0,
+          "human_factors": 0
+        },
+        "human_factors": {
+          "functional_performance": 0,
+          "interface": 0,
+          "process": 0,
+          "quality_non_functional": 0,
+          "usability_quality_in_use": 0,
+          "human_factors": 0
+        }
+      }
+    },
+    "rules_used_all_rows": {
+      "GF1": 19,
+      "GF2": 4,
+      "GF4": 12,
+      "GF5": 4,
+      "GF6": 26,
+      "TY1": 86,
+      "TY2": 12,
+      "TY3": 2
+    }
+  }
+}

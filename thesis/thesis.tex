@@ -360,13 +360,14 @@ Tabelle~\ref{tab:29148-srs-inhalte} stellt diese Blöcke zusammen.
       \textbf{Zuordnung (eigene Einordnung)} \\
     \midrule
     9.6.11 & Externe Schnittstellen &
-      funktional, Schnittstellenanforderung \\
+      Schnittstellenanforderung, eigene Art \\
     9.6.12 & Funktionen einschließlich Fehlerbehandlung &
       funktional \\
     9.6.13 & Gebrauchstauglichkeit &
       nicht-funktional \\
     9.6.14 & Leistung &
-      nicht-funktional \\
+      funktional; Leistung gilt als Attribut einer Funktion
+      (Abschn.~5.2.8.3) \\
     9.6.15 & Logische Anforderungen an gespeicherte Informationen &
       funktional und nicht-funktional, teils sicherheitsbezogen \\
     9.6.16 & Randbedingungen des Entwurfs &
@@ -1716,7 +1717,246 @@ abgeglichen werden. Er dient der vierten Forschungsfrage und über die
 Klassifikation auch der ersten. Festgelegt sind der Belegbegriff,
 das Raster erwarteter Sicherheitsanforderungen und die Kategorien
 der Gap-Analyse.
-\textbf{[Noch zu ergänzen: Klassifikationsschema.]}
+Zunächst beschreiben die Abschnitte~\ref{subsec:klassifikationsschema}
+und~\ref{subsec:pruefung-klassifikation}, nach welchem Schema die
+Anforderungen klassifiziert werden und wie diese Klassifikation
+geprüft wird.
+
+\subsection{Klassifikationsschema}
+\label{subsec:klassifikationsschema}
+
+Jede rekonstruierte Anforderung trägt einen von sechs Typwerten. Sie
+folgen den Beispielen, die ISO/IEC/IEEE~29148 für das Attribut Typ
+nennt (Abschnitt~\ref{subsec:anforderungsattribute}). Die Norm führt
+diese Werte ausdrücklich als Beispiele; dass die Menge geschlossen
+ist, legt die vorliegende Arbeit fest. Der Sicherheitsbezug wird nicht
+als siebter Typwert geführt, sondern als eigenes Merkmal mit den
+Werten wahr und falsch. Grund ist, dass die Norm Sicherheit als eine
+Eigenschaft unter den Qualitätsanforderungen aufführt
+\cite[Abschn.~5.2.8.3]{iso29148}. Ein eigener Typwert hätte eine
+Anforderung gezwungen, entweder funktional oder sicherheitsrelevant zu
+sein. Die Zielsetzung der Arbeit verlangt eine Einordnung als
+funktional, nicht-funktional oder sicherheitsrelevant. Diese
+Aufzählung wird nicht ausschließend gelesen: Jede Anforderung erhält
+genau eine Art und kann zusätzlich als sicherheitsrelevant gelten.
+
+Die Norm ordnet nur zwei der sechs Typwerte ausdrücklich einer der
+beiden Arten zu. Funktionale Anforderungen beschreiben nach ihr die
+Funktionen oder Aufgaben eines Systems; Leistung gilt dabei als
+Attribut einer Funktion. Qualitätsanforderungen bezeichnet sie
+ausdrücklich als nicht-funktional \cite[Abschn.~5.2.8.3]{iso29148}.
+Für zwei weitere Typwerte gibt es nur mittelbare Hinweise. Zu
+Anforderungen an Gebrauchstauglichkeit und Nutzungsqualität verweist
+die Norm auf Leitlinien für Software-Qualitätsanforderungen; zu
+Anforderungen an menschliche Faktoren nennt sie Merkmale wie
+Effektivität, Effizienz, Zuverlässigkeit und Zufriedenheit
+\cite[Abschn.~5.2.8.3, 9.6.13]{iso29148}. Schnittstellen- und
+Prozessanforderungen ordnet sie keiner der beiden Arten zu. Sie zählt
+funktionale, leistungsbezogene, Prozess-, nicht-funktionale und
+Schnittstellenanforderungen vielmehr als nebeneinanderstehende Arten
+auf \cite[Abschn.~6.4.2]{iso29148}. Ebenso nennt sie in der Definition
+einer Software-Anforderungsspezifikation die externen Schnittstellen
+neben Funktionen, Leistung, Randbedingungen und Attributen
+\cite[Abschn.~3.1.27]{iso29148}.
+
+Die Arbeit übernimmt diese Unterscheidung.
+Tabelle~\ref{tab:typ-arten} zeigt die Zuordnung. Schnittstellen- und
+Prozessanforderungen stehen als eigene Arten neben den funktionalen
+und den nicht-funktionalen Anforderungen. Die drei Arten der Zielsetzung
+bleiben damit vollständig erhalten und werden um zwei ergänzt, die die
+Norm selbst unterscheidet. Erwogen und verworfen wurde eine Variante,
+die Schnittstellenanforderungen den funktionalen und
+Prozessanforderungen den nicht-funktionalen zuschlägt. Sie hätte jeder
+Anforderung eine der beiden Arten gegeben, hätte sich aber für zwei
+Typwerte auf eine eigene Setzung gegen die Aufzählung der Norm
+gestützt. Die Art wird aus dem Typwert abgeleitet und nicht eigens
+vergeben; geprüft wird daher der Typwert. Leistungsanforderungen sind
+im Typwert für funktionale und leistungsbezogene Anforderungen
+enthalten und lassen sich nicht getrennt zählen. Dieselbe Einordnung
+gilt für Tabelle~\ref{tab:29148-srs-inhalte}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Zuordnung der Typwerte zu den Arten von Anforderungen}
+  \label{tab:typ-arten}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.9cm}%
+                    >{\raggedright\arraybackslash}p{2.6cm}%
+                    >{\raggedright\arraybackslash}p{4.3cm}@{}}
+    \toprule
+    \textbf{Typwert} & \textbf{Art} & \textbf{Grundlage} \\
+    \midrule
+    funktional und leistungsbezogen
+      (\texttt{functional\_performance}) & funktional &
+      Abschn.~5.2.8.3, ausdrücklich \\
+    Qualität, nichtfunktional
+      (\texttt{quality\_non\_functional}) & nicht-funktional &
+      Abschn.~5.2.8.3, ausdrücklich \\
+    Gebrauchstauglichkeit und Nutzungsqualität
+      (\texttt{usability\_quality\_in\_use}) & nicht-funktional &
+      Abschn.~5.2.8.3 und 9.6.13, mittelbar \\
+    menschliche Faktoren (\texttt{human\_factors}) & nicht-funktional &
+      Abschn.~5.2.8.3, mittelbar \\
+    Schnittstelle (\texttt{interface}) & Schnittstelle &
+      Abschn.~3.1.27 und 6.4.2 \\
+    Prozess (\texttt{process}) & Prozess &
+      Abschn.~5.2.8.3 und 6.4.2 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Abschnittsangaben nach \cite{iso29148}. Die Zuordnung ist eine
+  Festlegung der Arbeit; \emph{ausdrücklich} heißt, dass die Norm den
+  Typ selbst als funktional oder nicht-funktional bezeichnet.
+\end{table}
+
+Eine Anforderung gilt als sicherheitsrelevant, wenn Anforderungssatz,
+Begründung oder zitierte Belege erkennen lassen, dass sie mindestens
+einem von drei Zwecken dient. Der erste Zweck folgt der Bestimmung von
+Sicherheit in ISO/IEC/IEEE~29148: Schutz vor zufälligem oder
+böswilligem Zugriff, Gebrauch, Veränderung, Zerstörung oder
+Offenlegung \cite[Abschn.~9.6.18\,c]{iso29148}. Geschützt werden Qrisp,
+die von Qrisp verarbeiteten Daten sowie Repository und ausgelieferte
+Pakete; die beiden letzten entsprechen den Einträgen SR11 und SR22 des
+Rasters (Tabelle~\ref{tab:sicherheitsraster-prozess}). Der zweite Zweck
+ist der Umgang mit nicht vertrauenswürdigen Eingaben, also mit Daten,
+die der aufrufende Code nicht selbst erzeugt, etwa Dateien oder
+Antworten fremder Dienste, soweit ein Schaden im Sinne des ersten
+Zwecks abgewendet werden soll. Der dritte Zweck ist das Beheben,
+Melden oder Veröffentlichen von Schwachstellen in Qrisp oder in seinen
+Abhängigkeiten, entsprechend den Einträgen SR26 und SR27. Ein
+Sicherheitszweck, der in Satz, Begründung und Belegen nicht erkennbar
+ist, wird nicht aus eigenem Wissen ergänzt.
+
+Für Grenzfälle legt die Arbeit sieben Regeln fest; sie stehen im
+Wortlaut in \path{docs/entscheidungen.md}. Drei stützen sich auf die
+Gliederung der Norm. Die Prüfung von Eingaben führt sie unter den
+Funktionen, ebenso die Fehlerbehandlung und Wiederherstellung;
+Verfügbarkeit nennt sie als eigenes Attribut neben der Sicherheit
+\cite[Abschn.~9.6.12\,a, 9.6.12\,c, 9.6.18\,b]{iso29148}. Die Prüfung
+von Aufrufparametern und die Fehlerbehandlung gelten deshalb als nicht
+sicherheitsrelevant, es sei denn, sie betreffen nicht vertrauenswürdige
+Eingaben. Die übrigen Regeln sind Festlegungen der Arbeit. Das Anheben
+der Version einer Abhängigkeit gilt nur dann als sicherheitsrelevant,
+wenn die Quelle eine Schwachstelle oder einen Sicherheitsgrund nennt.
+Allgemeine Entwicklungspraxis wie Tests, Begutachtung oder
+Lizenzangaben gilt ohne genannten Sicherheitszweck nicht als
+sicherheitsrelevant. Der Umgang mit Zugangsdaten für fremde Dienste
+gilt stets als sicherheitsrelevant. Lässt sich ein Fall nicht
+entscheiden, wird er als unklar vermerkt und getrennt gezählt. Für die
+Grenze zwischen Schnittstellen- und funktionalen Anforderungen gilt
+eine eigene Typregel: Maßgeblich ist, ob der Anforderungssatz die Form
+des Zusammenspiels festlegt oder das Ergebnis.
+
+Das Merkmal beantwortet nur, ob eine Anforderung dem Schutz dient. Ob
+sie einem Eintrag des Rasters entspricht, prüft die Gap-Analyse
+gesondert und für alle belegten Anforderungen, nicht nur für die
+markierten. Eine Anforderung kann daher etwa dem Eintrag zu
+Testverfahren entsprechen, ohne sicherheitsrelevant zu sein. Am
+Raster gemessen ergibt sich folgendes Bild: Eine Anforderung zu einem
+von zehn Einträgen ist stets sicherheitsrelevant, nämlich zu den sechs
+Beispielen der Norm, zu SR11 und SR22 sowie zu SR26 und SR27. Bei
+weiteren 17 Einträgen hängt es davon ab, ob die Quelle einen
+Sicherheitszweck nennt; zwei Einträge sind nicht relevant. Diese
+Einordnung stammt vom Verfasser.
+
+Die Definition wurde nach dem Volllauf festgelegt. Das Modell hatte
+eine vorläufige Fassung erhalten (\path{prompts/extraction_system_v2.md}).
+Die endgültige Fassung weicht in vier Punkten davon ab. Sie ergänzt
+zufällige Einwirkung und Offenlegung aus der Norm sowie Repository und
+ausgelieferte Pakete. Sie schränkt den Ausfall auf Fälle ein, die sich
+durch nicht vertrauenswürdige Eingaben herbeiführen lassen, und sie
+fasst den Begriff dieser Eingaben genauer. Weicht das Urteil bei der
+Prüfung vom Etikett des Modells ab, wird deshalb vermerkt, ob die
+Abweichung auf einen dieser Punkte zurückgeht. Nur die übrigen
+Abweichungen gelten als Fehlurteil des Modells. Die Grenzen des
+Schemas greift Kapitel~\ref{cha:diskussion} auf.
+
+
+\subsection{Prüfung der Klassifikation}
+\label{subsec:pruefung-klassifikation}
+
+Typ und Sicherheitsbezug hat das Modell vergeben. Bevor sie in die
+Auswertung eingehen, werden sie von Hand geprüft. Gegenstand sind die
+Anforderungen aller Datensätze des Volllaufs, die der Schemaprüfung
+genügen, unabhängig von ihrer Belegstärke. Der Belegbegriff aus
+Abschnitt~\ref{subsec:belegbegriff-ff4} gilt erst in der Gap-Analyse.
+Der Prüfplan wurde festgelegt und versioniert, bevor die erste
+Anforderung geprüft wurde.
+
+Geprüft werden drei Mengen. Die erste umfasst alle Anforderungen, die
+das Modell als sicherheitsrelevant markiert hat. An ihr zeigt sich,
+ob die Markierungen zutreffen. Die zweite umfasst die Anforderungen
+ohne Markierung, in deren Satz, Begründung oder Belegen eines von 47
+vorab festgelegten Suchwörtern vorkommt.\footnote{Gesucht wird ohne
+Beachtung der Groß- und Kleinschreibung nach den Zeichenfolgen
+\texttt{secur}, \texttt{vulnerab}, \texttt{cve-}, \texttt{ghsa-},
+\texttt{advisory}, \texttt{exploit}, \texttt{attack},
+\texttt{malicious}, \texttt{tamper}, \texttt{integrity},
+\texttt{authenti}, \texttt{authoriz}, \texttt{permission},
+\texttt{access control}, \texttt{credential}, \texttt{secret},
+\texttt{password}, \texttt{api key}, \texttt{api\_key},
+\texttt{apikey}, \texttt{token}, \texttt{encrypt}, \texttt{decrypt},
+\texttt{cryptograph}, \texttt{checksum}, \texttt{sha256},
+\texttt{privacy}, \texttt{personal data}, \texttt{confidential},
+\texttt{disclos}, \texttt{leak}, \texttt{audit}, \texttt{untrusted},
+\texttt{sanitiz}, \texttt{sanitis}, \texttt{injection},
+\texttt{pickle}, \texttt{deserializ}, \texttt{deserialis},
+\texttt{eval(}, \texttt{exec(}, \texttt{subprocess},
+\texttt{shell=true}, \texttt{arbitrary code}, \texttt{denial of
+service}, \texttt{resource exhaustion} und \texttt{dependabot}. Nicht
+aufgenommen sind Wörter wie \texttt{hash}, \texttt{key} oder
+\texttt{log}, die in Python-Quelltext überwiegend ohne
+Sicherheitsbezug vorkommen.} Die Wörter sind aus den drei Zwecken und
+den stets sicherheitsrelevanten Einträgen des Rasters abgeleitet. Diese
+Menge dient der Suche nach Anforderungen, die das Modell übersehen hat.
+Für den Fall von mehr als 150 Treffern war vorab eine Teilauswahl
+festgelegt. Die dritte Menge umfasst alle Anforderungen aus den
+Pull Requests einer geschichteten Stichprobe von 20 Vorgängen. Sie wurde
+mit demselben Programm und denselben Schichten wie die
+Formulierungsprobe gezogen (Tabelle~\ref{tab:schichtung}), mit einem
+neuen Startwert und ohne die zwölf Fälle der Formulierungsprobe und die
+20 Fälle des Pilotlaufs. An dieser Menge werden der Typwert geprüft und
+übersehene Sicherheitsbezüge gesucht, die kein Suchwort enthalten.
+Dieselbe Stichprobe dient der Bewertung in
+Kapitel~\ref{cha:evaluation}, sodass jede Anforderung nur einmal gelesen
+wird. Weil die Stichprobe nach Pull Requests und nicht nach
+Anforderungen gezogen ist, sind Anteile aus ihr nur mit dieser
+Einschränkung als Schätzung zu lesen.
+
+Die Prüfung erfolgt verblindet. Ein Programm erzeugt aus den drei
+Mengen einen Prüfbogen in fester, zufälliger Reihenfolge. Er zeigt je
+Anforderung Kennung, Pull Request, Satz, Begründung und Belege, aber
+weder die Etiketten des Modells noch die Menge, aus der die Anforderung
+stammt. Der Verfasser vergibt je Anforderung einen Typwert und für den
+Sicherheitsbezug eines der Urteile ja, nein oder unklar. Erst danach
+vergleicht das Programm mit den Etiketten des Modells. Es hält die
+Prüfsumme der Antworten fest, sodass eine nachträgliche Änderung
+auffiele. Zu jeder Abweichung beim Sicherheitsbezug vermerkt der
+Verfasser anschließend, ob sie auf die geänderte Definition
+zurückgeht. Prüfbogen und Antworten enthalten Inhalte der Pull Requests
+und bleiben deshalb außerhalb des Repositorys; versioniert werden das
+Programm und eine Ergebnisdatei mit Zählwerten und Prüfsummen.
+
+Gezählt werden für die markierten Anforderungen die bestätigten, die
+verworfenen und die unklaren Fälle, für die beiden übrigen Mengen die
+übersehenen Fälle, jeweils getrennt danach, ob eine Abweichung auf die
+Definition zurückgeht. Für den Typwert werden in der Stichprobe die
+Übereinstimmung zwischen Modell und Verfasser, die Kreuztabelle der
+sechs Werte und die Übereinstimmung der Art erhoben. Weitere
+Auswertungen gelten als explorativ.
+
+Gesondert gesichtet werden die 25 abgeschlossenen Beiträge des
+Programms Dependabot, das Abhängigkeiten aktualisiert. Sie gehören nicht
+zur Modelleingabe, könnten aber auf behobene Schwachstellen in
+Abhängigkeiten hinweisen. Ein Beitrag gilt als Hinweis, wenn sein Text
+eine Schwachstellenkennung nach dem Muster CVE oder GHSA enthält.
+Nennt er nur Wörter wie security oder vulnerability, entscheidet der
+Verfasser, ob eine durch die Aktualisierung behobene Schwachstelle
+gemeint ist. Was diese Hinweise für die Gap-Analyse bedeuten, wird vor
+der Zuordnung festgelegt. Die Grenzen dieses Vorgehens, insbesondere
+die Prüfung durch eine einzelne Person, greift
+Kapitel~\ref{cha:diskussion} auf.
 
 \subsection{Belegbegriff für die Gap-Analyse}
 \label{subsec:belegbegriff-ff4}
