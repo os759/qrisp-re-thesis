@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 04.10.2026
+Letzte Aktualisierung: 05.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -212,21 +212,49 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     gepruefte Quelle brauchen. Die Pruefliste steht in zwei Tabellen,
     weil sie als eine Tabelle hoeher als eine Seite war.
 
-Warum der naechste Schritt jetzt kommt: Als Naechstes kommt Schritt 4,
-das Klassifikationsschema. Es ordnet die sechs Typwerte mit Fundstellen
-aus 29148 den Klassen funktional und nicht-funktional zu und legt
-security_relevant endgueltig fest, gemessen am Raster aus G2. Es kommt
-jetzt, weil Schritt 5 (Pruefplan) und Schritt 6 (Pruefung von Hand)
-eine feste Definition brauchen und beide vor der Pruefung committet
-sein muessen. Paket G sollte am 04.10.2026 enden; die Schritte 4 bis 9
-ueberschneiden sich deshalb mit dem Beginn von Paket H.
+16. Klassifikation festgelegt, geprueft und geschrieben (05.10.2026):
+    G4 (das Klassifikationsschema) ordnet die sechs Typwerte vier
+    Arten zu: funktional, nicht-funktional, Schnittstelle und Prozess
+    (Variante normnah). Das geschieht, weil 29148 Schnittstellen- und
+    Prozessanforderungen als eigene Arten fuehrt und nur zwei Typwerte
+    ausdruecklich funktional oder nicht-funktional nennt. Das "oder"
+    des Expose gilt als nicht ausschliessend, weil der Sicherheitsbezug
+    nach E1 (Datenmodell der Ausgabe) ein eigenes Merkmal ist. G4 legt
+    auch die endgueltige Definition von security_relevant mit drei
+    Zwecken fest, weil die vorlaeufige Fassung im Prompt Offenlegung
+    nicht kannte und jeden Ausfall mitzaehlte. G5 (der Pruefplan) wurde
+    vor der Pruefung committet, weil sonst Suchwoerter und Stichprobe
+    nach dem Ergebnis haetten gewaehlt werden koennen. Der Verfasser hat
+    130 Anforderungen verblindet geprueft, weil das Etikett des
+    Modells sein Urteil sonst haette lenken koennen.
+    Ergebnis: Der Verfasser bestaetigt 3 von 11 Markierungen des
+    Modells. Von den 8 verworfenen gehen 4 nur auf die neue
+    Definition zurueck. Uebersehen hat das Modell 1 Fall unter den
+    Suchtreffern und 0 in der Stichprobe. Beim Typ stimmen
+    64 von 85 ueberein; 18 der 21 Abweichungen liegen
+    zwischen Schnittstelle und funktional. Die 25 Dependabot-Beitraege
+    enthalten 0 Hinweise auf eine behobene Schwachstelle.
+    Der Text in 4.2 ist geschrieben und Tabelle 2.1 an G4 angepasst,
+    weil Kapitel 2 Leistung sonst anders einordnete als Kapitel 4.
 
-Geschrieben sind Teile von Kapitel 2 (seit 04.10.2026 mit Abschnitt
-2.4), die Abschnitte 4.1, 4.2, 6.1 und 6.2 und Anhang A.
+Warum der naechste Schritt jetzt kommt: Als Naechstes kommt Schritt 8,
+die Gap-Analyse. Vorher legt eine Entscheidung (naechste freie Nummer
+G6) fest, wie die Belegstufen aus G1 den Kategorien der Gap-Analyse
+zugeordnet werden; das ist der letzte offene Platzhalter in 4.2. Sie
+kommt vor jeder Zuordnung, weil sonst die Kategorien nach dem Ergebnis
+gewaehlt werden koennten. Parallel beginnt Paket H mit der
+Kriterienliste v1, weil die Bewertung nach E2 dieselbe Stichprobe
+nutzt und nicht laenger warten kann. Danach folgt in Kapitel 6 der
+Abschnitt zur Pruefung der Klassifikation (sec:eval-klassifikation),
+dessen Feingliederung der Verfasser am 05.10.2026 freigegeben hat.
+
+Geschrieben sind Teile von Kapitel 2 (mit Abschnitt 2.4), die
+Abschnitte 4.1, 4.2 (seit 05.10.2026 mit Klassifikationsschema und
+Pruefplan), 6.1 und 6.2 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve. Groesstes Risiko: Paket G ist am 04.10.2026 nicht
-abgeschlossen; die Schritte 4 bis 9 ueberschneiden sich mit Paket H
-(Bewertung Mo 05. und Di 06.10.).
+Reserve ausser dem 14.10. Groesstes Risiko: Bewertung (Paket H) und
+Gap-Analyse fallen auf Di 06. und Mi 07.10.; die Kapitel 1, 3, 5, 7
+und 8 sind noch nicht geschrieben.
 
 
 ## Zusammenarbeit im Chat
@@ -421,7 +449,12 @@ oder indirect. G2 = Entscheidung Ausschnitt des Sicherheitsrasters
 fuer FF4: Option C, am 04.10.2026 freigegeben, Text in
 docs/entscheidungen.md. G3 = Entscheidung vom 02.10.2026, die
 Kategorie "nachweislich fehlende Sicherheitsfunktion" zu streichen.
-G4 ff. = weitere Entscheidungen von Paket G.
+G4 = Entscheidung Klassifikationsschema vom 05.10.2026: Variante
+normnah (vier Arten: funktional, nicht-funktional, Schnittstelle,
+Prozess) und endgueltige Definition von security_relevant. G5 =
+Entscheidung Pruefplan fuer die Klassifikation und die
+Dependabot-Sichtung vom 05.10.2026. G6 ff. = weitere Entscheidungen
+von Paket G.
 SR01 bis SR29 = Eintraege des Sicherheitsrasters nach G2; SR01
 bis SR09 aus 29148, SR10 bis SR29 aus TR-03185 Abschn. 2.3.
 Option A bis D = Optionen fuer den Ausschnitt des Rasters vom
@@ -439,6 +472,23 @@ Ae1 bis Ae3 = drei Aenderungen am Entwurf G2 vom 04.10.2026: Ae1
 Regel 2 (Verweis auf die Common Criteria nur, soweit erkennbar), Ae2
 Spalte Stufe (Modalverb der TR-03185), Ae3 Einstufung von SR07 und
 SR08 als Einordnung des Verfassers gekennzeichnet.
+Variante normnah und Variante zweigeteilt = die zwei Moeglichkeiten
+in G4, die Typwerte interface und process einzuordnen: als eigene
+Arten (gewaehlt) oder zu funktional bzw. nicht-funktional (verworfen).
+Zweck 1 bis 3 = die drei Zwecke der Definition von security_relevant
+in G4: 1 Schutz vor Zugriff, Gebrauch, Veraenderung, Zerstoerung oder
+Offenlegung; 2 nicht vertrauenswuerdige Eingaben; 3 Schwachstellen.
+Abweichung 1 bis 4 = die vier Unterschiede der endgueltigen zur
+vorlaeufigen Definition in G4: 1 zufaellige Einwirkung und
+Offenlegung, 2 Repository und Pakete, 3 Ausfall nur ueber Zweck 2,
+4 genauere Fassung der Eingaben. Nicht zu verwechseln mit Ae1 bis Ae3.
+GF1 bis GF7 = die sieben Grenzfallregeln zum Sicherheitsbezug in G4.
+TY1 bis TY4 = die vier Typregeln in G4. Beide stehen in der
+Antwortdatei der Pruefung und in
+eval/instrument/anleitung_klassifikation_g5.md.
+Menge markiert, Menge Suchtreffer, Menge Stichprobe = die drei
+Pruefmengen nach G5; bewusst ohne Buchstaben, weil S1 bis S6 und M1
+bis M6 schon belegt sind.
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
@@ -735,9 +785,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-414 Tests, ausfuehren aus der Projektwurzel:
+451 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 02.10.2026 (414 passed) unter Python 3.14.7,
+Zuletzt gruen am 05.10.2026 (451 passed) unter Python 3.14.7,
 abgelesen vom Aktualisierungsskript.
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
@@ -762,7 +812,10 @@ Art), test_cost_report.py (18 Tests, Abschnitt 6.3 aus dem
 Manifest), test_add_links.py (18 Tests, Links je Beleg),
 test_count_requirements.py (22 Tests, Zaehlprogramm nach F3 und G1
 seit 01.10.2026, geprueft gegen 16 absichtlich eingebaute Fehler,
-setzt seinen Importpfad selbst). Die
+setzt seinen Importpfad selbst),
+test_check_classification.py (37 Tests, Pruefprogramm der
+Klassifikation nach G4 und G5 seit 05.10.2026, geprueft gegen 22
+absichtlich eingebaute Fehler, setzt seinen Importpfad selbst). Die
 beiden neuen Dateien vom 21. und 22.09.2026, test_diagnose_excerpts.py
 und die vier Dateien vom 28.09.2026 setzen ihren Importpfad selbst.
 Die vier Dateien vom 28.09.2026 wurden in der Umgebung von Claude
@@ -1084,6 +1137,26 @@ und ohne undefinierte Verweise, ohne zu hohe Tabelle, mit
 14 Overfull hboxen; die einzige im neuen Bereich ist die
 schon vorher vorhandene Ueberschrift von Abschnitt 2.4.
 
+Paket G, Schritte 4 bis 7 und Schreiben am 05.10.2026: G4
+(Klassifikationsschema) und G5 (Pruefplan) freigegeben und vor der
+Pruefung committet (5e0070f). Programm src/classify/check_classification.py
+und Stichprobe docs/sample_eval_e2.md (Startwert 20261005, gemeinsam
+mit E2) in ff094b5, bevor das Programm lief. Verblindete Pruefung von Hand
+durch den Verfasser; Ergebnisse in
+experiments/classification_check_2026-10-06.json und
+experiments/dependabot_check_2026-10-06.json, Arbeitsanleitung in
+eval/instrument/anleitung_klassifikation_g5.md, Text in 4.2 und
+Tabelle 2.1 in 62fd299. Pruefbogen und Antworten liegen nur lokal unter
+eval/responses/classification_check_2026-10-06/, weil sie Inhalte der
+Pull Requests enthalten. Die Uebersetzung laeuft ohne Fehler und ohne
+undefinierte Verweise, mit 14 Overfull hboxen, keine davon im neuen
+Text. Der Verfasser hat den Text von 4.2 von Hand eingefuegt; Claude
+hat ihn maschinell verglichen: identisch bis auf eine fehlende
+Leerzeile vor subsec:belegbegriff-ff4, ohne Wirkung auf das PDF. Nach
+der Freigabe von G5 hat Claude Punkt 4 an draw_sample.py angepasst
+(Auffuellen nach S1), weil das Programm so zieht; mit dem Commit vom
+Verfasser bestaetigt.
+
 Arbeitsplan Paket G (Phasenstart 01.10.2026, Reihenfolge vom
 Verfasser freigegeben):
 1. Grundzahlen zaehlen - erledigt.
@@ -1100,19 +1173,30 @@ Verfasser freigegeben):
    diese Dreiteilung verlangt (Wunsch des Verfassers vom 01.10.2026:
    Claude macht die belegte Zuordnung); endgueltige Definition von
    security_relevant am Raster; Regeln und Grenzfaelle.
+   Erledigt am 05.10.2026: G4, Variante normnah.
 5. Pruefplan fuer die Klassifikation, vor der Durchfuehrung
    committet: alle als sicherheitsrelevant markierten Anforderungen
    von Hand, dazu eine Suche nach uebersehenen Faellen, etwa mit
-   Suchwoertern aus dem Raster (offen); gemeinsame oder getrennte
-   Stichprobe mit der Evaluation nach E2 (offen).
+   Suchwoertern aus dem Raster; gemeinsame oder getrennte
+   Stichprobe mit der Evaluation nach E2. Erledigt am 05.10.2026:
+   G5 mit 47 Suchwoertern und gemeinsamer Stichprobe.
 6. Pruefung von Hand durch den Verfasser, nur Zahlen in den Chat.
-7. Dependabot-Sichtung nach E4 und D7; offen, ob alle 28 oder nur die
-   25 abgeschlossenen Beitraege.
+   Erledigt am 05.10.2026, verblindet.
+7. Dependabot-Sichtung nach E4 und D7. Erledigt am 05.10.2026: die
+   abgeschlossenen Beitraege (G5 Punkt 7), weil E4 offene Vorgaenge
+   ausschliesst.
 8. Gap-Analyse mit den vier Kategorien der Projektanweisung.
+   Offen; vorher Entscheidung G6 zur Zuordnung der Belegstufen.
 9. Zu jedem Teilergebnis ein Abschnitt in thesis.tex.
+   Stand 05.10.2026: 4.2 vollstaendig bis auf den Platzhalter zur
+   Zuordnung der Belegstufen; sec:eval-klassifikation in Kapitel 6
+   offen, Feingliederung freigegeben.
 Verschoben (Verfasser einverstanden am 01.10.2026): Kriterienliste v1
 auf Mo 05.10.2026 vor der ersten Bewertung, wie E2 es erlaubt;
 Literatursuche Phase 2 und Kapitel 5 aus W9 heraus.
+Am 05.10.2026 erneut verschoben: Kriterienliste v1 auf Di 06.10.2026,
+weil Paket G Schritte 4 bis 7 den Tag brauchten (Zeitplan vom
+Verfasser am 05.10.2026 freigegeben).
 
 G2 (Ausschnitt des Sicherheitsrasters) steht seit 04.10.2026 mit
 Aufnahmeregel und Raster SR01 bis SR29 in docs/entscheidungen.md.
@@ -1134,17 +1218,25 @@ Vorgemerkt fuer die Lueckenpruefung (3a): thesis.tex Z. 1456 bis 1457
 sagt, das Qrisp-Team entscheide in Kapitel 6. Nach E2 (Form der
 Evaluation) bewertet das Team erst nach der Abgabe.
 
+Ebenfalls vorgemerkt (05.10.2026, Befund aus Paket G Teil 4):
+Abschnitt 2.1.7 in thesis.tex (Text nach Tabelle 2.1) und die
+Literaturmatrix L07 (Spalte Nutzen) sagen, die Inhaltsbloecke aus
+29148 Abschn. 9.6 lieferten die Unterscheidung funktional /
+nicht-funktional ohne eigene Setzung. Nach G4 ordnet die Norm nur zwei
+der sechs Typwerte ausdruecklich zu.
+
 Naechste Schritte in dieser Reihenfolge:
-1. Paket G Teil 4 im neuen Chat ab Mo 05.10.2026: Schritt 4
-   (Klassifikationsschema mit belegter Zuordnung der sechs Typwerte,
-   endgueltige Definition von security_relevant am Raster), dann
-   Schritt 5 (Pruefplan, vor der Pruefung committet), dann die
-   Schritte 6 bis 9. Offen: Dependabot alle 28 oder nur die 25
-   abgeschlossenen Beitraege; gemeinsame oder getrennte Stichprobe mit
-   E2; Zeitplan zwischen Paket G und Paket H. Vor jedem Vorschlag
-   prueft Claude STATUS.md und docs/entscheidungen.md auf bestehende
-   Regeln.
-2. Paket H: Bewertung, dazu die Zaehlung von M1 (Teil b im
+1. Paket G Teil 5 im neuen Chat: zuerst G6 (Zuordnung der
+   Belegstufen aus G1 zu den Kategorien der Gap-Analyse, vor jeder
+   Zuordnung committet), dann Schritt 8 (Gap-Analyse an den 27
+   relevanten Eintraegen, SR01 bis SR29 ohne SR07 und SR08), dann in
+   Kapitel 6 die Abschnitte zur Pruefung der Klassifikation
+   (sec:eval-klassifikation, Feingliederung freigegeben am 05.10.2026)
+   und zur Gap-Analyse. Vor jedem Vorschlag prueft Claude STATUS.md und
+   docs/entscheidungen.md auf bestehende Regeln.
+2. Paket H: zuerst Kriterienliste v1, dann Bewertung an der
+   Stichprobe docs/sample_eval_e2.md (gezogen am 05.10.2026 nach G5),
+   dazu die Zaehlung von M1 (Teil b im
    Pilotlauf) und M3 nach F3. M2 ist am 01.10.2026 gezaehlt, beide
    Pruefpunkte aus F3 sind beantwortet (Nachtrag zu F3 vom
    01.10.2026). Offen ist dort nur Angabe (i), Punkt 4 des Nachtrags;
@@ -1316,6 +1408,16 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Sicherheitsfunktion" gestrichen, weil keine Code-, Test- oder
   Systempruefung zum Umfang gehoert. Schreibauftrag fuer 4.2 und
   Kapitel 7 in G3.
+- G4 (05.10.2026): Klassifikationsschema, Variante normnah, weil 29148
+  interface und process als eigene Arten fuehrt; endgueltige
+  Definition von security_relevant mit drei Zwecken, sieben
+  Grenzfallregeln und vier Typregeln; "oder" im Expose nicht
+  ausschliessend, weil der Sicherheitsbezug ein eigenes Merkmal ist.
+- G5 (05.10.2026): Pruefplan mit drei Mengen, 47 Suchwoertern,
+  Obergrenze 150 und verblindetem Pruefbogen; Stichprobe gemeinsam mit
+  E2 (Startwert 20261005), weil ein Lesedurchgang Zeit spart;
+  Dependabot nur die abgeschlossenen Beitraege, weil E4 offene
+  Vorgaenge ausschliesst.
 
 ## LaTeX-Konventionen
 
@@ -1636,32 +1738,31 @@ Technisch und redaktionell:
   ansehen.
 - tests/README.md nennt noch 373 Tests. Beim naechsten Code-Commit
   oder in Paket I auf den Stand der Testsuite nachziehen.
-- Platzhalter in thesis.tex, Stand 04.10.2026, vom
+- Platzhalter in thesis.tex, Stand 05.10.2026, vom
   Aktualisierungsskript aus den Zeilen mit \textbf{[ gelesen:
   Z. 20: Noch zu ergaenzen: Abgabedatum
   Z. 23: Noch zu ergaenzen: Korreferent
   Z. 29: Noch zu ergaenzen: Abstract. Wird zuletzt geschrieben, wenn ...
   Z. 39: Noch zu ergaenzen: Motivation, Problemstellung, Zielsetzung, ...
-  Z. 902: Zu pruefen: Primaerquelle Femmer et al.\ noch nicht gelesen; ...
-  Z. 909: Noch zu ergaenzen
-  Z. 1111: Noch zu ergaenzen: LLMs im Requirements Engineering, ...
-  Z. 1119: Noch zu ergaenzen: Architektur, Datenmodell, Prompt-Design, ...
-  Z. 1613: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
-  Z. 1719: Noch zu ergaenzen: Klassifikationsschema.
-  Z. 1734: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
-  Z. 1746: Noch zu ergaenzen: Verweis auf den ...
-  Z. 1753: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung ...
-  Z. 2012: Noch zu ergaenzen: Regel fuer die Zuordnung der ...
-  Z. 2059: Noch zu ergaenzen: GitHub-API, Aufbereitung, Extraktion, ...
-  Z. 2066: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
-  Z. 2158: Noch zu ergaenzen: Verweis auf den Abschnitt zur lokalen ...
-  Z. 2356: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
-  Z. 2433: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung ...
-  Z. 2441: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
-  Z. 2501: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
-  Z. 2552: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
-  Z. 2560: Noch zu ergaenzen
-- Overfull hboxen, Behebung am 12.10.: Stand 04.10.2026 14
+  Z. 903: Zu pruefen: Primaerquelle Femmer et al.\ noch nicht gelesen; ...
+  Z. 910: Noch zu ergaenzen
+  Z. 1112: Noch zu ergaenzen: LLMs im Requirements Engineering, ...
+  Z. 1120: Noch zu ergaenzen: Architektur, Datenmodell, Prompt-Design, ...
+  Z. 1614: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
+  Z. 1974: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
+  Z. 1986: Noch zu ergaenzen: Verweis auf den ...
+  Z. 1993: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung ...
+  Z. 2252: Noch zu ergaenzen: Regel fuer die Zuordnung der ...
+  Z. 2299: Noch zu ergaenzen: GitHub-API, Aufbereitung, Extraktion, ...
+  Z. 2306: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
+  Z. 2398: Noch zu ergaenzen: Verweis auf den Abschnitt zur lokalen ...
+  Z. 2596: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 2673: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung ...
+  Z. 2681: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
+  Z. 2741: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 2792: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
+  Z. 2800: Noch zu ergaenzen
+- Overfull hboxen, Behebung am 12.10.: Stand 05.10.2026 14
   Stueck, vom Aktualisierungsskript aus thesis/thesis.log gezaehlt.
   Die Liste mit Zeilennummern gibt nach einer Uebersetzung
   grep "Overfull" thesis/thesis.log aus. Zeilennummern stehen hier
@@ -1670,6 +1771,12 @@ Technisch und redaktionell:
   Ueberschrift wuerde sie beheben.
 - Schreibauftrag aus G3 fuer Kapitel 7 steht aus (4.2 erledigt am
   04.10.2026).
+- Grenzen aus G4 und G5 fuer Kapitel 7 (Listen am Ende von G4 und G5
+  in docs/entscheidungen.md), dazu die explorative Beobachtung, dass
+  18 der 21 Typabweichungen an der Grenze Schnittstelle /
+  funktional liegen.
+- Vermutung, nicht geprueft: Die Sicherheitswoerter in 22
+  Dependabot-Beitraegen stammen aus Standardtext.
 - CC:2022 Errata und Interpretationen Version 1.2 vom 15.10.2025
   (CC-Portal) nicht gelesen; in Kapitel 7 als Grenze nennen.
 - Abschnitte 2.4.3 und 4.2.3 sagen, fuer Qrisp liege kein
@@ -1869,6 +1976,10 @@ ead09fe tex: Abschnitt 6.2 ohne Overfull hboxen (Dateipfad mit path-Befehl aus d
 4c2a21e docs: G3 Kategorie nachweislich fehlende Sicherheitsfunktion gestrichen, mit Schreibauftrag; STATUS mit Entwurf G2 (Option C, Raster SR01 bis SR29), Rotem Faden, Kuerzeln und Uebergabe-Commit 4f302b3; Literaturmatrix L08 und L20; KI-Protokoll
 b6bfd91 docs: G2 Ausschnitt des Sicherheitsrasters fuer FF4 (Option C), Aufnahmeregel und Raster SR01 bis SR29 mit Stufe und CC-Bezug, vor jeder Zuordnung festgelegt; Offene Entscheidungen nachgezogen
 9e73b6c tex: Abschnitt 2.4 Common Criteria und BSI-orientierte Pruefungen (sec:cc-bsi) mit tab:tr03185-bereiche; Abschnitt 4.2 Unterabschnitte Raster (subsec:sicherheitsraster, tab:sicherheitsraster-produkt und -prozess) und Kategorien der Gap-Analyse (subsec:gap-kategorien) nach G2 und G3; bib: cc2022teil2, cc2022teil3, bsitr03185
+aee47f9 docs: Uebergabe Paket G Teil 3 (G2 freigegeben und committet, Abschnitte 2.4 und 4.2): STATUS mit Rotem Faden, Kuerzeln Ae1 bis Ae3, Commits von G2 und Text, Platzhalter und Overfull-Stand aus den Quellen gelesen, Seitenmasse der Vorlage; Literaturmatrix L08 und L20; KI-Protokoll
+5e0070f docs: G4 Klassifikationsschema (Variante normnah, endgueltige Definition von security_relevant mit drei Zwecken, sieben Grenzfallregeln und Messung am Raster G2) und G5 Pruefplan (drei Mengen, Suchwortliste, verblindeter Pruefbogen, Stichprobe gemeinsam mit E2, 25 Dependabot-Beitraege), vor jeder Pruefung festgelegt
+ff094b5 code: Pruefprogramm check_classification.py fuer die Klassifikation und die Dependabot-Sichtung nach G4 und G5 (verblindeter Pruefbogen, Pruefung von Antworten und Nachtrag, Sperre per Pruefsumme, nur Zahlen und Kennungen in der Ausgabe), 37 Tests, gegen 22 eingebaute Fehler geprueft; docs: Stichprobe sample_eval_e2.md fuer E2 und G5, Startwert 20261005
+62fd299 docs: Ergebnisse der Klassifikationspruefung nach G5 (experiments/classification_check_2026-10-06.json, 130 Eintraege aus 11 markierten, 39 Suchtreffern und 85 Stichprobenanforderungen) und der Dependabot-Sichtung (experiments/dependabot_check_2026-10-06.json, 25 Beitraege, 0 Hinweise), Arbeitsanleitung eval/instrument/anleitung_klassifikation_g5.md; tex: Abschnitt 4.2 mit Unterabschnitten Klassifikationsschema (subsec:klassifikationsschema, tab:typ-arten) und Pruefung der Klassifikation (subsec:pruefung-klassifikation) nach G4 und G5, Tabelle 2.1 an G4 angepasst
 
 ## Aufruf des Ziehungsskripts
 
@@ -1987,6 +2098,9 @@ W9 28.09.-04.10. Paket F: Laeufe des lokalen Modells an derselben
 W10 05.-11.10. Paket H: Bewertung nach Weg A Mo 05. und Di 06.10.,
               Auswertung Mi 07.10.
               Schreiben: Kapitel 6, Kapitel 3, Kapitel 7, 8 und 1
+              tatsaechlich Mo 05.10.: Paket G Schritte 4 bis 7 und
+              Abschnitt 4.2; Bewertung um einen Tag verschoben
+              (Di 06. und Mi 07.10.), Kriterienliste v1 Di 06.10.
 W11 12.-15.10. Mo 12.10. Korrekturdurchgang
               Di 13.10. Endkontrolle, interne Abgabe
               Mi 14.10. Puffer
@@ -2008,6 +2122,12 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
+
+Stand 05.10.2026, W10. Paket G, Schritte 4 bis 7 erledigt: G4, G5,
+Pruefung von Hand, Dependabot-Sichtung, Abschnitt 4.2. Offen in
+Paket G: G6, Schritt 8 und die Abschnitte in Kapitel 6. Paket H
+beginnt Di 06.10. mit der Kriterienliste v1. Bis zur internen Abgabe
+am 13.10.2026 verbleiben 8 Tage, bis zur Abgabe 10 Tage.
 
 Stand 02.10.2026, W9. Paket G, Schritte 0 und 1 erledigt: G1,
 Grundzahlen, Abschnitte 4.2 und 6.2. Offen in Paket G: Schritte 2 bis
