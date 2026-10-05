@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 02.10.2026
+Letzte Aktualisierung: 04.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -196,20 +196,37 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     keine Code-, Test- oder Systempruefung zum Umfang gehoert und es
     ohne Sicherheitsziele keinen Massstab fuer "fehlt" gibt.
 
-Warum der naechste Schritt jetzt kommt: Als Naechstes gibt der
-Verfasser den Entwurf G2 frei; dann kommen Regel und Raster in einem
-Commit nach docs/entscheidungen.md. Das muss vor Schritt 4 geschehen,
-weil die endgueltige Definition von "sicherheitsrelevant" am Raster
-geprueft wird, und vor Schritt 5, weil die Suchwoerter fuer
-uebersehene Faelle aus dem Raster kommen. Danach folgen Abschnitt 2.4
-und der Unterabschnitt Sicherheitsraster in 4.2, weil jedes
-Teilergebnis sofort geschrieben wird.
+15. Sicherheitsraster festgelegt und geschrieben (04.10.2026): Der
+    Verfasser hat G2 (die Entscheidung ueber den Ausschnitt der
+    Pruefliste) mit drei Aenderungen freigegeben. Ae1 aendert Regel 2,
+    weil sie jedem Eintrag einen Verweis auf die Common Criteria
+    versprach, sechs Eintraege aber keinen haben. Ae2 fuegt die Spalte
+    Stufe hinzu, weil so sichtbar wird, ob die BSI-Richtlinie etwas
+    verlangt, empfiehlt oder nur erlaubt. Ae3 kennzeichnet die
+    Einstufung von SR07 und SR08 als Einordnung, weil sie nicht am Code
+    geprueft ist. G2 wurde einzeln committet, weil der Commit belegt,
+    dass die Liste vor jeder Zuordnung feststand. Danach sind
+    Abschnitt 2.4 und zwei Unterabschnitte in 4.2 entstanden, weil
+    jedes Teilergebnis sofort geschrieben wird. Claude hat Teil 2 der
+    Common Criteria als PDF gelesen, weil Text und Literaturangabe eine
+    gepruefte Quelle brauchen. Die Pruefliste steht in zwei Tabellen,
+    weil sie als eine Tabelle hoeher als eine Seite war.
 
-Geschrieben sind Teile von Kapitel 2, die Abschnitte 4.1, 4.2, 6.1
-und 6.2 und Anhang A.
+Warum der naechste Schritt jetzt kommt: Als Naechstes kommt Schritt 4,
+das Klassifikationsschema. Es ordnet die sechs Typwerte mit Fundstellen
+aus 29148 den Klassen funktional und nicht-funktional zu und legt
+security_relevant endgueltig fest, gemessen am Raster aus G2. Es kommt
+jetzt, weil Schritt 5 (Pruefplan) und Schritt 6 (Pruefung von Hand)
+eine feste Definition brauchen und beide vor der Pruefung committet
+sein muessen. Paket G sollte am 04.10.2026 enden; die Schritte 4 bis 9
+ueberschneiden sich deshalb mit dem Beginn von Paket H.
+
+Geschrieben sind Teile von Kapitel 2 (seit 04.10.2026 mit Abschnitt
+2.4), die Abschnitte 4.1, 4.2, 6.1 und 6.2 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve. Groesstes Risiko ist der Umfang von Paket G bis So
-04.10.2026 neben Paket H.
+Reserve. Groesstes Risiko: Paket G ist am 04.10.2026 nicht
+abgeschlossen; die Schritte 4 bis 9 ueberschneiden sich mit Paket H
+(Bewertung Mo 05. und Di 06.10.).
 
 
 ## Zusammenarbeit im Chat
@@ -323,6 +340,10 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   (Wunsch des Verfassers, 30.09.2026).
 - Fragen an den Verfasser stellt Claude ohne doppelte Verneinung, weil
   die Antwort sonst mehrdeutig ist (Frage zu 09:03:52 am 30.09.2026).
+- Ersetzungsskript und Einfuegen von Hand werden nicht gemischt. Wer von
+  Hand einfuegt, fuehrt das Skript nicht mehr aus, weil es dann
+  abbricht. Claude vergleicht den Text danach maschinell mit dem
+  Entwurf (Befund 04.10.2026).
 
 ## Kuerzel
 
@@ -397,11 +418,11 @@ festgelegt in Teil 3 und Teil 3a desselben Nachtrags.
 G1 = Entscheidung Belegbegriff fuer die Gap-Analyse (FF4) vom
 01.10.2026: Belegstaerke nur aus gefundenen Belegen, belegt bei direct
 oder indirect. G2 = Entscheidung Ausschnitt des Sicherheitsrasters
-fuer FF4; Entwurf vom 02.10.2026 mit Option C im Abschnitt Aktuell,
-noch nicht freigegeben. G3 = Entscheidung vom 02.10.2026, die
+fuer FF4: Option C, am 04.10.2026 freigegeben, Text in
+docs/entscheidungen.md. G3 = Entscheidung vom 02.10.2026, die
 Kategorie "nachweislich fehlende Sicherheitsfunktion" zu streichen.
 G4 ff. = weitere Entscheidungen von Paket G.
-SR01 bis SR29 = Eintraege des Sicherheitsrasters im Entwurf G2; SR01
+SR01 bis SR29 = Eintraege des Sicherheitsrasters nach G2; SR01
 bis SR09 aus 29148, SR10 bis SR29 aus TR-03185 Abschn. 2.3.
 Option A bis D = Optionen fuer den Ausschnitt des Rasters vom
 02.10.2026: A Produktsicht, B Lebenszyklussicht, C Kombination
@@ -414,6 +435,10 @@ in Teil 3.
 Schritte 1 bis 9 von Paket G = Arbeitsplan aus dem Phasenstart vom
 01.10.2026, siehe Abschnitt Aktuell. Nicht zu verwechseln mit den
 Teilschritten 1 bis 12 von A8.
+Ae1 bis Ae3 = drei Aenderungen am Entwurf G2 vom 04.10.2026: Ae1
+Regel 2 (Verweis auf die Common Criteria nur, soweit erkennbar), Ae2
+Spalte Stufe (Modalverb der TR-03185), Ae3 Einstufung von SR07 und
+SR08 als Einordnung des Verfassers gekennzeichnet.
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
@@ -1044,13 +1069,29 @@ F3 beantwortet (Nachtrag zu F3 vom 01.10.2026). Abschnitt 4.2
 Uebersetzung laeuft ohne Fehler und ohne undefinierte Verweise, mit
 14 Overfull hboxen, keine davon im neuen Text.
 
+Paket G, Schritt 2 und Schreiben am 04.10.2026: G2 mit Ae1 bis Ae3
+freigegeben und einzeln nach docs/entscheidungen.md committet, bevor
+eine Anforderung dem Raster zugeordnet wurde. Abschnitt 2.4
+(sec:cc-bsi) und in 4.2 die Unterabschnitte subsec:sicherheitsraster
+und subsec:gap-kategorien stehen in thesis/thesis.tex. Damit ist der
+Schreibauftrag aus G3 fuer 4.2 erledigt; der Teil fuer Kapitel 7
+steht aus. Die Pruefliste steht in zwei Tabellen, weil sie als eine
+Tabelle hoeher als die Seite war. Der Verfasser hat den Text von Hand
+eingefuegt; Claude hat ihn danach maschinell mit dem Entwurf
+verglichen, er ist identisch, ausser der vom Verfasser selbst
+formulierten Einleitung von 4.2. Die Uebersetzung laeuft ohne Fehler
+und ohne undefinierte Verweise, ohne zu hohe Tabelle, mit
+14 Overfull hboxen; die einzige im neuen Bereich ist die
+schon vorher vorhandene Ueberschrift von Abschnitt 2.4.
+
 Arbeitsplan Paket G (Phasenstart 01.10.2026, Reihenfolge vom
 Verfasser freigegeben):
 1. Grundzahlen zaehlen - erledigt.
 2. Sicherheitsraster: Common Criteria CC:2022 Teil 2 und 3, BSI
    TR-03185 und 29148 Abschn. 9.6 lesen, Ausschnitt festlegen und
    begruenden (naechste freie Nummer G2). Gelesen und Option C
-   gewaehlt am 02.10.2026; Entwurf G2 unten, Freigabe offen.
+   gewaehlt am 02.10.2026. Erledigt am 04.10.2026: G2 freigegeben
+   und committet, Abschnitte 2.4 und 4.2 geschrieben.
 3. Kategorie "nachweislich fehlende Sicherheitsfunktion" beibehalten
    oder streichen; Pflichtentscheidung nach der Projektanweisung.
    Erledigt am 02.10.2026: gestrichen, siehe G3, mit Schreibauftrag.
@@ -1073,66 +1114,9 @@ Verschoben (Verfasser einverstanden am 01.10.2026): Kriterienliste v1
 auf Mo 05.10.2026 vor der ersten Bewertung, wie E2 es erlaubt;
 Literatursuche Phase 2 und Kapitel 5 aus W9 heraus.
 
-Entwurf G2, Ausschnitt des Sicherheitsrasters (02.10.2026, vom
-Verfasser noch nicht freigegeben). Option C ist gewaehlt. Der
-Verfasser verlangt, dass die Arbeit die Wahl gegenueber A und B
-ausfuehrlich begruendet, und nur so viel Aufwand wie noetig. Regel
-und Raster kommen nach der Freigabe zusammen in einem Commit nach
-docs/entscheidungen.md.
-
-Aufnahmeregel (Entwurf):
-1. Fester Quellpool: 29148 Abschn. 9.6.15 e und f, 9.6.17 d und
-   9.6.18 c 1 bis 6 (9 Eintraege) sowie alle 20 Anforderungen aus
-   TR-03185 Abschn. 2.3 (Teil fuer Open-Source-Software). Keine
-   weiteren Quellen. Teil 1 der TR nicht, weil Abschn. 2.1 sagt, dass
-   ein Lebenszyklus fuer proprietaere Software auf Open Source nicht
-   passt.
-2. Common Criteria nur als Ordnungsrahmen: Jeder Eintrag erhaelt
-   einen Verweis auf eine Klasse von Teil 2 oder eine Familie von
-   Teil 3. Der Verweis beeinflusst keine Kategorie, weil
-   Sicherheitsfunktionen Sicherheitszielen aus Schutzprofil oder
-   Sicherheitsvorgabe dienen (Teil 2, Einleitung) und Qrisp keine
-   hat.
-3. "Nicht relevant" nur vorab und nur bei klarer Lage, wenn der
-   Eintrag etwas voraussetzt, das eine Bibliothek ohne eigenen
-   Betrieb nicht hat. Im Zweifel relevant, weil die Kategorie einen
-   Eintrag aus der Lueckenbetrachtung nimmt.
-Rueckfall auf Option A, falls kein TR-Eintrag die Regel erfuellt:
-greift nicht, alle 20 bleiben. Aufwand in Schritt 8: 27 Eintraege
-statt 7 bei Option A.
-
-Raster (Inhalt / CC-Bezug / Relevanz). Der CC-Bezug beruht bei Teil 3
-auf den gelesenen Zielen der Familien, bei Teil 2 nur auf den
-Familiennamen im Inhaltsverzeichnis:
-- SR01 29148 9.6.18 c 1: kryptografische Verfahren / T2 FCS / relevant
-- SR02 29148 9.6.18 c 2: Protokoll- oder Verlaufsdaten fuehren / T2 FAU / relevant
-- SR03 29148 9.6.18 c 3: Funktionen bestimmten Modulen zuweisen / keine eindeutige / relevant
-- SR04 29148 9.6.18 c 4: Kommunikation zwischen Programmteilen begrenzen / T2 FDP_IFC/FDP_IFF / relevant
-- SR05 29148 9.6.18 c 5: Integritaet kritischer Variablen pruefen / T2 FDP_SDI / relevant
-- SR06 29148 9.6.18 c 6: Datenschutz sicherstellen / T2 FPR / relevant
-- SR07 29148 9.6.15 e: Integritaetsbedingungen einer Datenbank / T2 FDP_SDI / nicht relevant: keine Datenbank (Abschn. 2.1.7, L07)
-- SR08 29148 9.6.15 f: Sicherheit einer Datenbank / T2 FDP / nicht relevant: keine Datenbank (Abschn. 2.1.7, L07)
-- SR09 29148 9.6.17 d: Verarbeitungsschritte nachverfolgen / T2 FAU / relevant
-- SR10 TR GV.01: Beitragsregeln dokumentieren / T3 ALC_LCD / relevant
-- SR11 TR GV.02: Repository vor unbefugten Handlungen schuetzen / T3 ALC_CMC, ALC_DVS / relevant
-- SR12 TR LE.01: Lizenz fuer alle Inhalte angeben / keine / relevant
-- SR13 TR LE.02: Lizenztexte bereitstellen / keine / relevant
-- SR14 TR QA.01: Liste der Fremdkomponenten / T3 ALC_CMS / relevant
-- SR15 TR QA.02: Quelltext oeffentlich lesbar / keine / relevant
-- SR16 TR QA.03: Melden von Fehlern beschreiben / T3 ALC_FLR / relevant
-- SR17 TR QA.04: Testverfahren einrichten und nutzen / T3 Klasse ATE / relevant
-- SR18 TR QA.05: Speichersicherheitsfehler vermeiden (SHOULD) / T3 ALC_TAT / relevant
-- SR19 TR QA.06: Aenderungen begutachten lassen (SHOULD) / T3 ALC_CMC / relevant
-- SR20 TR BR.01: Bauanleitung oeffentlich / T3 ALC_TAT / relevant
-- SR21 TR BR.02: eindeutige, steigende Versionsnummern / T3 ALC_CMC / relevant
-- SR22 TR BR.03: Integritaet bei der Verteilung / T3 ALC_DEL / relevant
-- SR23 TR BR.04: Aenderungsprotokoll je Veroeffentlichung / T3 ALC_CMC, ALC_FLR / relevant
-- SR24 TR BR.05: Pakete enthalten nur Inhalte aus dem Repository / T3 ALC_TDA / relevant
-- SR25 TR BR.06: reproduzierbare Builds (SHOULD) / T3 ALC_TDA / relevant
-- SR26 TR VM.01: Sicherheitskontakt angeben / T3 ALC_FLR / relevant
-- SR27 TR VM.02: bekannte Schwachstellen veroeffentlichen / T3 ALC_FLR / relevant
-- SR28 TR DE.01: Einstellung mitteilen (SHOULD) / keine / relevant
-- SR29 TR DE.02: Migrationswege (MAY) / keine / relevant
+G2 (Ausschnitt des Sicherheitsrasters) steht seit 04.10.2026 mit
+Aufnahmeregel und Raster SR01 bis SR29 in docs/entscheidungen.md.
+Der Entwurf steht hier nicht mehr, weil es sonst zwei Fassungen gaebe.
 
 Quellen von Paket G Teil 2 (unter literatur/pdf/, nicht versioniert,
 Pruefsummen vom Skript aus den Dateien gelesen):
@@ -1140,21 +1124,26 @@ Pruefsummen vom Skript aus den Dateien gelesen):
   199c87754dec3eab884c18da6c3f6030e6fa7ced282f06e87fed7fe7841e8329
 - CC2022PART3R1.pdf, CC:2022 Teil 3 Revision 1, SHA-256
   96d471dec3b1d79da2429dd71cbde379b31d6d866be8ae3e5b2b081d6846a5b8
-- CC:2022 Teil 2 Revision 1 nur online auf dem CC-Portal gelesen
-  (Inhaltsverzeichnis, Einleitung, Abschn. 1 bis 6).
+- CC2022PART2R1.pdf, CC:2022 Teil 2 Revision 1, SHA-256
+  16c853ad1ccf6eb10120726b15fe9ecfa95ac381f85d8edb84c12b0d0ecf1b01
+  am 04.10.2026 vom CC-Portal geladen (Adresse in thesis.bib,
+  cc2022teil2). Gelesen am 04.10.2026: Vorwort, Einleitung, Abschn. 1,
+  6 und 7.1.1; frueher online: Inhaltsverzeichnis, Abschn. 1 bis 6.
 
 Vorgemerkt fuer die Lueckenpruefung (3a): thesis.tex Z. 1456 bis 1457
 sagt, das Qrisp-Team entscheide in Kapitel 6. Nach E2 (Form der
 Evaluation) bewertet das Team erst nach der Abgabe.
 
 Naechste Schritte in dieser Reihenfolge:
-1. Paket G im neuen Chat ab Fr 02.10.2026, bis So 04.10.2026: zuerst
-   Freigabe des Entwurfs G2 durch den Verfasser, dann G2 nach
-   docs/entscheidungen.md (Regel und Raster in einem Commit). Danach
-   Abschnitt 2.4 (sec:cc-bsi) und Unterabschnitt Sicherheitsraster in
-   4.2 mit dem Schreibauftrag aus G3, dann die Schritte 4 bis 9 des
-   Arbeitsplans. Vor jedem Vorschlag prueft Claude STATUS.md und
-   docs/entscheidungen.md auf bestehende Regeln.
+1. Paket G Teil 4 im neuen Chat ab Mo 05.10.2026: Schritt 4
+   (Klassifikationsschema mit belegter Zuordnung der sechs Typwerte,
+   endgueltige Definition von security_relevant am Raster), dann
+   Schritt 5 (Pruefplan, vor der Pruefung committet), dann die
+   Schritte 6 bis 9. Offen: Dependabot alle 28 oder nur die 25
+   abgeschlossenen Beitraege; gemeinsame oder getrennte Stichprobe mit
+   E2; Zeitplan zwischen Paket G und Paket H. Vor jedem Vorschlag
+   prueft Claude STATUS.md und docs/entscheidungen.md auf bestehende
+   Regeln.
 2. Paket H: Bewertung, dazu die Zaehlung von M1 (Teil b im
    Pilotlauf) und M3 nach F3. M2 ist am 01.10.2026 gezaehlt, beide
    Pruefpunkte aus F3 sind beantwortet (Nachtrag zu F3 vom
@@ -1321,7 +1310,8 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   weil bei diesem Widerspruch thesis.tex gilt (Wunsch des Verfassers).
 - Option C fuer den Ausschnitt des Sicherheitsrasters (02.10.2026):
   Eintraege aus 29148 und TR-03185 Teil 2, Common Criteria als
-  Ordnungsrahmen. Der Entwurf G2 ist noch nicht freigegeben.
+  Ordnungsrahmen. Als G2 am 04.10.2026 mit Ae1 bis Ae3 freigegeben
+  und committet.
 - G3 (02.10.2026): Kategorie "nachweislich fehlende
   Sicherheitsfunktion" gestrichen, weil keine Code-, Test- oder
   Systempruefung zum Umfang gehoert. Schreibauftrag fuer 4.2 und
@@ -1360,6 +1350,17 @@ subsec:grundzahlen-daten · subsec:grundzahlen-typen ·
 subsec:grundzahlen-belege · tab:typverteilung · tab:belegstatus
 Lange Dateinamen im Fliesstext mit \path{...} aus dem Paket url, weil
 \texttt{...} nicht umbricht (02.10.2026).
+Abschnitt 2.4 (seit 04.10.2026): sec:cc-bsi · subsec:common-criteria ·
+subsec:tr03185 · subsec:cc-bsi-einordnung · tab:tr03185-bereiche
+Abschnitt 4.2, neu seit 04.10.2026: subsec:sicherheitsraster ·
+tab:sicherheitsraster-produkt · tab:sicherheitsraster-prozess ·
+subsec:gap-kategorien
+BibTeX-Schluessel seit 04.10.2026 in thesis.bib: cc2022teil2,
+cc2022teil3, bsitr03185.
+Seitenmasse laut thesis/preamble.tex: Textbreite 14 cm, Texthoehe
+22 cm, Zeilenabstand 1,15. Tabellen prueft Claude in einem Nachbau mit
+preamble.tex und hyphenations.tex, weil eine Ersatzumgebung eine zu
+hohe Tabelle nicht erkannt hat (Befund 04.10.2026).
 
 Tabellenspalten in Markdown-Dateien:
 suchprotokoll.md: | Datum | Portal | Suchstring | Filter | Treffer |
@@ -1635,39 +1636,49 @@ Technisch und redaktionell:
   ansehen.
 - tests/README.md nennt noch 373 Tests. Beim naechsten Code-Commit
   oder in Paket I auf den Stand der Testsuite nachziehen.
-- Platzhalter in thesis.tex, Stand 02.10.2026, vom
+- Platzhalter in thesis.tex, Stand 04.10.2026, vom
   Aktualisierungsskript aus den Zeilen mit \textbf{[ gelesen:
   Z. 20: Noch zu ergaenzen: Abgabedatum
   Z. 23: Noch zu ergaenzen: Korreferent
-  Z. 29: Noch zu ergaenzen: Abstract. Wird zuletzt geschrieben, wenn die ...
+  Z. 29: Noch zu ergaenzen: Abstract. Wird zuletzt geschrieben, wenn ...
   Z. 39: Noch zu ergaenzen: Motivation, Problemstellung, Zielsetzung, ...
   Z. 902: Zu pruefen: Primaerquelle Femmer et al.\ noch nicht gelesen; ...
   Z. 909: Noch zu ergaenzen
-  Z. 914: Noch zu ergaenzen
-  Z. 920: Noch zu ergaenzen: LLMs im Requirements Engineering, ...
-  Z. 928: Noch zu ergaenzen: Architektur, Datenmodell, Prompt-Design, ...
-  Z. 1422: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
-  Z. 1527: Noch zu ergaenzen: Klassifikationsschema, Sicherheitsraster ...
-  Z. 1544: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
-  Z. 1556: Noch zu ergaenzen: Verweis auf den ...
-  Z. 1563: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung der ...
-  Z. 1599: Noch zu ergaenzen: GitHub-API, Aufbereitung, Extraktion, ...
-  Z. 1606: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
-  Z. 1698: Noch zu ergaenzen: Verweis auf den Abschnitt zur lokalen ...
-  Z. 1896: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
-  Z. 1973: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung der ...
-  Z. 1981: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
-  Z. 2041: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
-  Z. 2092: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
-  Z. 2100: Noch zu ergaenzen
-  Die Eintraege Z. 443 (SATZ UEBERARBEITEN) und Z. 508 (Verweis
-  auf die Entscheidungsmatrix) der alten Liste kommen darin nicht
-  mehr vor; vermutlich frueher erledigt, nicht geprueft.
-- Overfull hboxen, Behebung am 12.10.: Stand 02.10.2026 14
+  Z. 1111: Noch zu ergaenzen: LLMs im Requirements Engineering, ...
+  Z. 1119: Noch zu ergaenzen: Architektur, Datenmodell, Prompt-Design, ...
+  Z. 1613: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
+  Z. 1719: Noch zu ergaenzen: Klassifikationsschema.
+  Z. 1734: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
+  Z. 1746: Noch zu ergaenzen: Verweis auf den ...
+  Z. 1753: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung ...
+  Z. 2012: Noch zu ergaenzen: Regel fuer die Zuordnung der ...
+  Z. 2059: Noch zu ergaenzen: GitHub-API, Aufbereitung, Extraktion, ...
+  Z. 2066: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
+  Z. 2158: Noch zu ergaenzen: Verweis auf den Abschnitt zur lokalen ...
+  Z. 2356: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 2433: Noch zu ergaenzen: Verweis auf den Abschnitt zur Pruefung ...
+  Z. 2441: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
+  Z. 2501: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 2552: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
+  Z. 2560: Noch zu ergaenzen
+- Overfull hboxen, Behebung am 12.10.: Stand 04.10.2026 14
   Stueck, vom Aktualisierungsskript aus thesis/thesis.log gezaehlt.
   Die Liste mit Zeilennummern gibt nach einer Uebersetzung
   grep "Overfull" thesis/thesis.log aus. Zeilennummern stehen hier
   nicht mehr, weil sie sich mit jedem neuen Abschnitt verschieben.
+  Darunter die Ueberschrift von Abschnitt 2.4; eine kuerzere
+  Ueberschrift wuerde sie beheben.
+- Schreibauftrag aus G3 fuer Kapitel 7 steht aus (4.2 erledigt am
+  04.10.2026).
+- CC:2022 Errata und Interpretationen Version 1.2 vom 15.10.2025
+  (CC-Portal) nicht gelesen; in Kapitel 7 als Grenze nennen.
+- Abschnitte 2.4.3 und 4.2.3 sagen, fuer Qrisp liege kein
+  Schutzprofil, keine Sicherheitsvorgabe und keine dokumentierte
+  Sammlung von Sicherheitsanforderungen vor. Das beruht auf Kenntnis
+  des Verfassers und ist nicht am Repository geprueft.
+- Die Beschreibung der Optionen A und B in 4.2.2 hat Claude aus
+  STATUS.md abgeleitet (Kuerzel und Rueckfallregel); der Verfasser hat
+  den Diff gelesen und nichts beanstandet.
 - Literaturverzeichnis beginnt ohne Seitenumbruch unter dem Fazit und
   fehlt im Inhaltsverzeichnis (Befund 10.09.2026). Eine Behebung
   aendert die Vorlagenstruktur und braucht Abstimmung; Paket I.
@@ -1855,6 +1866,9 @@ af23216 code: Zaehlprogramm count_requirements.py fuer Typ, Sicherheitsbezug und
 a0e211f tex: Abschnitt 6.2 Grundzahlen des Volllaufs (sec:eval-grundzahlen) mit Tabellen tab:typverteilung und tab:belegstatus, Zahlen aus experiments/requirement_counts_2026-09-25_full_v2.json, drei markierte Platzhalter
 ead09fe tex: Abschnitt 6.2 ohne Overfull hboxen (Dateipfad mit path-Befehl aus dem Paket url, Spaltenbreiten in tab:typverteilung); docs: ueberzaehlige Leerzeile vor Offene Entscheidungen entfernt
 4f302b3 docs: Uebergabe Paket G Teil 1 (Schritte 0 und 1): STATUS mit Rotem Faden, Kuerzel G1, Arbeitsplan Paket G, Commits Paket G, Testsuite, Platzhalter und Overfull-Stand aus den Quellen gelesen; KI-Protokoll
+4c2a21e docs: G3 Kategorie nachweislich fehlende Sicherheitsfunktion gestrichen, mit Schreibauftrag; STATUS mit Entwurf G2 (Option C, Raster SR01 bis SR29), Rotem Faden, Kuerzeln und Uebergabe-Commit 4f302b3; Literaturmatrix L08 und L20; KI-Protokoll
+b6bfd91 docs: G2 Ausschnitt des Sicherheitsrasters fuer FF4 (Option C), Aufnahmeregel und Raster SR01 bis SR29 mit Stufe und CC-Bezug, vor jeder Zuordnung festgelegt; Offene Entscheidungen nachgezogen
+9e73b6c tex: Abschnitt 2.4 Common Criteria und BSI-orientierte Pruefungen (sec:cc-bsi) mit tab:tr03185-bereiche; Abschnitt 4.2 Unterabschnitte Raster (subsec:sicherheitsraster, tab:sicherheitsraster-produkt und -prozess) und Kategorien der Gap-Analyse (subsec:gap-kategorien) nach G2 und G3; bib: cc2022teil2, cc2022teil3, bsitr03185
 
 ## Aufruf des Ziehungsskripts
 
@@ -1967,6 +1981,9 @@ W9 28.09.-04.10. Paket F: Laeufe des lokalen Modells an derselben
               Kriterienliste v1, Evaluationsstichprobe ziehen.
               Literatursuche Phase 2, verkleinert.
               Schreiben: Kapitel 5 Implementierung
+              tatsaechlich: Paket G Schritte 1 bis 3 und
+              Abschnitte 2.4 und 4.2 bis So 04.10.; Schritte 4 bis 9
+              offen.
 W10 05.-11.10. Paket H: Bewertung nach Weg A Mo 05. und Di 06.10.,
               Auswertung Mi 07.10.
               Schreiben: Kapitel 6, Kapitel 3, Kapitel 7, 8 und 1
