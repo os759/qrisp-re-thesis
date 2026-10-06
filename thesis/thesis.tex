@@ -2935,6 +2935,129 @@ bedeuten, insbesondere die geringe Zahl bestätigter Markierungen, und
 welche Grenzen die Prüfung durch eine einzelne Person hat, behandelt
 Kapitel~\ref{cha:diskussion}.
 
+\section{Ergebnis der Gap-Analyse}
+\label{sec:eval-gap}
+
+Die Gap-Analyse folgt dem Raster aus
+Abschnitt~\ref{subsec:sicherheitsraster} und der Regel aus
+Abschnitt~\ref{subsec:gap-kategorien}. Aus der Grundmenge von
+1\,467 Anforderungen ergaben die drei
+vorab festgelegten Teilmengen zusammen 286 Kandidaten:
+135 mit einem Suchwort in Satz oder
+Begründung, 70 mit einem Suchwort nur in
+den Belegen, 148 mit dem Typwert Prozess und
+12 mit Sicherheitsbezug; die Teilmengen überschneiden
+sich. Weil die Obergrenze überschritten war, wurde in beiden
+vorgesehenen Stufen gezogen, und der Verfasser ordnete
+200 Anforderungen verblindet zu. Die Gegenprobe umfasste
+21 Anforderungen in 2 Runden. Nach der Sperre der
+Zuordnung speicherte der Editor die Antwortdatei erneut, nach Angabe des
+Verfassers ohne inhaltliche Änderung. Die Zuordnung wurde daraufhin neu
+gesperrt; die aus ihr folgende Menge der Gegenprobe blieb unverändert.
+Die Zahlen stehen in \path{experiments/gap_analysis_2026-10-06.json}.
+
+Tabelle~\ref{tab:gap-summen} fasst die Kategorien zusammen. Von den
+7 relevanten Einträgen der Produktebene liegt keiner in
+der ersten oder zweiten Kategorie; keinem von ihnen entsprach eine der
+zugeordneten Anforderungen. Auf der Prozessebene liegen 2 Einträge
+in der ersten, 7 in der zweiten und 11 in der dritten
+Kategorie. Tabelle~\ref{tab:gap-belegt} nennt die Einträge der ersten
+beiden Kategorien; in der ersten liegen SR17 und SR29. Von den
+Prozesseinträgen der dritten Kategorie ist 1 nur
+mit unzureichend belegten Anforderungen verbunden, den übrigen
+10 entsprach keine Anforderung.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Einträge des Rasters je Kategorie der Gap-Analyse}
+  \label{tab:gap-summen}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.6cm}%
+                    >{\raggedleft\arraybackslash}p{1.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.4cm}@{}}
+    \toprule
+    & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} &
+    \textbf{Summe} \\
+    \midrule
+    Produkt (SR01 bis SR09) & 0 & 0 & 7 & 2 & 9 \\
+    Entwicklungsprozess (SR10 bis SR29) & 2 & 7 & 11 & 0 & 20 \\
+    \midrule
+    gesamt & 2 & 7 & 18 & 2 & 29 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Kategorien nach Abschnitt~\ref{subsec:gap-kategorien}, nach der
+  Gegenprobe. Quelle: \path{experiments/gap_analysis_2026-10-06.json}.
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Einträge der ersten und zweiten Kategorie}
+  \label{tab:gap-belegt}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.1cm}%
+                    >{\raggedright\arraybackslash}p{5.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.1cm}%
+                    >{\raggedleft\arraybackslash}p{1.7cm}%
+                    >{\raggedleft\arraybackslash}p{1.0cm}%
+                    >{\raggedleft\arraybackslash}p{1.4cm}@{}}
+    \toprule
+    \textbf{Nr.} & \textbf{Kurzform} & \textbf{Kat.} &
+    \textbf{ohne Gegen\-probe} & \textbf{ja} & \textbf{teil\-weise} \\
+    \midrule
+    SR10 & Beitragsregeln dokumentieren, erwartete Qualität angeben & 2 & 1 & 7 & 14 \\
+    SR11 & Repository, Webseiten und sensible Daten vor unbefugten Handlungen schützen & 2 & 2 & 0 & 1 \\
+    SR14 & Liste der Fremdkomponenten bereitstellen & 2 & 2 & 0 & 2 \\
+    SR16 & beschreiben, wie Fehler gemeldet werden & 2 & 1 & 2 & 0 \\
+    SR17 & Testverfahren einrichten und nutzen & 1 & 1 & 16 & 7 \\
+    SR20 & Bauanleitung für alle Bestandteile öffentlich machen & 2 & 2 & 0 & 2 \\
+    SR23 & je Veröffentlichung Änderungen an Funktion und Sicherheit protokollieren & 2 & 2 & 0 & 11 \\
+    SR28 & Einstellung des Projekts oder von Teilen mitteilen & 2 & 2 & 3 & 1 \\
+    SR29 & Migrationswege aufzeigen & 1 & 1 & 4 & 0 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  ja und teilweise: Zahl der belegten Zuordnungen (Belegstärke direkt
+  oder indirekt) nach der Gegenprobe. Quelle:
+  \path{experiments/gap_analysis_2026-10-06.json}.
+\end{table}
+
+In der Gegenprobe wertete der Verfasser 14 der
+21 geprüften Anforderungen als berichtend; bei
+1 trug kein gefundener Beleg die Systemreaktion.
+Ohne Gegenprobe lägen 4 statt 2 Einträge in der
+ersten Kategorie, zusätzlich SR10 und SR16. Die maßgeblichen
+Anforderungen dieser Einträge stützen sich auf Regeltexte, die
+Pull Request~533 als neue Entwicklungsrichtlinie einfügt und die mit
+\emph{must}, \emph{should} oder einer Aufforderung formuliert sind.
+Der Verfasser wertete sie als berichtend, weil sie als Diff vorlagen;
+maßgeblich wäre nach der Regel die Funktion des zitierten Satzes
+gewesen. Ursache war ein zu grober Arbeitshinweis zur Gegenprobe, nach
+dem Ausschnitte aus Diffs in der Regel berichtend seien. Berichtet wird
+das gesperrte Ergebnis; für SR10 und SR16 ist die zweite Kategorie als
+vorsichtige Einstufung zu lesen. Die dritte Kategorie ist von der
+Gegenprobe nicht berührt.
+
+Von den 4 Anforderungen, die der Verfasser bei der
+Prüfung der Klassifikation als sicherheitsrelevant beurteilt hat
+(Abschnitt~\ref{sec:eval-klassifikation}), entsprechen
+3 keinem Eintrag des Rasters.
+Diese explorative Beobachtung an wenigen Fällen deutet an, dass
+sicherheitsbezogene Inhalte der Historie teilweise außerhalb des
+gewählten Ausschnitts liegen.
+
+Die dritte Kategorie besagt nur, dass die untersuchte Historie für einen
+Eintrag keinen tragfähigen Beleg enthält; über die Erfüllung durch
+Qrisp sagt sie nichts aus (Abschnitt~\ref{subsec:gap-kategorien}).
+Die Deutung, insbesondere die vollständige Lücke auf der Produktebene
+und die Grenzen der Kandidatensuche, folgt in
+Kapitel~\ref{cha:diskussion}.
+
 \chapter{Diskussion}
 \label{cha:diskussion}
 

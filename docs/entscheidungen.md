@@ -3944,6 +3944,38 @@ Zaehlung per Programm, Suchwoerter unveraendert.
 Status: festgelegt.
 Bezug: FF4, FF1, Kapitel 4, 5, 6 und 7.
 
+### Nachtrag zu G6 (2026-10-06): Neusperre der Zuordnung und Arbeitshinweis zur Gegenprobe
+
+1. Neusperre. Nach dem Schritt compare hat der Editor (PyCharm)
+   eval/responses/gap_analysis_2026-10-06/answers.txt erneut gespeichert;
+   die Pruefsumme wich danach von der Sperre ab. Eine Kopie der
+   gesperrten Fassung fand sich nicht. Nach Angabe des Verfassers wurde
+   nichts inhaltlich geaendert. Die Zuordnung wurde mit einem Skript
+   ausserhalb des Repositorys neu gesperrt (20261006_185523); die
+   alte Sperre bleibt lokal als lock_superseded_20261006_185523.json erhalten.
+   Die aus der Zuordnung folgende Menge der Gegenprobe war vorher und
+   nachher identisch (19 Anforderungen in Runde 1).
+   Grund fuer die Neusperre statt einer neuen Zuordnung: Der Verfasser
+   kannte die Eintraege bereits; eine Wiederholung haette wenig gewonnen.
+2. Arbeitshinweis. Der Arbeitshinweis zur Gegenprobe (von Claude im
+   Chat) lautete, ein Ausschnitt aus einem Diff sei fast immer
+   berichtend. Das war zu grob: Fuegt ein Diff einen Regeltext ein, etwa
+   eine Entwicklungsrichtlinie mit must, should oder einer Aufforderung,
+   dann fordert der zitierte Satz etwas. Der Verfasser hat solche
+   Ausschnitte aus Pull Request 533 als berichtend gewertet, weil sie als
+   Diff vorlagen. Folge: SR10 und SR16 liegen nach der Gegenprobe in
+   Kategorie 2; ohne Gegenprobe laegen sie in Kategorie 1. Die
+   Gegenprobe wird nicht wiederholt, weil das Ergebnis bekannt ist und
+   die Gegenprobe nach Punkt 6 nur senken darf. Kapitel 6 berichtet
+   beide Zahlen. Praezisierung fuer kuenftige Pruefungen: Massgeblich
+   ist die Funktion des zitierten Satzes, nicht sein Fundort.
+3. Zahlen ohne Gegenprobe, berechnet mit gap_analysis.assess_entries
+   ohne Antworten der Gegenprobe: Kategorie 1: 4,
+   Kategorie 2: 5, Kategorie 3: 18.
+
+Status: festgelegt.
+Bezug: FF4, Kapitel 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
