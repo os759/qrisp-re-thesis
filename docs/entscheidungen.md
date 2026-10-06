@@ -3718,6 +3718,232 @@ von draw_sample.py angepasst und Programm und Ablageorte in Punkt 5 und
 Status: festgelegt.
 Bezug: FF1, FF4, Kapitel 4, 6 und 7.
 
+## 2026-10-06 Paket G: Gap-Analyse
+
+### 2026-10-06 G6 Kategorien der Gap-Analyse: Zuordnung der Belegstufen und Suche der Kandidaten
+
+Schritt 8 des Arbeitsplans von Paket G. Festgelegt vor jeder Suche nach
+Kandidaten und vor jeder Zuordnung einer rekonstruierten Anforderung zu
+einem Eintrag des Rasters aus G2. Bekannt waren die Grundzahlen in
+experiments/requirement_counts_2026-09-25_full_v2.json und die
+Ergebnisse von G5 in experiments/classification_check_2026-10-06.json
+und experiments/dependabot_check_2026-10-06.json. Nicht bekannt waren
+die Trefferzahlen der Suchwoerter aus Punkt 3 und jede Zuordnung zu
+einem Rastereintrag.
+
+Zweck: G1 laesst offen, wie die Belegstufen den Kategorien aus G3
+zugeordnet werden; G4 (Teil 2) und G5 (Punkt 7) verweisen dafuer auf
+Schritt 8. G6 schliesst diese Stellen und den letzten Platzhalter in
+Abschnitt 4.2 der Arbeit (subsec:gap-kategorien).
+
+#### 1 Gegenstand
+
+- Raster: die 27 relevanten Eintraege aus G2 (SR01 bis SR29 ohne SR07
+  und SR08). SR07 und SR08 tragen nach G2 Regel 3 Kategorie 4; fuer
+  sie wird nichts gesucht.
+- Grundmenge: die Anforderungen aus G1 Punkt 1. Massgeblich ist je
+  Anforderung die Belegstaerke fuer FF4 nach G1 Punkt 3.
+- Das Merkmal security_relevant begrenzt die Grundmenge nicht. Nach G4
+  Teil 2 und Grenzfallregel 4 kann auch eine Anforderung ohne
+  Sicherheitsbezug einem Rastereintrag entsprechen.
+- Dependabot: Die Sichtung nach G5 Punkt 7 hat keinen Hinweis auf eine
+  behobene Schwachstelle ergeben. Kein Dependabot-Beitrag geht in die
+  Gap-Analyse ein; nach E4 gehoeren sie nicht zur Grundmenge.
+
+#### 2 Kandidaten
+
+Drei Teilmengen der Grundmenge:
+- Kandidaten Suchwort: Anforderungen, bei denen ein Suchwort aus
+  Punkt 3 in Satz, rationale oder einem Zitat vorkommt. Gesucht wird
+  wie in G5 Punkt 3: Teilzeichenfolge, ohne Beachtung der Gross- und
+  Kleinschreibung.
+- Kandidaten Prozess: alle Anforderungen mit dem Typwert process.
+  Grund: 20 der 27 Eintraege (SR10 bis SR29) betreffen den
+  Entwicklungsprozess, und Typregel 2 aus G4 nennt solche
+  Anforderungen process.
+- Kandidaten Sicherheit: alle vom Modell als sicherheitsrelevant
+  markierten Anforderungen und jede, die der Verfasser in der Pruefung
+  nach G5 mit ja beurteilt hat.
+Eine Anforderung in mehreren Teilmengen wird einmal beurteilt.
+
+Obergrenze: 200 Anforderungen, weil das Zeitbudget rund eine Minute je
+Anforderung betraegt.
+1. Uebersteigt die Vereinigung 200, werden von den Anforderungen, die
+   nur ueber ein Suchwort in einem Zitat gefunden wurden und in keiner
+   anderen Teilmenge liegen, 50 zufaellig gezogen (Startwert
+   20261005).
+2. Liegt die Zahl danach noch ueber 200, werden die uebrigen Kandidaten
+   Suchwort ausserhalb der Kandidaten Prozess und Sicherheit so
+   gezogen, dass 200 bleiben (Startwert 20261005).
+Kandidaten Prozess und Kandidaten Sicherheit bleiben vollstaendig.
+Vor der Beurteilung werden nur Zahlen gemeldet, keine Inhalte.
+
+#### 3 Suchwoerter
+
+Die Liste ist abschliessend. Die Zuordnung zu Eintraegen dokumentiert
+nur die Herleitung; gesucht wird mit allen Woertern zugleich.
+
+| Eintrag | Suchwoerter |
+|---|---|
+| SR01 | cryptograph, encrypt, decrypt, cipher, tls, hashlib, sha256 |
+| SR02 | audit, logging, logger, log file |
+| SR03 | separation of, privilege, sandbox, isolat |
+| SR04 | sandbox, isolat, information flow, restrict access |
+| SR05 | integrity, checksum, tamper, corrupt |
+| SR06 | privacy, personal data, gdpr, anonymi, pseudonym, confidential |
+| SR09 | traceab, provenance, audit trail |
+| SR10 | contribut, code of conduct, guideline, style guide, coding standard, pre-commit, lint |
+| SR11 | branch protection, permission, access control, secret, credential, token, password, two-factor, 2fa, authenti, authoriz |
+| SR12, SR13 | licen, spdx, copyright |
+| SR14 | requirements.txt, pyproject, setup.py, setup.cfg, third-party, third party, sbom |
+| SR15 | open source, open-source, publicly |
+| SR16 | bug report, issue template, report a bug, report bugs, issue tracker |
+| SR17 | pytest, unit test, test suite, continuous integration, github action, workflow |
+| SR18 | memory safe, memory leak, buffer overflow, out of bounds, out-of-bounds, segfault, segmentation fault, use after free, use-after-free |
+| SR19 | review, approv |
+| SR20 | installation, pip install, build instruction, sdist, wheel |
+| SR21 | versioning, version number, __version__, semantic version, semver, release |
+| SR22 | pypi, publish, gpg, sigstore, code signing, checksum, sha256 |
+| SR23 | changelog, change log, release note |
+| SR24 | sdist, manifest.in, package_data, package data |
+| SR25 | reproducib, lock file, lockfile, pinned |
+| SR26 | security.md, security policy, security contact, responsible disclosure, vulnerab |
+| SR27 | vulnerab, advisory, cve-, ghsa-, security fix |
+| SR28 | deprecat, discontinu, end of life, end-of-life, unmaintained, no longer supported |
+| SR29 | migrat, breaking change, backward compat, backwards compat, upgrade guide |
+
+Herleitung: aus der Kurzform in G2 und den Quellstellen (29148
+Abschn. 9.6.17 d und 9.6.18 c, TR-03185 Abschn. 2.3), ohne Kenntnis
+von Anforderungstexten. Nicht aufgenommen: signature und signed, weil
+signature in Python ueberwiegend die Signatur einer Funktion meint und
+signed Teilzeichenfolge von designed ist; ebenso die in G5
+ausgeschlossenen Woerter hash, sign, key und log.
+
+#### 4 Zuordnung von Hand, verblindet
+
+Das Programm aus Punkt 7 erzeugt einen Bogen in zufaelliger Reihenfolge
+(Startwert 20261005). Er zeigt je Anforderung Kennung, Pull Request mit
+Link, Satz, rationale und Zitate mit Fundort, dazu einmal das Raster
+mit den 27 Eintraegen. Er zeigt nicht: die Etiketten des Modells (type,
+security_relevant, evidence_strength, source_form), die Belegstaerke
+fuer FF4, ob ein Zitat gefunden wurde, die Teilmenge und das Suchwort.
+
+Der Verfasser traegt je Anforderung die Nummern der Eintraege ein, denen
+sie entspricht, je mit ja, teilweise oder unklar; sonst keine.
+- ja: Der shall-Teil des Satzes legt den Kern des Eintrags fest oder
+  beschreibt sein Vorliegen. Kern ist bei Eintraegen aus TR-03185 der
+  Teil vor "Zusatz" in der Spalte Stufe, bei Eintraegen aus 29148 die
+  ganze Kurzform.
+- teilweise: Der Satz deckt nur einen Teil des Kerns oder nur den
+  Zusatz.
+- unklar: wird getrennt gezaehlt und gilt nicht als Zuordnung.
+Massstab ist der Eintrag in G2 zusammen mit seiner Quellstelle.
+Grundlage sind wie in G4 Grenzfallregel 6 Satz, rationale und Zitate,
+nicht eigenes Wissen ueber Qrisp. Ein Sicherheitszweck muss nicht
+erkennbar sein (G4 Grenzfallregel 4).
+
+#### 5 Kategorie je Eintrag
+
+Das Programm berechnet die Kategorie aus den Zuordnungen und der
+Belegstaerke fuer FF4:
+- Kategorie 1: mindestens eine Zuordnung ja mit direct.
+- Kategorie 2: nicht Kategorie 1, und mindestens eine Zuordnung ja mit
+  indirect oder teilweise mit direct oder indirect.
+- Kategorie 3: sonst. Getrennt und nur beschreibend berichtet: ohne
+  Zuordnung; mit Zuordnungen, die alle insufficient sind; Zahl der
+  Antworten unklar.
+- Kategorie 4: nur SR07 und SR08, nach G2.
+
+Begruendung:
+- Nach E6 Regel B3 lautet die Stufe direct, wenn die Quelle etwas
+  fordert, und indirect, wenn sie nur berichtet, was ist oder getan
+  wurde. Kategorie 1 verlangt eine in der Historie dokumentierte
+  Anforderung, Kategorie 2 beschreibt Hinweise auf eine Umsetzung ohne
+  ausdrueckliche Anforderung. Die Aussageform ist damit die Grenze
+  zwischen beiden.
+- Belegt im Sinne von G1 (direct oder indirect) ist die Schwelle
+  zwischen den Kategorien 1 und 2 einerseits und Kategorie 3
+  andererseits. insufficient fuehrt zu Kategorie 3, weil Aussagen zur
+  Sicherheit nicht ueber die Belege hinausgehen duerfen (G1).
+- Eine teilweise Entsprechung zeigt einen Teil des Eintrags, nicht den
+  erwarteten Eintrag selbst. Sie traegt deshalb hoechstens Kategorie 2.
+- Kategorie 3 heisst: in der untersuchten Historie nicht belegt. Sie
+  heisst nicht, dass Qrisp den Eintrag nicht erfuellt (G3).
+
+Verworfen: Variante "belegt gleich Kategorie 1" (direct und indirect in
+Kategorie 1, Kategorie 2 nur ueber teilweise). Sie wiese eine
+Anforderung, die nur aus einem Bericht ueber Getanes rekonstruiert ist,
+als dokumentierte Anforderung aus.
+
+#### 6 Gegenprobe der massgeblichen Zuordnungen
+
+Grund: Nach E6 und G1 faellt maschinell nicht auf, wenn das Modell
+einem woertlich vorhandenen Zitat einen Bestandteil oder eine
+Aussageform zuschreibt, die es nicht hat. Diese Grenze trifft genau die
+Aussagen zu FF4.
+
+Fuer jeden Eintrag in Kategorie 1 oder 2 prueft der Verfasser bis zu
+drei massgebliche Zuordnungen, in dieser Reihenfolge: ja vor teilweise,
+direct vor indirect, bei Gleichstand die kleinste Kennung. Der Bogen
+zeigt den Satz und nur die gefundenen Zitate, nicht source_form und
+nicht die Belegstaerke. Antworten:
+a) Traegt ein gefundenes Zitat die Systemreaktion des Satzes? ja/nein
+b) Fordert dieses Zitat etwas oder berichtet es? fordernd/berichtend
+Bei a) nein gilt die Zuordnung fuer G6 als insufficient. Bei b)
+berichtend gilt eine Zuordnung mit direct als indirect. Die Gegenprobe
+senkt nur und hebt nie. Danach berechnet das Programm die Kategorie
+neu. Haelt keine der drei, folgen die naechsten drei.
+
+#### 7 Durchfuehrung und Zaehlung
+
+Zuordnung und Gegenprobe von Hand durch den Verfasser. Kandidaten,
+Kategorien und Zahlen durch das Programm src/analyze/gap_analysis.py,
+weil die Belegstaerke fuer FF4 so aus denselben Funktionen wie in G1
+kommt (src/analyze/count_requirements.py) und die Kategorie ohne
+Ermessen aus Punkt 5 folgt. Ablauf wie G5 Punkt 5: Kandidaten zaehlen,
+Bogen erzeugen, Antworten pruefen und per Pruefsumme sperren,
+Gegenprobe, Ergebnis. Bogen und Antworten liegen nur lokal unter
+eval/responses/gap_analysis_2026-10-06/, weil sie Inhalte der Pull
+Requests enthalten. Versioniert werden Programm, Tests und
+experiments/gap_analysis_2026-10-06.json mit Zahlen, Kennungen und
+Pruefsummen. In den Chat gehen nur Zahlen und Kennungen.
+
+#### 8 Ergebnis
+
+- Je Eintrag: Kategorie, Zahl der Zuordnungen ja und teilweise je
+  Belegstaerke, Zahl der durch die Gegenprobe gesenkten Zuordnungen,
+  massgebliche Kennung.
+- Summen je Kategorie, getrennt fuer SR01 bis SR09 (Produkt) und SR10
+  bis SR29 (Entwicklungsprozess).
+- Explorativ: Zahl der vom Verfasser als sicherheitsrelevant
+  beurteilten Anforderungen, die keinem Eintrag entsprechen.
+
+Grenzen fuer Kapitel 7:
+- Eine Person beurteilt (wie E2 und G5).
+- Die Kandidatensuche ist unvollstaendig. Anforderungen ohne Suchwort
+  ausserhalb der Kandidaten Prozess und Sicherheit sieht niemand, bei
+  greifender Obergrenze auch die nicht gezogenen. Ein uebersehener
+  Kandidat kann eine Kategorie nur zu niedrig ausweisen.
+- Die Suchwoerter sind englisch und ohne Kenntnis der Daten
+  hergeleitet.
+- Der Typwert process ist ein Etikett des Modells und nur in der
+  Stichprobe nach G5 geprueft.
+- Bei den 17 Eintraegen, die nach G4 nur mit genanntem Sicherheitszweck
+  sicherheitsrelevant sind, zeigt Kategorie 1 eine dokumentierte
+  Praxis, nicht ihre Begruendung durch Sicherheit.
+- Die Gegenprobe prueft nur massgebliche Zuordnungen und nur
+  Systemreaktion und Aussageform.
+- Die Kurzformen in G2 sind eigene Worte; die Zuordnung stuetzt sich
+  deshalb zusaetzlich auf die Quellstelle.
+
+Herkunft: Entwurf von Claude im Chat vom 06.10.2026. Freigabe durch den
+Verfasser am 06.10.2026: Zuordnung direct zu Kategorie 1 und indirect
+zu Kategorie 2 mit Gegenprobe, drei Teilmengen mit Obergrenze 200,
+Zaehlung per Programm, Suchwoerter unveraendert.
+
+Status: festgelegt.
+Bezug: FF4, FF1, Kapitel 4, 5, 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
@@ -3732,6 +3958,9 @@ Bezug: FF1, FF4, Kapitel 4, 6 und 7.
   05.10.2026, siehe G4
 - Pruefplan fuer die Klassifikation und die Dependabot-Sichtung
   (FF1, FF4), Paket G: entschieden am 05.10.2026, siehe G5
+- Zuordnung der Belegstufen zu den Kategorien der Gap-Analyse und
+  Suche der Kandidaten (FF4), Paket G: entschieden am 06.10.2026,
+  siehe G6
 - Auswahlregel fuer die Modelleingabe (FF1), Paket E: entschieden
   am 15.09.2026, siehe E4
 - Budget der Modelleingabe (FF1), Paket E: entschieden am
