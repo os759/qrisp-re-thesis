@@ -1850,8 +1850,9 @@ des Zusammenspiels festlegt oder das Ergebnis.
 
 Das Merkmal beantwortet nur, ob eine Anforderung dem Schutz dient. Ob
 sie einem Eintrag des Rasters entspricht, prüft die Gap-Analyse
-gesondert und für alle belegten Anforderungen, nicht nur für die
-markierten. Eine Anforderung kann daher etwa dem Eintrag zu
+gesondert an einer vorab festgelegten Auswahl, die nicht auf die
+markierten Anforderungen beschränkt ist
+(Abschnitt~\ref{subsec:gap-kategorien}). Eine Anforderung kann daher etwa dem Eintrag zu
 Testverfahren entsprechen, ohne sicherheitsrelevant zu sein. Am
 Raster gemessen ergibt sich folgendes Bild: Eine Anforderung zu einem
 von zehn Einträgen ist stets sicherheitsrelevant, nämlich zu den sechs
@@ -2246,11 +2247,25 @@ Jeder Eintrag des Rasters wird einer von vier Kategorien zugeordnet:
     relevant.
 \end{enumerate}
 Die vierte Kategorie wird nur bei der Festlegung des Rasters vergeben,
-also vor jeder Zuordnung (Abschnitt~\ref{subsec:sicherheitsraster}). Wie die
-Belegstufen aus Abschnitt~\ref{subsec:belegbegriff-ff4} den ersten
-beiden Kategorien zugeordnet werden, wird vor der Zuordnung gesondert
-festgelegt \textbf{[Noch zu ergänzen: Regel für die Zuordnung der
-Belegstufen zu den Kategorien und Verweis auf deren Abschnitt]}.
+also vor jeder Zuordnung (Abschnitt~\ref{subsec:sicherheitsraster}). Für die übrigen 27 Einträge gilt eine Regel, die vor der
+Zuordnung festgelegt und versioniert wurde. Maßgeblich sind die
+rekonstruierten Anforderungen, die einem Eintrag nach dem Urteil des
+Verfassers entsprechen, und ihre Belegstärke im Sinne von
+Abschnitt~\ref{subsec:belegbegriff-ff4}. Ein Eintrag fällt in die erste
+Kategorie, wenn ihm mindestens eine Anforderung im Kern entspricht,
+deren gefundene Belege etwas fordern, deren Belegstärke also
+\emph{direkt} lautet. In die zweite Kategorie fällt er, wenn die
+entsprechenden Belege nur berichten, was getan wurde oder der Fall ist
+(\emph{indirekt}), oder wenn eine belegte Anforderung den Eintrag nur
+teilweise abdeckt. Ist keine entsprechende Anforderung belegt, fällt er
+in die dritte Kategorie. Weil die Aussageform der Belege vom Modell
+angegeben wird und maschinell nicht prüfbar ist, kontrolliert der
+Verfasser für jeden Eintrag der ersten beiden Kategorien die
+maßgeblichen Anforderungen an ihren gefundenen Belegen; diese
+Gegenprobe kann eine Kategorie nur senken. Zugeordnet wird nicht die
+gesamte Grundmenge, sondern eine vorab festgelegte, verblindete Auswahl
+von höchstens 200 Anforderungen; wie sie entsteht, beschreibt
+Kapitel~\ref{cha:evaluation}.
 
 Eine weitere Kategorie, die eine Sicherheitsfunktion als nachweislich
 fehlend ausweist, wurde erwogen und verworfen. Dafür gibt es vier
@@ -2678,8 +2693,8 @@ Quellausschnitte]}.
 
 Typ und Sicherheitsbezug hat das Modell selbst vergeben. Die Werte
 dieses Unterabschnitts sind deshalb Etiketten des Modells und noch
-nicht geprüft \textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur
-Prüfung der Klassifikation]}. Tabelle~\ref{tab:typverteilung} zeigt
+nicht geprüft; ihre Prüfung berichtet
+Abschnitt~\ref{sec:eval-klassifikation}. Tabelle~\ref{tab:typverteilung} zeigt
 die Verteilung. Knapp die Hälfte der Anforderungen ordnet das Modell
 als Schnittstellenanforderungen ein, rund zwei Fünftel als funktional
 und leistungsbezogen und rund ein Zehntel als Prozessanforderungen.
@@ -2785,6 +2800,140 @@ unbelegt.
   \texttt{experiments/requirement\_counts\_2026-09-25\_full\_v2.json}.
 \end{table}
 
+
+\section{Prüfung der Klassifikation}
+\label{sec:eval-klassifikation}
+
+Dieser Abschnitt berichtet das Ergebnis der Prüfung von Typ und
+Sicherheitsbezug nach dem Prüfplan aus
+Abschnitt~\ref{subsec:pruefung-klassifikation}. Maßstab ist das
+Klassifikationsschema aus Abschnitt~\ref{subsec:klassifikationsschema}.
+Die Prüfung hat der Verfasser verblindet durchgeführt; Prüfbogen und
+Auswertung erzeugte ein Programm mit Commit~\texttt{ff094b5}.
+Die Zahlen stehen in
+\path{experiments/classification_check_2026-10-06.json}.
+
+Geprüft wurden drei Mengen: die 11 vom Modell als
+sicherheitsrelevant markierten Anforderungen, 39 Suchtreffer ohne
+Markierung und die 85 Anforderungen der Stichprobe. Bei
+11 Suchtreffern steht das
+Suchwort in Satz oder Begründung, bei
+28 nur in den Belegen. Die vorab
+festgelegte Obergrenze von 150 Suchtreffern wurde nicht erreicht; alle
+Suchtreffer wurden geprüft. Die Stichprobe umfasst
+20 Pull Requests, von denen
+18 Anforderungen enthalten.
+Weil einzelne Anforderungen zu mehr als einer Menge gehören und nur
+einmal beurteilt wurden, umfasste der Prüfbogen 130
+statt 135 Einträge.
+
+Tabelle~\ref{tab:klass-sicherheit} fasst das Ergebnis zum
+Sicherheitsbezug zusammen. Von den 11 Markierungen des Modells
+bestätigt der Verfasser 3. Gemessen an der endgültigen
+Definition beträgt die Präzision der Markierungen, also der Anteil
+zutreffender Markierungen, damit 27,3\,\%. Von den
+8 verworfenen Markierungen gehen
+4 allein darauf zurück, dass die
+endgültige Definition von der vorläufigen abweicht, nach der das Modell
+etikettiert hat. Die übrigen 4 sind
+Fehlurteile des Modells. Werden die definitionsbedingten Fälle nicht
+als Fehler gewertet, treffen 7 von 11 Markierungen zu,
+das sind 63,6\,\%. Übersehen hat das Modell unter den
+Suchtreffern 1 Anforderung (2,6\,\%
+der Menge) und in der Stichprobe 0. Das Urteil
+\emph{unklar} hat der Verfasser in keinem Fall vergeben.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Prüfung des Sicherheitsbezugs in den drei Prüfmengen}
+  \label{tab:klass-sicherheit}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.8cm}%
+                    >{\raggedleft\arraybackslash}p{2.0cm}%
+                    >{\raggedleft\arraybackslash}p{2.0cm}%
+                    >{\raggedleft\arraybackslash}p{2.0cm}@{}}
+    \toprule
+    & \textbf{markiert} & \textbf{Such\-treffer} &
+    \textbf{Stich\-probe} \\
+    \midrule
+    geprüfte Anforderungen & 11 & 39 & 85 \\
+    vom Modell markiert & 11 & 0 & 0 \\
+    Urteil des Verfassers: ja & 3 & 1 & 0 \\
+    Urteil des Verfassers: nein & 8 & 38 & 85 \\
+    Urteil des Verfassers: unklar & 0 & 0 & 0 \\
+    \midrule
+    bestätigt & 3 & 0 & 0 \\
+    verworfen & 8 & 0 & 0 \\
+    \quad davon definitionsbedingt & 4 & 0 & 0 \\
+    übersehen & 0 & 1 & 0 \\
+    \quad davon definitionsbedingt & 0 & 0 & 0 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Bestätigt: Modell und Verfasser ja. Verworfen: Modell ja, Verfasser
+  nein. Übersehen: Modell nein, Verfasser ja. Quelle:
+  \path{experiments/classification_check_2026-10-06.json}.
+\end{table}
+
+Beim Typwert stimmen Modell und Verfasser in der Stichprobe bei
+64 von 85 Anforderungen überein, das sind
+75,3\,\%. Die Art nach dem
+Klassifikationsschema stimmt in ebenso vielen Fällen überein; jede
+beobachtete Abweichung beim Typwert ändert also auch die Art.
+Tabelle~\ref{tab:klass-typ} zeigt die Kreuztabelle, beschränkt auf die
+Typwerte, die mindestens einmal vorkommen. 18 der 21
+Abweichungen liegen zwischen Schnittstellen- und funktionalen
+Anforderungen: 10-mal wählt das Modell funktional, wo der
+Verfasser eine Schnittstelle sieht, 8-mal umgekehrt. An dieser
+Grenze entscheidet nach dem Schema, ob der Anforderungssatz die Form
+des Zusammenspiels oder das Ergebnis festlegt. Dass sich die
+Abweichungen dort bündeln, ist eine explorative Beobachtung an einer
+nach Pull Requests geschichteten Stichprobe und kein belastbarer Anteil
+für die Grundmenge.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Typwerte in der Stichprobe: Modell (Zeilen) und Verfasser
+    (Spalten)}
+  \label{tab:klass-typ}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.4cm}%
+                    >{\raggedleft\arraybackslash}p{1.9cm}%
+                    >{\raggedleft\arraybackslash}p{1.9cm}%
+                    >{\raggedleft\arraybackslash}p{1.9cm}%
+                    >{\raggedleft\arraybackslash}p{1.9cm}@{}}
+    \toprule
+    \textbf{Modell} & \textbf{funktional} & \textbf{Schnitt\-stelle} & \textbf{Prozess} & \textbf{Summe} \\
+    \midrule
+    funktional und leistungsbezogen & 25 & 10 & 0 & 35 \\
+    Schnittstelle & 8 & 39 & 0 & 47 \\
+    Qualität, nichtfunktional & 2 & 0 & 0 & 2 \\
+    Gebrauchstauglichkeit und Nutzungsqualität & 0 & 0 & 1 & 1 \\
+    \midrule
+    Summe & 35 & 49 & 1 & 85 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Nicht aufgeführte Typwerte kommen in der Stichprobe weder beim Modell
+  noch beim Verfasser vor. Quelle:
+  \path{experiments/classification_check_2026-10-06.json}.
+\end{table}
+
+Gesondert gesichtet wurden die 25 abgeschlossenen Beiträge
+des Programms Dependabot. Keiner enthält eine Schwachstellenkennung nach
+dem Muster CVE oder GHSA; 22 nennen Wörter wie
+\emph{security} oder \emph{vulnerability}, doch in keinem davon
+beschreibt der Text nach dem Urteil des Verfassers eine durch die
+Aktualisierung behobene Schwachstelle, sodass die Sichtung keinen
+Hinweis für die Gap-Analyse liefert
+(\path{experiments/dependabot_check_2026-10-06.json}).
+
+Was diese Ergebnisse für die erste und die vierte Forschungsfrage
+bedeuten, insbesondere die geringe Zahl bestätigter Markierungen, und
+welche Grenzen die Prüfung durch eine einzelne Person hat, behandelt
+Kapitel~\ref{cha:diskussion}.
 
 \chapter{Diskussion}
 \label{cha:diskussion}
