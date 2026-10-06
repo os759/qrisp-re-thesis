@@ -1,0 +1,533 @@
+{
+  "rules": "docs/entscheidungen.md: G1, G2 and G6",
+  "code_commit": "27020ca",
+  "inputs": {
+    "input": {
+      "path": "data/processed/extraction_2026-09-25_full_v2.jsonl",
+      "sha256": "3dbc74b24438cac24feba080eca69ef66a4b495b4f7fd677de0f22d7d91e569d"
+    },
+    "dataset": {
+      "path": "data/interim/pulls_prepared_2026-08-19.jsonl",
+      "sha256": "138e60ce47c1e6508d14ea6cec113c11e72772407fef2232870e2b1b981a4683"
+    },
+    "model_input": {
+      "path": "data/processed/model_input_2026-09-19.jsonl",
+      "sha256": "61113427c6b7aecea9cd40c8d6905276ab2da5f14838ed698c34078a54ac19ee"
+    },
+    "schema": {
+      "path": "config/requirement_schema_v2.json",
+      "sha256": "d5670a65c992efc38a158308f24e96610837e9f3545befe4e47d6a9fc498effe"
+    },
+    "g5_answers": {
+      "path": "eval/responses/classification_check_2026-10-06/answers.txt",
+      "sha256": "1929b4cc9ea02d573a6670b700c3a214fbb1425aba3f13020ac50faab5371c3c"
+    },
+    "g5_result": {
+      "path": "experiments/classification_check_2026-10-06.json",
+      "sha256": "0c37a292e6ffc43881686194144950f117cb1e0c190836c6a197e67a6dddc2ec"
+    },
+    "mentions_map": {
+      "path": "data/interim/mention_map.json",
+      "sha256": "ef3300a74f3606ba356b3dfecc50374d577fb66b3bd2b4aeeaf20f6602fefa93"
+    }
+  },
+  "files": {
+    "sheet": "49c028b1de18c094839e829615cee6b41cc70c750eb61a2636e95a296a046c49",
+    "answers": "824511ff7954be887bb6be3ac4ec8c5e1c169f622164b0b3e2ea0a9bb02d46fe",
+    "counter_1.md": "1383b2fd036dbbe49c1e8fd3ba4682cfe05d7ff768de5494f99ee7d785224741",
+    "counter_1.txt": "528b3a217b2e148353236b47c68bf141ab626ff37f02b52e9f718554c9bc937f",
+    "counter_2.md": "0b27fd879641b79fb6fa1ade0375847959aad3d8780aadb9267fc67b4e78a93c",
+    "counter_2.txt": "67ef3bf89ab118652cb7d84c82f8ee30fc012802b8f059432d1e5e5fcf4b288f"
+  },
+  "candidates": {
+    "requirements_in_base_set": 1467,
+    "strength_ff4_base_set": {
+      "direct": 107,
+      "indirect": 1163,
+      "insufficient": 197
+    },
+    "keyword_in_sentence_or_rationale": 135,
+    "keyword_only_in_excerpts": 70,
+    "process": 148,
+    "security": 12,
+    "union": 286,
+    "cap_stage": 2,
+    "sheet_rows": 200
+  },
+  "counts": {
+    "entries": {
+      "SR01": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR02": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR03": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR04": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR05": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR06": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR07": {
+        "category": 4
+      },
+      "SR08": {
+        "category": 4
+      },
+      "SR09": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR10": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 7,
+          "ja_insufficient": 1,
+          "teilweise_direct": 2,
+          "teilweise_indirect": 12,
+          "teilweise_insufficient": 2
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 6,
+        "deciding": [
+          "QR-0533-03",
+          "QR-0533-04",
+          "QR-0533-05",
+          "QR-0533-06",
+          "QR-0533-10",
+          "QR-0533-11"
+        ]
+      },
+      "SR11": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 1,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": [
+          "QR-0064-02"
+        ]
+      },
+      "SR12": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR13": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR14": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 2,
+          "teilweise_insufficient": 5
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": [
+          "QR-0676-02",
+          "QR-0745-01"
+        ]
+      },
+      "SR15": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR16": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 2,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 1,
+        "deciding": [
+          "QR-0533-10"
+        ]
+      },
+      "SR17": {
+        "category": 1,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 1,
+          "ja_indirect": 15,
+          "ja_insufficient": 3,
+          "teilweise_direct": 2,
+          "teilweise_indirect": 5,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 3,
+        "deciding": [
+          "QR-0774-02"
+        ]
+      },
+      "SR18": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR19": {
+        "category": 3,
+        "category_3_detail": "only_insufficient",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 1
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR20": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 1,
+          "teilweise_indirect": 1,
+          "teilweise_insufficient": 1
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": [
+          "QR-0084-02",
+          "QR-0664-09"
+        ]
+      },
+      "SR21": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR22": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR23": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 4,
+          "teilweise_indirect": 7,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": [
+          "QR-0658-07",
+          "QR-0658-08",
+          "QR-0658-09",
+          "QR-0658-10"
+        ]
+      },
+      "SR24": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR25": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR26": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR27": {
+        "category": 3,
+        "category_3_detail": "no_match",
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 0,
+          "ja_insufficient": 0,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": []
+      },
+      "SR28": {
+        "category": 2,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 0,
+          "ja_indirect": 3,
+          "ja_insufficient": 2,
+          "teilweise_direct": 1,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": [
+          "QR-0086-07",
+          "QR-0352-03",
+          "QR-0652-01",
+          "QR-0658-10"
+        ]
+      },
+      "SR29": {
+        "category": 1,
+        "category_3_detail": null,
+        "matches_after_counter_check": {
+          "ja_direct": 1,
+          "ja_indirect": 3,
+          "ja_insufficient": 2,
+          "teilweise_direct": 0,
+          "teilweise_indirect": 0,
+          "teilweise_insufficient": 0
+        },
+        "unklar": 0,
+        "lowered_by_counter_check": 0,
+        "deciding": [
+          "QR-0658-10"
+        ]
+      }
+    },
+    "categories": {
+      "product_SR01_SR09": {
+        "1": 0,
+        "2": 0,
+        "3": 7,
+        "4": 2
+      },
+      "process_SR10_SR29": {
+        "1": 2,
+        "2": 7,
+        "3": 11,
+        "4": 0
+      },
+      "all": {
+        "1": 2,
+        "2": 7,
+        "3": 18,
+        "4": 2
+      }
+    },
+    "counter_check": {
+      "checked": 21,
+      "carries_nein": 1,
+      "berichtend": 14
+    },
+    "explorative": {
+      "g5_security_ja": 4,
+      "g5_security_ja_without_grid_entry": 3,
+      "g5_security_ja_not_on_sheet": 0
+    }
+  }
+}
