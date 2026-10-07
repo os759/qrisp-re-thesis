@@ -3571,6 +3571,105 @@ sofort, sodass der Verbrauch es geringfügig überschreiten kann
 \cite[Abschn.~Understand hard-limit behavior]{openaispend}. Die
 tatsächlichen Kosten berichtet Kapitel~\ref{cha:evaluation}.
 
+\section{Automatische Tests}
+\label{sec:impl-tests}
+
+Die Programme sind mit automatischen Tests auf Basis von
+\texttt{pytest} abgesichert. Getestet wird dort, wo ein Fehler Daten
+unbemerkt verfälschen würde, nicht dort, wo er sichtbar zum Abbruch
+führt. Robustheit dient in dieser Arbeit der Nachvollziehbarkeit;
+Produktreife ist nicht ihr Ziel. Es gibt deshalb keinen Nachbau der
+Programmierschnittstelle von GitHub, keine Tests des Zusammenspiels
+aller Stufen und keine Messung der Testabdeckung. Die Tests arbeiten mit
+kleinen, eigens erzeugten Beispieldaten. Sie brauchen weder Netz noch
+Schlüssel noch den Datensatz dieser Arbeit; das Aufrufprogramm wird mit
+erfundenen Antworten anstelle des Anbieters geprüft. Die Tests lassen
+sich damit auf jedem Rechner ausführen und enthalten keine Inhalte der
+Pull Requests.
+
+Tabelle~\ref{tab:impl-tests} ordnet die 19 Testdateien den Stufen der
+Pipeline zu. Am 7.~Oktober 2026 bestanden alle 507 Tests. Neben dem
+Verhalten einzelner Funktionen sichern mehrere Tests methodische
+Festlegungen ab. So darf sich die zweite Fassung der Anweisung von der
+ersten nur in den Regeln für Zitate aus Änderungstexten unterscheiden.
+Das Hilfsprogramm zur Ursachensuche muss genau dieselben Ausschnitte
+annehmen wie das Prüfprogramm. Die Ausgaben der Hilfs- und
+Zählprogramme dürfen keine Inhalte aus Pull Requests oder
+Modellantworten enthalten.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Testdateien nach Stufe der Pipeline}
+  \label{tab:impl-tests}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.4cm}%
+                    >{\raggedright\arraybackslash}p{9.3cm}%
+                    >{\raggedleft\arraybackslash}p{1.3cm}@{}}
+    \toprule
+    \textbf{Stufe} & \textbf{Testdateien unter \path{tests/} (Zahl der
+      Tests)} & \textbf{Tests} \\
+    \midrule
+    Erhebung & \path{test_resume.py} (5), \path{test_jsonl_io.py} (6) &
+      11 \\
+    Aufbereitung & \path{test_outcome.py} (6),
+      \path{test_normalisation.py} (9), \path{test_truncation.py} (12) &
+      27 \\
+    Modell\-eingabe & \path{test_prompt_input.py} (21),
+      \path{test_pseudonymise.py} (34) & 55 \\
+    Extraktion & \path{test_prompt_files.py} (30),
+      \path{test_run_extraction.py} (45) & 75 \\
+    Prüfung & \path{test_schema_validation.py} (70),
+      \path{test_diagnose_excerpts.py} (51),
+      \path{test_inspect_excerpts.py} (35), \path{test_add_links.py} (18)
+      & 174 \\
+    Auswertung & \path{test_draw_sample.py} (15),
+      \path{test_count_requirements.py} (22),
+      \path{test_breakdown_rejections.py} (17),
+      \path{test_cost_report.py} (18),
+      \path{test_check_classification.py} (37),
+      \path{test_gap_analysis.py} (56) & 165 \\
+    \midrule
+    Zusammen & & 507 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Zählung mit \path{pytest --collect-only} am 7.~Oktober 2026.
+  \path{test_jsonl_io.py} prüft das gemeinsame Modul aus
+  Abschnitt~\ref{sec:impl-grundsaetze}.
+\end{table}
+
+Dass die Tests bestehen, zeigt noch nicht, dass sie Fehler bemerken.
+Deshalb wurden in den geprüften Code absichtlich Fehler eingebaut,
+jeweils einzeln, und es wurde festgestellt, ob mindestens ein Test
+daraufhin fehlschlägt. Bei der Aufbereitung schlugen etwa bei einem
+vertauschten Ergebnis eines Pull Requests und bei einer Bereinigung
+ohne Abschlussmarker zusammen sechs der damals 26 Tests fehl. Seither wird jede neue
+Testdatei so geprüft. Von 23 eingebauten Fehlern im Prüfprogramm und im
+Hilfsprogramm zur Ursachensuche wurde jeder erkannt, ebenso 18 Fehler in
+den Programmen zur Einsicht und zur Aufteilung der Ablehnungen. Von
+16 Fehlern im Programm für den Kostenbericht und im Programm für die
+Links blieb einer unerkannt, von 22 Fehlern im Programm der
+Gap-Analyse ebenfalls einer; beide waren ohne Wirkung, weil eine zweite
+Prüfung denselben Fall abfängt. Diese Prüfungen liefen außerhalb des
+Repositorys; ihre Ergebnisse sind in \path{tests/README.md}
+festgehalten.
+
+Drei Bereiche sind nicht automatisch getestet. Die Netzschicht der
+Erhebung mit Wiederholungen, Ratenbegrenzung und seitenweisem Abruf
+wurde im Betrieb geprüft (Abschnitt~\ref{sec:impl-erhebung}). Die
+Hilfsprogramme, mit denen die Rohdaten nach der Erhebung ausgezählt
+wurden, sind nicht getestet; sie dienten nur der Beschreibung der
+Rohdaten. Das
+Ziehungsprogramm ist nur in seinen beiden Schaltern getestet; sein
+übriges Verhalten ist durch die wiederholbare Ziehung und die
+dokumentierten Ergebnisdateien belegt (Abschnitt~\ref{subsec:impl-ziehung}).
+Die Tests prüfen zudem nur die Programme, nicht die Antworten des
+Modells; diese prüft das Prüfprogramm aus
+Abschnitt~\ref{sec:impl-pruefung}.
+
 
 \chapter{Evaluation}
 \label{cha:evaluation}
