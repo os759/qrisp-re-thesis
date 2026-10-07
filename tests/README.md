@@ -4,7 +4,7 @@ Tests fuer die Komponenten in `src/`. Ausfuehren aus der Projektwurzel:
 
     python -m pytest tests/ -v
 
-Stand 29.09.2026: 373 Tests, alle bestanden. Die aktuelle Zahl zeigt
+Stand 07.10.2026: 507 Tests, alle bestanden. Die aktuelle Zahl zeigt
 
     python -m pytest tests/ --collect-only -q
 
@@ -37,6 +37,9 @@ still Daten verfaelscht, nicht dort, wo er sichtbar zum Abbruch fuehrt.
 | `test_breakdown_rejections.py` | Ablehnungen nach der ersten verletzten Pruefung, Abgleich mit `validate_output.py`, keine Modelltexte in der Ausgabe | Ablehnung der falschen Pruefung zugeschrieben, Summe weicht still ab |
 | `test_cost_report.py` | Abschnitt 6.3 aus dem Manifest, Abgleich der Bezugswerte mit ihren Quelldateien, Anhaengen nur einmal und nur am Ende | Messwert falsch uebertragen, Abschnitt doppelt oder an falscher Stelle |
 | `test_add_links.py` | Ein Link je Beleg, nur aus von GitHub gelieferten Links, nur fuer denselben Pull Request | Beleg zeigt auf den falschen Kommentar oder eine fremde Adresse |
+| `test_count_requirements.py` | Zaehlung nach F3 (M2) und G1: gefundene Belege, Belegstaerke nur aus gefundenen Belegen, keine eigene Pruefregel | Anforderung falsch als belegt oder unbelegt gezaehlt |
+| `test_check_classification.py` | Pruefung der Klassifikation nach G4 und G5: Mengen, verblindeter Pruefbogen, Pruefung der Antworten, Sperre per Pruefsumme, Dependabot-Sichtung | falsche Menge geprueft, Etikett des Modells auf dem Bogen, Antwort nachtraeglich geaendert |
+| `test_gap_analysis.py` | Gap-Analyse nach G6: Kandidaten, Kategorien, Gegenprobe senkt nur | Eintrag in zu hoher Kategorie, Gegenprobe hebt eine Belegstaerke |
 
 ## Test gegen absichtlich eingebaute Fehler
 
@@ -50,6 +53,9 @@ Am 28.09.2026 fuer die vier neuen Dateien: 18 eingebaute Fehler in
 16 in `cost_report.py` und `add_links.py`, davon 15 erkannt, einer
 ohne Wirkung, weil eine zweite Pruefung denselben Fall abfaengt. Die
 Nachweise liefen in der Umgebung von Claude.
+Fuer die drei Dateien aus Paket G: `count_requirements.py` gegen 16
+eingebaute Fehler geprueft, `check_classification.py` gegen 22,
+`gap_analysis.py` gegen 22, davon 21 erkannt und einer ohne Wirkung.
 
 ## Noch nicht abgedeckt
 
