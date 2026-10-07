@@ -2311,8 +2311,459 @@ Kapitel~\ref{cha:diskussion} aufgegriffen.
 \chapter{Implementierung}
 \label{cha:implementierung}
 
-\textbf{[Noch zu ergänzen: GitHub-API, Aufbereitung, Extraktion,
-Klassifikation, Gap-Analyse, Absicherung.]}
+Dieses Kapitel beschreibt die Umsetzung der Pipeline. Sie besteht aus
+einer Kette eigenständiger Python-Programme. Jedes Programm liest die
+Ausgabe der vorherigen Stufe aus einer Datei und schreibt sein Ergebnis
+in eine eigene Datei. Tabelle~\ref{tab:impl-stufen} gibt einen
+Überblick über die Stufen. Die konzeptionellen Festlegungen, auf denen
+die Programme beruhen, stehen in Kapitel~\ref{cha:konzeption}. Jede
+Entscheidung ist mit Datum, Begründung und verworfenen Alternativen in
+\path{docs/entscheidungen.md} festgehalten. Die Ergebnisse der Läufe
+berichtet Kapitel~\ref{cha:evaluation}, ihre Grenzen
+Kapitel~\ref{cha:diskussion}.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Stufen der Pipeline mit den zugehörigen Programmen}
+  \label{tab:impl-stufen}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\raggedright\arraybackslash}p{5.5cm}%
+                    >{\raggedright\arraybackslash}p{4.0cm}%
+                    >{\raggedright\arraybackslash}p{1.3cm}@{}}
+    \toprule
+    \textbf{Stufe} & \textbf{Programme unter \path{src/}} &
+      \textbf{Ergebnis} & \textbf{Abschn.} \\
+    \midrule
+    Erhebung & \path{collect/fetch_pull_list.py},
+      \path{fetch_pull_details.py}, \path{fetch_pull_comments.py},
+      \path{fetch_pull_files.py} &
+      eine Rohdatei je Abfrageadresse von GitHub &
+      \ref{sec:impl-erhebung} \\
+    Aufbereitung & \path{prepare/build_interim.py} &
+      ein Datensatz je Pull Request &
+      \ref{sec:impl-aufbereitung} \\
+    Modell\-eingabe & \path{extract/build_prompt_input.py},
+      \path{pseudonymise.py} &
+      ein Quellblock je Pull Request &
+      \ref{sec:impl-aufbereitung} \\
+    Extraktion & \path{extract/run_extraction.py},
+      \path{prompt_files.py} &
+      Antworten des Modells mit Manifest des Laufs &
+      \ref{sec:impl-extraktion} \\
+    Prüfung & \path{extract/validate_output.py},
+      \path{diagnose_excerpts.py}, \path{inspect_excerpts.py},
+      \path{add_links.py} &
+      Prüfergebnis je Datensatz und Beleg, Link je Beleg &
+      \ref{sec:impl-pruefung} \\
+    Auswertung & \path{analyze/count_requirements.py},
+      \path{draw_sample.py}, \path{gap_analysis.py},
+      \path{classify/check_classification.py} &
+      Ergebnisdateien unter \path{experiments/} &
+      \ref{sec:impl-auswertung} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Aufbau und Grundsätze der Umsetzung}
+\label{sec:impl-grundsaetze}
+
+Die Programme sind in Python geschrieben. Die Läufe des API-Modells
+liefen laut ihren Manifesten unter Python~3.14.6, die Läufe der lokalen
+Modelle unter Python~3.14.7. Die Manifeste der Erhebung und der
+Aufbereitung verzeichnen keine Python-Version. Die verwendeten Pakete,
+darunter \texttt{requests} für die Netzanfragen, \texttt{jsonschema} für
+die Schemaprüfung und \texttt{pytest} für die Tests, sind mit ihren
+Versionen in \path{requirements.txt} festgehalten. Bezeichner,
+Kommentare und Programmausgaben sind englisch. Qrisp wird als Projekt
+der Eclipse Foundation auf Englisch entwickelt, und das Qrisp-Team soll
+die Programme lesen und benutzen können. Die Erläuterung erfolgt in
+dieser Arbeit.
+
+Wiederkehrende Aufgaben sind in einem gemeinsamen Modul
+(\path{src/collect/github_api.py}) zusammengefasst: das Lesen der
+Konfiguration und des Zugangsschlüssels, das Bilden von
+SHA-256-Prüfsummen, das Ermitteln des aktuellen Commits sowie das Lesen
+und Schreiben von Dateien im Format JSON Lines. Die Abrufprogramme und
+die Aufbereitung nutzen diese Funktionen gemeinsam. Prüfsummen und
+Commit-Angaben werden dadurch in diesen Stufen auf dieselbe Weise
+ermittelt.
+
+Einstellungen stehen nicht im Quelltext, sondern in Konfigurationsdateien
+im Format TOML unter \path{config/}. Dazu gehören etwa die Version der
+Programmierschnittstelle von GitHub, Wartezeiten und Wiederholungen beim
+Abruf, die Grenzen der Kürzung und das Modell mit seinen
+Aufrufparametern. Ein Wert lässt sich so ändern, ohne den Code zu
+ändern, und die Änderung ist in der Versionsverwaltung sichtbar.
+Zugangsschlüssel stehen ausschließlich in einer Datei \path{.env}, die
+von der Versionsverwaltung ausgeschlossen ist. Die Konfigurationsdateien
+selbst enthalten keine Schlüssel.
+
+Alle Datensätze werden im Format JSON Lines gespeichert, also als ein
+JSON-Objekt je Zeile. Das Format wurde gewählt, weil jede bereits
+geschriebene Zeile gültig bleibt, wenn ein Lauf abbricht. Ein
+abgebrochener Abruf lässt sich deshalb fortsetzen. Eine einzelne
+JSON-Datei wäre in diesem Fall unbrauchbar, eine CSV-Datei kann
+verschachtelte Felder und lange Texte mit Zeilenumbrüchen nicht sauber
+abbilden.
+
+Jeder Lauf schreibt ein Manifest, eine Begleitdatei im JSON-Format. Es
+enthält den Zeitpunkt in koordinierter Weltzeit, die verwendeten
+Parameter, Name, Umfang und Prüfsumme der Eingabedatei, die Prüfsumme
+der Ausgabedatei und den Commit des ausführenden Codes. Eine Ausnahme
+bildet das Manifest der Modelleingabe, das keinen Commit verzeichnet;
+der zugehörige Code ist dort nur über die Reihenfolge der Commits
+zuzuordnen. Weil jedes Manifest die Prüfsumme seiner Quelle nennt, ist die Herkunft jeder
+Datei bis zu den Rohdaten nachvollziehbar. So führt etwa das Manifest
+des aufbereiteten Datensatzes die vier Rohdateien mit ihren Prüfsummen
+auf. Die Datensätze selbst bleiben außerhalb der Versionsverwaltung,
+weil sie Anmeldenamen und Texte Dritter enthalten und Git auch
+gelöschte Dateien dauerhaft in seiner Historie behält. Versioniert
+werden nur die Manifeste. Ihre Prüfsummen belegen, welche lokale Datei
+einem Ergebnis zugrunde liegt, ohne deren Inhalt zu veröffentlichen.
+
+Das Manifest identifiziert den ausführenden Code nur, wenn dieser vor
+dem Lauf committet ist. Beim Detailabruf vom 14.~August 2026 war das
+nicht der Fall; sein Manifest verweist deshalb auf den Stand davor, und
+der ausführende Code wurde erst danach mit Commit \texttt{fe95a1a}
+versioniert. Seitdem gilt die Regel, Quelltext stets vor einem Lauf zu
+committen. Das Aufrufprogramm der Extraktion setzt diese Regel selbst
+durch (Abschnitt~\ref{sec:impl-extraktion}).
+
+Zwei weitere Vorkehrungen schützen vorhandene Ergebnisse. Die
+Aufbereitung und der Bau der Modelleingabe überschreiben eine
+vorhandene Ausgabedatei nur, wenn dies beim Aufruf ausdrücklich
+verlangt wird. Die Abrufprogramme setzen eine vorhandene Ausgabedatei
+dagegen fort und überspringen bereits abgerufene Pull Requests. Vor
+jedem vollständigen Lauf wurde zudem ein Probelauf mit wenigen
+Vorgängen ausgeführt. Die Manifeste dieser Probeläufe wurden vor dem
+Commit gelöscht, damit nur vollständige Läufe in der Versionsverwaltung
+erscheinen. Welche Teile durch automatische Tests abgesichert sind,
+beschreibt Abschnitt~\ref{sec:impl-tests}.
+
+\section{Datenerhebung über die GitHub-API}
+\label{sec:impl-erhebung}
+
+Die Erhebung ruft die Pull Requests des Repositorys
+\path{eclipse-qrisp/Qrisp} über die REST-Programmierschnittstelle von
+GitHub ab. Der Zugang erfolgt mit einem fein eingeschränkten
+Zugangsschlüssel, der nur Lesezugriff auf öffentliche Repositorys
+gewährt. Jede Anfrage sendet die Version der Schnittstelle
+ausdrücklich mit; sie ist in der Konfiguration auf 2022-11-28
+festgelegt. Ohne diese Angabe würde die Schnittstelle stillschweigend
+der jeweils aktuellen Standardversion folgen, und ein späterer Abruf
+könnte andere Felder liefern.
+
+Die Erhebung verläuft in vier Schritten über zusammen fünf Endpunkte,
+also Abfrageadressen der Schnittstelle. Für jeden Endpunkt entsteht eine
+eigene Rohdatei (Tabelle~\ref{tab:impl-endpunkte}). Zuerst wird die Liste
+aller Pull Requests in jedem Zustand abgerufen. Sie liefert 476 Pull
+Requests mit den Nummern 5 bis 797 und ohne Duplikate; die Lücken in
+der Nummernfolge entstehen, weil GitHub Issues und Pull Requests mit
+demselben Zähler nummeriert. Danach wird für jede Nummer das
+Detailobjekt einzeln abgerufen. Dieser zusätzliche Schritt ist nötig,
+weil nur das Detailobjekt die Zählfelder enthält, darunter die Zahl der
+geänderten Dateien, der Kommentare und der Review-Kommentare. Diese
+Zählfelder dienen in den beiden folgenden Schritten als Erwartungswert.
+Anschließend werden die Kommentare abgerufen, getrennt nach
+allgemeinen Kommentaren und Review-Kommentaren, die an einer Codezeile
+hängen; beide Arten liefert GitHub über verschiedene Endpunkte. Zuletzt
+folgen die geänderten Dateien mit ihrem Änderungstext.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Schritte der Erhebung mit Endpunkt, Rohdatei und Umfang}
+  \label{tab:impl-endpunkte}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.4cm}%
+                    >{\raggedright\arraybackslash}p{4.1cm}%
+                    >{\raggedright\arraybackslash}p{4.7cm}%
+                    >{\raggedleft\arraybackslash}p{1.8cm}@{}}
+    \toprule
+    \textbf{Schritt} & \textbf{Endpunkt} & \textbf{Rohdatei} &
+      \textbf{Datensätze} \\
+    \midrule
+    Liste & \path|/pulls?state=all| &
+      \path{pulls_2026-08-12.jsonl} & 476 \\
+    Details & \path|/pulls/{number}| &
+      \path{pull_details_2026-08-14.jsonl} & 476 \\
+    Allgemeine Kommentare & \path|/issues/{number}/comments| &
+      \path{issue_comments_2026-08-19.jsonl} & 639 \\
+    Review-Kommentare & \path|/pulls/{number}/comments| &
+      \path{review_comments_2026-08-19.jsonl} & 1\,713 \\
+    Geänderte Dateien & \path|/pulls/{number}/files| &
+      \path{pull_files_2026-08-19.jsonl} & 8\,424 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Endpunkte relativ zu \path{/repos/eclipse-qrisp/Qrisp}. Das Datum im
+  Dateinamen ist der Tag der Erhebung.
+\end{table}
+
+Die Liste, die Kommentare und die Dateien liefert GitHub seitenweise,
+mit höchstens 100 Einträgen je Seite. Die Programme folgen dem
+Verweis auf die nächste Seite, den GitHub im Kopf der Antwort mitsendet, bis keine weitere
+Seite mehr angegeben ist. Zwischen zwei Anfragen liegt eine Pause von
+0,2~Sekunden, jede Anfrage bricht nach 30~Sekunden ab. Schlägt eine
+Anfrage fehl, unternimmt eine gemeinsame Funktion insgesamt bis zu fünf
+Versuche: bei einem Netzfehler und bei einem Serverfehler nach einer
+exponentiell wachsenden Wartezeit, bei einer Ratenbegrenzung nach der
+Wartezeit, die GitHub im Kopf der Antwort nennt. Bleiben alle Versuche
+erfolglos, bricht das Programm ab und lässt sich danach fortsetzen.
+Jede andere Antwort gibt die Funktion an das aufrufende Programm
+zurück. Dieses überspringt den betroffenen Pull Request und hält ihn im
+Manifest als fehlgeschlagene Anfrage fest. Eine Ausnahme bildet der
+Abruf der Liste, das zuerst entstandene Programm: Er pausiert nicht
+zwischen den Seiten und bricht bei einem Fehler ab, statt zu
+wiederholen. Das Kontingent von 5\,000 Anfragen je Stunde
+reichte für jeden Schritt aus.
+
+Ein abgebrochener Abruf lässt sich mit demselben Aufruf fortsetzen. Der
+Abruf der Details überspringt jede Nummer, die bereits in der
+Ausgabedatei steht. Die Abrufe der Kommentare und der Dateien schreiben
+zusätzlich zu jedem bearbeiteten Pull Request einen Eintrag in eine
+Fortschrittsdatei, auch wenn er keinen Kommentar oder keine Datei hat;
+ohne diesen Eintrag ließe sich ein Pull Request ohne Kommentar nicht
+von einem noch nicht bearbeiteten unterscheiden. Jeder Kommentar und
+jeder Dateisatz erhält ein zusätzliches Feld mit der Nummer seines Pull
+Requests, über das die Aufbereitung die Teile wieder zusammenführt.
+
+Die Rohdateien enthalten die Antworten der Schnittstelle bis auf
+dieses zusätzliche Feld unverändert. Gekürzt, gefiltert und um Felder reduziert wird erst in der
+Aufbereitung (Abschnitt~\ref{sec:impl-aufbereitung}). Grund ist, dass
+eine Kürzung beim Abruf nicht umkehrbar wäre: Jede spätere Änderung
+einer Schwelle würde einen vollständigen neuen Abruf erfordern. Auch
+der Änderungstext der Dateien bleibt beim Abruf ungekürzt. Bei 331 der
+8\,424 Dateien, das sind 3,9\,\%, liefert GitHub selbst keinen
+Änderungstext, vor allem bei Binärdateien, aber auch bei 128
+Python-Dateien. Diese untere Grenze der Datenlage lässt sich vom
+Abruf nicht beeinflussen.
+
+Die Abrufe der Kommentare und der Dateien vergleichen die Zahl der
+gelieferten Einträge je Pull Request mit dem Zählfeld des
+Detailobjekts und schreiben jede Abweichung in das Manifest. Fünf Pull
+Requests weichen ab. Zwei Abweichungen sind geklärt: Pull Request~639
+erhielt nach dem Detailabruf drei weitere Kommentare, Pull Request~470
+wurde danach weiterbearbeitet und änderte mehr Dateien. Bei den
+Pull Requests 331, 344 und 767 liefert GitHub reproduzierbar je einen
+Review-Kommentar weniger, als das Zählfeld angibt; das betrifft 3 von
+1\,716 Review-Kommentaren. Die Ursache ist nicht aufklärbar. Die beiden
+geklärten Fälle zeigen, dass sich die Datenbasis zwischen zwei Abrufen
+ändern kann. Jede Rohdatei trägt deshalb ihren Erhebungstag im Namen und ihren
+Erhebungszeitpunkt sowie ihre Prüfsumme im Manifest.
+
+\section{Aufbereitung und Modelleingabe}
+\label{sec:impl-aufbereitung}
+
+Zwischen den Rohdaten und dem Sprachmodell liegen zwei Programme. Die
+Aufbereitung führt die Rohdateien zu einem Datensatz zusammen, bereinigt
+ihn und kürzt den Änderungstext. Sie entfernt dabei keinen Pull Request,
+sondern markiert Auffälligkeiten. Der Bau der Modelleingabe wählt
+anschließend die Pull Requests aus, die an das Modell gehen, und setzt
+für jeden einen begrenzten Quellblock zusammen; den aufbereiteten
+Datensatz verändert er nicht. Gekürzt wird damit an zwei getrennten
+Stellen, die im Folgenden unterschieden werden: nach dem
+\emph{Budget je Pull Request} in der Aufbereitung und nach der
+\emph{Grenze des Quellblocks} in der Modelleingabe.
+
+\subsection{Aufbereitung}
+\label{subsec:impl-interim}
+
+Das Programm \path{src/prepare/build_interim.py} erzeugt eine Datei mit
+einem Datensatz je Pull Request, in den die Kommentare und die
+geänderten Dateien als Listen eingebettet sind. Zusammengeführt wird
+über die Nummer, die der Abruf jedem Teil mitgegeben hat; Kommentare
+sind nach ihrem Erstellungszeitpunkt sortiert, Dateien stehen in der
+Reihenfolge, in der GitHub sie geliefert hat. Ein Datensatz je Pull
+Request wurde gewählt, weil die Verarbeitungseinheit der Extraktion ein
+Pull Request ist und weil die dritte Kürzungsstufe alle Dateien eines
+Pull Requests zugleich betrachten muss.
+
+Übernommen werden nur die Felder, die für die Rekonstruktion, die
+Rückverfolgbarkeit oder die Auswertung gebraucht werden. Felder, die
+GitHub zum Zeitpunkt der Anfrage neu berechnet, etwa ob ein Pull
+Request konfliktfrei zusammenführbar ist, entfallen, weil sie sich ohne
+Zutun der Beteiligten ändern und nicht reproduzierbar wären. Vom
+Benutzerobjekt bleibt nur der Anmeldename; die übrigen 18 Felder, die
+etwa auf Profile und Aktivitäten außerhalb des Projekts verweisen,
+werden verworfen. Hinzu kommen abgeleitete Felder. Das Feld
+\texttt{outcome} unterscheidet zusammengeführte, ohne Zusammenführung
+geschlossene und offene Pull Requests, weil der Zustand bei GitHub nur
+offen und geschlossen kennt und ein verworfener Vorschlag keine
+umgesetzte Anforderung belegt. Das Feld \texttt{author\_is\_bot}
+kennzeichnet Beiträge von Programmen: Ein Konto gilt als Bot, wenn
+GitHub es als solches führt oder sein Name auf \texttt{[bot]} endet.
+Das Konto Copilot wird nur über die erste Bedingung erkannt. Die
+Zählfelder von GitHub und die tatsächlich vorliegenden Anzahlen stehen
+in getrennten Feldern, damit die Abweichungen aus
+Abschnitt~\ref{sec:impl-erhebung} sichtbar bleiben.
+
+Die Texte von Titel, Beschreibung und Kommentaren werden vereinheitlicht.
+Zeilenenden im Windows-Format werden in die Unix-Form umgewandelt, was
+259 Beschreibungen betrifft. Aus 124 Beschreibungen werden
+HTML-Kommentare entfernt, die als Ausfüllhinweise aus der Vorlage für
+Pull Requests stammen. Entfernt werden nur vollständige Blöcke von
+\texttt{<!--} bis \texttt{-->}, damit ein nicht geschlossener Marker
+keinen nachfolgenden Text verschluckt; ein solcher Marker kommt im
+Datensatz nicht vor. Keine Beschreibung wird durch die Bereinigung
+leer. Im Änderungstext und in den Diff-Ausschnitten werden nur die
+Zeilenenden vereinheitlicht; Kommentare werden dort nicht entfernt, weil
+ein Kommentarmarker Teil des geänderten Quelltexts sein kann.
+
+Kein Pull Request wird in der Aufbereitung entfernt. Die 31 Beiträge
+von Programmen, die 56 Pull Requests ohne Beschreibung und die fünf
+ohne jede Codeänderung bleiben enthalten und sind markiert. Die
+Grundgesamtheit bleibt so bei 476, und die Auswahl erfolgt erst dort,
+wo sie sich gegenüber einer Forschungsfrage begründen lässt.
+
+Der Änderungstext wird in drei Stufen gekürzt
+(Tabelle~\ref{tab:impl-kuerzung}). Die erste Stufe nimmt Dateitypen ohne
+von Menschen geschriebenen Inhalt aus, etwa Notebooks, deren
+Änderungstext überwiegend aus gespeicherter Ausgabe besteht, und
+Dateien, für die GitHub keinen Änderungstext liefert. Die zweite Stufe
+begrenzt den Text einer einzelnen Datei, damit keine Datei das Budget
+eines ganzen Pull Requests aufbraucht. Die dritte Stufe begrenzt den
+Text je Pull Request; das Budget wird in der Reihenfolge verbraucht, in
+der GitHub die Dateien liefert. Eine Datei, die nach dem Ende des
+Budgets folgt, behält Name, Status und Zeilenzahlen, aber keinen
+Änderungstext. Jede gekürzte Stelle endet mit einem sichtbaren Marker,
+und jede Datei trägt den Grund, aus dem ihr Text fehlt. Die Grenzwerte
+stehen in \path{config/collect.toml}. Insgesamt verbleiben von
+32\,555\,716 Zeichen Änderungstext 7\,396\,580, das sind 22,7\,\%;
+183 der 476 Pull Requests sind von mindestens einer Kürzung betroffen.
+Dass die Lieferreihenfolge von GitHub keine Rangfolge nach Bedeutung
+ist, behandelt Kapitel~\ref{cha:diskussion}.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Kürzung des Änderungstexts in der Aufbereitung}
+  \label{tab:impl-kuerzung}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.3cm}%
+                    >{\raggedright\arraybackslash}p{6.4cm}%
+                    >{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\raggedright\arraybackslash}p{3.1cm}@{}}
+    \toprule
+    \textbf{Stufe} & \textbf{Regel} & \textbf{Grenze} &
+      \textbf{Betroffene Dateien} \\
+    \midrule
+    1 & kein Änderungstext für \texttt{.ipynb}, \texttt{.drawio},
+      \texttt{.bkp} und \texttt{.svg} sowie für Dateien, die GitHub ohne
+      Änderungstext liefert & -- & 497 ohne Änderungstext \\
+    2 & Obergrenze je Datei & 10\,000 Zeichen & 258 gekürzt \\
+    3 & Budget je Pull Request, verbraucht in der Lieferreihenfolge &
+      50\,000 Zeichen & 61 gekürzt, 4\,580 ohne Änderungstext \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Grundmenge 8\,424 Dateien. Quelle: Manifest
+  \path{data/manifests/manifest_prepared_2026-08-19.json}.
+\end{table}
+
+\subsection{Modelleingabe}
+\label{subsec:impl-modelleingabe}
+
+Welche Pull Requests an das Modell gehen, legt das Programm
+\path{src/extract/build_prompt_input.py} fest; es baut zugleich je Pull
+Request einen Quellblock.
+Ausgeschlossen werden die 31 Beiträge von Programmen und die 50
+übrigen, zum Erhebungszeitpunkt noch offenen Pull Requests; es
+verbleiben 395 von 476. Offene Pull Requests entfallen, weil sich ihr
+Inhalt noch ändern kann und eine daraus rekonstruierte Anforderung
+nicht stabil wäre. Beiträge von Programmen entfallen, weil die von
+Dependabot fast ausschließlich die Version einer fremden Bibliothek
+anheben und keine Eigenschaft von Qrisp beschreiben, und weil bei den
+maschinell verfassten Beiträgen von Copilot nicht feststellbar ist, ob
+sie eine Absicht des Qrisp-Teams wiedergeben. Die abgeschlossenen
+Beiträge von Dependabot wurden für die vierte Forschungsfrage gesondert
+gesichtet (Abschnitt~\ref{subsec:pruefung-klassifikation}). Entwürfe,
+Pull Requests ohne Beschreibung und solche ohne Codeänderung bleiben
+dagegen in der Auswahl, weil Titel, Kommentare und Diff weiterhin eine
+Quelle sind. Ein Vorgang, der dem Modell nichts Verwertbares bietet,
+wird verarbeitet und vom Modell als unbrauchbare Eingabe gemeldet; so
+bleibt sein Anteil ein Ergebnis und kein blinder Fleck.
+
+Der Quellblock ist ein Text mit fester Gliederung. Er beginnt mit einer
+Kopfzeile, die die Nummer des Pull Requests nennt, gefolgt vom Titel
+und von der Beschreibung. Danach stehen die allgemeinen Kommentare und
+die Review-Kommentare in zeitlicher Reihenfolge; ihre Kopfzeile nennt
+Kennung, Zeitpunkt und die Beziehung der Verfassenden zum Repository,
+bei Review-Kommentaren zusätzlich Datei und Zeile sowie den
+Diff-Ausschnitt, auf den sich der Kommentar bezieht. Am Ende folgen die
+Dateien mit Status, Zeilenzahlen und Änderungstext oder dem Grund, aus
+dem er fehlt. Anmeldenamen stehen in keiner Kopfzeile; übergeben wird
+nur die Beziehung zum Repository, etwa \texttt{CONTRIBUTOR}, weil der
+Name zu keiner Anforderung etwas beiträgt.
+
+Jeder Quellblock umfasst höchstens 80\,000 Zeichen. Befüllt wird in der
+Reihenfolge Titel, Beschreibung, Kommentare, Dateien; ein Abschnitt,
+der nicht mehr in die Grenze passt, entfällt vollständig, und gekürzt
+wird damit zuerst der Code. Grund ist, dass eine Anforderung in der
+Regel in Worten und nicht in Quelltext steht. Eine Schlusszeile nennt,
+wie viele Kommentar- und Dateiabschnitte entfallen sind; für sie hält
+das Programm 300 Zeichen zurück. Zusätzlich wird der Diff-Ausschnitt
+eines Review-Kommentars auf 500 Zeichen begrenzt. Anlass war ein
+Befund vom 15.~September 2026: Die Kürzung der Aufbereitung erfasst
+diesen Ausschnitt nicht, und über die 395 ausgewählten Pull Requests
+umfasste er mit 6\,937\,611 Zeichen mehr als der gesamte bereits
+gekürzte Änderungstext mit 6\,502\,124 Zeichen. Er wiederholt
+überwiegend Code, der schon im Änderungstext der Datei steht. Die
+Aufbereitung wurde dafür nicht geändert, weil ihr Ergebnis mit seiner
+Prüfsumme dokumentiert ist und die Formulierungsprobe aus
+Abschnitt~\ref{subsec:formulierungsprobe} auf genau dieser Datei
+beruht. Bei der Festlegung, vor der Ersetzung der Erwähnungen, enthielten
+79 der 395 Quellblöcke mindestens eine Kürzung, 60 davon nur beim
+Diff-Ausschnitt; der Median lag bei 11\,920 Zeichen, der längste Block
+bei 79\,841. Die gültige Modelleingabe vom 19.~September 2026 umfasst
+395 Quellblöcke mit zusammen 8\,533\,169 Zeichen.
+
+\subsection{Ersetzung von Erwähnungen}
+\label{subsec:impl-pseudonym}
+
+Auch ohne Anmeldenamen in den Kopfzeilen enthalten Beschreibungen und
+Kommentare Erwähnungen von Personen in der Form \texttt{@name}. Vor
+dem Bau der Quellblöcke ersetzt das Programm
+\path{src/extract/pseudonymise.py} sie durch feste Platzhalter wie
+\texttt{@person\_01}. Derselbe Anmeldename erhält stets denselben
+Platzhalter; die Nummern folgen der alphabetischen Reihenfolge der
+Namen, sodass ein zweiter Lauf dieselbe Zuordnung erzeugt. Ersetzt wird
+nur in den Texten von Titel, Beschreibung und Kommentaren, nie im
+Änderungstext und nie im Diff-Ausschnitt eines Review-Kommentars. In
+Codeblöcken und Codeschrift innerhalb dieser Texte wird nur ein Name
+ersetzt, der bereits aus dem übrigen Text als Erwähnung bekannt ist. Ein Python-Dekorator
+wie \texttt{@property} gelangt so nie in die Zuordnung. Eine
+eingerückte Zeile gilt nicht als Code, wenn sie mit einem
+Aufzählungszeichen beginnt, weil verschachtelte Aufzählungen Fließtext
+sind. Eine Ausnahmeliste hält vier Fachbegriffe frei, die im Fließtext
+wie eine Erwähnung aussehen und auch im Programmcode vorkommen:
+\texttt{jaspify}, \texttt{jax}, \texttt{pytest} und \texttt{rus}, die
+Abkürzung für Repeat-Until-Success. Eine Erwähnung im Fließtext, deren
+Name nicht in der Zuordnung steht, wird durch einen Platzhalter für
+eine unbekannte Person ersetzt.
+
+Ersetzt wurden 34 Anmeldenamen. Vor der Ersetzung enthielten 98 der
+395 Quellblöcke mindestens eine Erwähnung im Fließtext, mit zusammen
+279 Treffern; danach keine mehr. Die verbleibenden 30 Zeichenfolgen mit
+\texttt{@} stehen im Änderungstext oder in Codeschrift und bezeichnen
+Programmteile. Die Zuordnung von Name zu Platzhalter liegt in
+\path{data/interim/mention_map.json} außerhalb der Versionsverwaltung,
+weil sie die Ersetzung umkehrbar macht; das Manifest der Modelleingabe
+nennt nur die Zahl der ersetzten Namen. Die Ersetzung ist damit eine
+Pseudonymisierung und keine Anonymisierung. Seit dem ersten
+kostenpflichtigen Lauf wird die Zuordnung nicht mehr neu vergeben,
+damit ein Platzhalter in allen Ergebnissen dieselbe Person bezeichnet;
+die Arbeit verwendet dieselben Platzhalter. Die Prüfung der
+Quellausschnitte vergleicht gegen denselben ersetzten Text
+(Abschnitt~\ref{sec:impl-pruefung}). Die Grenzen der Ersetzung, etwa
+Klarnamen im Fließtext und Namen im Änderungstext, behandelt
+Kapitel~\ref{cha:diskussion}.
 
 
 \chapter{Evaluation}
