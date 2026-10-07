@@ -1991,8 +1991,7 @@ Für die Gap-Analyse gilt deshalb ein strengerer Belegbegriff. Ein Beleg
 gilt als gefunden, wenn das Prüfprogramm seinen Ausschnitt annimmt oder
 wenn seine Ablehnung nach einer vorab festgelegten Zuordnungsregel dem
 Prüfprogramm und nicht dem Modell zuzurechnen ist
-\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur Prüfung der
-Quellausschnitte]}. Die Belegstärke wird nach denselben Regeln erneut
+(Abschnitt~\ref{subsec:impl-zitate}). Die Belegstärke wird nach denselben Regeln erneut
 berechnet, jedoch ausschließlich aus den gefundenen Belegen. Eine
 Anforderung ohne gefundenen Beleg ist damit stets unzureichend belegt.
 Als belegt im Sinne der Gap-Analyse gilt eine Anforderung, deren so
@@ -2765,6 +2764,813 @@ Quellausschnitte vergleicht gegen denselben ersetzten Text
 Klarnamen im Fließtext und Namen im Änderungstext, behandelt
 Kapitel~\ref{cha:diskussion}.
 
+\section{Extraktion mit dem Sprachmodell}
+\label{sec:impl-extraktion}
+
+Die Extraktion sendet jeden Quellblock einzeln an ein Sprachmodell und
+hält die Antwort fest. Dafür gibt es ein einziges Aufrufprogramm,
+\path{src/extract/run_extraction.py}. Es bedient das API-Modell und die
+lokal betriebenen Modelle gleichermaßen; die Läufe unterscheiden sich
+nur in der Konfigurationsdatei, die beim Aufruf angegeben wird. Inhalt
+und Aufbau der Anweisung an das Modell begründet
+Abschnitt~\ref{sec:konzeption-prompt-modell}. Dieser Abschnitt
+beschreibt das Aufrufprogramm, den Pilotlauf, in dem die Anweisung
+weiterentwickelt wurde, den Ablauf des Volllaufs und den lokalen
+Aufrufweg. Die Ergebnisse der Läufe berichtet
+Kapitel~\ref{cha:evaluation}.
+
+\subsection{Aufrufprogramm}
+\label{subsec:impl-aufruf}
+
+Die Anweisung an das Modell, der Prompt, besteht je Fassung aus zwei
+Dateien unter \path{prompts/}: der Systemanweisung, die bei jedem Pull Request
+unverändert gesendet wird, und einer Vorlage für die Nachricht, etwa
+\path{extraction_system_v2.md} und \path{extraction_user_v2.md}. Eine
+Fassung, die in einem Lauf verwendet wurde, wird nicht mehr verändert;
+eine Änderung ergibt eine neue Fassung mit eigenen Dateien. Das
+Manifest jedes Laufs verzeichnet die Fassung und die Prüfsummen beider
+Dateien. Die Nachricht entsteht, indem das Hilfsmodul
+\path{src/extract/prompt_files.py} die Nummer des Pull Requests und den
+Quellblock an zwei Platzhalter der Vorlage setzt. Der Quellblock steht
+dort zwischen zwei festen Trennzeilen. Ein Quellblock, der selbst eine
+dieser Trennzeilen enthält oder dessen Kopfzeile eine andere Nummer
+nennt, wird nicht gesendet. Den Zweck dieser Prüfung beschreibt
+Abschnitt~\ref{sec:impl-absicherung}.
+
+Gesendet wird an den Endpunkt \path{/v1/responses} von OpenAI. Die
+Anfrage enthält nur das Modell, die Systemanweisung, die Nachricht, die
+Denkstufe, die Höchstzahl der Ausgabe-Token und das Feld
+\texttt{store}. Die Temperatur, der Denkmodus und ein vorgegebenes
+Antwortformat werden nicht gesendet; es gelten die Vorgaben des
+Anbieters. Die Denkstufe \texttt{medium} war am 21.~September 2026 die
+Voreinstellung des Anbieters. Sie wird dennoch ausdrücklich gesendet,
+damit eine spätere Änderung der Voreinstellung einen Lauf nicht
+verändert. Die Höchstzahl der Ausgabe-Token liegt bei 25\,000. Nach der
+Dokumentation des Anbieters zählen die Token des Denkteils zur Ausgabe.
+Erreicht die Antwort die Höchstzahl, meldet die Schnittstelle den
+Status \texttt{incomplete}, und es können Kosten ohne sichtbare Antwort
+entstehen; für den Einstieg empfiehlt der Anbieter, mindestens
+25\,000 Token vorzusehen \cite[Abschn.~Allocating space for
+reasoning]{openaireasoning}. Das Feld \texttt{store} steht auf
+\texttt{false}. Die Dokumentation knüpft die Aufbewahrung des
+Anwendungszustands einer Antwort für 30~Tage an den Fall, dass das Feld
+fehlt oder \texttt{true} ist \cite[Abschn.~Storage requirements and
+retention controls per endpoint]{openaiyourdata}. Das Programm lehnt
+deshalb jede Konfiguration ab, in der \texttt{store} nicht
+\texttt{false} ist. Welche Daten trotzdem beim Anbieter verbleiben,
+behandelt Abschnitt~\ref{sec:impl-absicherung}. Angesprochen wird das
+Modell über den Namen \texttt{gpt-5.6-terra} ohne Datumszusatz. Weil
+sich hinter einem solchen Namen das Modell ändern kann, speichert das
+Manifest je Antwort den Modellnamen, den die Schnittstelle
+zurückmeldet.
+
+Ein vorgegebenes Antwortformat wird nicht gesendet, damit gemessen
+werden kann, wie oft das Modell das verlangte Format ohne Hilfe
+einhält. Diese Zahl ist ein Messwert für die zweite Forschungsfrage.
+Zudem bleibt der Vergleich mit den lokalen Modellen gleich, die keine
+solche Hilfe erhalten. Das Programm liest die Antwort deshalb streng:
+Sie muss genau ein JSON-Objekt sein. Text vor oder nach dem Objekt und
+eine Umrahmung als Codeblock gelten als Formatfehler. Repariert wird
+nichts.
+
+Schlägt eine Anfrage fehl, unterscheidet das Programm zwei Fälle. Bei
+einem Netzfehler, einem Serverfehler und einer Ratenbegrenzung wartet
+es und wiederholt die Anfrage. Als Ratenbegrenzung gilt dabei nur eine
+Antwort mit dem Statuscode~429 und dem Code
+\path{rate_limit_exceeded}. Die Wartezeit nennt die Schnittstelle im Kopf der Antwort,
+sonst wächst sie exponentiell. Für das API-Modell sind höchstens fünf
+Versuche vorgesehen. Jede andere Fehlerantwort hält den Lauf sofort an,
+weil Warten nicht hilft und eine Wiederholung Kosten verursachen
+könnte. Dazu gehört auch die Antwort mit dem Statuscode~429, die beim
+Erreichen eines Ausgabenlimits kommt, denn sie trägt einen anderen
+Code. Die Dokumentation nennt dafür eigene Codes für die Organisation und das
+Projekt \cite[Abschn.~Understand hard-limit behavior]{openaispend}. Für das
+Projekt beim Anbieter war ein solches hartes Limit gesetzt. Die
+Wiederholungsfunktion der Erhebung aus Abschnitt~\ref{sec:impl-erhebung}
+wurde nicht übernommen. Sie deutet den Statuscode~403 als
+Ratenbegrenzung, bei OpenAI bedeutet er dagegen eine fehlende
+Berechtigung.
+
+Jede Antwort wird sofort und vollständig an eine Rohdatei angehängt.
+Ein Pull Request, für den dort eine Antwort steht, wird nie erneut
+gesendet. Ein abgebrochener Lauf lässt sich dadurch mit demselben
+Aufruf fortsetzen, und keine Antwort wird zweimal bezahlt. Enthält die
+Rohdatei eine Antwort zu einem Pull Request außerhalb der Stichprobe,
+bricht das Programm ab. Zwischen zwei Anfragen liegt eine Pause von
+einer Sekunde. Am Ende, auch nach einem Abbruch, leitet das Programm aus
+der Rohdatei zwei Dateien ab: die Extraktionsdatei mit den gelesenen
+JSON-Objekten und das Manifest des Laufs. Die Roh- und die
+Extraktionsdatei enthalten Zitate aus den Pull Requests und bleiben
+lokal; versioniert wird nur das Manifest.
+
+Das Manifest verzeichnet den Commit des ausführenden Codes, die
+gesendeten und die nicht gesendeten Parameter, die Prüfsummen von
+Anweisung, Konfiguration, Stichprobe und Modelleingabe sowie die
+Python-Version. Je Antwort hält es die Kennung, den zurückgemeldeten
+Modellnamen, den Status, Beginn und Dauer, die Zahl der Wiederholungen
+und die gemeldeten Token-Zahlen fest. Hinzu kommen die Werte für
+\texttt{store}, Temperatur und \texttt{top\_p}, die die Schnittstelle
+als angewandt zurückmeldet. Aus den Token-Zahlen berechnet das Programm
+eine Obergrenze der Kosten. Dabei gilt der Aufschlag von 25\,\% für
+das Schreiben in den Zwischenspeicher des Anbieters. Das Lesen aus dem
+Zwischenspeicher wird zum vollen Eingabepreis gerechnet, daher ist das
+Ergebnis eine Obergrenze. Verbindlich ist die Abrechnung im Konto. Den
+Aufschlag berücksichtigt das Programm seit dem ersten Probeaufruf vom
+22.~September 2026: Dort wurden 5\,399 der 5\,402 Eingabe-Token in den
+Zwischenspeicher geschrieben, und die Obergrenze lag ohne Aufschlag mit
+0,0661 unter den abgerechneten 0,07 US-Dollar. Die Preise stehen mit
+ihrem Abrufdatum in der Konfiguration.
+
+Vor einem echten Lauf prüft das Programm, ob in den Ordnern für
+Quelltext, Konfiguration und Anweisung nicht committete Änderungen
+vorliegen, also unter \path{src/}, \path{config/} und
+\path{prompts/}. In diesem Fall sendet es nichts. So setzt es die Regel aus
+Abschnitt~\ref{sec:impl-grundsaetze} durch, dass das Manifest den
+tatsächlich ausgeführten Code nennt. Ein Trockenlauf baut alle
+Nachrichten, schätzt Token und Kosten und sendet nichts. Er braucht
+keinen Schlüssel. Der Schlüssel wird aus der Datei \path{.env} gelesen
+und nur über eine verschlüsselte Verbindung gesendet.
+
+\subsection{Pilotlauf und Weiterentwicklung der Anweisung}
+\label{subsec:impl-pilot}
+
+Vor dem Volllauf gingen 20 Quellblöcke an das API-Modell. Dieser
+Pilotlauf prüfte das Aufrufprogramm und die Befolgung der Anweisung.
+Zudem ersetzte er die Annahmen der Kostenschätzung durch Messwerte. Er
+diente nicht der Bewertung der Ergebnisqualität. Die 20 Pull Requests
+wurden mit demselben Programm und denselben Schichten gezogen wie die
+Formulierungsprobe (Tabelle~\ref{tab:schichtung}), mit einem neuen
+Startwert und ohne deren zwölf Fälle. Je Schicht wurden zwischen einem
+und fünf Vorgänge gezogen. Die Schicht mit großem, gekürztem
+Änderungsumfang ist mit vier Vorgängen stärker besetzt, weil lange
+Blöcke das Aufrufprogramm am stärksten fordern. Die Liste steht in
+\path{docs/sample_pilot_a8.md}. Weil die Anweisung an diesen 20
+Vorgängen weiterentwickelt wurde, sind sie von der Stichprobe für die
+Bewertung ausgeschlossen.
+
+Vor dem ersten kostenpflichtigen Aufruf legte der Verfasser fest, wann
+die Denkstufe \texttt{medium} bleibt: wenn höchstens eine der
+20~Antworten abgeschnitten oder kein gültiges JSON ist und die
+Obergrenze der Kosten 2,10~US-Dollar nicht übersteigt. Sonst sollte
+genau eine andere Stufe an denselben Vorgängen erprobt werden. Der
+Betrag entspricht 20~Blöcken nahe der Höchstgröße mit je
+4\,000~Ausgabe-Token zu den Preisen vom 19.~September 2026. Entschieden wurde nur nach maschinell messbaren
+Werten, weil ein Qualitätsurteil an 20~Fällen ohne festgelegten
+Bewertungsbogen nicht belastbar wäre. In beiden Pilotläufen war keine
+Antwort abgeschnitten, alle 20 waren gültiges JSON, und die Obergrenze
+lag bei 1,3665 und 1,2942~US-Dollar. Die Denkstufe blieb daher
+\texttt{medium}.
+
+Im ersten Pilotlauf, Kennung \texttt{2026-09-22\_pilot}, lehnte das
+Prüfprogramm aus Abschnitt~\ref{sec:impl-pruefung} fünf der
+20~Datensätze ab. Alle Ablehnungen betrafen Zitate aus einem
+Änderungstext. Bevor ein Programm die Ursachen bestimmte, legte der
+Verfasser eine Regel für ihre Zuordnung fest. Hält ein Zitat alle
+Zitatregeln der Anweisung ein und wird trotzdem abgelehnt, liegt der
+Fehler beim Prüfprogramm; es wird berichtigt, und der Lauf wird ohne
+neuen Aufruf des Modells erneut geprüft. Verstößt ein Zitat gegen eine
+Regel der Anweisung, ist das ein Befund über das Modell, und die
+Ablehnung bleibt. Passt keine vorab definierte Ursache, sieht der
+Verfasser die Stelle selbst ein und ordnet sie einem der beiden Fälle
+zu. Tritt dieselbe Ursache beim Modell in mindestens zwei verschiedenen
+Pull Requests auf, entsteht eine zweite Fassung der Anweisung, die an
+denselben 20~Vorgängen erprobt wird. Ein
+einzelner Fehler zeigt nach dieser Regel keine Schwäche der Anweisung,
+derselbe Fehler in mehreren Vorgängen dagegen möglicherweise eine
+unklare Formulierung.
+
+Die Ursachensuche ergab keinen Fehler des Prüfprogramms. Eine
+zusätzliche Zählung zeigte aber, dass das Prüfprogramm nachsichtiger war
+als die Anweisung: Es hatte zwei Zitate angenommen, die Zeilen über eine
+entfernte Zeile hinweg verbinden. Seither prüft es genau nach den Zitatregeln der
+Anweisung, weil ein nachsichtigeres Prüfprogramm die Quellentreue zu
+günstig darstellen würde. Damit waren 8 von 145 Zitaten abgelehnt. Zwei
+Ursachen traten in mehreren Pull Requests auf: Text aus einer
+Positionszeile des Änderungstexts, die mit \texttt{@@} beginnt, wurde
+mitzitiert (drei Pull Requests), und Zeilen wurden über eine entfernte
+Zeile hinweg verbunden (zwei Pull Requests). Die zweite Fassung der
+Anweisung formuliert genau diese beiden Regeln deutlicher. Alle übrigen
+Zeilen und die Vorlage der Nachricht blieben gleich; ein Test sichert
+das ab.
+
+Auch für die Übernahme der zweiten Fassung stand die Regel vor ihrem
+Lauf fest. Die zweite Fassung sollte den Volllauf bestreiten, wenn die
+Regel zur Denkstufe erfüllt ist, die beiden Ursachen zusammen in
+weniger als fünf Pull Requests auftreten und der Anteil abgelehnter
+Zitate nicht über dem der ersten Fassung liegt. Gemessen wird ein
+Anteil und keine Anzahl, damit eine Fassung nicht allein dadurch besser
+abschneidet, dass sie weniger zitiert. Im Lauf
+\texttt{2026-09-24\_pilot\_v2} traten die beiden Ursachen in vier
+Pull Requests auf, und abgelehnt waren 7 von 152 Zitaten. Die zweite
+Fassung wurde damit übernommen. Die Regel zu den Positionszeilen hat
+dem Anschein nach gewirkt (ein statt drei Pull Requests), die Regel zu
+entfernten Zeilen nicht (drei statt zwei). Die Unterschiede sind klein
+und beruhen auf je einem Lauf. Da das Modell bei gleicher Eingabe nicht
+stets gleich antwortet, können sie auch zufällig sein. Eine dritte Fassung gibt es nicht. Eine
+weitere Umformulierung verspricht wenig, und das Prüfprogramm lehnt
+die verbleibenden Fehler ohnehin ab.
+
+\subsection{Volllauf}
+\label{subsec:impl-volllauf}
+
+Für den Volllauf über alle 395 Quellblöcke war zunächst der
+Stapelbetrieb des Anbieters vorgesehen. Er halbiert den Preis, liefert
+die Antworten aber verzögert \cite[Abschn.~Overview]{openaibatch}. Vor
+dem Volllauf entschied der Verfasser, wie in den Pilotläufen den
+Normalbetrieb zu nutzen, also eine Anfrage nach der anderen. Dafür
+sprachen vier Gründe. Erstens die Zeit: Ein Stapel muss innerhalb von
+24~Stunden fertig werden, danach verfallen die unbearbeiteten Anfragen
+\cite[Abschn.~Batch expiration]{openaibatch}. Zudem begrenzt der
+Anbieter je Modell die Zahl der Eingabe-Token, die gleichzeitig auf
+einen Stapel warten dürfen \cite[Abschn.~Rate limits]{openaibatch}.
+Für die Nutzungsstufe des Kontos nannte die Modellseite am
+24.~September 2026 eine Grenze von 1,5~Mio.\ Token. Beim erneuten Abruf
+am 7.~Oktober 2026 nennt sie für die niedrigste zahlende Stufe 3~Mio.\
+Token \cite[Abschn.~Rate limits]{openaiterra}. Beide Werte liegen unter
+den geschätzten rund 3,96~Mio.\ Eingabe-Token des Volllaufs. Der
+Volllauf hätte daher mehrere Stapel nacheinander gebraucht und
+zusätzlichen Code. Der Normalbetrieb kam
+ohne neuen Code aus; nach der Dauer des zweiten Pilotlaufs waren rund
+4,8~Stunden zu erwarten. Zweitens die Vergleichbarkeit: Pilot und
+Volllauf nutzen denselben Aufrufweg, ein Unterschied zwischen ihnen
+kann also nicht am Aufrufweg liegen. Drittens die Datenkontrolle: Im
+Stapelbetrieb liegen die Anfragen als Datei beim Anbieter, und solche
+Dateien werden bis zu ihrer Löschung aufbewahrt
+\cite[Abschn.~Storage requirements and retention controls per
+endpoint]{openaiyourdata}. Viertens die Kosten: Die Obergrenze
+verdoppelt sich, bleibt aber weit unter dem Budget von 150~Euro, das
+vor dem ersten Lauf festgelegt wurde. Für die dritte Forschungsfrage
+gilt deshalb der Normalpreis. Der Stapelbetrieb wird nur als
+rechnerische Möglichkeit genannt.
+
+Die Liste der 395 Vorgänge in \path{docs/sample_full_run_e.md} erzeugte
+dasselbe Ziehungsprogramm, das dafür jede Schicht vollständig übernahm.
+Der Volllauf nutzte dasselbe Aufrufprogramm, dieselbe Konfiguration und
+die zweite Fassung der Anweisung. Laut Manifest lief er mit dem
+Codestand \texttt{f9eef00}. Am 25.~September 2026 ging zunächst ein
+Probelauf mit fünf Vorgängen. Nach seiner Prüfung setzte derselbe
+Aufruf am 26.~September die übrigen 390 fort und übersprang die fünf
+bereits beantworteten. Alle 395 Anfragen wurden beantwortet, keine
+Antwort war abgeschnitten, und keine Anfrage musste wiederholt werden.
+Die Schnittstelle meldete bei allen Antworten den Modellnamen
+\texttt{gpt-5.6-terra} zurück. Das Feld für den Beginn im Manifest nennt
+nur den Beginn des letzten Aufrufs; die Zeitpunkte je Antwort zeigen
+beide Tage. Konfiguration und Systemanweisung haben dieselben Prüfsummen
+wie im zweiten Pilotlauf. Für dessen 20~Vorgänge liegen damit zwei
+Durchgänge mit gleichen Einstellungen vor. Laufzeit, Token, Kosten und
+das Ergebnis der Prüfung berichtet Kapitel~\ref{cha:evaluation}.
+
+\subsection{Lokaler Aufrufweg}
+\label{subsec:impl-lokal}
+
+Die lokalen Modelle laufen auf dem Rechner, auf dem auch das
+Aufrufprogramm läuft, in der
+Laufzeitumgebung Ollama, Fassung~0.34.4, installiert über den
+Paketverwalter Homebrew. Ollama bietet ebenfalls einen Endpunkt
+\path{/v1/responses} an \cite[Abschn.~Responses API]{ollamaopenai}.
+Das Aufrufprogramm wurde deshalb nur um einen lokalen Aufrufweg
+erweitert. Für jedes lokale Modell gibt es eine eigene Konfiguration,
+\path{config/local_run.toml} und \path{config/local_run_qwen.toml}. Sie
+haben dieselben Felder und Werte wie die Konfiguration des API-Modells.
+Abweichend sind nur die Adresse auf dem eigenen Rechner, der Name des
+Modells, die Wartezeit bis zum Abbruch einer Anfrage von einer bzw.\
+zwei Stunden, höchstens zwei Versuche und Preise von null; hinzu kommt
+ein Abschnitt mit den Erwartungen an die Laufzeitumgebung. Die Kosten
+eines lokalen Modells werden als Laufzeit gemessen. In beiden
+Konfigurationen ist kein Name eines Schlüssels eingetragen. Das Programm
+liest dann keinen Schlüssel, sendet keinen und nimmt nur eine Adresse
+auf dem eigenen Rechner an. So kann kein
+Quellblock versehentlich den Rechner verlassen.
+
+Als lokale Modelle dienen gpt-oss:20b und als Ersatz qwen3.6:27b; die
+Wahl begründet Abschnitt~\ref{sec:konzeption-prompt-modell}. Die Größe
+des Kontextfensters, also die Zahl der Token, die Eingabe und Ausgabe
+zusammen belegen dürfen, lässt sich über die nachgebildete Schnittstelle
+nicht festlegen. Dafür dient ein abgeleitetes Modell, das aus einer
+Modelfile-Datei mit dem Parameter \texttt{num\_ctx} erzeugt wird
+\cite[Abschn.~Setting the local context size]{ollamaopenai}. Die beiden
+Dateien unter \path{config/ollama/} nennen nur das Grundmodell und ein
+Fenster von 65\,536 Token. Der Wert deckt die längste Eingabe der
+Pilotstichprobe von rund 27\,500 Token zusammen mit 25\,000
+Ausgabe-Token. Gezählt wurden diese Token mit dem Verfahren des
+API-Modells.
+
+Vor dem ersten Aufruf fragt das Programm die Laufzeitumgebung ab: ihre
+Fassung, die Prüfsumme des Modells und seiner Gewichtsdatei, Größe und
+Quantisierung des Modells sowie seine Parameter einschließlich des
+Kontextfensters. Von der Beschreibung des Modells übernimmt es nur die
+Prüfsumme der Gewichtsdatei und nicht deren Pfad, weil der Pfad den
+Benutzernamen auf dem Rechner enthält. Weicht das Kontextfenster vom
+erwarteten Wert ab, sendet das Programm nichts, weil ein kleineres
+Fenster die Eingabe stillschweigend kürzen würde. Die Abfrage wird mit
+jeder Antwort gespeichert. Das Manifest führt alle unterschiedlichen
+Abfragen eines Laufs auf. Wird ein Lauf fortgesetzt und hat sich die
+Laufzeitumgebung inzwischen geändert, wird das so sichtbar. Je Antwort vermerkt das Manifest, ob Eingabe
+und Ausgabe zusammen das Fenster erreicht haben. Zudem hält es fest, ob
+die Laufzeitumgebung überhaupt Token für den Denkteil meldet.
+
+Bei der Installation hob Homebrew als Abhängigkeit Python von 3.14.6
+auf 3.14.7 an; daher rührt der Unterschied der Python-Versionen aus
+Abschnitt~\ref{sec:impl-grundsaetze}. Zwei von Homebrew vorgeschlagene
+Umgebungsvariablen, die die Berechnung im Modell verändern, wurden nicht
+gesetzt, weil der Speicher ohne sie ausreichte. Die Laufzeitumgebung
+lief damit bis auf das Kontextfenster in ihrer Grundeinstellung. Das
+Protokoll des Servers wird je Lauf lokal und außerhalb der
+Versionsverwaltung aufbewahrt. Es zeigt unter anderem, ob eine Eingabe
+gekürzt wurde. Die Versuchsbedingungen und Ergebnisse der beiden
+lokalen Pilotfälle berichtet Abschnitt~\ref{sec:eval-pilot-lokal}.
+
+\section{Prüfung der Modellausgaben}
+\label{sec:impl-pruefung}
+
+Jede Antwort des Modells wird nach dem Lauf geprüft, ohne das Modell
+erneut aufzurufen. Die Prüfung übernimmt das Programm
+\path{src/extract/validate_output.py}, im Folgenden Prüfprogramm. Zwei
+Hilfsprogramme ordnen jedem abgelehnten Quellausschnitt eine Ursache
+zu, und ein drittes ergänzt zu jedem Beleg einen Link auf seine Quelle.
+Die Zahlen, die sich aus der Prüfung des Volllaufs ergeben, berichtet
+Abschnitt~\ref{sec:eval-grundzahlen}.
+
+\subsection{Prüfprogramm}
+\label{subsec:impl-validierung}
+
+Das Prüfprogramm wendet auf jeden Datensatz, also die Antwort zu einem
+Pull Request, drei Prüfungen in fester Reihenfolge an. Schlägt eine
+Prüfung fehl, folgen die weiteren nicht, und der Datensatz gilt als
+abgelehnt. Die erste ist die Schemaprüfung. Sie vergleicht den
+Datensatz mit dem Ausgabeschema \path{config/requirement_schema_v2.json}
+nach dem Standard JSON Schema in der Fassung 2020-12. Erkannt werden
+fehlende Felder, Werte außerhalb der zulässigen Wertemengen und Felder,
+die das Schema nicht vorsieht. Zudem prüft sie Formregeln: Die Kennung
+folgt dem Muster \texttt{QR-}, vierstellige Nummer des Pull Requests,
+zweistellige laufende Nummer; der Anforderungssatz umfasst 15 bis 600
+Zeichen und enthält das Wort \emph{shall}; ein Datensatz enthält
+höchstens 25 Anforderungen, eine Anforderung einen bis drei Belege und
+ein Quellausschnitt 10 bis 1\,200 Zeichen. Meldet das Modell keine
+Anforderung, muss es einen Grund angeben. Den Aufbau des Schemas
+begründet Abschnitt~\ref{sec:konzeption-datenmodell}.
+
+Die zweite Prüfung berechnet die Belegstärke jeder Anforderung nach den
+Regeln aus Abschnitt~\ref{subsec:belegbegriff-ff4} neu. Maßgeblich sind
+die Bestandteile, die das gewählte EARS-Muster verlangt, die
+Bestandteile, die die Belege nach Angabe des Modells tragen, und die
+Aussageform der Quelle. Weicht die Angabe des Modells vom berechneten
+Wert ab, wird der Datensatz abgelehnt. Eine frei vergebene Belegstärke
+des Modells kann so nicht in das Ergebnis gelangen. Die dritte Prüfung
+gilt den Quellausschnitten und wird im folgenden Unterabschnitt
+beschrieben.
+
+Abgelehnt wird stets der ganze Datensatz. Ein einziger nicht gefundener
+Quellausschnitt lehnt damit die Antwort zu einem Pull Request mit allen
+ihren Anforderungen ab. Die Zählung in
+Abschnitt~\ref{sec:eval-grundzahlen} betrachtet deshalb nicht nur
+Datensätze, sondern Anforderungen und Quellausschnitte einzeln.
+
+\subsection{Prüfung und Zuordnung der Quellausschnitte}
+\label{subsec:impl-zitate}
+
+Jeder Quellausschnitt muss wörtlich an der Stelle stehen, die sein Beleg
+nennt: im Titel, in der Beschreibung, in einem Kommentar mit der
+angegebenen Kennung oder im Änderungstext der angegebenen Datei.
+Verglichen wird mit dem aufbereiteten Datensatz aus
+Abschnitt~\ref{subsec:impl-interim}. In Titel, Beschreibung und
+Kommentaren werden vorher dieselben Erwähnungen ersetzt, die auch das
+Modell ersetzt gesehen hat (Abschnitt~\ref{subsec:impl-pseudonym}); der
+Änderungstext bleibt wie für das Modell unverändert. Bei einem
+Review-Kommentar zählt nur der Text des Kommentars und nicht der
+Diff-Ausschnitt, auf den er sich bezieht, weil die Anweisung das
+Zitieren dieses Ausschnitts untersagt.
+
+Ein Ausschnitt aus einem Änderungstext wird mit dessen Zeilen ohne das
+erste Zeichen verglichen, also ohne das Plus- oder Leerzeichen, das
+eine hinzugefügte Zeile oder eine Kontextzeile kennzeichnet. Eine
+entfernte Zeile und eine Positionszeile, die mit \texttt{@@} beginnt,
+werden durch ein Sperrzeichen ersetzt, das in keinem Ausschnitt
+vorkommt. Ein Ausschnitt kann damit weder solche Zeilen enthalten noch
+Zeilen über sie hinweg verbinden. Seit dem Pilotlauf prüft das Programm
+so genau nach den Zitatregeln der Anweisung
+(Abschnitt~\ref{subsec:impl-pilot}). Nachsichtiger als die Anweisung
+ist es nur in einem Punkt: Es sucht im Änderungstext des aufbereiteten
+Datensatzes und nicht im Quellblock. Ein Ausschnitt aus einer Datei,
+deren Änderungstext wegen der Grenze des Quellblocks entfallen war,
+kann daher angenommen werden, obwohl das Modell ihn nicht gesehen hat.
+Das Hilfsprogramm zur Ursachensuche zählt solche Fälle gesondert;
+im Volllauf trat keiner auf.
+
+Leerraum am Anfang und am Ende eines Ausschnitts wird seit dem
+27.~September 2026 toleriert, weil die Anweisung genaue Leerzeichen
+nur im Inneren verlangt. Der Ausschnitt gilt dann als gefunden, wenn
+der Rest an der genannten Stelle steht und mindestens 10 Zeichen lang
+ist, die Untergrenze der Anweisung. Ausgenommen bleibt ein Ausschnitt,
+der das führende Leerzeichen einer Kontextzeile mitgenommen hat, weil
+er damit gegen die Anweisung verstößt. Anlass der Änderung war die
+Prüfung des Volllaufs: Acht abgelehnte Ausschnitte unterschieden sich
+von der Quelle nur im Leerraum am Rand und waren nach der vorab
+festgelegten Regel dem Prüfprogramm zuzurechnen. Die Ausnahme für
+Kontextzeilen wurde vor der Zählung festgelegt; sie traf auf keinen
+der acht Ausschnitte zu. Nach der Korrektur blieben zwei Ausschnitte
+abgelehnt, weil ihr Rest kürzer als 10 Zeichen ist. Der Verfasser
+behielt die Mindestlänge bei. Sie nachträglich zu streichen, wäre eine
+Änderung der Regel nach Kenntnis des Ergebnisses.
+
+Für jeden abgelehnten Ausschnitt bestimmt das Hilfsprogramm
+\path{src/extract/diagnose_excerpts.py} eine Ursache. Es prüft
+16~Ursachen in fester Reihenfolge, die erste zutreffende gilt. Jede
+Ursache gehört zu einer der drei Regeln aus
+Abschnitt~\ref{subsec:impl-pilot}. Dem Prüfprogramm zugerechnet wird
+nur der Fall, dass sich ein Ausschnitt allein im Leerraum am Rand
+unterscheidet. Ein Befund über das Modell sind unter anderem Text aus
+einer entfernten Zeile oder einer Positionszeile, Zeilen, die über
+eine solche Zeile hinweg verbunden sind, ein stehen gebliebenes
+Zeilenzeichen, veränderter Leerraum im Inneren, eine Kürzung mit
+Punkten und ein Ausschnitt, der an einer anderen als der genannten
+Stelle steht. Zwei Ursachen führen zur Einsicht durch den Verfasser:
+wenn mindestens 80\,\% der Wörter in der genannten Quelle stehen, der
+Wortlaut aber nicht, und wenn keine definierte Ursache passt. Das
+Programm gibt nur Nummer, Kennung der Anforderung, Stelle des Belegs
+und Ursache aus, keinen Inhalt. Für die Entscheidung, ob ein
+Ausschnitt gefunden ist, nutzt es dieselben Funktionen wie das
+Prüfprogramm; beide Programme nehmen damit genau dieselben Ausschnitte
+an.
+
+Die Fälle zur Einsicht zeigt das Programm
+\path{src/extract/inspect_excerpts.py} nur im Terminal des Verfassers
+an; in eine Datei oder an ein anderes Programm gibt es den Inhalt nur
+auf ausdrückliche Anweisung weiter. Es zeigt den Ausschnitt, die
+ähnlichste Passage der genannten Quelle und die Unterschiede zwischen
+beiden. Vor der Einsicht legte der Verfasser fest, wie er zuordnet.
+Dem Prüfprogramm wird ein Ausschnitt nur zugerechnet, wenn er Zeichen
+für Zeichen an der genannten Stelle des Quellblocks steht und alle
+Zitatregeln einhält. Jeder andere Fall ist ein Befund über das Modell
+und erhält eine von vier Unterarten: zusammengesetzt aus getrennten
+Stellen, umformuliert, nur in einzelnen Zeichen abweichend oder ohne
+Gegenstück in der Quelle. Die Zuordnung steht in
+\path{docs/regel3_volllauf.md}, einer Tabelle, die nur Kennungen
+enthält. Das Programm prüft jede ausgefüllte Zeile gegen die Auswahl
+und die zulässigen Werte und zählt sie aus. Im Volllauf betraf die
+Einsicht 28 Ausschnitte und ergab keinen Fehler des Prüfprogramms; beide Programme blieben
+unverändert. Die Verteilung auf die Unterarten berichtet
+Kapitel~\ref{cha:evaluation}.
+
+\subsection{Links je Beleg}
+\label{subsec:impl-links}
+
+Der Quellblock enthält keine Links, deshalb setzt das Modell das Feld
+für den Link eines Belegs stets auf \texttt{null}. Die Links ergänzt
+anschließend das Programm \path{src/extract/add_links.py}. Es verändert
+die Modellausgabe nicht, sondern schreibt eine eigene Datei mit einer
+Zeile je Beleg: Nummer des Pull Requests, Kennung der Anforderung,
+Stelle des Belegs, Art der Stelle und Link. Belege aus Titel,
+Beschreibung und Änderungstext erhalten den Link des Pull Requests aus
+dem aufbereiteten Datensatz, Belege aus Kommentaren den Link, den
+GitHub zu jedem Kommentar geliefert hat. Das Programm setzt keinen
+Link selbst zusammen. Es übernimmt einen Link nur, wenn der Kommentar
+zu demselben Pull Request gehört und der Link auf das Repository von
+Qrisp zeigt; sonst bleibt das Feld leer, und ein Vermerk nennt den
+Grund. Im Volllauf erhielten alle 2\,711 Belege einen Link, 2\,606 auf
+einen Pull Request und 105 auf einen Kommentar. So lässt sich jede
+rekonstruierte Anforderung über den Link ihres Belegs bis zu ihrer
+Quelle zurückverfolgen.
+
+\section{Programme der Auswertung}
+\label{sec:impl-auswertung}
+
+Auf die Prüfung folgen Programme, die Stichproben ziehen, Ergebnisse
+zählen und die Prüfungen des Verfassers unterstützen. Sie liegen unter
+\path{src/analyze/} und \path{src/classify/}; zwei Zählprogramme liegen
+bei der Extraktion unter \path{src/extract/}. Welche Verfahren sie
+umsetzen, steht in den Abschnitten~\ref{subsec:pruefung-klassifikation}
+bis~\ref{subsec:gap-kategorien}, ihre Ergebnisse in
+Kapitel~\ref{cha:evaluation}. Allen Programmen gemeinsam sind vier
+Grundsätze. Erstens enthalten sie keine Regel, die nicht vorab in
+\path{docs/entscheidungen.md} festgelegt ist; wo eine Prüfung schon
+existiert, rufen sie die Funktion des Prüfprogramms oder des
+Suchprogramms auf, statt sie nachzubauen. Zweitens geben sie nur
+Zahlen, Kennungen und Prüfsummen aus. Dateien mit Inhalten der Pull
+Requests, etwa Prüfbögen, liegen unter \path{eval/responses/}, einem
+Ordner, der von der Versionsverwaltung ausgeschlossen ist. Drittens
+überschreibt kein Programm eine vorhandene Ergebnisdatei, und jede
+Ergebnisdatei nennt den Commit des Codes und die Prüfsummen ihrer
+Eingaben. Viertens halten die Programme, wo der Verfasser urteilt, das
+Urteil gegen nachträgliche Änderung fest.
+
+\subsection{Ziehung von Stichproben}
+\label{subsec:impl-ziehung}
+
+Alle Stichproben dieser Arbeit zieht dasselbe Programm,
+\path{src/analyze/draw_sample.py}: die Formulierungsprobe, den Pilotlauf,
+die Liste des Volllaufs und die Stichprobe für die Prüfung der
+Klassifikation und die Bewertung. Es schließt Beiträge von Programmen
+und offene Pull Requests aus und ordnet jeden übrigen Pull Request
+genau einer der sechs Schichten aus Tabelle~\ref{tab:schichtung} zu,
+beginnend mit der seltensten. Gezogen wird je Schicht mit einem festen
+Startwert für den Zufallsgenerator. Enthält eine Schicht weniger
+Vorgänge als verlangt, gehen die fehlenden an die häufigste Schicht
+über, und das Programm vermerkt das. Zwei Schalter legen die Zahl je
+Schicht fest und schließen Nummern aus, etwa die der Formulierungsprobe.
+Eine auszuschließende Nummer, die nicht zur Grundgesamtheit gehört,
+hält das Programm an, weil ein Tippfehler sonst unbemerkt eine falsche
+Stichprobe erzeugen würde. Die Ergebnisdatei nennt Zeitpunkt,
+Eingabedatei mit Prüfsumme, Startwert, Commit und die gezogenen
+Nummern. Mit derselben Eingabe und demselben Startwert ergibt sich
+dieselbe Ziehung; für die Formulierungsprobe und den Pilotlauf wurde
+das durch eine Wiederholung bestätigt.
+
+\subsection{Zählung}
+\label{subsec:impl-zaehlung}
+
+Das Programm \path{src/analyze/count_requirements.py} erzeugt die
+Grundzahlen aus Abschnitt~\ref{sec:eval-grundzahlen}. Es bestimmt für
+jede Anforderung, welche ihrer Belege gefunden sind, und berechnet
+daraus die Werte für die Unbelegtheitsrate und den Belegbegriff der
+Gap-Analyse. Dazu ruft es die Zitatprüfung des Prüfprogramms und die
+Zuordnung des Suchprogramms auf und zählt nur. Das Ergebnis steht mit
+den Prüfsummen aller Eingaben in einer versionierten Datei unter
+\path{experiments/}. Das Programm vermerkt zudem, ob Quelltext und
+Konfiguration beim Zählen committet waren.
+
+Das Prüfprogramm meldet nur, wie viele Datensätze es ablehnt, nicht
+aber, an welcher Prüfung. Diese Aufteilung liefert
+\path{src/extract/breakdown_rejections.py} mit denselben Funktionen.
+Weicht seine Zahl abgelehnter Datensätze von der des Prüfprogramms ab,
+bricht es ab. Die Messwerte zu Token, Laufzeit und Kosten des Volllaufs
+schreibt \path{src/extract/cost_report.py} aus dem Manifest in die
+Kostenschätzung unter \path{experiments/}. Werte, die nicht aus dem
+Manifest stammen, etwa die abgelesene Abrechnung, stehen als feste Werte
+im Programm. Es bricht ab, wenn einer davon nicht wörtlich in seiner
+Quelldatei steht; ein solcher Wert kann daher nicht unbemerkt von seiner
+Quelle abweichen. Zudem prüft es, ob die Summen im Manifest mit den
+Einzelwerten je Antwort übereinstimmen.
+
+\subsection{Prüfbögen der Klassifikation und der Gap-Analyse}
+\label{subsec:impl-pruefboegen}
+
+Die Prüfung der Klassifikation und die Gap-Analyse setzen die Programme
+\path{src/classify/check_classification.py} und
+\path{src/analyze/gap_analysis.py} um. Beide arbeiten in festen
+Schritten, die nur in ihrer Reihenfolge ausgeführt werden können.
+Zuerst stellt das Programm die zu prüfenden Anforderungen nach den
+vorab festgelegten Regeln zusammen und schreibt einen Prüfbogen in einer
+mit festem Startwert gemischten Reihenfolge. Daneben schreibt es eine
+leere Antwortdatei mit einer Zeile je Anforderung sowie eine
+Begleitdatei mit der Reihenfolge, den Prüfsummen der Eingaben und dem
+Commit. Der Prüfbogen zeigt keine Angabe, die das Urteil lenken könnte:
+bei der Klassifikation weder Typ noch Sicherheitsbezug des Modells, bei
+der Gap-Analyse weder Belegstärke noch die Angabe, welche Belege
+gefunden sind, noch die Teilmenge, aus der eine Anforderung stammt.
+
+In jedem folgenden Schritt prüft das Programm zuerst, ob die Eingaben
+noch dieselben Prüfsummen haben und sich die Reihenfolge des Bogens
+wiederherstellen lässt. Dann liest es die Antworten des Verfassers und
+weist jede Zeile mit falscher Kennung oder unzulässigem Wert zurück.
+Erst wenn alle Antworten vollständig und gültig sind, wertet es sie aus
+und hält die Prüfsumme der Antwortdatei fest. Ändert sich die Antwortdatei danach, verweigern die späteren
+Schritte die Arbeit. Bei der Klassifikation folgt eine zweite Datei,
+in der der Verfasser zu jeder Abweichung beim Sicherheitsbezug
+vermerkt, ob sie auf die geänderte Definition zurückgeht; die
+ursprünglichen Antworten bleiben dabei unverändert. Bei der Gap-Analyse
+folgen Runden der Gegenprobe. Je Runde wählt das Programm für jeden
+Eintrag des Rasters, der in Kategorie~1 oder~2 fällt und noch keine
+geprüfte maßgebliche Anforderung hat, höchstens drei Anforderungen aus
+und zeigt dem Verfasser nur deren gefundene Belege. Das Urteil der
+Gegenprobe kann die Belegstärke einer Anforderung nur senken. Jede
+abgeschlossene Runde wird mit ihrer Prüfsumme festgehalten. Das
+Ergebnis schreibt das Programm erst, wenn keine Runde mehr offen ist.
+
+Die Ergebnisdateien beider Programme enthalten nur Zählwerte, Kennungen
+und Prüfsummen und werden versioniert. Die Gap-Analyse übernimmt die
+Urteile der Klassifikationsprüfung zum Sicherheitsbezug nur, wenn die
+Antwortdatei dieselbe Prüfsumme hat wie in deren Ergebnisdatei. Die
+Sichtung der Beiträge von Dependabot läuft über zwei weitere Schritte
+der Klassifikationsprüfung: Das Programm trennt Beiträge mit einer
+Schwachstellenkennung von solchen, die nur einschlägige Wörter
+enthalten, und legt nur die zweiten dem Verfasser vor.
+
+\section{Absicherung der Pipeline}
+\label{sec:impl-absicherung}
+
+Die Pipeline übergibt Texte Dritter an ein Sprachmodell und verarbeitet
+dessen Antworten mit weiteren Programmen. Typische Risiken solcher
+Anwendungen beschreibt die Liste OWASP Top 10 for LLM Applications in
+der Fassung 2025 mit zehn Einträgen \cite{owaspllm2025}. Diese Arbeit
+behandelt nicht die ganze Liste, sondern einen Ausschnitt von vier
+Einträgen, die sich aus dem Aufbau der Pipeline ergeben. Die Auswahl
+ist eine Einordnung des Verfassers. Tabelle~\ref{tab:impl-owasp} fasst
+die Einträge, die Maßnahmen und die verbleibenden Grenzen zusammen; die
+folgenden Unterabschnitte erläutern sie.
+
+Ausgewählt sind die Einträge, die auf ein Merkmal der Pipeline treffen.
+Die Eingaben stammen von Dritten und könnten Anweisungen an das Modell
+enthalten (LLM01, Prompt Injection). Sie enthalten personenbezogene
+Daten und gehen an einen externen Anbieter (LLM02, Sensitive
+Information Disclosure). Die Antworten des Modells werden von Programmen
+weiterverarbeitet (LLM05, Improper Output Handling). Jeder Aufruf
+kostet Geld oder Rechenzeit (LLM10, Unbounded Consumption). Die übrigen
+Einträge treffen nach Einschätzung des Verfassers nicht oder nur am
+Rand zu. LLM06 (Excessive Agency) setzt voraus, dass ein System dem
+Modell Funktionen oder den Zugriff auf andere Systeme gewährt
+\cite[LLM06:2025]{owaspllm2025}. Die Pipeline gewährt keine solche
+Funktion: Die Anfrage enthält nur Anweisung und Material, und die
+Antwort wird nur als Text gelesen. LLM09 (Misinformation) beschreibt
+falsche, aber glaubwürdig wirkende Aussagen eines Modells
+\cite[LLM09:2025]{owaspllm2025}. Diese Arbeit behandelt sie nicht als
+Sicherheitsrisiko, sondern als Frage der Ergebnisqualität; dafür stehen
+die Prüfung der Quellausschnitte (Abschnitt~\ref{sec:impl-pruefung}) und
+die Unbelegtheitsrate in Kapitel~\ref{cha:evaluation}. LLM03, LLM04 und
+LLM08 betreffen die Lieferkette von Modellen, verfälschte Trainings-
+oder Einbettungsdaten und Vektordatenbanken \cite{owaspllm2025}. Die Pipeline trainiert
+kein Modell und nutzt keine Vektordatenbank; für die lokalen Modelle
+hält das Manifest die Prüfsumme der Gewichtsdatei fest. LLM07 (System
+Prompt Leakage) ist ohne Belang, weil die Systemanweisung weder
+Zugangsdaten noch andere vertrauliche Angaben enthält.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Ausgewählte Einträge der OWASP Top 10 for LLM Applications
+    2025 mit Maßnahmen und Grenzen}
+  \label{tab:impl-owasp}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\raggedright\arraybackslash}p{3.1cm}%
+                    >{\raggedright\arraybackslash}p{4.5cm}%
+                    >{\raggedright\arraybackslash}p{3.1cm}@{}}
+    \toprule
+    \textbf{Eintrag} & \textbf{Bezug zur Pipeline} &
+      \textbf{Maßnahmen} & \textbf{Verbleibende Grenze} \\
+    \midrule
+    LLM01 Prompt Injection & Pull Requests enthalten Text Dritter, der
+      Anweisungen an das Modell enthalten kann &
+      Anweisung und Material getrennt; Trennzeilen; Prüfung des
+      Quellblocks vor dem Senden; Prüfung jeder Antwort; keine
+      Funktionen für das Modell &
+      kein gezielter Angriffstest; eine erfundene, aber formal
+      korrekte Anforderung bleibt möglich \\
+    LLM02 Sensitive Information Disclosure & Anmeldenamen und
+      Erwähnungen gehen an einen externen Anbieter &
+      Erwähnungen ersetzt; keine Anmeldenamen in Kopfzeilen;
+      \texttt{store} auf \texttt{false}; Schlüssel und Datensätze
+      außerhalb der Versionsverwaltung &
+      Pseudonymisierung statt Anonymisierung; Protokoll des Anbieters
+      bis zu 30~Tage \\
+    LLM05 Improper Output Handling & Antworten werden gezählt und in
+      Prüfbögen gezeigt &
+      strenges Lesen ohne Reparatur; Schema, Belegstärke und
+      Quellausschnitte geprüft; Links nicht vom Modell; nichts wird
+      ausgeführt &
+      Prüfung der Form, nicht der inhaltlichen Richtigkeit \\
+    LLM10 Unbounded Consumption & Jeder Aufruf verursacht Kosten oder
+      Laufzeit &
+      Grenzen für Eingabe und Ausgabe; Abbruch statt Wiederholung;
+      keine doppelte Anfrage; Trockenlauf; Ausgabenlimit und Budget &
+      Ausgabenlimit greift verzögert \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Prompt Injection}
+\label{subsec:impl-injection}
+
+Eine indirekte Prompt Injection liegt nach OWASP vor, wenn ein Modell
+Inhalte aus externen Quellen verarbeitet, die sein Verhalten auf
+unbeabsichtigte Weise verändern \cite[LLM01:2025]{owaspllm2025}. In
+dieser Pipeline ist jeder Text eines Pull Requests eine solche externe
+Quelle. Eine Beschreibung oder ein Kommentar könnte eine Anweisung an
+das Modell enthalten, etwa die Aufforderung, eine bestimmte Anforderung
+auszugeben oder das Ausgabeformat zu ändern.
+
+Die Pipeline begegnet dem auf vier Wegen. Erstens trennt sie Anweisung
+und Material. Die Systemanweisung wird in einem eigenen Feld der Anfrage
+gesendet, der Quellblock steht in der Nachricht zwischen zwei festen
+Trennzeilen und enthält nur Material aus dem Pull Request
+(Abschnitt~\ref{subsec:impl-modelleingabe}). Die Systemanweisung legt
+fest, dass das Material Daten und keine Anweisungen sind: Eine
+Aufforderung im Material darf als Beleg einer Anforderung dienen, wird
+aber nie ausgeführt. Das entspricht den Empfehlungen, die Rolle des
+Modells in der Systemanweisung festzulegen und fremde Inhalte getrennt
+und erkennbar zu übergeben \cite[LLM01:2025]{owaspllm2025}. Zweitens
+sendet das Aufrufprogramm keinen Quellblock, der selbst eine Trennzeile
+enthält oder dessen Kopfzeile eine andere Nummer nennt
+(Abschnitt~\ref{subsec:impl-aufruf}); ein Text kann das Material so
+nicht vorzeitig beenden. Drittens prüfen Programme jede Antwort
+(Abschnitt~\ref{sec:impl-pruefung}). Das Manifest vermerkt zudem jede
+Antwort, die eine andere Nummer nennt als den gesendeten Pull Request.
+Auch das empfiehlt OWASP: Ausgabeformate festlegen und ihre Einhaltung
+mit deterministischem Code prüfen \cite[LLM01:2025]{owaspllm2025}.
+Viertens erhält das Modell keine Funktionen und keinen Zugriff auf
+Dateien oder Netz, und keine Antwort wird als Programm ausgeführt.
+Eine eingeschleuste Anweisung kann damit höchstens den Inhalt einer
+Antwort verändern, aber keine Handlung auslösen.
+
+Die Grenzen sind deutlich. OWASP hält selbst fest, dass unklar ist, ob
+es eine sichere Abwehr von Prompt Injection überhaupt gibt
+\cite[LLM01:2025]{owaspllm2025}. Ein gezielter Angriffstest, wie OWASP
+ihn ebenfalls empfiehlt, gehört nicht zum Umfang dieser Arbeit. Eine
+eingeschleuste Anweisung, die das Modell zu einer erfundenen, aber
+formal korrekten Anforderung mit einem echten Quellausschnitt bringt,
+bestünde alle Prüfungen. Erkennbar wäre sie nur bei einer Durchsicht
+von Hand, wie sie die Prüfung der Klassifikation und die Bewertung für
+eine Stichprobe vorsehen.
+
+\subsection{Schutz vertraulicher und personenbezogener Daten}
+\label{subsec:impl-datenschutz}
+
+Zu den vertraulichen Angaben zählt OWASP unter anderem
+personenbezogene Daten und Zugangsdaten
+\cite[LLM02:2025]{owaspllm2025}. In der Pipeline betrifft das die
+Anmeldenamen der Beteiligten, Erwähnungen von Personen in den Texten
+sowie die Schlüssel für GitHub und OpenAI. Als Maßnahmen nennt OWASP
+unter anderem, Daten vor der Verarbeitung zu bereinigen, vertrauliche
+Inhalte zu ersetzen und die Aufbewahrung von Daten klar zu regeln
+\cite[LLM02:2025]{owaspllm2025}.
+
+Die Pipeline übernimmt aus den Rohdaten nur den Anmeldenamen und
+verwirft die übrigen Felder des Benutzerobjekts
+(Abschnitt~\ref{subsec:impl-interim}). In die Kopfzeilen des
+Quellblocks gelangt nur die Beziehung zum Repository, und Erwähnungen
+im Fließtext werden vor dem Senden durch Platzhalter ersetzt
+(Abschnitt~\ref{subsec:impl-pseudonym}). Die Schlüssel stehen nur in der
+Datei \path{.env}; der Schlüssel für GitHub gewährt nur Lesezugriff.
+Rohdaten, aufbereitete Daten, Modellantworten, Prüfbögen und die
+Zuordnung der Platzhalter sind von der Versionsverwaltung
+ausgeschlossen, versioniert werden nur Manifeste und Zählwerte. Beim
+Anbieter sendet das Aufrufprogramm \texttt{store} als \texttt{false}
+(Abschnitt~\ref{subsec:impl-aufruf}). Nach der Dokumentation des
+Anbieters werden Daten der Programmierschnittstelle ohne ausdrückliche
+Zustimmung nicht für das Training seiner Modelle verwendet
+\cite[einleitender Abschnitt]{openaiyourdata}; Protokolle zur Erkennung
+von Missbrauch bewahrt er bis zu 30~Tage auf \cite[Abschn.~Data
+retention controls for abuse monitoring]{openaiyourdata}. Im Konto war die Freigabe von Daten an den
+Anbieter abgeschaltet. Der Betreuer hat die Übertragung der
+pseudonymisierten Quellblöcke mündlich als für die Arbeit unbedenklich
+bestätigt. Bei den lokalen Modellen verlässt kein Quellblock den
+Rechner (Abschnitt~\ref{subsec:impl-lokal}).
+
+Es bleiben drei Grenzen. Die Ersetzung ist eine Pseudonymisierung und
+lässt sich mit der Zuordnung umkehren. Klarnamen im Fließtext und Namen
+im Änderungstext werden nicht ersetzt. Die Protokolle des Anbieters zur
+Erkennung von Missbrauch liegen außerhalb der Kontrolle des
+Verfassers.
+
+\subsection{Umgang mit den Ausgaben des Modells}
+\label{subsec:impl-ausgabe}
+
+OWASP versteht unter Improper Output Handling, dass Ausgaben eines
+Modells nicht ausreichend geprüft und bereinigt werden, bevor sie an
+andere Teile eines Systems gehen. Empfohlen wird, das Modell wie jeden
+anderen Nutzer zu behandeln und seine Ausgaben zu prüfen
+\cite[LLM05:2025]{owaspllm2025}. In der Pipeline gehen die Antworten an
+das Prüfprogramm, an die Zählprogramme und in die Prüfbögen des
+Verfassers.
+
+Das Aufrufprogramm liest eine Antwort nur, wenn sie genau ein
+JSON-Objekt ist, und repariert nichts (Abschnitt~\ref{subsec:impl-aufruf}).
+Das Prüfprogramm weist Felder zurück, die das Schema nicht vorsieht,
+begrenzt die Länge der Texte, berechnet die Belegstärke neu und prüft
+jeden Quellausschnitt an der Quelle (Abschnitt~\ref{sec:impl-pruefung}).
+Links übernimmt die Pipeline nie vom Modell, sondern nur aus den Daten
+von GitHub (Abschnitt~\ref{subsec:impl-links}). Keine Antwort wird als
+Programm ausgeführt. Wo Programme Texte des Modells in einen Prüfbogen
+schreiben, setzen sie diese in einen Codeblock, dessen Begrenzung länger
+ist als jede Folge von Backticks im Text. Ein Text kann den Block damit
+nicht beenden und nicht als Formatierung des Bogens wirken; das
+entspricht der Empfehlung, Ausgaben passend zu ihrem Verwendungsort zu
+kodieren \cite[LLM05:2025]{owaspllm2025}.
+
+Die Prüfungen sichern die Form einer Antwort und die wörtliche Herkunft
+ihrer Quellausschnitte. Ob eine Anforderung inhaltlich zutrifft, prüfen
+sie nicht. Das bleibt der Durchsicht von Hand in
+Kapitel~\ref{cha:evaluation} überlassen.
+
+\subsection{Begrenzung von Verbrauch und Kosten}
+\label{subsec:impl-verbrauch}
+
+Unbounded Consumption bezeichnet nach OWASP übermäßige und
+unkontrollierte Aufrufe eines Modells mit Folgen wie Ausfall oder
+wirtschaftlichem Schaden \cite[LLM10:2025]{owaspllm2025}. In dieser
+Pipeline droht der Schaden nicht durch Angreifer, sondern durch die
+eigenen Läufe: durch unerwartet lange Ein- oder Ausgaben oder durch
+wiederholte Anfragen. Empfohlen werden unter anderem Größengrenzen für
+Eingaben, Zeitgrenzen und Beschränkungen der Zahl wartender Anfragen
+\cite[LLM10:2025]{owaspllm2025}.
+
+Jeder Quellblock umfasst höchstens 80\,000 Zeichen
+(Abschnitt~\ref{subsec:impl-modelleingabe}), jede Antwort höchstens
+25\,000 Ausgabe-Token, und jede Anfrage bricht nach einer festen Zeit ab
+(Abschnitt~\ref{subsec:impl-aufruf}). Wiederholt wird nur nach einem
+Netzfehler, einem Serverfehler oder einer Ratenbegrenzung und nur bis
+zu einer Höchstzahl von Versuchen; jeder andere Fehler beendet den
+Lauf. Eine bereits beantwortete Anfrage wird nie erneut gesendet. Vor
+jedem Lauf schätzt ein Trockenlauf die Kosten, ohne etwas zu senden.
+Beim Anbieter war für das Projekt ein hartes Ausgabenlimit gesetzt,
+zuerst 10~US-Dollar, vor dem Volllauf auf 35~US-Dollar angehoben, und vor dem ersten Lauf legte
+der Verfasser ein Budget von höchstens 150~Euro fest. Für die lokalen
+Modelle prüft das Programm vor dem ersten Aufruf das Kontextfenster.
+Das Ausgabenlimit greift nach der Dokumentation des Anbieters nicht
+sofort, sodass der Verbrauch es geringfügig überschreiten kann
+\cite[Abschn.~Understand hard-limit behavior]{openaispend}. Die
+tatsächlichen Kosten berichtet Kapitel~\ref{cha:evaluation}.
+
 
 \chapter{Evaluation}
 \label{cha:evaluation}
@@ -2861,8 +3667,7 @@ Felder \texttt{model}, \texttt{max\_output\_tokens} und
 fasst die Bedingungen zusammen. Die herangezogenen Zeilen aus dem
 Protokoll des Servers stehen in \texttt{docs/ollama\_protokollauszug.md}.
 Die Einrichtung beschreibt
-\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur lokalen
-Ausführung in Kapitel~\ref{cha:implementierung}]}.
+Abschnitt~\ref{subsec:impl-lokal}.
 
 \begin{table}[htbp]
   \centering
@@ -3136,8 +3941,7 @@ Quellausschnitte. Davon nimmt das Prüfprogramm 2\,503 an und lehnt 208
 ab. Zwei Ablehnungen sind nach der vorab festgelegten Zuordnungsregel
 dem Prüfprogramm zuzurechnen; diese beiden Ausschnitte gelten als
 gefunden. Die übrigen 206 Ablehnungen gehen auf das Modell zurück
-\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zur Prüfung der
-Quellausschnitte]}.
+(Abschnitt~\ref{subsec:impl-zitate}).
 
 \subsection{Typen und Sicherheitsbezug}
 \label{subsec:grundzahlen-typen}
@@ -3559,9 +4363,9 @@ anwendbar} ist keine schlechte Note, sondern zeigt an, dass eine Ebene
 die betreffende Eigenschaft ihrem Zweck nach nicht regelt. Die Noten für
 K6 und K9 beruhen auf der in Abschnitt~\ref{subsec:formulierungsprobe}
 beschriebenen Messung, alle übrigen auf der Literatur.
-Belegstellen, Notenvorschläge und Gegenargumente hat ein Sprachmodell
-vorgelegt; die Noten hat der Verfasser nach Prüfung an den Quellen
-vergeben.
+Die Noten hat der Verfasser nach Prüfung an den Quellen vergeben. Zur
+Absicherung hat er Belegstellen, Notenvorschläge und Gegenargumente
+eines Sprachmodells hinzugezogen.
 
 
 \section{K1 Eindeutigkeit}
@@ -3872,11 +4676,12 @@ Entwicklung der Prompts überprüft.
 
 Die Noten dieses Kriteriums stammen nicht aus der Literatur, sondern aus
 der in Abschnitt~\ref{subsec:formulierungsprobe} beschriebenen Messung.
-Der Verfasser hat die sechs Sätze der
-Tabelle~\ref{tab:anhang-k6-versuche} selbst formuliert und selbst
-eingestuft; ein Sprachmodell hat den Rahmen und die Referenzinhalte
-vorgeschlagen und die Einstufungen anschließend gegengeprüft, jedoch
-keine Note vorgeschlagen. Die vollständige Dokumentation der Messung
+Der Verfasser hat den Rahmen und die Referenzinhalte festgelegt und
+die sechs Sätze der Tabelle~\ref{tab:anhang-k6-versuche} selbst
+formuliert und selbst eingestuft. Zur Absicherung hat ein Sprachmodell
+Vorschläge für Rahmen und Referenzinhalte geliefert und die
+Einstufungen anschließend gegengeprüft; eine Note hat es nicht
+vorgeschlagen. Die vollständige Dokumentation der Messung
 steht in \path{docs/formatprobe_protokoll.md}.
 
 Für die Ebenen~(c) und~(d) wird das Kriterium als nicht anwendbar
@@ -4102,9 +4907,10 @@ Systemreaktion und bei Ebene~(c) die Verbindlichkeitsstufe. Bei zwölf
 Fällen sind die Schwellen von zehn gedeckten Fällen für die Note~2 und
 von fünf für die Note~1 wirksam.
 
-Die Messung hat der Verfasser durchgeführt; ein Sprachmodell hat alle
-zwölf Fälle unabhängig gegengeprüft. Die fünf Einstufungen, die daraufhin
-geändert wurden, betrafen sämtlich Ebene~(c). Die vollständige
+Die Messung hat der Verfasser durchgeführt; zur Absicherung hat ein
+Sprachmodell alle zwölf Fälle unabhängig gegengeprüft. Die fünf
+Einstufungen, die der Verfasser daraufhin nach Prüfung an der Quelle
+geändert hat, betrafen sämtlich Ebene~(c). Die vollständige
 Dokumentation steht in \path{docs/formatprobe_protokoll.md}.
 
 \begin{description}
