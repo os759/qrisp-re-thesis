@@ -4038,6 +4038,79 @@ fuer Kapitel 7 vom Verfasser festgelegt.
 Status: festgelegt.
 Bezug: FF3, Kapitel 5 und 7.
 
+## 2026-10-08 Paket H: Kriterienliste v1
+
+### Nachtrag zu E2 (2026-10-08): Umfang, Skala und Art der Bewertung
+
+Festgelegt vor der ersten Bewertung. Der vollstaendige Wortlaut mit
+allen Notenregeln steht in eval/instrument/kriterien_v1.md; hier stehen
+nur die Festlegungen mit Begruendung. Die Kriterien selbst bleiben die
+aus kriterien_v0.md vom 21.09.2026.
+
+Bekannt waren zu diesem Zeitpunkt: die Grundzahlen
+(experiments/requirement_counts_2026-09-25_full_v2.json) und die 85
+Anforderungen der Stichprobe aus der Pruefung nach G5. Noten nach den
+Kriterien B1 bis B11b hatte der Verfasser noch nicht vergeben.
+
+1. Umfang: alle 85 Anforderungen der Stichprobe nach G5
+   (docs/sample_eval_e2.md), keine weitere Ziehung. Grund: Fuer B11a
+   und B11b muessen ohnehin alle Anforderungen eines Pull Requests
+   gelesen werden, und eine zweite Ziehung kostete Zeit ohne Gewinn.
+2. Skala: 2, 1, 0 und ? fuer nicht beurteilbar; ? wird getrennt gezaehlt
+   und nie wie 0 behandelt. Grund: Die dreistufige Skala sieht schon der
+   Nachtrag zu E2 vom 22.09.2026 vor; ? verhindert, dass eine Note
+   geraten wird, etwa wo Wissen ueber Quantencomputing fehlt.
+3. B8 (Formatkonformitaet) wird ganz maschinell geprueft, auch das
+   EARS-Muster. Grund: C5 Abschnitt 6 nennt Muster, Reihenfolge, shall
+   und das Fehlen anderer Modalverben maschinell pruefbar, und v0
+   Anmerkung 4 laesst die Art der Erhebung offen.
+4. B10 (Sprachliche Kriterien) prueft ein Programm mit einer
+   geschlossenen Wortliste aus genau den Beispielen in 29148
+   Abschn. 5.2.7. Grund: Der Nachtrag zu E2 vom 22.09.2026 sieht B10
+   maschinell vor. Eigene Woerter kommen nicht hinzu, weil der
+   Verfasser die Ausgaben des Modells schon kennt und eine eigene Liste
+   daran angepasst wirken koennte. Ein Treffer ist ein Hinweis, kein
+   festgestellter Verstoss.
+5. Merkmale der Anforderungsmenge (29148 Abschn. 5.2.6): Es bleibt bei
+   B11a und B11b je Pull Request, wie in v0. Grund: v0 erlaubt keine
+   neuen Kriterien, und C5 Abschnitt 4 legt die Merkmale der Menge in
+   die Evaluation. Abschnitt 2.1.4 der Arbeit kuendigt eine
+   Verarbeitung der ganzen Ergebnismenge in Kapitel 5 an, die es nicht
+   gibt; er wird bei der Lueckenpruefung angepasst. Doppelte
+   Anforderungen zwischen Pull Requests werden nicht gesucht; das
+   gehoert nach Kapitel 7.
+6. Der Nebenteil von E2 wird durchgefuehrt: Vergleich der Fundstellen
+   fuer Systemname und Systemreaktion an den zwoelf Faellen aus Paket C,
+   maschinell nach Ortsart und von Hand nach der Stelle. Grund: E2 ist
+   mit dem Betreuer abgestimmt, und nach v0 ist der Nebenteil das
+   einzige Mass dafuer, ob die Pipeline findet, was die Handprobe fand.
+7. Brauchbar im Sinne von FF1 ist eine Anforderung mit B1 bis B4
+   jeweils mindestens 1, B5 = 2, B6 = 2, B7 mindestens 1, B8 erfuellt
+   und B9 erfuellt. Grund: FF1 fragt nach brauchbaren Anforderungen;
+   ohne eine vorab festgelegte Regel wuerde die Antwort erst nach dem
+   Ergebnis bestimmt. Eine Anforderung mit einem klaren Mangel bei
+   Eindeutigkeit, Vollstaendigkeit, Einzelbezogenheit oder
+   Nachweisbarkeit soll nicht als brauchbar gelten. Die Regel ist eine
+   Setzung des Verfassers; alle Einzelwerte werden mitberichtet.
+8. Der Bogen ist verblindet und zeigt nur Satz und Zitate, keine
+   Etiketten des Modells und keine Ergebnisse der Programme. Grund:
+   wie bei G5 und G6.
+
+Kennzeichnung: Die Festlegungen von Paket H werden als Nachtraege zu E2
+gefuehrt und nicht mit H und einer Nummer, weil das Kuerzel H1 schon
+den Hinweis des Anzeigeskripts bezeichnet (Nachtrag zu E10 vom
+28.09.2026, Teil 3).
+
+Grenzen fuer Kapitel 7: siehe kriterien_v1.md, Abschnitt 11.
+
+Herkunft: Entwurf von Claude im Chat vom 08.10.2026. Die Punkte 1 bis
+6 hat der Verfasser am 08.10.2026 vor dem Entwurf gewaehlt. Punkt 7 hat
+er gegenueber dem Entwurf um die Bedingung B1 bis B4 mindestens 1
+erweitert; die Notenregeln und Punkt 8 hat er unveraendert freigegeben.
+
+Status: festgelegt.
+Bezug: FF1, FF2, Kapitel 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
