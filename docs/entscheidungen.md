@@ -3976,6 +3976,68 @@ Bezug: FF4, FF1, Kapitel 4, 5, 6 und 7.
 Status: festgelegt.
 Bezug: FF4, Kapitel 6 und 7.
 
+## 2026-10-07 Paket I: Nachtraege aus dem Schreiben von Kapitel 5
+
+### Nachtrag zu C2a (2026-10-07): Gegenpruefung an der Formulierungsprobe
+
+C2a haelt fest, dass an der Formulierungsprobe kein Sprachmodell
+beteiligt ist und dass bei K6 und K9 keine Ankerwirkung besteht, weil
+kein Modellvorschlag vorlag. Das gilt fuer die Einstufungen und die
+Noten: Beide stammen vom Verfasser. Nach docs/ki-protokoll.md war ein
+Sprachmodell aber auf zwei Wegen beteiligt:
+
+1. K9: Nach den Einstufungen des Verfassers hat ein Sprachmodell alle
+   zwoelf Faelle unabhaengig gegengeprueft (27. und 30.08.2026). Fuenf
+   Einstufungen, alle bei Ebene (c), hat der Verfasser danach nach
+   Pruefung an der Quelle geaendert.
+2. K6: Rahmen und Referenzinhalte hat ein Sprachmodell vorgeschlagen,
+   der Verfasser hat sie festgelegt (02.09.2026). Die sechs Saetze und
+   ihre Einstufungen stammen vom Verfasser; das Modell hat sie danach
+   gegengeprueft und keine Note vorgeschlagen.
+
+Anhang A beschreibt das seit dem 07.10.2026 so: Der Verfasser steht an
+erster Stelle, das Sprachmodell erscheint als Absicherung.
+
+Folge fuer Kapitel 7: Neben dem Notenvorschlag nach C2a ist auch der
+Vorschlag einer Aenderung als moeglicher Anker zu nennen; er betraf
+fuenf Einstufungen bei K9 Ebene (c).
+
+Herkunft: Befund und Formulierung von Claude im Chat vom 06. und
+07.10.2026, Wortlaut im Anhang vom Verfasser freigegeben.
+
+Status: festgelegt.
+Bezug: FF2, Kapitel 7, Anhang A.
+
+### Nachtrag zu E8 (2026-10-07): Warteschlange des Stapelbetriebs und Doppelrolle
+
+1. Warteschlange: Der Nachtrag zu E8 vom 24.09.2026 nennt fuer
+   gpt-5.6-terra in Nutzungsstufe 1 hoechstens 1 500 000 wartende
+   Eingabe-Token. Beim erneuten Abruf der Modellseite am 07.10.2026
+   nennt sie fuer die Stufe Build 3 000 000; die Stufen tragen jetzt
+   Namen statt Nummern. Beide Werte liegen unter den rund 3,96 Mio
+   Eingabe-Token des Volllaufs. Die Entscheidung fuer den
+   Normalbetrieb bleibt unberuehrt. Abschnitt 5.4 nennt beide Abrufe
+   (online.bib, Schluessel openaiterra).
+2. Doppelrolle: Begruendung 4 von E8 sagt, mit OpenAI entfalle die
+   Doppelrolle, weil Claude das Arbeitswerkzeug ist. Laut
+   docs/ki-protokoll.md hat der Verfasser auch ChatGPT mit dem Modell
+   sol eingesetzt, also ein Modell desselben Anbieters wie
+   gpt-5.6-terra: am 26. und 27.08.2026 fuer die Protokollform der
+   Formulierungsprobe, am 10.09.2026 fuer eine Wortlautpruefung und am
+   19.09.2026 fuer eine Gegenpruefung von Preisen. Es hat keine Ausgabe
+   von gpt-5.6-terra bewertet. Nach der Projektanweisung ist eine
+   Doppelrolle in Kapitel 7 zu behandeln. Festgelegter Satz fuer
+   Kapitel 7 (Verfasser, 07.10.2026): "Fuer einzelne Hilfsarbeiten und
+   Gegenpruefungen hat der Verfasser auch ein Sprachmodell desselben
+   Anbieters eingesetzt; es hat keine Ausgabe des untersuchten Modells
+   bewertet."
+
+Herkunft: Recherche und Befund von Claude im Chat vom 07.10.2026; Satz
+fuer Kapitel 7 vom Verfasser festgelegt.
+
+Status: festgelegt.
+Bezug: FF3, Kapitel 5 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

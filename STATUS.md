@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 06.10.2026
+Letzte Aktualisierung: 07.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -259,21 +259,41 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     Abschnitte 6.3 und 6.4, und 4.2 hat keinen Platzhalter mehr, weil
     die Regel aus G6 dort eingetragen ist.
 
-Warum der naechste Schritt jetzt kommt: Paket G ist bis auf Kapitel 7
-abgeschlossen. Als Naechstes kommt Kapitel 5 (Implementierung), weil es
-nicht von Paket H (Bewertung) abhaengt und noch ganz fehlt. Danach folgt
-der Teil von Kapitel 7 zu FF4, weil die Grenzen aus G3 bis G6 und dem
-Nachtrag zu G6 dort hingehoeren. Paket H laeuft seit 06.10.2026 in einem
-eigenen Chat; sein Stand ist hier nicht bekannt und wird von dort
-nachgetragen.
+18. Kapitel 5 geschrieben (06. und 07.10.2026): Die Implementierung
+    steht vollstaendig in acht Abschnitten (5.1 bis 5.8). Jeder Satz
+    wurde am Code, an den Manifesten und an docs/entscheidungen.md
+    geprueft, weil Kapitel 5 nur beschreiben darf, was die Programme
+    wirklich tun. Datenmodell (4.3) sowie Anweisung und Modellwahl
+    (4.4) bleiben in Kapitel 4, weil sie Konzeption sind. Pilotlauf
+    und Weiterentwicklung der Anweisung stehen in 5.4, die Pruefzahlen
+    des Volllaufs in Kapitel 6, weil Kapitel 5 keine Ergebnisse
+    berichtet. Die Absicherung (5.7) folgt vier Eintraegen der
+    OWASP-Liste fuer Anwendungen mit Sprachmodellen (LLM01, LLM02,
+    LLM05, LLM10), weil die Projektanweisung diesen Teil klein haelt.
+    Einen gezielten Angriffstest gibt es nicht, weil er eine eigene
+    Studie waere; 5.7 nennt das als Grenze. In Anhang A steht der
+    Verfasser jetzt an erster Stelle und das Sprachmodell als
+    Absicherung, weil der Verfasser alle Noten und Einstufungen selbst
+    vergeben hat. Sechs Quellen kamen hinzu, fuenf Seiten der
+    OpenAI-Dokumentation und die OWASP-Liste, weil Aussagen ueber den
+    Anbieter und ueber Sicherheitsrisiken einen Beleg brauchen.
+
+Warum der naechste Schritt jetzt kommt: Kapitel 5 ist fertig. Als
+Naechstes kommt Paket H (Bewertung), weil der Verfasser die Bewertung
+selbst durchfuehren muss und Kapitel 6 und 7 auf ihr aufbauen. Paket H
+hat laut Verfasser (07.10.2026) noch nicht begonnen; die fruehere
+Angabe, es laufe seit 06.10.2026, ist damit ueberholt. Danach oder
+parallel folgt Paket I Teil 2: die Abschnitte 4.3 (Datenmodell) und
+4.4 (Anweisung und Modellwahl), weil Kapitel 5 und zwei Platzhalter in
+Kapitel 4 auf sie verweisen, und der Teil von Kapitel 7 zu FF4.
 
 Geschrieben sind Teile von Kapitel 2 (mit Abschnitt 2.4), die
-Abschnitte 4.1, 4.2 (seit 06.10.2026 ohne Platzhalter), 6.1 bis 6.4
-und Anhang A.
+Abschnitte 4.1 und 4.2, Kapitel 5 vollstaendig (5.1 bis 5.8), die
+Abschnitte 6.1 bis 6.4 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve ausser dem 14.10. Groesstes Risiko: Die Kapitel 1, 3, 5, 7
-und 8 sind noch nicht geschrieben, und Paket H (Bewertung) laeuft
-parallel.
+Reserve ausser dem 14.10. Groesstes Risiko: Paket H (Bewertung) hat
+noch nicht begonnen, und die Kapitel 1, 3, 7 und 8 sowie die
+Abschnitte 4.3 und 4.4 sind noch nicht geschrieben.
 
 
 ## Zusammenarbeit im Chat
@@ -399,6 +419,20 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   Zeilenende entfernt und so die Pruefsumme aendert (Befund
   06.10.2026). Antworten schreibt Claude, wo moeglich, per Befehl in
   die Datei.
+- In zsh bricht ein Ausrufezeichen in doppelten Anfuehrungszeichen
+  einen Befehl ab (Ausgabe "dquote>"), weil zsh es als Verweis auf die
+  Befehlsgeschichte liest. Claude setzt Suchmuster und
+  Commit-Nachrichten deshalb in einfache Anfuehrungszeichen (Befund
+  06.10.2026).
+- Commit-Nachrichten enthalten keine Zeilen "Co-Authored-By" oder
+  "Claude-Session" (Wunsch des Verfassers, 07.10.2026). Der erste
+  Commit von Paket I Teil 1 traegt sie noch; die Historie wird nicht
+  umgeschrieben.
+- Neue LaTeX-Abschnitte prueft Claude im Nachbau der ganzen Arbeit,
+  nicht nur des Abschnitts, weil eine zu breite Zeile in 5.6 erst mit
+  den echten Abschnittsnummern auftrat (Befund 07.10.2026). Gehen
+  Hilfsdateien in Claudes Umgebung verloren, baut Claude sie aus den
+  hochgeladenen Dateien neu auf und sagt das dazu.
 
 ## Kuerzel
 
@@ -664,6 +698,13 @@ Arbeitspaket F (Lokales Modell und Modellvergleich) abgeschlossen am
 - docs/ollama_protokollauszug.md mit den belegenden Zeilen des
   Serverprotokolls vom 30.09.2026
 
+Paket I Teil 1 (Kapitel 5) abgeschlossen am 07.10.2026:
+- Kapitel 5 Implementierung, Abschnitte 5.1 bis 5.8 mit fuenf Tabellen
+- sechs BibTeX-Eintraege in online.bib (OpenAI-Dokumentation, OWASP)
+- Anhang A: Rolle des Verfassers vorangestellt (Einleitung, K6, K9)
+- tests/README.md nachgezogen
+- Commits siehe "Commits Paket I"
+
 ## Datensaetze (alle lokal, nicht im Repository)
 
 data/raw/pulls_2026-08-12.jsonl - 476 PRs
@@ -824,8 +865,9 @@ truncation, issue_comments, review_comments, files
 
 507 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 06.10.2026 (507 passed) unter Python 3.14.7,
-abgelesen vom Aktualisierungsskript.
+Zuletzt gruen am 07.10.2026 (507 passed), vom Verfasser
+ausgefuehrt; Zahl je Datei mit pytest --collect-only, siehe
+Abschnitt 5.8 (tab:impl-tests).
 
 tests/conftest.py setzt den Importpfad auf src/collect, src/prepare
 und src/extract. Ohne diese Datei finden die Tests die Module nicht.
@@ -837,7 +879,7 @@ Zitatregeln des Prompts, seit 27.09.2026 auch Leerraum am Rand),
 test_prompt_input.py (21 Tests, Auswahl und Budget),
 test_prompt_files.py (30 Tests, Prompt v1 und v2 gegen Schema; v2
 darf nur die Regeln fuer Zitate aus Diffs aendern),
-test_pseudonymise.py (28 Tests, Ersetzung von Erwaehnungen),
+test_pseudonymise.py (34 Tests, Ersetzung von Erwaehnungen),
 test_draw_sample.py (15 Tests, Schalter --sizes und --exclude, E10 a),
 test_run_extraction.py (45 Tests, Aufrufprogramm ohne Netz, mit
 erfundenen Antworten; seit 30.09.2026 auch der lokale Aufrufweg,
@@ -1268,29 +1310,33 @@ Literaturmatrix L07 (Spalte Nutzen) sagen, die Inhaltsbloecke aus
 nicht-funktional ohne eigene Setzung. Nach G4 ordnet die Norm nur zwei
 der sechs Typwerte ausdruecklich zu.
 
-Naechste Schritte in dieser Reihenfolge:
-1. Paket I Teil 1 im neuen Chat: Kapitel 5 Implementierung (Platzhalter
-   im Kapitel cha:implementierung), dann der Teil von Kapitel 7 zu FF4
-   mit den Grenzen aus G3 bis G6 und dem Nachtrag zu G6. Kapitel 5
-   zuerst, weil es nicht von Paket H abhaengt. Vor jedem Vorschlag
-   prueft Claude STATUS.md und docs/entscheidungen.md auf bestehende
-   Regeln.
-2. Paket H (eigener Chat seit 06.10.2026, Stand hier nicht bekannt):
-   zuerst Kriterienliste v1, dann Bewertung an der
-   Stichprobe docs/sample_eval_e2.md (gezogen am 05.10.2026 nach G5),
-   dazu die Zaehlung von M1 (Teil b im
-   Pilotlauf) und M3 nach F3. M2 ist am 01.10.2026 gezaehlt, beide
-   Pruefpunkte aus F3 sind beantwortet (Nachtrag zu F3 vom
-   01.10.2026). Offen ist dort nur Angabe (i), Punkt 4 des Nachtrags;
-   dafuer wird src/analyze/count_requirements.py erweitert.
-3. Phase 2 der Literatursuche fuer Kapitel 3, verkleinert.
+Naechste Schritte in dieser Reihenfolge (Stand 07.10.2026):
+1. Paket H im neuen Chat (laut Verfasser noch nicht begonnen):
+   zuerst Kriterienliste v1, dann Bewertung an der Stichprobe
+   docs/sample_eval_e2.md (gezogen am 05.10.2026 nach G5), dazu die
+   Zaehlung von M1 (Teil b im Pilotlauf) und M3 nach F3 sowie Angabe
+   (i) aus Punkt 4 des Nachtrags zu F3 vom 01.10.2026; dafuer wird
+   src/analyze/count_requirements.py erweitert. Zu entscheiden: ob die
+   Merkmale der Anforderungsmenge nach 29148 Abschn. 5.2.6 bewertet
+   werden und ob ein Programm fuer die Sprachregeln (B10) entsteht
+   (Befund unter "Offene Punkte"). Danach die Abschnitte in Kapitel 6:
+   Design und Ergebnis der Bewertung sowie die Messgroessen fuer FF3
+   (M1 bis M6); sie loesen die Platzhalter zu den Messgroessen auf.
+2. Paket I Teil 2 im neuen Chat: Abschnitt 4.3 (Label
+   sec:konzeption-datenmodell, nach E1, E6 und ihren Nachtraegen) und
+   4.4 (sec:konzeption-prompt-modell, nach E7, E8 und F2), dann der
+   Teil von Kapitel 7 zu FF4 mit den Grenzen aus G3 bis G6, dem
+   Nachtrag zu G6 und der Sammelliste fuer Kapitel 7 unter "Offene
+   Punkte". Vor jedem Vorschlag prueft Claude STATUS.md und
+   docs/entscheidungen.md auf bestehende Regeln.
+3. Kapitel 1, 3 und 8 sowie der Abstract; Kapitel 3 verkleinert aus
+   der Literaturmatrix (Phase 2 der Literatursuche entfaellt aus
+   Zeitgruenden, falls der Betreuer zustimmt).
 3a. Lueckenpruefung von thesis/thesis.tex nach der Regel in
    "Zusammenarbeit im Chat", nach Paket H, spaetestens vor dem
    12.10.2026.
-4. Nicht blockierend: zehn Overfull hboxen in Anhang A
-   (Korrekturdurchgang 12.10.), der Platzhalter zum Datenmodell in
-   4.1.4 (das Datenmodell steht als E1, E6 und der Nachtrag zu E1
-   fest) und zwei Platzhalter in Abschnitt 6.1.
+4. Nicht blockierend: Overfull hboxen (Korrekturdurchgang 12.10.),
+   prompts/README.md berichtigen.
 
 ## Getroffene Entscheidungen
 
@@ -1472,6 +1518,26 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Zahlen (mit und ohne Gegenprobe) werden berichtet, weil die
   Gegenprobe nach dem bekannten Ergebnis nicht wiederholt werden darf.
 
+- Paket I Teil 1 (06.10.2026, vom Verfasser freigegeben): Kapitel 5
+  in acht Abschnitten. Datenmodell (4.3) sowie Anweisung und
+  Modellwahl (4.4) bleiben in Kapitel 4, weil sie Konzeption sind.
+  Pilotlauf und Weiterentwicklung der Anweisung in 5.4,
+  Pruefzahlen des Volllaufs in Kapitel 6, weil Kapitel 5 nur die
+  Umsetzung beschreibt.
+- Absicherung (06.10.2026, Option B): Ausschnitt der OWASP Top 10 for
+  LLM Applications 2025 mit LLM01, LLM02, LLM05 und LLM10 und Tabelle
+  tab:impl-owasp, weil diese vier auf Merkmale der Pipeline treffen.
+  Kein gezielter Angriffstest (07.10.2026), weil die Projektanweisung
+  diesen Teil klein haelt; Grenze in 5.7 und Kapitel 7.
+- Anhang A (07.10.2026): In Einleitung, K6 und K9 steht der Verfasser
+  an erster Stelle, das Sprachmodell als Absicherung, weil der
+  Verfasser alle Noten und Einstufungen selbst vergeben hat. Wo das
+  Modell vorher Vorschlaege lieferte, bleibt das erkennbar, weil C2a
+  die Ankerwirkung fuer Kapitel 7 verlangt.
+- Doppelrolle (07.10.2026): Satz fuer Kapitel 7 festgelegt, siehe
+  Nachtrag zu E8 vom 07.10.2026, weil auch ein Modell desselben
+  Anbieters als Arbeitshilfe diente.
+
 ## LaTeX-Konventionen
 
 Zitierschluessel in thesis.bib: iso29148, mavin2009ears, mavin2010bigears,
@@ -1515,6 +1581,22 @@ tab:typ-arten · subsec:pruefung-klassifikation
 Kapitel 6, neu seit 06.10.2026: sec:eval-klassifikation ·
 tab:klass-sicherheit · tab:klass-typ · sec:eval-gap · tab:gap-summen ·
 tab:gap-belegt
+Kapitel 5, neu seit 07.10.2026, aus thesis.tex gelesen:
+cha:implementierung · tab:impl-stufen · sec:impl-grundsaetze ·
+sec:impl-erhebung · tab:impl-endpunkte · sec:impl-aufbereitung ·
+subsec:impl-interim · tab:impl-kuerzung · subsec:impl-modelleingabe ·
+subsec:impl-pseudonym · sec:impl-extraktion · subsec:impl-aufruf ·
+subsec:impl-pilot · subsec:impl-volllauf · subsec:impl-lokal ·
+sec:impl-pruefung · subsec:impl-validierung · subsec:impl-zitate ·
+subsec:impl-links · sec:impl-auswertung · subsec:impl-ziehung ·
+subsec:impl-zaehlung · subsec:impl-pruefboegen · sec:impl-absicherung ·
+tab:impl-owasp · subsec:impl-injection · subsec:impl-datenschutz ·
+subsec:impl-ausgabe · subsec:impl-verbrauch · sec:impl-tests ·
+tab:impl-tests
+Verwiesen, aber noch nicht vorhanden: sec:konzeption-datenmodell (4.3)
+und sec:konzeption-prompt-modell (4.4).
+BibTeX-Schluessel seit 07.10.2026 in online.bib: openaireasoning,
+openaiyourdata, openaispend, openaibatch, openaiterra, owaspllm2025.
 BibTeX-Schluessel seit 04.10.2026 in thesis.bib: cc2022teil2,
 cc2022teil3, bsitr03185.
 Seitenmasse laut thesis/preamble.tex: Textbreite 14 cm, Texthoehe
@@ -1715,9 +1797,8 @@ Extern, mit Vorlauf:
 - Korreferent in thesis.tex eintragen (Platzhalter Zeile 23)
 - Phase 2 der Literatursuche nachholen, verkleinert, bis Ende W9.
   Kapitel 3 hat sonst keine Materialgrundlage.
-- Namenskonflikt: Schicht S5 in draw_sample.py spricht von "per pull
-  request budget" und meint D1. Seit E5 gibt es ein zweites Budget
-  mit demselben Wort. In Kapitel 5 trennen.
+- Erledigt am 07.10.2026: Abschnitt 5.3 trennt das "Budget je Pull
+  Request" (D1) von der "Grenze des Quellblocks" (E5).
 
 Inhaltlich offen:
 - Ein Platzhalter in Abschnitt 4.1: Verweis auf den Abschnitt zum
@@ -1754,9 +1835,8 @@ Inhaltlich offen:
   ein Name ohne "@" wuerde so nicht gefunden.
 - Wegweiser in README.md ergaenzen: welche Datei erklaert was und in
   welcher Reihenfolge sie zu lesen ist (Paket I).
-- src/analyze/draw_sample.py: Tests nur fuer --sizes und --exclude
-  (E10 a). Fuer das uebrige Skript die Ausnahme von D4 in Kapitel 5
-  begruenden.
+- Erledigt am 07.10.2026: Abschnitt 5.8 begruendet, warum
+  draw_sample.py nur in seinen beiden Schaltern getestet ist (D4a).
 - PR 711: Rolle und Systemreaktion sind die einzigen zwei Felder der
   Stichprobe, die nicht unabhaengig gegengeprueft wurden. Die
   Diff-Ansicht war dem gegenpruefenden Modell nicht zugaenglich.
@@ -1794,9 +1874,9 @@ Technisch und redaktionell:
   30.09.2026 gelesen, der Verfasser noch nicht. Vor der Abgabe die
   Abschnitte Responses API und Setting the local context size selbst
   ansehen.
-- tests/README.md nennt noch 373 Tests. Beim naechsten Code-Commit
-  oder in Paket I auf den Stand der Testsuite nachziehen.
-- Platzhalter in thesis.tex, Stand 06.10.2026, vom
+- Erledigt am 07.10.2026: tests/README.md nennt den Stand vom
+  07.10.2026 mit 507 Tests (Commit 374290b).
+- Platzhalter in thesis.tex, Stand 07.10.2026, vom
   Aktualisierungsskript aus den Zeilen mit \textbf{[ gelesen:
   Z. 20: Noch zu ergaenzen: Abgabedatum
   Z. 23: Noch zu ergaenzen: Korreferent
@@ -1809,16 +1889,12 @@ Technisch und redaktionell:
   Z. 1614: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
   Z. 1975: Noch zu ergaenzen: Verweis auf den Abschnitt zum ...
   Z. 1987: Noch zu ergaenzen: Verweis auf den ...
-  Z. 1994: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
-  Z. 2314: Noch zu ergaenzen: GitHub-API, Aufbereitung, Extraktion, ...
-  Z. 2321: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
-  Z. 2413: Noch zu ergaenzen: Verweis auf den Abschnitt zur lokalen ...
-  Z. 2611: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
-  Z. 2688: Noch zu ergaenzen: Verweis auf den Abschnitt zur ...
-  Z. 2756: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
-  Z. 3064: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
-  Z. 3072: Noch zu ergaenzen
-- Overfull hboxen, Behebung am 12.10.: Stand 06.10.2026 14
+  Z. 3677: Noch zu ergaenzen: Design, Durchfuehrung, Ergebnisse, ...
+  Z. 3966: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 4110: Noch zu ergaenzen: Verweis auf den Abschnitt mit den ...
+  Z. 4418: Noch zu ergaenzen: Beantwortung der Forschungsfragen, ...
+  Z. 4426: Noch zu ergaenzen
+- Overfull hboxen, Behebung am 12.10.: Stand 07.10.2026 14
   Stueck, vom Aktualisierungsskript aus thesis/thesis.log gezaehlt.
   Die Liste mit Zeilennummern gibt nach einer Uebersetzung
   grep "Overfull" thesis/thesis.log aus. Zeilennummern stehen hier
@@ -1852,6 +1928,25 @@ Technisch und redaktionell:
   fehlt im Inhaltsverzeichnis (Befund 10.09.2026). Eine Behebung
   aendert die Vorlagenstruktur und braucht Abstimmung; Paket I.
 - Demo-Dateien der Vorlage in thesis/figures/ vor Abgabe entfernen
+- Die Quellen L10 und L21 bis L25 (OWASP, OpenAI-Dokumentation) hat
+  Claude am 07.10.2026 ueber ein Abrufwerkzeug gelesen, der Verfasser
+  noch nicht. Vor der Abgabe die genannten Abschnitte selbst ansehen.
+- prompts/README.md beschreibt Unterordner v1/ und v2/; die Dateien
+  liegen flach als prompts/extraction_system_v2.md usw. Berichtigen.
+- Befund fuer Paket H und die Lueckenpruefung: Abschnitt 2.1.4
+  kuendigt eine Verarbeitung der Anforderungsmenge in Kapitel 5 an.
+  Kapitel 5 enthaelt keine, weil C5 Abschnitt 4 die Merkmale nach
+  29148 Abschn. 5.2.6 in die Evaluation legt; ein Programm fuer die
+  Sprachregeln (B10) gibt es nicht. In Paket H entscheiden, danach
+  2.1.4 anpassen.
+- Sammelliste fuer Kapitel 7 aus Kapitel 5: Lieferreihenfolge von
+  GitHub als Kuerzungsreihenfolge (5.3); Grenzen der
+  Pseudonymisierung (5.3); Modell nur ueber den Namen ohne
+  Datumszusatz angesprochen (5.4); je ein Lauf je Fassung der
+  Anweisung (5.4); Pruefung der Form, nicht des Inhalts (5.5, 5.7);
+  kein Angriffstest (5.7); Doppelrolle (Nachtrag zu E8 vom
+  07.10.2026); Gegenpruefung und Vorschlaege bei K6 und K9 (Nachtrag
+  zu C2a vom 07.10.2026).
 
 
 ## Arbeitsweise
@@ -2049,6 +2144,16 @@ d781e0f code: Programm gap_analysis.py fuer die Gap-Analyse nach G6 (Kandidaten,
 579f655 docs: Ergebnis der Gap-Analyse nach G6 (experiments/gap_analysis_2026-10-06.json): 200 Kandidaten, Gegenprobe 21 Anforderungen in zwei Runden; Kategorie 1: 2, Kategorie 2: 7, Kategorie 3: 18, Kategorie 4: 2
 6496f5e tex: Abschnitt 6.4 Ergebnis der Gap-Analyse (sec:eval-gap) mit tab:gap-summen und tab:gap-belegt, Zahlen per Skript aus experiments/gap_analysis_2026-10-06.json; docs: Nachtrag zu G6 (Neusperre der Zuordnung, Arbeitshinweis zur Gegenprobe, Kategorien ohne Gegenprobe)
 
+## Commits Paket I
+
+Teil 1, aus git log gelesen; Basis ist der letzte Commit vor Paket I:
+f825dbe docs: Uebergabe Paket G Teil 5 (G6, Gap-Analyse, Abschnitte 6.3 und 6.4): STATUS mit Rotem Faden Punkt 17, Kuerzeln G6 und Kategorie 1 bis 4, zwei Regeln zur Zusammenarbeit, Commits, Testsuite, Platzhalter und Overfull-Stand aus den Quellen gelesen; KI-Protokoll
+
+201cfd9 tex: Kapitel 5 Implementierung, Einleitung mit tab:impl-stufen und Abschnitte 5.1 Grundsaetze der Umsetzung (sec:impl-grundsaetze), 5.2 Datenerhebung ueber die GitHub-API (sec:impl-erhebung, tab:impl-endpunkte) und 5.3 Aufbereitung und Modelleingabe (sec:impl-aufbereitung, tab:impl-kuerzung) nach den Entscheidungen D1 bis D7, E4, E5 und E9, am Code geprueft; Platzhalter des Kapitels ersetzt
+4180e6e tex: Kapitel 5, Abschnitte 5.4 Extraktion, 5.5 Pruefung der Modellausgaben, 5.6 Programme der Auswertung und 5.7 Absicherung der Pipeline mit tab:impl-owasp (OWASP-Ausschnitt LLM01, LLM02, LLM05, LLM10), am Code geprueft; Platzhalter in 4.2.4, 6.1 und 6.2 durch Verweise ersetzt; Anhang A, Einleitung, K6 und K9: Rolle des Verfassers vorangestellt; sechs Eintraege in online.bib (OpenAI-Dokumentation, OWASP)
+374290b docs: tests/README.md auf Stand 07.10.2026 mit 507 Tests, drei Testdateien aus Paket G und ihre Pruefung gegen eingebaute Fehler ergaenzt
+abdcdcf tex: Abschnitt 5.8 Automatische Tests (sec:impl-tests, tab:impl-tests), Zahlen aus pytest --collect-only vom 07.10.2026; Kapitel 5 damit vollstaendig
+
 ## Aufruf des Ziehungsskripts
 
 python src/analyze/draw_sample.py \
@@ -2171,6 +2276,9 @@ W10 05.-11.10. Paket H: Bewertung nach Weg A Mo 05. und Di 06.10.,
               (Di 06. und Mi 07.10.), Kriterienliste v1 Di 06.10.
               Di 06.10.: Paket G Teil 5 (G6, Gap-Analyse, Abschnitte
               6.3 und 6.4); Stand von Paket H hier nicht bekannt.
+              Mi 07.10.: Paket I Teil 1, Kapitel 5 vollstaendig
+              (5.1 bis 5.8); Paket H laut Verfasser noch nicht
+              begonnen.
 W11 12.-15.10. Mo 12.10. Korrekturdurchgang
               Di 13.10. Endkontrolle, interne Abgabe
               Mi 14.10. Puffer
@@ -2192,6 +2300,11 @@ ist auf den 15.10.2026 vorgezogen. Bis zur internen Abgabe am
 13.10.2026 verbleiben 20 Tage, bis zur Abgabe 22 Tage. Der Plan hat
 keine Reserve ausser dem 14.10.; jede Verzoegerung verschiebt das
 Schreiben.
+
+Stand 07.10.2026, W10. Kapitel 5 vollstaendig (Paket I Teil 1). Offen:
+Paket H (noch nicht begonnen), Abschnitte 4.3 und 4.4, Kapitel 1, 3, 7
+und 8. Bis zur internen Abgabe am 13.10.2026 verbleiben 6 Tage, bis
+zur Abgabe 8 Tage.
 
 Stand 06.10.2026, W10. Paket G bis auf Kapitel 7 abgeschlossen: G6,
 Gap-Analyse, Abschnitte 6.3 und 6.4. Offen: Kapitel 1, 3, 5, 7 und 8,
