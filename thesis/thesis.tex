@@ -1645,8 +1645,9 @@ liegen demgegenüber auf der Ebene der Implementierung. Sie beschreiben
 Änderungen an einzelnen Modulen, nicht Erwartungen von Beteiligten an
 ein System als Ganzes. Die Anwendung des Musters auf dieses Material
 ist damit eine begründete Übertragung, jedoch keine durch die Quelle
-gedeckte Anwendung. Ob sie trägt, entscheidet erst die Bewertung durch
-das Qrisp-Team in Kapitel~\ref{cha:evaluation}.
+gedeckte Anwendung. Ob sie trägt, prüft Abschnitt~\ref{sec:eval-bewertung} zunächst nur in
+einer Selbstbewertung durch den Verfasser. Die Bewertung durch das
+Qrisp-Team ist für die Zeit nach der Abgabe vorgesehen.
 
 Auch die Belastbarkeit der beiden gemessenen Kriterien ist begrenzt.
 Die Stichprobe umfasst zwölf Fälle; ein einziger zusätzlich gedeckter
@@ -1673,9 +1674,10 @@ niederländischer Softwareanbieter
 \cite[Abschn.~5.2]{lucassen2016qus}. Für die Normabschnitte existiert
 keine Wirksamkeitsuntersuchung. Besonders vorläufig ist die Zeile zu
 K7: Wie viel Vorwissen eine entwickelnde Person tatsächlich benötigt,
-lässt sich erst durch die Bewertung in Kapitel~\ref{cha:evaluation}
-bestimmen; bis dahin beruht die Note auf ersatzweise herangezogenen
-Merkmalen.
+lässt sich erst durch eine Bewertung durch das Qrisp-Team bestimmen,
+die für die Zeit nach der Abgabe vorgesehen ist. Die Selbstbewertung
+in Abschnitt~\ref{sec:eval-bewertung} ersetzt sie nicht; bis dahin
+beruht die Note auf ersatzweise herangezogenen Merkmalen.
 
 Grenzen weist ferner das Entscheidungsverfahren selbst auf. Die drei
 Rollenbezeichnungen wurden für Satzmuster formuliert. Für Ebene~(d)
@@ -1984,8 +1986,7 @@ Systemreaktion allein ein nicht auffindbarer Ausschnitt trägt, kann
 damit als direkt oder indirekt belegt gelten. Für die
 Unbelegtheitsrate, die für die dritte Forschungsfrage erhoben wird,
 bleibt diese Berechnung unverändert, weil deren Definition vor der
-Zählung festgelegt wurde \textbf{[Noch zu ergänzen: Verweis auf den
-Abschnitt mit den Messgrößen für die dritte Forschungsfrage]}.
+Zählung festgelegt wurde (Abschnitt~\ref{subsec:ff3-festlegung}).
 
 Für die Gap-Analyse gilt deshalb ein strengerer Belegbegriff. Ein Beleg
 gilt als gefunden, wenn das Prüfprogramm seinen Ausschnitt annimmt oder
@@ -3674,8 +3675,26 @@ Abschnitt~\ref{sec:impl-pruefung}.
 \chapter{Evaluation}
 \label{cha:evaluation}
 
-\textbf{[Noch zu ergänzen: Design, Durchführung, Ergebnisse,
-Auswertung.]}
+Dieses Kapitel berichtet die Ergebnisse der Läufe und Prüfungen. Ihre
+Deutung und die Bedrohungen der Validität folgen in
+Kapitel~\ref{cha:diskussion}. Abschnitt~\ref{sec:eval-pilot-lokal}
+beschreibt den Kontrollpunkt der lokalen Modelle, der den Umfang der
+dritten Forschungsfrage bestimmt hat. Abschnitt~\ref{sec:eval-grundzahlen}
+nennt die Grundzahlen des Volllaufs, auf denen die folgenden Abschnitte
+aufbauen. Abschnitt~\ref{sec:eval-ff3} legt die Messgrößen für die
+dritte Forschungsfrage fest und berichtet ihre Werte.
+Abschnitt~\ref{sec:eval-bewertung} bewertet eine Stichprobe der
+rekonstruierten Anforderungen für die erste und die zweite
+Forschungsfrage. Die Abschnitte~\ref{sec:eval-klassifikation}
+und~\ref{sec:eval-gap} berichten die Prüfung der Klassifikation und das
+Ergebnis der Gap-Analyse für die erste und die vierte Forschungsfrage.
+
+Alle Urteile von Hand in diesem Kapitel stammen vom Verfasser. Eine
+Bewertung durch das Qrisp-Team und den Betreuer ist für die Zeit nach
+der Abgabe vorgesehen; diese Abweichung vom Exposé ist mit dem Betreuer
+abgestimmt (Abschnitt~\ref{subsec:bewertung-design}). Die Zahlen stammen
+aus versionierten Ergebnisdateien und Manifesten; die Quelle ist in
+jedem Abschnitt angegeben.
 
 \section{Kontrollpunkt und Pilotfall der lokalen Modelle}
 \label{sec:eval-pilot-lokal}
@@ -3963,8 +3982,7 @@ Einrichtungsversuch, der Einrichtungsaufwand, Laufzeit und
 Speicherbedarf der beiden Pilotfälle sowie die Datenkontrolle. Zur
 Ergebnisqualität liegt lokal nur der Formatbefund an je einem Vorgang
 vor. Welche Größen mit Zahlenwerten erhoben werden, legt
-\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt mit den
-Messgrößen für die dritte Forschungsfrage]} fest.
+Abschnitt~\ref{subsec:ff3-festlegung} fest.
 
 Tabelle~\ref{tab:pilot-ergebnisse} stellt die vier Antworten auf Pull
 Request~64 gegenüber: zwei des API-Modells gpt-5.6-terra aus dem
@@ -4106,9 +4124,8 @@ Belegen weichen bei acht Anforderungen voneinander ab.
 Für die Unbelegtheitsrate gelten 75 Anforderungen als unbelegt, das
 sind 5,1\,\% der 1\,467. Bei 45 Anforderungen wird kein Beleg gefunden,
 bei 33 ergibt die Berechnung aus allen Belegen die Stufe
-\emph{unzureichend}. Drei Anforderungen erfüllen beide Bedingungen
-\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt mit den
-Messgrößen für die dritte Forschungsfrage]}.
+\emph{unzureichend}. Drei Anforderungen erfüllen beide Bedingungen. Die Definition der
+Unbelegtheitsrate steht in Abschnitt~\ref{subsec:ff3-festlegung}.
 
 Nach dem Belegbegriff der Gap-Analyse sind 1\,270 Anforderungen belegt,
 das sind 86,6\,\%. Bei 144 Anforderungen wird nur ein Teil der Belege
@@ -4154,6 +4171,682 @@ unbelegt.
   \texttt{experiments/requirement\_counts\_2026-09-25\_full\_v2.json}.
 \end{table}
 
+
+\section{Messgrößen für die dritte Forschungsfrage}
+\label{sec:eval-ff3}
+
+Die dritte Forschungsfrage vergleicht das API-Modell mit lokal
+betriebenen Modellen nach Ergebnisqualität, nach Kosten und Aufwand
+sowie nach Datenkontrolle. Dieser Abschnitt legt fest, welche Größen
+dafür mit Zahlenwerten erhoben werden, und berichtet ihre Werte. Die
+übrigen Vergleichsdimensionen beschreibt er in Worten. Den Umfang des
+Vergleichs bestimmt Stufe~d aus Abschnitt~\ref{subsec:pilot-folge}:
+Lokal liegt je Modell ein einziger Vorgang vor, und keine der beiden
+lokalen Antworten steht als JSON-Objekt in der Extraktionsdatei.
+
+\subsection{Festlegung der Messgrößen}
+\label{subsec:ff3-festlegung}
+
+Mit Zahlenwerten werden höchstens sechs Größen erhoben, im Folgenden M1
+bis M6. Der Verfasser hat sie am 30.~September 2026 nach dem
+Kontrollpunkt der lokalen Modelle als Entscheidung~F3 in
+\path{docs/entscheidungen.md} festgehalten.
+Tabelle~\ref{tab:ff3-messgroessen} fasst sie zusammen. Ein Vorgang ist
+ein Pull Request mit seinem Quellblock aus der Modelleingabe.
+
+Die Festlegung erfolgte nur zum Teil vorab. Für M1, M4, M5 und M6
+lagen die Werte des API-Modells und der beiden lokalen Pilotfälle zu
+diesem Zeitpunkt bereits vor. Ihre Definitionen sind deshalb
+ausschließlich aus Regeln und Dateien abgeleitet, die vorher committet
+waren: aus dem Prüfprogramm (Abschnitt~\ref{sec:impl-pruefung}), den
+Manifesten der Läufe, den Regeln der Belegstärke und den
+Zuordnungsregeln für abgelehnte Quellausschnitte
+(Abschnitt~\ref{subsec:impl-zitate}). M2 und M3 waren noch nicht
+gezählt. Für M3 hat der Verfasser vor der Zählung zwei Lesarten
+ergänzt: Datensätze mit Schemafehler zählen mit, weil M3 das Verhalten
+des Modells misst, und als zweite Zahl wird der Mittelwert über die
+Vorgänge berichtet, deren Datensätze in beiden Durchgängen die
+Schemaprüfung bestehen.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Messgrößen für die dritte Forschungsfrage}
+  \label{tab:ff3-messgroessen}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.8cm}%
+                    >{\raggedright\arraybackslash}p{3.0cm}%
+                    >{\raggedright\arraybackslash}p{2.3cm}%
+                    >{\raggedright\arraybackslash}p{3.6cm}%
+                    >{\raggedright\arraybackslash}p{2.6cm}@{}}
+    \toprule
+    \textbf{Nr.} & \textbf{Messgröße} & \textbf{Ober\-kategorie} &
+    \textbf{Daten des API-Modells} & \textbf{Daten lokal} \\
+    \midrule
+    M1 & Format\-konformität & Ergebnis\-qualität &
+      Volllauf (395 Vorgänge), zweiter Pilotlauf (20) &
+      je Modell Pull Request~64 \\
+    M2 & Unbelegtheitsrate & Ergebnis\-qualität &
+      Volllauf, 1\,467 Anforderungen & entfällt \\
+    M3 & Konsistenz über Wiederholungen & Ergebnis\-qualität &
+      Pilotstichprobe in zwei Durchgängen & entfällt \\
+    M4 & Laufzeit je Vorgang & Kosten und Aufwand &
+      Pull Request~64; Volllauf & je Modell Pull Request~64 \\
+    M5 & Kosten je Vorgang & Kosten und Aufwand &
+      Volllauf, Abrechnung im Konto & keine Gebühren \\
+    M6 & Speicherbedarf & Kosten und Aufwand &
+      nicht anwendbar & je Modell Pull Request~64 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Die dritte Oberkategorie, Datenkontrolle, erhält keinen Zahlenwert
+  (Abschnitt~\ref{subsec:ff3-beschreibung}). Quelle: Entscheidung~F3 in
+  \texttt{docs/entscheidungen.md}.
+\end{table}
+
+M1 misst in zwei Stufen, ob eine Antwort die verlangte Form einhält:
+(a)~Die Antwort steht als JSON-Objekt in der Extraktionsdatei, und
+(b)~sie besteht zusätzlich die Schemaprüfung. Kein Lauf nutzt eine
+Formathilfe der Schnittstelle (Abschnitt~\ref{subsec:impl-aufruf}); M1
+misst also die Formtreue des Modells selbst.
+
+M2 bezieht sich auf die einzelne Anforderung. Die Grundmenge bilden alle
+Anforderungen aus Datensätzen des Volllaufs, die die Schemaprüfung
+bestehen. Datensätze mit Schemafehler gehen nur in M1 ein, damit kein
+Fehler doppelt zählt. Eine Anforderung gilt als unbelegt, wenn keiner
+ihrer Belege gefunden wird oder wenn die aus allen Belegen berechnete
+Belegstärke \emph{unzureichend} lautet. Gefunden ist ein Beleg, wenn das
+Prüfprogramm seinen Ausschnitt annimmt oder wenn die Ablehnung nach der
+Zuordnungsregel dem Prüfprogramm zuzurechnen ist. Maßgeblich ist die
+berechnete Belegstärke, nicht die Angabe des Modells.
+
+M3 misst die Konsistenz an den 20~Vorgängen der Pilotstichprobe. Sie
+wurden im zweiten Pilotlauf und im Volllauf mit derselben Konfiguration
+und derselben Anweisung bearbeitet. Verglichen werden nicht Sätze,
+sondern Quellstellen, also Ort und Stelle eines Belegs im Pull Request.
+Je Vorgang wird die Jaccard-Übereinstimmung der beiden Mengen von
+Quellstellen gebildet: die Zahl der Quellstellen, die in beiden Mengen
+stehen, geteilt durch die Zahl der Quellstellen, die in mindestens
+einer Menge stehen. Sind beide Mengen leer, ist der Wert~1. Gezählt
+werden alle Belege, auch abgelehnte. Kennzahl ist der Mittelwert über
+die 20~Vorgänge.
+
+M4 ist die Antwortzeit je Vorgang, die das Aufrufprogramm auf dem
+Rechner des Verfassers misst. M5 sind die Kosten je Vorgang, also die
+Abrechnung im Konto des Anbieters geteilt durch die Zahl der Vorgänge
+des Laufs. M6 ist der Grafikspeicher, den der Server der
+Laufzeitumgebung nach seinem Protokoll für das Modell einplant.
+
+\subsection{Ergebnisse}
+\label{subsec:ff3-ergebnisse}
+
+Tabelle~\ref{tab:ff3-ergebnisse} stellt die Werte nebeneinander. M2
+stammt aus der Zählung in Abschnitt~\ref{sec:eval-grundzahlen}. Teil~(b)
+von M1 im Pilotlauf und M3 hat ein Programm mit
+Commit~\texttt{775a888} gezählt; die Zahlen stehen in
+\path{experiments/ff3_measures_2026-10-09.json}. M4 stammt aus den
+Manifesten der Läufe, M5 aus \path{experiments/kostenschaetzung.md} und
+M6 aus \path{docs/ollama_protokollauszug.md}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Werte der Messgrößen für die dritte Forschungsfrage}
+  \label{tab:ff3-ergebnisse}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm}%
+                    >{\raggedright\arraybackslash}p{3.7cm}%
+                    >{\raggedright\arraybackslash}p{2.3cm}%
+                    >{\raggedright\arraybackslash}p{2.3cm}@{}}
+    \toprule
+    \textbf{Messgröße} & \textbf{gpt-5.6-terra} & \textbf{gpt-oss:20b} &
+    \textbf{qwen3.6:27b} \\
+    \midrule
+    M1 (a) JSON-Objekt & Volllauf 395 von 395; Pilot
+      20 von 20 & 0 von 1 & 0 von 1 \\
+    M1 (b) zusätzlich Schema & Volllauf 392 von 395;
+      Pilot 19 von 20 & 0 von 1 & 0 von 1 \\
+    M2 Unbelegtheitsrate & 75 von 1\,467 (5,1\,\%) & entfällt &
+      entfällt \\
+    M3 Jaccard, Mittel (kleinster Wert) & 0,734 (0,25) & entfällt &
+      entfällt \\
+    M4 Pull Request~64 (s) & 60,4 (Pilot), 49,7 (Volllauf) &
+      98,6 & 1\,267,0 \\
+    M4 Volllauf, Median (kleinster bis größter Wert, s) &
+      35,6 (1,5 bis 85,5) & -- & -- \\
+    M5 Kosten je Vorgang & 0,054 US-Dollar & keine Gebühren &
+      keine Gebühren \\
+    M6 eingeplanter Grafikspeicher & nicht anwendbar & 13\,838~MiB &
+      21\,155~MiB \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Lokal liegt je Modell ein Vorgang vor; die Werte sind explorativ.
+  Quellen: Manifeste unter \texttt{data/processed/},
+  \texttt{experiments/requirement\_counts\_2026-09-25\_full\_v2.json},
+  \texttt{experiments/ff3\_measures\_2026-10-09.json},
+  \texttt{experiments/kostenschaetzung.md} und
+  \texttt{docs/ollama\_protokollauszug.md}.
+\end{table}
+
+Im Volllauf stehen alle 395 Antworten als JSON-Objekt in der
+Extraktionsdatei. Das Ausgabeschema verletzen davon 3,
+sodass 392 von 395 Antworten beide Stufen von M1
+bestehen. Im zweiten Pilotlauf bestehen 19 von 20
+Antworten beide Stufen; eine verletzt das Schema. Beide lokalen Modelle
+verfehlen bereits die erste Stufe (Abschnitte~\ref{subsec:pilot-gptoss}
+und~\ref{subsec:pilot-qwen}). Bei je einem Vorgang ist das ein
+Einzelbefund und kein Anteil.
+
+Die Unbelegtheitsrate beträgt 75 von 1\,467 Anforderungen, also
+5,1\,\%; die Aufteilung auf die beiden Bedingungen nennt
+Abschnitt~\ref{subsec:grundzahlen-belege}. Gesondert gezählt wurde,
+welche Belegstärke das Modell bei diesen Anforderungen selbst angibt.
+Bei 25 der 75 unbelegten Anforderungen nennt es selbst die
+Stufe \emph{unzureichend}. Bei 50 nennt es eine höhere Stufe,
+4-mal \emph{direkt} und 46-mal \emph{indirekt}. Unter
+diesen 50 liegen alle 8 Anforderungen, bei denen die
+Angabe des Modells von der Berechnung aus allen Belegen abweicht. Bei
+den übrigen 42 stimmen Angabe und Berechnung überein; sie gelten
+als unbelegt, weil keiner ihrer Belege gefunden wird.
+
+Über die 20~Vorgänge beträgt die mittlere Übereinstimmung der
+Quellstellen 0,734. Der kleinste Wert liegt bei 0,25 (Pull
+Request~552). Bei 7 Vorgängen nennen beide Durchgänge genau
+dieselben Quellstellen. Der Pilotlauf enthält 78 Anforderungen,
+der Volllauf zu denselben Vorgängen 81. Ein Datensatz des
+Pilotlaufs verletzt das Schema. Über die 19 Vorgänge, deren
+Datensätze in beiden Durchgängen gültig sind, beträgt der Mittelwert
+0,746. Konfiguration und Anweisung haben in beiden Durchgängen
+dieselben Prüfsummen, der Codestand des Aufrufprogramms ist verschieden
+(\texttt{8cdaaca} und \texttt{f9eef00}). Zwei Durchgänge an
+20~Vorgängen ergeben keine belastbare Streuung; der Wert ist explorativ.
+
+Für Pull Request~64 antwortete das API-Modell in 60,4 und
+49,7~Sekunden, gpt-oss:20b in 98,6~Sekunden und qwen3.6:27b in
+1\,267,0~Sekunden. Über alle 395 Vorgänge des Volllaufs
+liegt der Median bei 35,6~Sekunden, der kleinste Wert bei
+1,5~Sekunden und der größte bei 85,5~Sekunden. Zusammen ergeben
+die Antwortzeiten 3,82~Stunden. Beim API-Modell enthält die Zeit
+die Übertragung über das Netz, bei den lokalen Modellen nicht. Je
+lokales Modell liegt nur ein Wert vor. Eine Hochrechnung auf den
+Volllauf wäre deshalb eine Annahme und keine Messung.
+
+Für den Volllauf wies das Konto des Anbieters 21,40~US-Dollar aus,
+bei 395 Vorgängen also 0,054~US-Dollar je Vorgang. Die
+Obergrenze, die das Aufrufprogramm aus Token und Preisen berechnet, lag
+bei 24,15~US-Dollar. Die Abrechnung ist die Differenz zweier
+Ablesungen des Kontos durch den Verfasser; ob sie Umsatzsteuer enthält,
+ist nicht geprüft. Für die lokalen Modelle fallen keine Gebühren an.
+Strom und die anteiligen Kosten des Rechners wurden nicht erhoben.
+
+Für gpt-oss:20b plante der Server 13\,838~MiB Grafikspeicher ein, für
+qwen3.6:27b 21\,155~MiB, jeweils bei einem Kontextfenster von
+65\,536~Token und 28\,753~MiB nutzbarem Grafikspeicher
+(Tabelle~\ref{tab:pilot-bedingungen}). Bei qwen3.6:27b ist der Bildteil
+des Modells nicht eingerechnet; für ihn schätzt der Server einen
+Höchstbedarf von rund 1\,188~MiB. Die Gewichtsdateien sind
+12,83~GiB und 15,67~GiB groß. Für das API-Modell ist M6 nicht
+anwendbar, weil das Modell beim Anbieter läuft.
+
+\subsection{In Worten beschriebene Vergleichsdimensionen}
+\label{subsec:ff3-beschreibung}
+
+\paragraph{Einrichtungsaufwand.} Für die lokale Ausführung waren die
+Laufzeitumgebung zu installieren, die Modelle zu laden, je Modell ein
+abgeleitetes Modell mit festem Kontextfenster zu erzeugen und das
+Aufrufprogramm um einen lokalen Aufrufweg mit einer Abfrage der
+Laufzeitumgebung zu erweitern (Abschnitt~\ref{subsec:impl-lokal}).
+Hinzu kamen der Kontrollpunkt mit zwei Versuchen und die Suche nach der
+Ursache des ersten Fehlschlags (Abschnitt~\ref{sec:eval-pilot-lokal}).
+Der Zeitaufwand in Stunden wurde nicht erfasst.
+
+\paragraph{Datenkontrolle und Verbleib der Daten.} Beim API-Modell
+verlassen die pseudonymisierten Quellblöcke den Rechner. Das
+Aufrufprogramm sendet \texttt{store} als \texttt{false}; Protokolle zur
+Erkennung von Missbrauch bewahrt der Anbieter nach seiner Dokumentation
+bis zu 30~Tage auf (Abschnitt~\ref{subsec:impl-datenschutz}). Bei den
+lokalen Modellen verlässt kein Quellblock den Rechner. Der Server war
+nur an der eigenen Adresse erreichbar, und die Cloud-Funktionen der
+Laufzeitumgebung waren abgeschaltet (Tabelle~\ref{tab:pilot-bedingungen}).
+
+\paragraph{Reproduzierbarkeit.} Das API-Modell wird über einen Namen
+ohne Datumszusatz angesprochen, hinter dem sich das Modell ändern kann.
+Das Manifest hält nur den zurückgemeldeten Namen fest
+(Abschnitt~\ref{subsec:impl-aufruf}). Für die lokalen Modelle
+verzeichnen die Manifeste die Fassung der Laufzeitumgebung und die
+Prüfsumme der Gewichtsdatei. So lässt sich prüfen, ob ein späterer Lauf
+denselben Modellstand nutzt. Nach den Rückmeldungen der Schnittstellen
+lief jede Antwort mit der Temperatur~1. Ob sich eine Antwort bei
+gleichem Modellstand wiederholen lässt, wurde nicht geprüft; M3 zeigt
+für das API-Modell, dass sich die Quellstellen zweier Durchgänge
+unterscheiden.
+
+\paragraph{Eindeutigkeit, Verifizierbarkeit und Vollständigkeit.}
+Eindeutigkeit und Nachweisbarkeit bewertet
+Abschnitt~\ref{sec:eval-bewertung} am API-Modell. Vollständigkeit
+erfasst er nur als Vollständigkeit des einzelnen Satzes und, für die
+Fälle der Formulierungsprobe, als Wiederfinden ihrer Fundstellen. Für
+einen Vergleich fehlt die lokale Seite, weil keine lokale Antwort
+vorliegt, aus der sich Anforderungen lesen ließen.
+
+\section{Bewertung der rekonstruierten Anforderungen}
+\label{sec:eval-bewertung}
+
+Die erste Forschungsfrage fragt, inwieweit sich aus der Historie
+brauchbare, formal formulierte Anforderungen rekonstruieren lassen. Die
+zweite fragt, welches Format sich für die automatisierte Extraktion
+eignet. Dieser Abschnitt liefert dafür Messwerte: eine Bewertung von
+Hand an einer Stichprobe, maschinelle Prüfungen an Stichprobe und
+Grundmenge sowie einen Vergleich mit der Formulierungsprobe aus
+Abschnitt~\ref{subsec:formulierungsprobe}. Die Beantwortung beider
+Fragen folgt in Kapitel~\ref{cha:diskussion}.
+
+\subsection{Design}
+\label{subsec:bewertung-design}
+
+Die Bewertung besteht aus einem Hauptteil und einem Nebenteil
+(Entscheidung~E2 in \path{docs/entscheidungen.md}). Der Hauptteil ist
+eine Selbstbewertung durch den Verfasser an einer Stichprobe, die sich
+mit den Fällen der Formulierungsprobe und des Pilotlaufs nicht
+überschneidet. Der Nebenteil prüft, ob die Pipeline dieselben
+Fundstellen findet wie die Formulierungsprobe. Er bleibt ein
+Zusatzbefund, weil die Formulierungsprobe der Formatentscheidung
+zugrunde lag. Wer mit den Daten bewertet, an denen das Verfahren
+entwickelt wurde, prüft es nicht unabhängig.
+
+Das Exposé sieht eine Bewertung durch das Qrisp-Team und den Betreuer
+während der Bearbeitungszeit vor. Abweichend davon ist diese Bewertung
+für die Zeit nach der Abgabe vorgesehen; der Betreuer hat der
+Abweichung am 15.~September 2026 zugestimmt. Alle Urteile von Hand in
+diesem Abschnitt stammen deshalb von einer Person, die die Pipeline
+selbst entworfen hat. Was daraus für die Validität folgt, behandelt
+Kapitel~\ref{cha:diskussion}.
+
+Gegenstand sind alle Anforderungen des Volllaufs zu den
+20~Pull Requests der Stichprobe aus
+Abschnitt~\ref{subsec:pruefung-klassifikation} (Startwert 20261005,
+\path{docs/sample_eval_e2.md}). Für 18 von ihnen enthält der
+Datensatz Anforderungen, zusammen 85. Eine weitere Ziehung gab es
+nicht, weil die Kriterien der Anforderungsmenge ohnehin alle
+Anforderungen eines Pull Requests verlangen. Die Stichprobe ist nach
+Pull Requests geschichtet und nicht nach Anforderungen. Anteile aus ihr
+sind deshalb nur eingeschränkt als Schätzung für die Grundmenge zu
+lesen.
+
+Die Kriterien standen in zwei Stufen vorab fest. Namen und Definitionen
+hielt der Verfasser am 21.~September 2026 fest, vor dem ersten
+kostenpflichtigen Lauf und damit bevor er eine Ausgabe des Modells
+gesehen hatte (\path{eval/instrument/kriterien_v0.md}). Skala,
+Notenregeln, Art der Erhebung und Auswertung folgten am 8.~Oktober 2026
+vor der ersten Note (\path{eval/instrument/kriterien_v1.md}). Zu diesem
+Zeitpunkt kannte der Verfasser die Ausgaben des Pilotlaufs und die
+85~Anforderungen der Stichprobe aus der Prüfung der Klassifikation.
+Tabelle~\ref{tab:bewertung-kriterien} nennt die Kriterien.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Kriterien der Bewertung}
+  \label{tab:bewertung-kriterien}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.9cm}%
+                    >{\raggedright\arraybackslash}p{2.8cm}%
+                    >{\raggedright\arraybackslash}p{4.4cm}%
+                    >{\raggedright\arraybackslash}p{2.0cm}%
+                    >{\raggedright\arraybackslash}p{1.9cm}@{}}
+    \toprule
+    \textbf{Nr.} & \textbf{Kriterium} & \textbf{Frage} &
+    \textbf{Grundlage} & \textbf{Erhebung} \\
+    \midrule
+    B1 & Eindeutigkeit & Lässt der Satz nur eine Lesart zu? &
+      29148, 5.2.5 & von Hand \\
+    B2 & Vollständigkeit des Satzes & Versteht man den Satz ohne weitere
+      Angaben? & 29148, 5.2.5 & von Hand \\
+    B3 & Einzel\-bezogenheit & Enthält der Satz genau eine Fähigkeit,
+      Eigenschaft oder Einschränkung? & 29148, 5.2.5 & von Hand \\
+    B4 & Nach\-weis\-barkeit & Lässt sich prüfen, ob Qrisp den Satz erfüllt? &
+      29148, 5.2.5 & von Hand \\
+    B5 & Quellentreue & Behauptet der Satz nichts, was die Zitate nicht
+      tragen? & Setzung & von Hand \\
+    B6 & Relevanz & Beschreibt der Satz eine dauerhafte Eigenschaft statt
+      eines einmaligen Arbeitsschritts? & Setzung & von Hand \\
+    B7 & Praktische Nutzbarkeit & Ließe sich der Satz ohne Umformulierung
+      in eine Anforderungsdokumentation übernehmen? & Setzung & von Hand \\
+    B8 & Format\-konformität & Hält die Ausgabe Schema und Zielform ein? &
+      29148, 5.2.5; Zielformat & Programm \\
+    B9 & Quellen\-nach\-voll\-zieh\-bar\-keit & Werden alle Belege gefunden, und
+      stimmt die angegebene Belegstärke? & Regeln der Belegstärke &
+      Programm \\
+    B10 & Sprachliche Kriterien & Fehlt jeder unbestimmte Ausdruck der
+      Liste? & 29148, 5.2.7 & Programm \\
+    B11a & Widerspruchs\-freiheit & Sind die Anforderungen eines Pull
+      Requests frei von Widerspruch und Überschneidung? & 29148, 5.2.6 &
+      von Hand, je Pull Request \\
+    B11b & Verständlichkeit & Geht hervor, was erwartet wird und welchen
+      Teil von Qrisp es betrifft? & 29148, 5.2.6 & von Hand, je Pull
+      Request \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  29148: Abschnitte aus ISO/IEC/IEEE~29148 \cite{iso29148}. Wortlaut der
+  Fragen und Notenregeln: \texttt{eval/instrument/kriterien\_v1.md}.
+\end{table}
+
+Vier Kriterien der einzelnen Anforderung folgen Merkmalen
+wohlgeformter Anforderungen aus ISO/IEC/IEEE~29148: eindeutig,
+vollständig, einzelbezogen und verifizierbar
+\cite[Abschn.~5.2.5]{iso29148}. Die beiden Kriterien der
+Anforderungsmenge folgen den Merkmalen konsistent und verständlich
+\cite[Abschn.~5.2.6]{iso29148}. Die Zuordnung der Merkmale zu den
+Kriterien ist eine Einordnung des Verfassers. Quellentreue, Relevanz und
+praktische Nutzbarkeit sind Setzungen des Verfassers. Die Quellentreue
+tritt an die Stelle der Korrektheit, die sich ohne den ursprünglichen
+Bedarf nicht beurteilen lässt; dieser Bedarf ist in den Pull Requests
+nicht dokumentiert. Die praktische Nutzbarkeit beurteilt der Verfasser
+stellvertretend für das Qrisp-Team; sie ist das schwächste der
+Kriterien.
+
+Die Kriterien von Hand werden auf einer dreistufigen ordinalen Skala
+bewertet: 2~erfüllt, 1~teilweise erfüllt, 0~nicht erfüllt. Hinzu kommt
+\glqq ?\grqq{} für nicht beurteilbar, etwa wenn ein Urteil Wissen über
+Quantencomputing verlangt, das der Bogen nicht liefert. Der Wert~?
+wird getrennt gezählt und nie wie~0 behandelt. Für jede Stufe jedes
+Kriteriums legt die Fassung~v1 eine Notenregel fest; im Zweifel zwischen
+zwei Noten gilt die niedrigere. Die Noten werden gezählt und weder
+gemittelt noch gewichtet, weil die Skala nur eine Rangfolge kennt.
+
+Drei Kriterien prüft ein Programm. B8 prüft neben dem Schema des
+Datensatzes vier Teilbedingungen: Das erste Wort des Satzes passt zum
+angegebenen EARS-Muster, der Systemname steht vor \emph{shall},
+\emph{shall} kommt genau einmal vor, und kein anderes Modalverb kommt
+vor. Für das Muster war ursprünglich eine Prüfung von Hand vorgesehen.
+Fassung~v1 überträgt sie dem Programm, weil das Muster nach der
+Formatauswahl maschinell prüfbar ist (Abschnitt~\ref{subsec:rollenzuweisung}).
+B9 ist erfüllt, wenn jeder Beleg im Sinne von M2 gefunden wird und die
+vom Modell angegebene Belegstärke mit der berechneten übereinstimmt.
+B10 sucht im Satz nach den Ausdrücken, die ISO/IEC/IEEE~29148 als
+Beispiele unbestimmter Sprache nennt \cite[Abschn.~5.2.7]{iso29148}.
+Die Liste ist abschließend und enthält kein eigenes Wort, weil der
+Verfasser die Ausgaben des Modells bereits kannte und eine eigene Liste
+an sie angepasst sein könnte. Ein Treffer ist ein Hinweis, kein
+festgestellter Verstoß. Unvollständige Verweise lassen sich nicht an
+einzelnen Wörtern erkennen und sind nicht Teil der Prüfung.
+
+Für die erste Forschungsfrage legt Fassung~v1 vorab fest, wann eine
+Anforderung als brauchbar gilt: Eindeutigkeit, Vollständigkeit des
+Satzes, Einzelbezogenheit und Nachweisbarkeit erhalten mindestens die
+Note~1, Quellentreue und Relevanz die Note~2, die praktische
+Nutzbarkeit mindestens~1, und B8 und B9 sind erfüllt. Eine solche
+Anforderung hat keinen klaren Mangel bei den Merkmalen der Norm, geht
+nicht über ihre Zitate hinaus, beschreibt eine dauerhafte Eigenschaft,
+ist mit höchstens kleiner Änderung übernehmbar, hat die Zielform und ist
+auf ihre Quelle zurückführbar. Eine Anforderung mit~? bei einem der
+Kriterien von Hand gilt als nicht beurteilbar. B10 und die Kriterien
+der Anforderungsmenge gehen nicht in die Regel ein. Die Regel ist eine
+Setzung des Verfassers. Damit eine andere Lesart nachrechenbar bleibt,
+werden alle Einzelwerte berichtet.
+
+\subsection{Durchführung}
+\label{subsec:bewertung-durchfuehrung}
+
+Den Bogen, die Sperre und die Auszählung übernimmt das Programm
+\path{evaluate_requirements.py} im Ordner \path{src/analyze/}. Es war mit seinen Tests
+und einer Arbeitsanleitung committet, bevor der Bogen entstand
+(Commit~\texttt{cc3e321}). Die Ergebnisse stehen in der Datei
+\path{experiments/evaluation_e2_2026-10-08.json}. Die Anleitung legt
+fest, wie das Programm die Prüfregeln von B8 bis B10 liest, wo der
+Wortlaut der Fassung~v1 eine Frage offenlässt, etwa was als Wortgrenze
+gilt. Der Verfasser hat diese Lesarten vor der ersten Note bestätigt.
+
+Der Bogen ist verblindet. Er zeigt je Anforderung nur den Satz und die
+Belege mit Ort und Zitat. Er zeigt weder die Etiketten des Modells, etwa
+Typ, Muster und Belegstärke, noch ein Ergebnis der Programme. Die Pull
+Requests stehen in einer zufällig gemischten Reihenfolge (Startwert
+20261008), die Anforderungen eines Pull Requests nebeneinander, gefolgt
+von den beiden Kriterien der Anforderungsmenge. Der Verfasser bewertete
+zwischen der Erzeugung des Bogens am 8.~Oktober und der Sperre am
+9.~Oktober 2026. Die Sperre hält die Prüfsumme der Antworten fest;
+danach wurde kein Urteil mehr geändert. Erst nach der Sperre entstand
+der Bogen für den Vergleich von Hand im Nebenteil, damit dieser
+Vergleich die Bewertung nicht beeinflusst.
+
+Vor der Sperre hat der Verfasser die Antwortdatei mit Noten und Notizen
+dem als Arbeitswerkzeug genutzten Sprachmodell Claude vorgelegt. Es prüfte nur
+die Form: zulässige Werte, eine Notiz zu jedem~?, die Zuordnung zu den
+Einträgen. Eine Note hat es nicht beurteilt. Die Notizen enthalten
+Inhalte öffentlicher Pull Requests.
+
+\subsection{Ergebnisse der Bewertung von Hand}
+\label{subsec:bewertung-hand}
+
+Tabelle~\ref{tab:bewertung-hand} zeigt die Verteilung der Noten für die
+Kriterien der einzelnen Anforderung. Der Anteil der Note~2 bezieht sich
+auf die beurteilten Fälle ohne~?.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Noten der Bewertung von Hand, 85~Anforderungen}
+  \label{tab:bewertung-hand}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.8cm}%
+                    >{\raggedleft\arraybackslash}p{0.9cm}%
+                    >{\raggedleft\arraybackslash}p{0.9cm}%
+                    >{\raggedleft\arraybackslash}p{0.9cm}%
+                    >{\raggedleft\arraybackslash}p{0.9cm}%
+                    >{\raggedleft\arraybackslash}p{1.9cm}%
+                    >{\raggedleft\arraybackslash}p{1.9cm}@{}}
+    \toprule
+    \textbf{Kriterium} & \textbf{2} & \textbf{1} & \textbf{0} &
+    \textbf{?} & \textbf{Anteil der Note~2} &
+    \textbf{Pull Requests mit einer~0} \\
+    \midrule
+    B1 Eindeutigkeit & 71 & 3 & 8 & 3 & 86,6\,\% & 8 \\
+    B2 Vollständigkeit des Satzes & 68 & 14 & 1 & 2 & 81,9\,\% & 1 \\
+    B3 Einzelbezogenheit & 77 & 8 & 0 & 0 & 90,6\,\% & 0 \\
+    B4 Nachweisbarkeit & 66 & 14 & 0 & 5 & 82,5\,\% & 0 \\
+    B5 Quellentreue & 63 & 22 & 0 & 0 & 74,1\,\% & 0 \\
+    B6 Relevanz & 84 & 1 & 0 & 0 & 98,8\,\% & 0 \\
+    B7 Praktische Nutzbarkeit & 62 & 11 & 7 & 5 & 77,5\,\% & 6 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Quelle: \texttt{experiments/evaluation\_e2\_2026-10-08.json}.
+\end{table}
+
+Den höchsten Anteil der Note~2 hat die Relevanz: 84 von 85
+Anforderungen beschreiben ohne Einschränkung eine dauerhafte Eigenschaft
+von Qrisp. Bei Einzelbezogenheit, Nachweisbarkeit, Quellentreue und
+Relevanz vergab der Verfasser keine~0. Den geringsten Anteil der Note~2
+hat die Quellentreue mit 74,1\,\%. Bei 22 Anforderungen tragen die
+Zitate zwar die Systemreaktion, eine Einzelheit des Satzes geht aber
+über sie hinaus.
+Die Note~0 kommt bei der Eindeutigkeit 8-mal vor, verteilt auf
+8~Pull Requests, bei der praktischen Nutzbarkeit 7-mal in
+6~Pull Requests und bei der Vollständigkeit des Satzes
+einmal. Nicht beurteilbar waren je Kriterium höchstens
+5~Anforderungen, am häufigsten bei Nachweisbarkeit und praktischer
+Nutzbarkeit.
+
+\subsection{Ergebnisse der maschinellen Prüfungen}
+\label{subsec:bewertung-maschinell}
+
+Tabelle~\ref{tab:bewertung-maschinell} zeigt die drei maschinellen
+Kriterien für die Stichprobe und für die Grundmenge des Volllaufs.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Maschinelle Kriterien in Stichprobe und Grundmenge}
+  \label{tab:bewertung-maschinell}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.6cm}%
+                    >{\raggedleft\arraybackslash}p{2.6cm}%
+                    >{\raggedleft\arraybackslash}p{2.6cm}@{}}
+    \toprule
+    \textbf{Prüfung} & \textbf{Stichprobe} & \textbf{Grundmenge} \\
+    \midrule
+    Anforderungen & 85 & 1\,467 \\
+    \midrule
+    B8 Formatkonformität erfüllt & 84 & 1\,457 \\
+    \quad Muster passt zum ersten Wort & 84 & 1\,461 \\
+    \quad Systemname vor \emph{shall} & 85 & 1\,467 \\
+    \quad \emph{shall} genau einmal & 85 & 1\,467 \\
+    \quad kein anderes Modalverb & 85 & 1\,463 \\
+    \midrule
+    B9 Quellennachvollziehbarkeit erfüllt & 72 & 1\,270 \\
+    \quad alle Belege gefunden & 74 & 1\,278 \\
+    \quad angegebene Belegstärke stimmt & 83 & 1\,459 \\
+    \quad Belege nur teilweise gefunden & 8 & 144 \\
+    \midrule
+    B10 sprachliche Kriterien erfüllt (kein Treffer) & 81 & 1\,315 \\
+    \quad Anforderungen mit Treffer & 4 & 152 \\
+    \quad Treffer insgesamt & 4 & 163 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Die Schemaprüfung (B8.1) ist hier nicht aufgeführt; sie entspricht
+  Teil~(b) von M1 (Tabelle~\ref{tab:ff3-ergebnisse}). Quelle:
+  \texttt{experiments/evaluation\_e2\_2026-10-08.json}.
+\end{table}
+
+In der Grundmenge erfüllen 1\,457 von 1\,467 Anforderungen alle
+Teilbedingungen der Formatkonformität (99,3\,\%), in der Stichprobe
+84 von 85. Jede Anforderung enthält genau ein \emph{shall} mit dem
+Systemnamen davor. Die Verstöße verteilen sich auf ein nicht passendes
+Muster in 6 Fällen und ein anderes Modalverb in 4 Fällen.
+
+B9 erfüllen 1\,270 Anforderungen der Grundmenge (86,6\,\%). Bei
+189 wird mindestens ein Beleg nicht gefunden: Bei 144 von
+ihnen wird ein Teil der Belege gefunden, bei 45 keiner. Bei
+8 Anforderungen weicht die angegebene Belegstärke von der
+berechneten ab. Die Zahl der Anforderungen, die B9 erfüllen, gleicht der Zahl der im
+Sinne der Gap-Analyse belegten Anforderungen
+(Abschnitt~\ref{subsec:grundzahlen-belege}). Beide Zahlen folgen
+aus verschiedenen Regeln; ob es dieselben Anforderungen sind, ist
+nicht geprüft.
+
+B10 erfüllen 1\,315 Anforderungen der Grundmenge (89,6\,\%). Die
+übrigen 152 enthalten zusammen 163 Treffer. Nach Klassen
+verteilen sie sich auf unbestimmte Pronomen (108), mehrdeutige Adverbien, Adjektive und Verknüpfungen (50), Ausdrücke der Vollständigkeit (4) und Superlative (1); die übrigen Klassen kommen nicht
+vor. Nach Ausdrücken verteilen sie sich auf \emph{that} (99), \emph{or} (49), \emph{it} (9), \emph{all} (4), \emph{best} (1) und \emph{significant} (1). In der
+Stichprobe betreffen alle Treffer das Wort \emph{or}, bei 4
+Anforderungen. Wörter wie \emph{that}
+und \emph{or} kommen auch ohne Mehrdeutigkeit vor, etwa als
+Relativpronomen oder als Aufzählung. Die Treffer sind deshalb eine
+Obergrenze für Verstöße mit diesen Ausdrücken.
+
+Drei weitere Zählungen sind explorativ und kein Kriterium. Von den
+4 Anforderungen der Stichprobe mit einem Treffer von B10 erhielten
+2 bei der Eindeutigkeit die Note~0, von den 81 ohne Treffer
+6. Das Wort \emph{and} steht im Teil nach \emph{shall} bei
+9 Anforderungen; 6 davon erhielten bei der
+Einzelbezogenheit die Note~1, von den 76 übrigen 2. Die
+Formen \emph{shall not} und \emph{shall be able to} kommen weder in der
+Stichprobe noch in der Grundmenge vor. Bei so kleinen Zahlen sind das
+Hinweise und keine gesicherten Zusammenhänge.
+
+\subsection{Merkmale der Anforderungsmenge}
+\label{subsec:bewertung-menge}
+
+Die beiden Kriterien der Anforderungsmenge bewertete der Verfasser je
+Pull Request. Die Widerspruchsfreiheit ist nur anwendbar, wenn ein Pull
+Request mehr als eine Anforderung enthält. Das trifft auf 14
+der 18 Pull Requests zu. Von ihnen erhielten 11 die
+Note~2 und 3 die Note~1 wegen einer teilweisen Überschneidung oder
+einer uneinheitlichen Bezeichnung. Einen Widerspruch oder zwei
+Anforderungen, die dasselbe fordern, fand der Verfasser in keinem Pull
+Request. Bei der Verständlichkeit erhielten 8 Pull Requests die
+Note~2 und 9 die Note~1; bei ihnen geht entweder nicht klar
+hervor, was erwartet wird, oder nicht, welchen Teil von Qrisp es
+betrifft. Ein Pull Request war nicht beurteilbar.
+
+Doppelte Anforderungen zwischen verschiedenen Pull Requests wurden nicht
+gesucht. Eine Betrachtung der gesamten Ergebnismenge, wie sie
+Abschnitt~\ref{subsec:merkmale-menge} als erforderlich beschreibt,
+leistet die Arbeit damit nicht.
+
+\subsection{Brauchbarkeit im Sinne der ersten Forschungsfrage}
+\label{subsec:bewertung-brauchbar}
+
+Nach der vorab festgelegten Regel sind 49 der 85 Anforderungen
+brauchbar (57,6\,\%). Nicht brauchbar sind 31, nicht beurteilbar
+5. Bezogen auf die 80 beurteilbaren Anforderungen sind
+61,3\,\% brauchbar. Die Anforderungen eines Pull Requests ähneln
+sich, und ein Pull Request mit vielen Anforderungen prägt die Anteile
+stark. Allein Pull Request~361 trägt 18 der 85 Anforderungen
+und 9 der 31 nicht brauchbaren bei. Die Anteile sind
+deshalb keine belastbare Schätzung für die Grundmenge.
+
+Tabelle~\ref{tab:bewertung-brauchbar} zeigt, welche Bedingung der Regel
+die nicht brauchbaren Anforderungen verletzen. Diese Aufschlüsselung war
+nicht vorab geplant und ist explorativ. Eine Anforderung kann mehrere
+Bedingungen verletzen. Am häufigsten verletzt ist die Quellentreue, bei
+20 der 31 Anforderungen. Es folgen die
+Quellennachvollziehbarkeit (13), die Eindeutigkeit (8) und die
+praktische Nutzbarkeit (7). Genau eine Bedingung verletzen
+17 Anforderungen, 10 davon allein die Quellentreue. Bei den
+5 nicht beurteilbaren Anforderungen bleibt die Brauchbarkeit offen.
+Von ihnen verletzen 2 zusätzlich die Bedingung zur Quellentreue; sie wären bei
+jeder Note anstelle des~? nicht brauchbar.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Verletzte Bedingungen bei den 31~nicht brauchbaren
+    Anforderungen (explorativ)}
+  \label{tab:bewertung-brauchbar}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.4cm}%
+                    >{\raggedleft\arraybackslash}p{2.4cm}%
+                    >{\raggedleft\arraybackslash}p{2.4cm}@{}}
+    \toprule
+    \textbf{Bedingung} & \textbf{verletzt} & \textbf{davon als einzige} \\
+    \midrule
+    B1 Eindeutigkeit mindestens~1 & 8 & 0 \\
+    B2 Vollständigkeit des Satzes mindestens~1 & 1 & 0 \\
+    B3 Einzelbezogenheit mindestens~1 & 0 & 0 \\
+    B4 Nachweisbarkeit mindestens~1 & 0 & 0 \\
+    B5 Quellentreue gleich~2 & 20 & 10 \\
+    B6 Relevanz gleich~2 & 1 & 0 \\
+    B7 Praktische Nutzbarkeit mindestens~1 & 7 & 2 \\
+    B8 Formatkonformität erfüllt & 1 & 0 \\
+    B9 Quellennachvollziehbarkeit erfüllt & 13 & 5 \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Mehrfachnennung möglich. Ausgezählt aus den Einzelwerten je
+  Anforderung in \texttt{experiments/evaluation\_e2\_2026-10-08.json}.
+  Aus diesen Einzelwerten nachgerechnet, ergibt die Regel für alle
+  85~Anforderungen dasselbe Urteil wie das Programm.
+\end{table}
+
+\subsection{Nebenteil: Vergleich mit der Formulierungsprobe}
+\label{subsec:bewertung-nebenteil}
+
+Der Nebenteil prüft, ob die Pipeline die Stellen findet, die der
+Verfasser in der Formulierungsprobe von Hand als Beleg für Systemname
+und Systemreaktion eingestuft hat
+(Abschnitt~\ref{subsec:formulierungsprobe}). Das sind 20
+Bestandteile in 11~Pull Requests. Verglichen werden Fundstellen,
+nicht Sätze. Maschinell gilt ein Bestandteil als wiedergefunden, wenn im
+Datensatz des Volllaufs mindestens ein gefundener Beleg ihn trägt und an
+einer Ortsart steht, die auch die Formulierungsprobe nennt, also Titel,
+Beschreibung, Kommentar oder Diff. Von Hand prüfte der Verfasser nach
+der Sperre, ob einer dieser Belege dieselbe Stelle wiedergibt. Dieser
+Vergleich ist nicht verblindet, weil der Verfasser seine eigenen
+Fundstellen kennt.
+
+Beide Verfahren finden 10 der 20 Bestandteile wieder:
+6 von 10 Systemnamen und 4 von 10
+Systemreaktionen. Sie stimmen in allen 20 Fällen überein. Für
+Pull Request~75 enthält der Datensatz keine Anforderung; der
+betreffende Bestandteil gilt als nicht wiedergefunden. Explorativ: Zu
+den drei Pull Requests, bei denen die Formulierungsprobe die
+Pflichtbestandteile des Satzmusters nicht gedeckt fand
+(Tabelle~\ref{tab:deckung}), bildet die Pipeline 0, 5 und
+8 Anforderungen (Pull Requests~75, 413 und~692).
 
 \section{Prüfung der Klassifikation}
 \label{sec:eval-klassifikation}
@@ -4873,8 +5566,10 @@ nicht.
 \section{K7 Verständlichkeit}
 \label{sec:anhang-k7}
 
-Dieses Kriterium wird nur ersatzweise bewertet und wird erst durch die
-Bewertung in Kapitel~\ref{cha:evaluation} belastbar. Sein zweiter
+Dieses Kriterium wird nur ersatzweise bewertet. Belastbar wird es erst
+durch eine Bewertung durch das Qrisp-Team, die für die Zeit nach der
+Abgabe vorgesehen ist; die Selbstbewertung in
+Abschnitt~\ref{sec:eval-bewertung} ersetzt sie nicht. Sein zweiter
 Prüfpunkt, der Abstand zur Ausdrucksweise in den Pull Requests, ist eine
 Setzung des Verfassers ohne Beleg in einer Quelle; wo er eine Note
 trägt, ist das bei der betreffenden Zelle ausgewiesen.
