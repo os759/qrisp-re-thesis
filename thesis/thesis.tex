@@ -191,9 +191,12 @@ einzelner Modellausgaben bewertet werden. Sofern die Rekonstruktion
 zunächst PR-bezogen erfolgt, ist eine nachgelagerte Betrachtung der
 gesamten Ergebnismenge erforderlich. Dabei müssen Dubletten,
 Begriffsvarianten, mögliche Widersprüche, Überschneidungen und
-uneinheitliche Maßeinheiten erkannt und untersucht werden. Die dafür
-vorgesehenen Verarbeitungsschritte werden in
-Kapitel~\ref{cha:implementierung} beschrieben.
+uneinheitliche Maßeinheiten erkannt und untersucht werden. Diese
+Arbeit leistet eine solche Betrachtung nur innerhalb eines Pull
+Requests: Widerspruchsfreiheit und Verständlichkeit werden je Pull
+Request bewertet (Abschnitt~\ref{subsec:bewertung-menge}). Dubletten
+und Begriffsvarianten zwischen verschiedenen Pull Requests werden nicht
+gesucht; diese Grenze behandelt Kapitel~\ref{cha:diskussion}.
 
 Aus der Untersuchung der Pull-Request-Historie kann allerdings nicht
 ohne Weiteres auf die Vollständigkeit sämtlicher Anforderungen von
@@ -491,9 +494,13 @@ eindeutig abgegrenzt sind. Drittens besteht bei einer automatisierten
 Erzeugung von Anforderungen das Risiko, dass Sachverhalte
 unterschiedlicher Verbindlichkeit einheitlich als unbedingte
 Anforderungen formuliert werden. Da eine derartige Übergeneralisierung
-der geforderten Zurückhaltung widerspricht, wird sie im Prompt-Entwurf
-in Kapitel~\ref{cha:konzeption} berücksichtigt und im Modellvergleich in
-Kapitel~\ref{cha:evaluation} gesondert betrachtet.
+der geforderten Zurückhaltung widerspricht, legt diese Arbeit keine
+Verbindlichkeitsstufe fest: Alle rekonstruierten Anforderungen
+verwenden einheitlich \emph{shall} als Konvention, die nichts über die
+Verbindlichkeit aussagt (Abschnitt~\ref{subsec:rollenzuweisung}). Ein
+Vergleich der Modelle in dieser Hinsicht entfällt, weil kein lokales
+Modell auswertbare Anforderungen geliefert hat
+(Abschnitt~\ref{subsec:pilot-folge}).
 
 Zwischen den beiden bislang betrachteten Festlegungen besteht ein
 Unterschied, der eine Entscheidung erfordert. ISO/IEC/IEEE~29148 sieht
@@ -1118,7 +1125,10 @@ Entwicklungsartefakten.]}
 \label{cha:konzeption}
 
 \textbf{[Noch zu ergänzen: Architektur, Datenmodell, Prompt-Design,
-Klassifikationsraster, Modellwahl, Evaluationskonzept.]}
+Modellwahl. Das Klassifikationsraster steht in
+Abschnitt~\ref{sec:konzeption-gap}, das Evaluationskonzept zusammen mit
+den Ergebnissen in den Abschnitten~\ref{sec:eval-ff3}
+und~\ref{sec:eval-bewertung}.]}
 
 
 \section{Auswahl des Anforderungsformats}
@@ -1521,8 +1531,10 @@ automatischer Validierbarkeit jeweils die Note~2. Damit weist sie
 genau die strukturellen Eigenschaften auf, auf die eine automatisierte
 Erzeugung und eine anschließende maschinelle Prüfung angewiesen sind.
 Ob ein Sprachmodell ein solches Muster tatsächlich zuverlässiger
-einhält als ein anderes Format, ist damit nicht gezeigt; diese Frage
-wird erst in Kapitel~\ref{cha:evaluation} gemessen.
+einhält als ein anderes Format, ist damit nicht gezeigt.
+Kapitel~\ref{cha:evaluation} misst nur, wie oft das gewählte Muster
+eingehalten wird (Abschnitt~\ref{subsec:bewertung-maschinell}); einen
+Vergleich mit anderen Formaten enthält die Arbeit nicht.
 
 Ebene~(a) wird nicht verwendet. Da nur eine der beiden Satzebenen die
 Satzform stellen kann und Ebene~(b) in keinem Kriterium schlechter
@@ -4058,7 +4070,21 @@ Quellausschnitte. Davon nimmt das Prüfprogramm 2\,503 an und lehnt 208
 ab. Zwei Ablehnungen sind nach der vorab festgelegten Zuordnungsregel
 dem Prüfprogramm zuzurechnen; diese beiden Ausschnitte gelten als
 gefunden. Die übrigen 206 Ablehnungen gehen auf das Modell zurück
-(Abschnitt~\ref{subsec:impl-zitate}).
+(Abschnitt~\ref{subsec:impl-zitate}). Darunter sind die 28
+Ausschnitte, die der Verfasser eingesehen und dem Modell zugeordnet
+hat. Nach der Unterart weichen 18 nur in einzelnen Zeichen ab,
+6 sind umformuliert und 4 aus getrennten Stellen
+zusammengesetzt; ohne Gegenstück in der Quelle ist keiner. In
+5 Fällen schwankte der Verfasser zwischen zwei Unterarten
+(\path{docs/regel3_volllauf.md}).
+
+Weil das Prüfprogramm stets den ganzen Datensatz ablehnt
+(Abschnitt~\ref{subsec:impl-validierung}), lehnt es 124 der 395
+Antworten ab. Nach der ersten verletzten Prüfung entfallen 3
+auf das Schema, 6 auf die Belegstärke und 115 auf ein
+Zitat; ausgezählt hat ein Programm mit Commit~\texttt{167f49b}.
+Die übrigen Zählungen dieses Kapitels beziehen alle Antworten ohne
+Schemafehler ein, auch die aus anderen Gründen abgelehnten.
 
 \subsection{Typen und Sicherheitsbezug}
 \label{subsec:grundzahlen-typen}
@@ -4264,7 +4290,7 @@ M3 misst die Konsistenz an den 20~Vorgängen der Pilotstichprobe. Sie
 wurden im zweiten Pilotlauf und im Volllauf mit derselben Konfiguration
 und derselben Anweisung bearbeitet. Verglichen werden nicht Sätze,
 sondern Quellstellen, also Ort und Stelle eines Belegs im Pull Request.
-Je Vorgang wird die Jaccard-Übereinstimmung der beiden Mengen von
+Je Vorgang wird die Übereinstimmung der beiden Mengen von
 Quellstellen gebildet: die Zahl der Quellstellen, die in beiden Mengen
 stehen, geteilt durch die Zahl der Quellstellen, die in mindestens
 einer Menge stehen. Sind beide Mengen leer, ist der Wert~1. Gezählt
@@ -4306,7 +4332,7 @@ M6 aus \path{docs/ollama_protokollauszug.md}.
       Pilot 19 von 20 & 0 von 1 & 0 von 1 \\
     M2 Unbelegtheitsrate & 75 von 1\,467 (5,1\,\%) & entfällt &
       entfällt \\
-    M3 Jaccard, Mittel (kleinster Wert) & 0,734 (0,25) & entfällt &
+    M3 Übereinstimmung, Mittel (kleinster Wert) & 0,734 (0,25) & entfällt &
       entfällt \\
     M4 Pull Request~64 (s) & 60,4 (Pilot), 49,7 (Volllauf) &
       98,6 & 1\,267,0 \\
@@ -4372,7 +4398,9 @@ die Übertragung über das Netz, bei den lokalen Modellen nicht. Je
 lokales Modell liegt nur ein Wert vor. Eine Hochrechnung auf den
 Volllauf wäre deshalb eine Annahme und keine Messung.
 
-Für den Volllauf wies das Konto des Anbieters 21,40~US-Dollar aus,
+Der Volllauf verbrauchte 3\,906\,903 Eingabe-Token und 1\,262\,525
+Ausgabe-Token, davon 727\,673 Denk-Token. Dafür wies das Konto
+des Anbieters 21,40~US-Dollar aus,
 bei 395 Vorgängen also 0,054~US-Dollar je Vorgang. Die
 Obergrenze, die das Aufrufprogramm aus Token und Preisen berechnet, lag
 bei 24,15~US-Dollar. Die Abrechnung ist die Differenz zweier
@@ -4610,12 +4638,6 @@ zwischen der Erzeugung des Bogens am 8.~Oktober und der Sperre am
 danach wurde kein Urteil mehr geändert. Erst nach der Sperre entstand
 der Bogen für den Vergleich von Hand im Nebenteil, damit dieser
 Vergleich die Bewertung nicht beeinflusst.
-
-Vor der Sperre hat der Verfasser die Antwortdatei mit Noten und Notizen
-dem als Arbeitswerkzeug genutzten Sprachmodell Claude vorgelegt. Es prüfte nur
-die Form: zulässige Werte, eine Notiz zu jedem~?, die Zuordnung zu den
-Einträgen. Eine Note hat es nicht beurteilt. Die Notizen enthalten
-Inhalte öffentlicher Pull Requests.
 
 \subsection{Ergebnisse der Bewertung von Hand}
 \label{subsec:bewertung-hand}

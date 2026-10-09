@@ -305,22 +305,42 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     experiments/evaluation_e2_2026-10-08.json und
     experiments/ff3_measures_2026-10-09.json.
 
-Warum der naechste Schritt jetzt kommt: Bewertung und Zaehlung sind
-abgeschlossen und committet. Als Naechstes kommen die zwei Abschnitte
-in Kapitel 6, Bewertung der rekonstruierten Anforderungen und
-Messgroessen fuer FF3 (M1 bis M6), weil alle Zahlen dafuer jetzt
-vorliegen und drei Platzhalter in 4.2, 6.1 und 6.2 auf den Abschnitt
-zu den Messgroessen warten. Danach folgt Paket I Teil 2: die
-Abschnitte 4.3 (Datenmodell) und 4.4 (Anweisung und Modellwahl) und
-Kapitel 7, weil Kapitel 7 die Ergebnisse aus Kapitel 6 deuten muss.
+20. Kapitel 6 geschrieben (09.10.2026): Die Abschnitte 6.3
+    (Messgroessen fuer FF3, die dritte Forschungsfrage) und 6.4
+    (Bewertung der rekonstruierten Anforderungen, fuer FF1 und FF2)
+    stehen in thesis.tex, weil alle Zahlen dafuer vorlagen. Ein Skript
+    hat jede Zahl aus den Ergebnisdateien gelesen und jede Aussage gegen
+    die Zahlen geprueft, weil Abschreibfehler sonst nicht auszuschliessen
+    waeren. Die drei Platzhalter zu den Messgroessen und der Platzhalter
+    am Kapitelanfang sind aufgeloest. Stellen in Kapitel 2, 4 und
+    Anhang A, die eine Bewertung durch das Qrisp-Team vor der Abgabe,
+    einen Modellvergleich zur Uebergeneralisierung oder einen Vergleich
+    mit anderen Formaten versprachen, wurden berichtigt, weil das Team
+    erst nach der Abgabe bewertet und nach Stufe d (keine auswertbare
+    lokale Ausgabe) kein Qualitaetsvergleich der Modelle moeglich ist.
+    Abschnitt 6.2 nennt jetzt die Unterarten der eingesehenen Zitate und
+    die Ablehnungen je Datensatz, weil Kapitel 5 das ankuendigt. Die
+    Nennung des KI-Werkzeugs im Text entfiel, weil der KI-Einsatz nur im
+    KI-Protokoll steht (Nachtrag zu E2 vom 09.10.2026, Text von
+    Kapitel 6).
+
+Warum der naechste Schritt jetzt kommt: Kapitel 6 ist bis auf einen
+Satz fertig. Offen ist, ob die Anforderungen, die B9
+(Quellennachvollziehbarkeit) erfuellen, dieselben sind wie die im
+Sinne der Gap-Analyse belegten; beide Zahlen sind gleich gross. Das
+klaert ein kleines Pruefprogramm, weil Kapitel 7 sonst auf einer
+ungeprueften Gleichsetzung aufbauen koennte. Im selben Commit folgen
+tests/README.md, tab:impl-tests, Abschnitt 5.6 und tab:impl-stufen,
+weil sie die zwei neuen Programme noch nicht nennen. Danach Paket I
+Teil 2: die Abschnitte 4.3 und 4.4 und Kapitel 7, weil Kapitel 7 die
+Ergebnisse aus Kapitel 6 deutet.
 
 Geschrieben sind Teile von Kapitel 2 (mit Abschnitt 2.4), die
 Abschnitte 4.1 und 4.2, Kapitel 5 vollstaendig (5.1 bis 5.8), die
-Abschnitte 6.1 bis 6.4 und Anhang A.
+Abschnitte 6.1 bis 6.6 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
 Reserve ausser dem 14.10. Groesstes Risiko: Noch nicht geschrieben
-sind die zwei Abschnitte in Kapitel 6, die Kapitel 1, 3, 7 und 8
-sowie die Abschnitte 4.3 und 4.4.
+sind die Kapitel 1, 3, 7 und 8 sowie die Abschnitte 4.3 und 4.4.
 
 
 ## Zusammenarbeit im Chat
@@ -1356,9 +1376,10 @@ Pruefsummen vom Skript aus den Dateien gelesen):
   cc2022teil2). Gelesen am 04.10.2026: Vorwort, Einleitung, Abschn. 1,
   6 und 7.1.1; frueher online: Inhaltsverzeichnis, Abschn. 1 bis 6.
 
-Vorgemerkt fuer die Lueckenpruefung (3a): thesis.tex Z. 1456 bis 1457
-sagt, das Qrisp-Team entscheide in Kapitel 6. Nach E2 (Form der
-Evaluation) bewertet das Team erst nach der Abgabe.
+Erledigt am 09.10.2026 (Paket H Teil 2): Die Stelle in 4.1.5, nach
+der das Qrisp-Team in Kapitel 6 entscheide, ist berichtigt, ebenso die
+Saetze zu K7 in 4.1.5 und Anhang A. Das Team bewertet nach E2 (Form
+der Evaluation) erst nach der Abgabe.
 
 Ebenfalls vorgemerkt (05.10.2026, Befund aus Paket G Teil 4):
 Abschnitt 2.1.7 in thesis.tex (Text nach Tabelle 2.1) und die
@@ -1368,15 +1389,23 @@ nicht-funktional ohne eigene Setzung. Nach G4 ordnet die Norm nur zwei
 der sechs Typwerte ausdruecklich zu.
 
 Naechste Schritte in dieser Reihenfolge (Stand 09.10.2026):
-1. Paket H Teil 2 im neuen Chat: Bewertung, Nebenteil, M1 Teil b, M3
-   und Angabe (i) sind gezaehlt und committet (Nachtraege zu E2 und F3
-   vom 09.10.2026). Offen sind die zwei Abschnitte in Kapitel 6, je
-   mit Feingliederung zur Freigabe: Bewertung der rekonstruierten
-   Anforderungen (Design, Durchfuehrung, Ergebnis nach FF1 und FF2) und
-   Messgroessen fuer FF3 (M1 bis M6). Sie loesen die drei Platzhalter
-   zu den Messgroessen in 4.2, 6.1 und 6.2 auf; dazu der Platzhalter am
-   Anfang von Kapitel 6. Danach tests/README.md und tab:impl-tests in
-   5.8 auf den neuen Stand der Testsuite bringen.
+1. Paket H Teil 3 im neuen Chat, mit einem einzigen Commit:
+   a) Pruefung B9 gegen den Belegbegriff der Gap-Analyse (G1). Nach den
+      Zaehlwerten unterscheiden sich beide Mengen nur um Anforderungen,
+      bei denen alle Zitate gefunden werden und das Modell selbst
+      insufficient angibt; gleich viele mit teilweise gefundenen Zitaten
+      gehen den umgekehrten Weg. Ein kleines Pruefprogramm zaehlt das je
+      Anforderung und gibt nur Zahlen aus. Dafuer braucht Claude
+      src/analyze/count_requirements.py und
+      src/analyze/evaluate_requirements.py. Danach wird der Satz "ob es
+      dieselben Anforderungen sind, ist nicht geprueft" in Abschnitt
+      6.4.4 (subsec:bewertung-maschinell) ersetzt.
+   b) tests/README.md und tab:impl-tests in 5.8 auf den Stand der
+      Testsuite bringen (Zahl aus pytest lesen); 5.6 und tab:impl-stufen
+      um evaluate_requirements.py und count_ff3_measures.py ergaenzen.
+   c) Zu klaeren: Der Verfasser schreibt die Arbeit im Passiv. Ob die
+      Wendung "der Verfasser" in Kapitel 4 bis 6 und Anhang A durch
+      Passiv ersetzt werden soll, entscheidet er vor Schritt a.
 2. Paket I Teil 2 im neuen Chat: Abschnitt 4.3 (Label
    sec:konzeption-datenmodell, nach E1, E6 und ihren Nachtraegen) und
    4.4 (sec:konzeption-prompt-modell, nach E7, E8 und F2), dann der
@@ -1833,6 +1862,22 @@ Folge fuer Schritt 5, aus E1 und den Messwerten:
 
 ## Offene Punkte
 
+Sammelliste fuer Kapitel 7 aus Kapitel 6 (09.10.2026, Paket H Teil 2):
+- Eine Person bewertet, kein Uebereinstimmungsmass; der Verfasser
+  bewertet die eigene Pipeline und kannte die Anforderungen aus G5.
+- B7 (praktische Nutzbarkeit) stellvertretend fuer das Qrisp-Team;
+  die Regel "brauchbar" und die Notenregeln sind Setzungen.
+- Stichprobe nach Pull Requests geschichtet; ein Pull Request mit
+  vielen Anforderungen praegt die Anteile stark.
+- N2 (Vergleich von Hand im Nebenteil) nicht verblindet.
+- M1, M4, M5, M6 nach Kenntnis der Werte festgelegt; M3 aus zwei
+  Durchgaengen mit verschiedenem Codestand, explorativ.
+- Doppelte Anforderungen zwischen Pull Requests nicht gesucht
+  (2.1.4 verweist auf Kapitel 7).
+- B10 erkennt Woerter, keine Mehrdeutigkeit; Treffer sind Obergrenze.
+- Die Formpruefung der Antwortdatei durch Claude steht nur im
+  KI-Protokoll, nicht in der Arbeit.
+
 Extern, mit Vorlauf:
 - Umfangsfrage gegenueber dem Qrisp-Team. Stand am Ende von Paket E
   als Git-Tag thesis-v1.0 eingefroren (29.09.2026 statt wie geplant
@@ -2235,6 +2280,8 @@ cc3e321 code: Programm evaluate_requirements.py fuer die Bewertung nach E2 und K
 1af915a docs: Ergebnis der Bewertung nach E2 und Kriterienliste v1 (experiments/evaluation_e2_2026-10-08.json)
 775a888 code: Programm count_ff3_measures.py fuer M1 Teil b, M3 und Angabe (i) nach F3
 eb6fa69 docs: Messgroessen fuer FF3 (experiments/ff3_measures_2026-10-09.json): M1 Teil b im Pilotlauf, M3 und Angabe (i) nach F3
+27bef7a docs: Uebergabe Paket H Teil 1 (Bewertung und Messgroessen): STATUS mit Rotem Faden Punkt 19, Kuerzeln A1 bis A7, K1 bis K9 (B10), B8.1 bis B8.5, N1 und N2, Commits Paket H, Testsuite; Nachtraege zu E2 und F3 vom 09.10.2026; KI-Protokoll
+b8ca5de tex: Abschnitte 6.3 (Messgroessen FF3) und 6.4 (Bewertung), Platzhalter in 4.2, 6.1, 6.2 aufgeloest, Teambewertung nach der Abgabe berichtigt
 
 ## Aufruf des Ziehungsskripts
 

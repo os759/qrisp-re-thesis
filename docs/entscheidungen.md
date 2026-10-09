@@ -4176,6 +4176,47 @@ Einordnung von Claude im Chat vom 09.10.2026.
 Status: festgelegt.
 Bezug: FF1, FF3, Kapitel 6 und 7.
 
+### Nachtrag zu E2 (2026-10-09): Text von Kapitel 6
+
+1. Ort: Die neuen Abschnitte stehen als 6.3 (Messgroessen fuer FF3,
+   sec:eval-ff3) und 6.4 (Bewertung, sec:eval-bewertung) zwischen den
+   Grundzahlen und der Pruefung der Klassifikation; bestehende
+   Abschnitte wurden nicht verschoben (Wahl des Verfassers).
+2. Das Evaluationskonzept steht in Kapitel 6 und nicht in Kapitel 4
+   (Wahl des Verfassers), weil die Festlegungen (F3, Kriterienliste v1)
+   erst nach dem Kontrollpunkt und den Laeufen entstanden und dort
+   zusammen mit ihren Ergebnissen berichtet werden. Der Platzhalter am
+   Anfang von Kapitel 4 verweist darauf.
+3. Berichtigt wurden alle Stellen, die eine Bewertung durch das
+   Qrisp-Team vor der Abgabe voraussetzten (4.1.5 zweimal, Anhang A zu
+   K7), die Zusagen eines Modellvergleichs zur Uebergeneralisierung
+   (2.4) und eines Vergleichs mit anderen Formaten (4.1.4), die nach
+   F1 Stufe d nicht einzuloesen sind, und die Ankuendigung einer
+   Verarbeitung der ganzen Ergebnismenge in 2.1.4 (wie im Nachtrag vom
+   08.10.2026, Punkt 5, vorgesehen). Abschnitt 6.2 berichtet die in
+   5.5.2 angekuendigten Unterarten nach Regel 3 und die Ablehnungen je
+   Datensatz aus dem Nachtrag zu E10 vom 28.09.2026, Teil 4.
+4. Die Aufschluesselung der nicht brauchbaren Anforderungen nach
+   verletzter Bedingung ist nachtraeglich und im Text als explorativ
+   gekennzeichnet (Wahl des Verfassers).
+5. KI-Werkzeuge werden in der Arbeit nicht genannt; ihr Einsatz steht
+   nur in docs/ki-protokoll.md (Festlegung des Verfassers vom
+   09.10.2026). Der Hinweis "Fuer Kapitel 7" in Punkt 3 des Nachtrags
+   vom 09.10.2026 (Bewertung durchgefuehrt) gilt damit nicht fuer den
+   Text der Arbeit; die Formpruefung steht im KI-Protokoll.
+6. Der Name Jaccard steht nicht in der Arbeit, weil keine Quelle dazu
+   gelesen wurde; die Definition von M3 steht vollstaendig im Text.
+7. Offen: ob die Menge der Anforderungen mit B9 erfuellt und die Menge
+   der nach G1 belegten Anforderungen gleich sind (STATUS.md, Naechste
+   Schritte 1a).
+
+Herkunft: Feingliederung, Text und Ersetzungsskripte von Claude im
+Chat vom 09.10.2026; Ort, Ort des Evaluationskonzepts, Aufschluesselung,
+Berichtigungen und Punkt 5 vom Verfasser entschieden.
+
+Status: festgelegt.
+Bezug: FF1, FF2, FF3, Kapitel 2, 4, 6, 7 und Anhang A.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
