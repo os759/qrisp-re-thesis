@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 07.10.2026
+Letzte Aktualisierung: 09.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -278,22 +278,49 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     OpenAI-Dokumentation und die OWASP-Liste, weil Aussagen ueber den
     Anbieter und ueber Sicherheitsrisiken einen Beleg brauchen.
 
-Warum der naechste Schritt jetzt kommt: Kapitel 5 ist fertig. Als
-Naechstes kommt Paket H (Bewertung), weil der Verfasser die Bewertung
-selbst durchfuehren muss und Kapitel 6 und 7 auf ihr aufbauen. Paket H
-hat laut Verfasser (07.10.2026) noch nicht begonnen; die fruehere
-Angabe, es laufe seit 06.10.2026, ist damit ueberholt. Danach oder
-parallel folgt Paket I Teil 2: die Abschnitte 4.3 (Datenmodell) und
-4.4 (Anweisung und Modellwahl), weil Kapitel 5 und zwei Platzhalter in
-Kapitel 4 auf sie verweisen, und der Teil von Kapitel 7 zu FF4.
+19. Bewertung nach E2 (der Form der Evaluation) durchgefuehrt (08. und
+    09.10.2026): Zuerst wurde die Kriterienliste v1 committet (Skala 2,
+    1, 0 und ?, Notenregeln, Umfang, Auswertung), weil die Regeln vor
+    der ersten Note feststehen muessen. Als brauchbar im Sinne von FF1
+    (der ersten Forschungsfrage) gilt eine Anforderung nur, wenn B1 bis
+    B4 (Eindeutigkeit, Vollstaendigkeit, Einzelbezogenheit,
+    Nachweisbarkeit) mindestens 1 sind, B5 (Quellentreue) und B6
+    (Relevanz) jeweils 2, B7 (praktische Nutzbarkeit) mindestens 1 und
+    B8 (Form)
+    und B9 (Rueckfuehrbarkeit auf die Quelle) erfuellt. Die Bedingung zu
+    B1 bis B4 hat der Verfasser ergaenzt, weil eine Anforderung mit einem
+    klaren Mangel nicht als brauchbar gelten soll. Das Programm
+    evaluate_requirements.py erzeugt einen verblindeten Bogen ohne die
+    Etiketten des Modells, weil diese das Urteil lenken koennten, und
+    sperrt die Antworten per Pruefsumme, weil sonst eine nachtraegliche
+    Aenderung nicht auszuschliessen waere. Der Verfasser hat alle
+    85 Anforderungen der Stichprobe aus 18 Pull Requests bewertet.
+    Ergebnis: 49 brauchbar, 31 nicht brauchbar, 5 nicht beurteilbar. Die
+    Pipeline findet 10 der 20 Fundstellen der Formulierungsprobe aus Paket C
+    wieder (Nebenteil). Mit count_ff3_measures.py wurden die fuer FF3
+    (die dritte Forschungsfrage) noch fehlenden Zahlen gezaehlt, weil
+    Kapitel 6 sie braucht: Teil b von M1 (Formatkonformitaet) im
+    Pilotlauf 19 von 20, M3 (Gleichheit der Fundstellen in zwei
+    Durchgaengen) im Mittel 0,7337. Alle Zahlen stehen in
+    experiments/evaluation_e2_2026-10-08.json und
+    experiments/ff3_measures_2026-10-09.json.
+
+Warum der naechste Schritt jetzt kommt: Bewertung und Zaehlung sind
+abgeschlossen und committet. Als Naechstes kommen die zwei Abschnitte
+in Kapitel 6, Bewertung der rekonstruierten Anforderungen und
+Messgroessen fuer FF3 (M1 bis M6), weil alle Zahlen dafuer jetzt
+vorliegen und drei Platzhalter in 4.2, 6.1 und 6.2 auf den Abschnitt
+zu den Messgroessen warten. Danach folgt Paket I Teil 2: die
+Abschnitte 4.3 (Datenmodell) und 4.4 (Anweisung und Modellwahl) und
+Kapitel 7, weil Kapitel 7 die Ergebnisse aus Kapitel 6 deuten muss.
 
 Geschrieben sind Teile von Kapitel 2 (mit Abschnitt 2.4), die
 Abschnitte 4.1 und 4.2, Kapitel 5 vollstaendig (5.1 bis 5.8), die
 Abschnitte 6.1 bis 6.4 und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve ausser dem 14.10. Groesstes Risiko: Paket H (Bewertung) hat
-noch nicht begonnen, und die Kapitel 1, 3, 7 und 8 sowie die
-Abschnitte 4.3 und 4.4 sind noch nicht geschrieben.
+Reserve ausser dem 14.10. Groesstes Risiko: Noch nicht geschrieben
+sind die zwei Abschnitte in Kapitel 6, die Kapitel 1, 3, 7 und 8
+sowie die Abschnitte 4.3 und 4.4.
 
 
 ## Zusammenarbeit im Chat
@@ -457,7 +484,8 @@ Doppelt belegte Kuerzel - immer mit Klartext verwenden:
       eval/instrument/kriterien_v0.md vom 21.09.2026, etwa
       B8 Formatkonformitaet, B9 Quellennachvollziehbarkeit,
       B10 Sprachliche Kriterien. Der Nachtrag zu E2 vom 22.09.2026
-      meint diese Kriterien.
+      meint diese Kriterien. Skala, Notenregeln und Auswertung stehen
+      in eval/instrument/kriterien_v1.md vom 08.10.2026.
 - Weg A: In C6 (entscheidungen.md Z. 1125) eine verworfene Form von
   Anhang A, nur mit Notentabelle. Im Zeitplan W10 und im Commit
   d858275 dagegen die Art der Bewertung aus dem Nachtrag zu E2 vom
@@ -560,6 +588,26 @@ eval/instrument/anleitung_klassifikation_g5.md.
 Menge markiert, Menge Suchtreffer, Menge Stichprobe = die drei
 Pruefmengen nach G5; bewusst ohne Buchstaben, weil S1 bis S6 und M1
 bis M6 schon belegt sind.
+A1 bis A7 in eval/instrument/kriterien_v1.md Abschnitt 3 = die
+allgemeinen Regeln fuer die Bewertung von Hand, etwa A6 (im Zweifel
+die niedrigere Note) und A7 (keine Aenderung nach der Sperre). Nicht zu
+verwechseln mit den Aufgaben A1 bis A8 aus Paket A.
+K1 bis K9 in kriterien_v1.md Abschnitt 6 = die Klassen der Wortliste
+fuer B10 (Sprachliche Kriterien) nach 29148 Abschn. 5.2.7, nur dort
+gueltig. Nicht zu verwechseln mit den Kriterien K1 bis K10 der
+Formatauswahl.
+B8.1 bis B8.5 = die fuenf Teilpruefungen von B8 (Formatkonformitaet):
+Schema, Muster, Reihenfolge, Modalwort shall, keine anderen
+Modalverben.
+N1 und N2 = die zwei Teile des Nebenteils von E2 (Vergleich mit den
+Fundstellen der Formulierungsprobe): N1 maschinell (ein gefundener
+Beleg an derselben Ortsart), N2 von Hand (ein Beleg gibt dieselbe
+Stelle wieder).
+Brauchbar = die Regel fuer FF1 in kriterien_v1.md Abschnitt 9, siehe
+Nachtrag zu E2 vom 08.10.2026, Punkt 7.
+Lesarten 1 bis 9 = die Lesarten der maschinellen Pruefregeln in
+eval/instrument/anleitung_bewertung_e2.md, Teil 6, vor der ersten Note
+committet (cc3e321).
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
@@ -863,9 +911,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-507 Tests, ausfuehren aus der Projektwurzel:
+614 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 07.10.2026 (507 passed), vom Verfasser
+Zuletzt gruen am 09.10.2026 (614 passed), vom Verfasser
 ausgefuehrt; Zahl je Datei mit pytest --collect-only, siehe
 Abschnitt 5.8 (tab:impl-tests).
 
@@ -897,7 +945,14 @@ Klassifikation nach G4 und G5 seit 05.10.2026, geprueft gegen 22
 absichtlich eingebaute Fehler, setzt seinen Importpfad selbst),
 test_gap_analysis.py (56 Tests, Programm der Gap-Analyse nach G6
 seit 06.10.2026, geprueft gegen 22 absichtlich eingebaute Fehler: 21
-erkannt, einer ohne Wirkung; setzt seinen Importpfad selbst). Die
+erkannt, einer ohne Wirkung; setzt seinen Importpfad selbst),
+test_evaluate_requirements.py (92 Tests, Bewertungsprogramm nach E2
+und Kriterienliste v1 seit 08.10.2026, geprueft gegen 30 absichtlich
+eingebaute Fehler, setzt seinen Importpfad selbst),
+test_count_ff3_measures.py (15 Tests, M1 Teil b, M3 und Angabe (i)
+seit 09.10.2026, geprueft gegen 18 absichtlich eingebaute Fehler, setzt
+seinen Importpfad selbst). Die Tabelle tab:impl-tests in Abschnitt 5.8
+nennt noch den Stand vom 07.10.2026. Die
 beiden neuen Dateien vom 21. und 22.09.2026, test_diagnose_excerpts.py
 und die vier Dateien vom 28.09.2026 setzen ihren Importpfad selbst.
 Die vier Dateien vom 28.09.2026 wurden in der Umgebung von Claude
@@ -1152,7 +1207,9 @@ store fuer /v1/responses nicht; F2 ist entsprechend berichtigt.
 Messgroessen fuer FF3 stehen als F3 in docs/entscheidungen.md. M1,
 M4, M5 und M6 sind aus vorhandenen Daten bekannt. M2, M3 und Teil b
 von M1 im Pilotlauf werden in Paket H gezaehlt, weil die Auswertung
-dort ohnehin laeuft. Weil vier Zahlen vor der Festlegung bekannt
+dort ohnehin laeuft. Gezaehlt: M2 am 01.10.2026; M3, Teil b von
+M1 und Angabe (i) am 09.10.2026
+(experiments/ff3_measures_2026-10-09.json). Weil vier Zahlen vor der Festlegung bekannt
 waren, folgen die Definitionen nur aus aelteren Regeln; das gehoert
 nach Kapitel 7.
 
@@ -1310,18 +1367,16 @@ Literaturmatrix L07 (Spalte Nutzen) sagen, die Inhaltsbloecke aus
 nicht-funktional ohne eigene Setzung. Nach G4 ordnet die Norm nur zwei
 der sechs Typwerte ausdruecklich zu.
 
-Naechste Schritte in dieser Reihenfolge (Stand 07.10.2026):
-1. Paket H im neuen Chat (laut Verfasser noch nicht begonnen):
-   zuerst Kriterienliste v1, dann Bewertung an der Stichprobe
-   docs/sample_eval_e2.md (gezogen am 05.10.2026 nach G5), dazu die
-   Zaehlung von M1 (Teil b im Pilotlauf) und M3 nach F3 sowie Angabe
-   (i) aus Punkt 4 des Nachtrags zu F3 vom 01.10.2026; dafuer wird
-   src/analyze/count_requirements.py erweitert. Zu entscheiden: ob die
-   Merkmale der Anforderungsmenge nach 29148 Abschn. 5.2.6 bewertet
-   werden und ob ein Programm fuer die Sprachregeln (B10) entsteht
-   (Befund unter "Offene Punkte"). Danach die Abschnitte in Kapitel 6:
-   Design und Ergebnis der Bewertung sowie die Messgroessen fuer FF3
-   (M1 bis M6); sie loesen die Platzhalter zu den Messgroessen auf.
+Naechste Schritte in dieser Reihenfolge (Stand 09.10.2026):
+1. Paket H Teil 2 im neuen Chat: Bewertung, Nebenteil, M1 Teil b, M3
+   und Angabe (i) sind gezaehlt und committet (Nachtraege zu E2 und F3
+   vom 09.10.2026). Offen sind die zwei Abschnitte in Kapitel 6, je
+   mit Feingliederung zur Freigabe: Bewertung der rekonstruierten
+   Anforderungen (Design, Durchfuehrung, Ergebnis nach FF1 und FF2) und
+   Messgroessen fuer FF3 (M1 bis M6). Sie loesen die drei Platzhalter
+   zu den Messgroessen in 4.2, 6.1 und 6.2 auf; dazu der Platzhalter am
+   Anfang von Kapitel 6. Danach tests/README.md und tab:impl-tests in
+   5.8 auf den neuen Stand der Testsuite bringen.
 2. Paket I Teil 2 im neuen Chat: Abschnitt 4.3 (Label
    sec:konzeption-datenmodell, nach E1, E6 und ihren Nachtraegen) und
    4.4 (sec:konzeption-prompt-modell, nach E7, E8 und F2), dann der
@@ -1537,6 +1592,17 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - Doppelrolle (07.10.2026): Satz fuer Kapitel 7 festgelegt, siehe
   Nachtrag zu E8 vom 07.10.2026, weil auch ein Modell desselben
   Anbieters als Arbeitshilfe diente.
+- Paket H (08.10.2026, vom Verfasser gewaehlt): alle Anforderungen
+  der Stichprobe nach G5, Skala 2, 1, 0 und ?, B8 und B10 maschinell,
+  B11a und B11b je Pull Request, Nebenteil durchgefuehrt, Regel
+  brauchbar mit B1 bis B4 mindestens 1. Festgehalten als Nachtrag zu
+  E2 vom 08.10.2026, weil das Kuerzel H1 schon belegt ist.
+- Zaehlprogramm fuer FF3 (08.10.2026): eigenes Programm
+  count_ff3_measures.py, weil die committete Ergebnisdatei von
+  count_requirements.py zum Code passen soll.
+- M3 (09.10.2026): auch Datensaetze mit Schemafehler zaehlen, weil M3
+  nach F3 das Verhalten des Modells misst; zweite Zahl nur ueber
+  beidseitig gueltige Datensaetze.
 
 ## LaTeX-Konventionen
 
@@ -1771,9 +1837,8 @@ Extern, mit Vorlauf:
 - Umfangsfrage gegenueber dem Qrisp-Team. Stand am Ende von Paket E
   als Git-Tag thesis-v1.0 eingefroren (29.09.2026 statt wie geplant
   27.09.); alles Weitere in den Ausblick.
-- Kriterienliste v1 (Skala, Regeln, Umfang der Auswahl) vor der
-  ersten Bewertung, laut Zeitplan in W9 (Nachtrag zu E2 vom
-  21.09.2026).
+- Erledigt am 08.10.2026: Kriterienliste v1 vor der ersten Bewertung
+  committet (eval/instrument/kriterien_v1.md).
 - Erledigt am 28.09.2026: Links fuer Teilschritt 10. GitHub hat je
   Kommentar einen eigenen Link geliefert; Variante B (Nachtrag zu E10
   vom 28.09.2026, Teil 4).
@@ -1937,8 +2002,10 @@ Technisch und redaktionell:
   kuendigt eine Verarbeitung der Anforderungsmenge in Kapitel 5 an.
   Kapitel 5 enthaelt keine, weil C5 Abschnitt 4 die Merkmale nach
   29148 Abschn. 5.2.6 in die Evaluation legt; ein Programm fuer die
-  Sprachregeln (B10) gibt es nicht. In Paket H entscheiden, danach
-  2.1.4 anpassen.
+  Sprachregeln (B10) gibt es nicht. Entschieden am 08.10.2026
+  (Nachtrag zu E2, Punkte 4 und 5): B10 prueft ein Programm, die
+  Merkmale der Menge bleiben bei B11a und B11b je Pull Request.
+  Offen: 2.1.4 bei der Lueckenpruefung anpassen.
 - Sammelliste fuer Kapitel 7 aus Kapitel 5: Lieferreihenfolge von
   GitHub als Kuerzungsreihenfolge (5.3); Grenzen der
   Pseudonymisierung (5.3); Modell nur ueber den Namen ohne
@@ -1947,6 +2014,10 @@ Technisch und redaktionell:
   kein Angriffstest (5.7); Doppelrolle (Nachtrag zu E8 vom
   07.10.2026); Gegenpruefung und Vorschlaege bei K6 und K9 (Nachtrag
   zu C2a vom 07.10.2026).
+- Grenzen aus Paket H fuer Kapitel 7: kriterien_v1.md Abschnitt 11;
+  Antwortdatei mit Notizen vor der Sperre im Chat, nur Formpruefung
+  (Nachtrag zu E2 vom 09.10.2026, Punkt 3); M3 mit zwei Durchgaengen
+  und verschiedenem Codestand (F3).
 
 
 ## Arbeitsweise
@@ -2153,6 +2224,17 @@ f825dbe docs: Uebergabe Paket G Teil 5 (G6, Gap-Analyse, Abschnitte 6.3 und 6.4)
 4180e6e tex: Kapitel 5, Abschnitte 5.4 Extraktion, 5.5 Pruefung der Modellausgaben, 5.6 Programme der Auswertung und 5.7 Absicherung der Pipeline mit tab:impl-owasp (OWASP-Ausschnitt LLM01, LLM02, LLM05, LLM10), am Code geprueft; Platzhalter in 4.2.4, 6.1 und 6.2 durch Verweise ersetzt; Anhang A, Einleitung, K6 und K9: Rolle des Verfassers vorangestellt; sechs Eintraege in online.bib (OpenAI-Dokumentation, OWASP)
 374290b docs: tests/README.md auf Stand 07.10.2026 mit 507 Tests, drei Testdateien aus Paket G und ihre Pruefung gegen eingebaute Fehler ergaenzt
 abdcdcf tex: Abschnitt 5.8 Automatische Tests (sec:impl-tests, tab:impl-tests), Zahlen aus pytest --collect-only vom 07.10.2026; Kapitel 5 damit vollstaendig
+
+## Commits Paket H
+
+Aus git log gelesen; Basis ist der letzte Commit vor Paket H:
+0c0353b docs: Uebergabe Paket I Teil 1 (Kapitel 5): STATUS mit Rotem Faden Punkt 18, naechsten Schritten, Labels von Kapitel 5, Commits Paket I, Platzhalter und Overfull-Stand aus den Quellen gelesen; Nachtraege zu C2a und E8; Literaturmatrix L10, L21 bis L25; KI-Protokoll
+
+938d338 docs: Kriterienliste v1 und Nachtrag zu E2 fuer Paket H
+cc3e321 code: Programm evaluate_requirements.py fuer die Bewertung nach E2 und Kriterienliste v1
+1af915a docs: Ergebnis der Bewertung nach E2 und Kriterienliste v1 (experiments/evaluation_e2_2026-10-08.json)
+775a888 code: Programm count_ff3_measures.py fuer M1 Teil b, M3 und Angabe (i) nach F3
+eb6fa69 docs: Messgroessen fuer FF3 (experiments/ff3_measures_2026-10-09.json): M1 Teil b im Pilotlauf, M3 und Angabe (i) nach F3
 
 ## Aufruf des Ziehungsskripts
 

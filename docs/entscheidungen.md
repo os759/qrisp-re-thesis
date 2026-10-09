@@ -4111,6 +4111,71 @@ erweitert; die Notenregeln und Punkt 8 hat er unveraendert freigegeben.
 Status: festgelegt.
 Bezug: FF1, FF2, Kapitel 6 und 7.
 
+## 2026-10-09 Paket H: Bewertung und Messgroessen
+
+### Nachtrag zu E2 (2026-10-09): Bewertung durchgefuehrt
+
+1. Der Bogen wurde am 08.10.2026 mit src/analyze/evaluate_requirements.py
+   erzeugt, nachdem Programm, Tests und Arbeitsanleitung committet
+   waren (cc3e321). Die Lesarten der maschinellen Pruefregeln
+   (eval/instrument/anleitung_bewertung_e2.md, Teil 6) hat der Verfasser
+   am 08.10.2026 vor der ersten Note bestaetigt.
+2. Die Antworten wurden am 09.10.2026 mit dem Befehl compare per
+   Pruefsumme gesperrt (Regel A7). Der Bogen fuer N2 entstand erst
+   danach.
+3. Vor der Sperre hat der Verfasser die Antwortdatei mit Noten und
+   Notizen in den Chat gegeben. Claude hat nur die Form geprueft
+   (Werte, Notizpflicht bei ?, Zuordnung zu den Eintraegen) und keine
+   Note beurteilt, weil laut kriterien_v1.md eine Person bewertet. Die
+   Summen je Kriterium im Ergebnis stimmen mit der geprueften Datei
+   ueberein. Fuer
+   Kapitel 7: Die Notizen enthalten Inhalte oeffentlicher Pull
+   Requests und waren damit im Chat.
+4. Alle Zahlen stehen in experiments/evaluation_e2_2026-10-08.json und
+   werden hier nicht wiederholt. Die Zahlen zu gefundenen und
+   teilweise gefundenen Belegen stimmen mit
+   experiments/requirement_counts_2026-09-25_full_v2.json ueberein
+   (Pruefung im Chat vom 09.10.2026).
+
+Herkunft: Bewertung, Sperre und N2 durch den Verfasser; Programm und
+Pruefung der Zahlen von Claude im Chat vom 08. und 09.10.2026.
+
+Status: festgelegt.
+Bezug: FF1, FF2, Kapitel 6 und 7.
+
+### Nachtrag zu F3 (2026-10-09): M1 Teil b, M3 und Angabe (i) gezaehlt
+
+Gezaehlt am 09.10.2026 mit src/analyze/count_ff3_measures.py
+(775a888). Die Regeln von F3 sind unveraendert. Das Programm
+nutzt die Pruefungen aus validate_output.py, diagnose_excerpts.py und
+count_requirements.py und enthaelt keine eigenen Pruefregeln. Alle
+Zahlen stehen in experiments/ff3_measures_2026-10-09.json und werden
+hier nicht wiederholt.
+
+1. Eigenes Programm statt Erweiterung von count_requirements.py
+   (Entscheidung des Verfassers vom 08.10.2026), weil dessen
+   Ergebnisdatei vom 01.10.2026 committet ist und zum Code passen soll.
+2. M3 zaehlt auch Datensaetze mit Schemafehler (Entscheidung des
+   Verfassers vom 09.10.2026), weil M3 nach F3 das Verhalten des
+   Modells misst. Als zweite Zahl wird der Mittelwert ueber die Pull
+   Requests berichtet, deren Datensaetze in beiden Durchgaengen die
+   Schemapruefung bestehen. Ein Locator wird als Text verglichen.
+   Beides stand vor der Zaehlung im Programmkopf.
+3. Angabe (i) zaehlt nach denselben Regeln wie count_requirements.py.
+   Das Programm prueft vor dem Schreiben, dass Grundmenge, Zahl der
+   unbelegten Anforderungen und Zahl der Abweichungen der Belegstaerke
+   mit der Datei vom 01.10.2026 uebereinstimmen; die Pruefung ist
+   bestanden.
+
+Grenze, wie in F3: zwei Durchgaenge mit verschiedenem Codestand; M3
+ist explorativ.
+
+Herkunft: Lauf und Ablesung durch den Verfasser, Programm und
+Einordnung von Claude im Chat vom 09.10.2026.
+
+Status: festgelegt.
+Bezug: FF1, FF3, Kapitel 6 und 7.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
