@@ -4,7 +4,7 @@ Tests fuer die Komponenten in `src/`. Ausfuehren aus der Projektwurzel:
 
     python -m pytest tests/ -v
 
-Stand 07.10.2026: 507 Tests, alle bestanden. Die aktuelle Zahl zeigt
+Stand 10.10.2026: 629 Tests, alle bestanden. Die aktuelle Zahl zeigt
 
     python -m pytest tests/ --collect-only -q
 
@@ -40,6 +40,9 @@ still Daten verfaelscht, nicht dort, wo er sichtbar zum Abbruch fuehrt.
 | `test_count_requirements.py` | Zaehlung nach F3 (M2) und G1: gefundene Belege, Belegstaerke nur aus gefundenen Belegen, keine eigene Pruefregel | Anforderung falsch als belegt oder unbelegt gezaehlt |
 | `test_check_classification.py` | Pruefung der Klassifikation nach G4 und G5: Mengen, verblindeter Pruefbogen, Pruefung der Antworten, Sperre per Pruefsumme, Dependabot-Sichtung | falsche Menge geprueft, Etikett des Modells auf dem Bogen, Antwort nachtraeglich geaendert |
 | `test_gap_analysis.py` | Gap-Analyse nach G6: Kandidaten, Kategorien, Gegenprobe senkt nur | Eintrag in zu hoher Kategorie, Gegenprobe hebt eine Belegstaerke |
+| `test_evaluate_requirements.py` | Bewertung nach E2 und Kriterienliste v1: verblindeter Bogen, Pruefung und Sperre der Antworten, B8 bis B10, Nebenteil, Auszaehlung und Regel brauchbar | Etikett des Modells auf dem Bogen, Antwort nachtraeglich geaendert, Kriterium falsch gezaehlt |
+| `test_count_ff3_measures.py` | M1 Teil b, M3 und Angabe (i) nach F3, Abgleich mit der Zaehldatei | Fundstellen falsch verglichen, Abweichung von der Zaehldatei bleibt unbemerkt |
+| `test_compare_b9_g1.py` | Abgleich von B9 und Belegbegriff G1 je Anforderung, Abgleich mit beiden Ergebnisdateien, Pruefsumme des Programms | gleiche Zahlen gelten als gleiche Mengen, Grund einer Abweichung falsch zugeordnet |
 
 ## Test gegen absichtlich eingebaute Fehler
 
@@ -56,6 +59,11 @@ Nachweise liefen in der Umgebung von Claude.
 Fuer die drei Dateien aus Paket G: `count_requirements.py` gegen 16
 eingebaute Fehler geprueft, `check_classification.py` gegen 22,
 `gap_analysis.py` gegen 22, davon 21 erkannt und einer ohne Wirkung.
+Paket H: `evaluate_requirements.py` gegen 30 eingebaute Fehler,
+alle erkannt; `count_ff3_measures.py` gegen 18, alle erkannt (Chat
+vom 08./09.10.2026). `compare_b9_g1.py` am 10.10.2026 gegen 22,
+davon 19 erkannt und 3 ohne Wirkung: Sie vertauschen Werte, die in
+der betroffenen Teilmenge nach den Regeln immer gleich sind.
 
 ## Noch nicht abgedeckt
 
