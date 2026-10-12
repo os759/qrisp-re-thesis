@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 10.10.2026
+Letzte Aktualisierung: 12.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -339,18 +339,43 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     Bewertung, und die Testtabellen stehen auf 629 Tests, weil sie
     noch den Stand vom 07.10.2026 zeigten.
 
-Warum der naechste Schritt jetzt kommt: Kapitel 5 und 6 sind fertig.
-Es fehlen die Abschnitte 4.3 (Datenmodell) und 4.4 (Anweisung und
-Modellwahl), auf die Kapitel 5 schon verweist, und Kapitel 7, das die
-Ergebnisse aus Kapitel 6 deutet. Deshalb folgt jetzt Paket I Teil 2.
-Kapitel 1, 3 und 8 kommen danach, weil sie auf Kapitel 7 aufbauen.
+22. Paket I Teil 2, Schreiben (12.10.2026): Eingefuegt sind die
+    Einleitung von Kapitel 4 (Architektur und vier Grundsaetze), 4.3
+    (Datenmodell der Ausgabe), 4.4 (Anweisung an das Modell und
+    Modellwahl), 2.3 (Sprachmodelle und Prompting), Kapitel 3
+    (Verwandte Arbeiten) und Kapitel 7 (Diskussion), weil damit alle
+    Kapitel ausser 1 und 8 stehen und die Verweise aus Kapitel 5 und 6
+    ein Ziel haben. 4.4 begruendet die Modellwahl ohne Preise anderer
+    Anbieter, weil der Verfasser das so entschieden hat. Die Doppelrolle
+    (ein Sprachmodell desselben Anbieters wie gpt-5.6-terra diente als
+    Hilfswerkzeug) steht nur in 7.3, weil sie als Bedrohung der
+    Validitaet unter die Ausnahme der KI-Regel faellt. 2.3 schaerft den
+    Begriff Open-Source-Modell aus FF3 (dritte Forschungsfrage) zu
+    "Modell mit offenen Gewichten", weil gpt-oss nach der Open Source AI
+    Definition 1.0 nicht als Open Source gilt. Kapitel 3 stuetzt sich auf
+    fuenf gelesene Arbeiten aus der Literaturmatrix und nicht auf eine
+    systematische Suche, weil die Zeit bis zur Abgabe fehlt; das steht
+    als Grenze in 7.4. Kapitel 7 fuehrt die Bedrohungen der Validitaet
+    als drei Listen statt als Tabelle, weil die Tabelle laenger als eine
+    Seite war. Sieben Literatureintraege sind neu (thesis.bib:
+    vogelsang2024llm, arora2023advancing, brown2020fewshot,
+    zadenoori2025slr, zadenoori2025size, paiva2026issue; online.bib:
+    osiaidef2024, dazu ollamagptoss und ollamaqwen36 fuer 4.4). Eine
+    ueberlange Zeile in 4.4 ist mit \allowbreak in ISO/IEC/IEEE
+    behoben. Stand des Baus: 14 Overfull-Warnungen, 0 ungeloeste
+    Verweise.
 
-Geschrieben sind Teile von Kapitel 2 (mit Abschnitt 2.4), die
-Abschnitte 4.1 und 4.2, Kapitel 5 vollstaendig (5.1 bis 5.8),
-Kapitel 6 vollstaendig (6.1 bis 6.6) und Anhang A.
-Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
-Reserve ausser dem 14.10. Groesstes Risiko: Noch nicht geschrieben
-sind die Kapitel 1, 3, 7 und 8 sowie die Abschnitte 4.3 und 4.4.
+Warum der naechste Schritt jetzt kommt: Es fehlen nur noch Kapitel 1
+(Einleitung), Kapitel 8 (Fazit und Ausblick) und das Abstract. Sie
+kommen jetzt, weil sie die Antworten aus Kapitel 7 zusammenfassen und
+Kapitel 7 erst seit dem 12.10.2026 steht. Danach folgen die
+Lueckenpruefung und die formalen Punkte, weil sie den fertigen Text
+voraussetzen.
+
+Geschrieben sind Kapitel 2 bis 7 und Anhang A. Abgabe am 15.10.2026,
+intern geplant am 13.10.2026; Reserve nur der 14.10. Groesstes Risiko:
+Kapitel 1, Kapitel 8 und das Abstract fehlen noch, und die
+KI-Hinweisbox in vorspann.tex braucht die Formulierung des Betreuers.
 
 
 ## Zusammenarbeit im Chat
@@ -1876,7 +1901,63 @@ Folge fuer Schritt 5, aus E1 und den Messwerten:
 
 ## Offene Punkte
 
-Sammelliste fuer Kapitel 7 aus Kapitel 6 (09.10.2026, Paket H Teil 2):
+Stand 12.10.2026 nach Paket I Teil 2, als Naechstes in dieser
+Reihenfolge:
+1. Kapitel 1, Kapitel 8 und Abstract schreiben. Feingliederungen am
+   12.10.2026 vom Verfasser freigegeben:
+   - Kapitel 1 (etwa 2 Seiten), ersetzt den Platzhalter unter
+     cha:einleitung. 1.1 Motivation und Problemstellung: Qrisp nach
+     Seidel et al. (arXiv:2406.14792) und Projektseite; Angaben zum
+     Projekt aus dem Expose (explorativ gewachsen, Wunsch nach
+     kontrolliertem KI-Einsatz) als Angaben aus dem Projekt
+     gekennzeichnet; Verweis auf 2.4. 1.2 Zielsetzung und
+     Forschungsfragen: Pipeline; Dreiteilung direkt rekonstruierbar /
+     plausibel, aber unsicher / nicht belegbar (4.3 und 7.1 verweisen
+     auf die Zielsetzung); FF1 bis FF4 woertlich aus dem Expose;
+     Abgrenzung in drei Saetzen. 1.3 Vorgehen und Aufbau:
+     konstruktiv-empirisch; je ein Satz zu Kapitel 2 bis 8 und Anhang A.
+   - Kapitel 8 (etwa 1 Seite), ersetzt den Platzhalter unter cha:fazit.
+     Fazit: je Forschungsfrage ein bis zwei Saetze aus 7.1, keine neuen
+     Zahlen ausser den Kernwerten (49 von 85 brauchbar; Produktebene
+     ohne Beleg). Ausblick, als eigene Vorschlaege gekennzeichnet:
+     Bewertung durch das Qrisp-Team nach der Abgabe; lokale Modelle mit
+     mehr Speicher oder Formathilfe fuer einen Qualitaetsvergleich in
+     FF3; Beispiele in der Anweisung (Few-Shot) und eine Pruefung der
+     getragenen Bestandteile fuer die Quellentreue; Code- und
+     Testpruefung fuer die Produktebene von FF4; weitere Projekte;
+     Suche nach doppelten Anforderungen zwischen Pull Requests.
+   - Abstract (150 bis 250 Woerter, ein Absatz): Problem, Vorgehen, je
+     Forschungsfrage ein Kernergebnis, Einordnung in einem Satz.
+2. Offene Entscheidungen des Verfassers:
+   a) Satz in 7.4, dass der Betreuer Mitautor der Qrisp-Veroeffentlichung
+      ist (Literaturmatrix L04 verlangt das). Vorschlag: "Der Betreuer
+      der Arbeit ist Mitautor der Veroeffentlichung zu Qrisp; die
+      Bewertung durch ihn ist fuer die Zeit nach der Abgabe vorgesehen."
+   b) Abstract nur deutsch oder zusaetzlich englisch; die Vorgabe der
+      Hochschule ist nicht bekannt.
+   c) L04 (Seidel et al.) ist noch "zu beschaffen"; fuer Kapitel 1 lesen,
+      BibTeX laut Matrix aus dem Qrisp-Repository uebernehmen.
+3. Lueckenpruefung in thesis.tex: Platzhalter zu Femmer et al. in 2.2.3;
+   Widerspruch in 2.1.7 (Text nach Tabelle 2.1 gegen 4.2.1 und G4);
+   falscher Verweis in 2.2.1 (subsec:bewertungsergebnis statt
+   subsec:rollenzuweisung); Aussage "dieselbe Personengruppe" zu
+   Mavin/Wilkinson in 2.2.3; in 2.2.2 angekuendigtes Wilkinson 2018
+   pruefen; "Ausschnitt der Inhaltsvorgaben" in 4.1.5; 2.1.4 kuendigt
+   eine Verarbeitung der Ergebnismenge in Kapitel 5 an, die es nicht
+   gibt; veralteten Platzhalter in 2.2 pruefen. In der Literaturmatrix:
+   L18 nennt nur Kap. 3, Paiva et al. steht auch in 7.3; L19 nennt
+   "Abschn. 6.1" (vermutlich alte Nummer).
+4. Formales: KI-Hinweisbox in vorspann.tex mit der Formulierung des
+   Betreuers; Korreferent und Abgabedatum in thesis.tex; Demo-Dateien in
+   thesis/figures/; 14 Overfull-Warnungen (zwei in Anhang A wuchsen am
+   12.10.2026 von 14,5 auf 20 pt, vermutlich wegen zweistelliger
+   Literaturnummern); Literaturverzeichnis ohne Seitenumbruch und nicht
+   im Inhaltsverzeichnis.
+5. Von Claude am 12.10.2026 gelesen, vom Verfasser noch nicht: L01,
+   L02, L03 und L26 bis L29. L13 und L18 hat der Verfasser am
+   12.10.2026 gelesen.
+
+Erledigt am 12.10.2026 in Kapitel 7: Sammelliste fuer Kapitel 7 aus Kapitel 6 (09.10.2026, Paket H Teil 2):
 - Eine Person bewertet, kein Uebereinstimmungsmass; der Verfasser
   bewertet die eigene Pipeline und kannte die Anforderungen aus G5.
 - B7 (praktische Nutzbarkeit) stellvertretend fuer das Qrisp-Team;
@@ -1919,13 +2000,16 @@ Extern, mit Vorlauf:
   Person, die nicht in der Zuordnung steht.
 - KI-Formulierung fuer vorspann.tex mit Professor abstimmen.
 - Korreferent in thesis.tex eintragen (Platzhalter Zeile 23)
-- Phase 2 der Literatursuche nachholen, verkleinert, bis Ende W9.
+- Entfallen am 12.10.2026 (Kapitel 3 stuetzt sich auf die
+  Literaturmatrix; Grenze in 7.4): Phase 2 der Literatursuche
+  nachholen, verkleinert, bis Ende W9.
   Kapitel 3 hat sonst keine Materialgrundlage.
 - Erledigt am 07.10.2026: Abschnitt 5.3 trennt das "Budget je Pull
   Request" (D1) von der "Grenze des Quellblocks" (E5).
 
 Inhaltlich offen:
-- Ein Platzhalter in Abschnitt 4.1: Verweis auf den Abschnitt zum
+- Erledigt am 12.10.2026 (4.3 eingefuegt): Ein Platzhalter in
+  Abschnitt 4.1: Verweis auf den Abschnitt zum
   Datenmodell (4.1.4, faellt in Paket E). Der Verweis auf Anhang A
   in 4.1.3 ist am 11.09.2026 gesetzt.
 - K9 Ebene (c) ist empfindlicher als bisher dokumentiert: ohne den
@@ -1945,7 +2029,8 @@ Inhaltlich offen:
   Stories und EARS an, die inzwischen als 2.2.2 und 2.2.3
   geschrieben sind. Nur die Spezifikationsvorlagen aus 29148
   fehlen dort noch.
-- Phase 2 der systematischen Literatursuche (S1, S2, S4), nach
+- Entfallen am 12.10.2026 (siehe oben): Phase 2 der systematischen
+  Literatursuche (S1, S2, S4), nach
   Schritt 4 von Paket C
 - INVEST: Lucassen loest das S als Scalable auf. Gegen Wake 2003 pruefen.
 - Titelvariante Mavin 2009 vereinheitlichen.
@@ -2000,7 +2085,8 @@ Technisch und redaktionell:
   ansehen.
 - Erledigt am 07.10.2026: tests/README.md nennt den Stand vom
   07.10.2026 mit 507 Tests (Commit 374290b).
-- Platzhalter in thesis.tex, Stand 07.10.2026, vom
+- Ueberholt durch den Stand vom 12.10.2026 oben: Platzhalter in
+  thesis.tex, Stand 07.10.2026, vom
   Aktualisierungsskript aus den Zeilen mit \textbf{[ gelesen:
   Z. 20: Noch zu ergaenzen: Abgabedatum
   Z. 23: Noch zu ergaenzen: Korreferent
@@ -2025,13 +2111,16 @@ Technisch und redaktionell:
   nicht mehr, weil sie sich mit jedem neuen Abschnitt verschieben.
   Darunter die Ueberschrift von Abschnitt 2.4; eine kuerzere
   Ueberschrift wuerde sie beheben.
-- Schreibauftrag aus G3 fuer Kapitel 7 steht aus (4.2 erledigt am
+- Erledigt am 12.10.2026 (7.1 zu FF4 und 7.4, Begruendung in
+  4.2): Schreibauftrag aus G3 fuer Kapitel 7 steht aus (4.2 erledigt am
   04.10.2026).
-- Grenzen aus G4 und G5 fuer Kapitel 7 (Listen am Ende von G4 und G5
+- Erledigt am 12.10.2026 (Kapitel 7): Grenzen aus G4 und G5 fuer
+  Kapitel 7 (Listen am Ende von G4 und G5
   in docs/entscheidungen.md), dazu die explorative Beobachtung, dass
   18 der 21 Typabweichungen an der Grenze Schnittstelle /
   funktional liegen.
-- Grenzen aus G6 und dem Nachtrag zu G6 fuer Kapitel 7 (Liste am Ende
+- Erledigt am 12.10.2026 (Kapitel 7): Grenzen aus G6 und dem
+  Nachtrag zu G6 fuer Kapitel 7 (Liste am Ende
   von G6 in docs/entscheidungen.md), dazu: Auf der Produktebene ist kein
   Eintrag belegt; 3 der 4 vom Verfasser als sicherheitsrelevant
   beurteilten Anforderungen entsprechen keinem Rastereintrag; SR11
@@ -2039,7 +2128,8 @@ Technisch und redaktionell:
   waehrend TR GV.02 den Schutz von Repository und Projektseiten meint.
 - Vermutung, nicht geprueft: Die Sicherheitswoerter in 22
   Dependabot-Beitraegen stammen aus Standardtext.
-- CC:2022 Errata und Interpretationen Version 1.2 vom 15.10.2025
+- Erledigt am 12.10.2026 (als Grenze in 7.4): CC:2022 Errata und
+  Interpretationen Version 1.2 vom 15.10.2025
   (CC-Portal) nicht gelesen; in Kapitel 7 als Grenze nennen.
 - Abschnitte 2.4.3 und 4.2.3 sagen, fuer Qrisp liege kein
   Schutzprofil, keine Sicherheitsvorgabe und keine dokumentierte
@@ -2055,7 +2145,8 @@ Technisch und redaktionell:
 - Die Quellen L10 und L21 bis L25 (OWASP, OpenAI-Dokumentation) hat
   Claude am 07.10.2026 ueber ein Abrufwerkzeug gelesen, der Verfasser
   noch nicht. Vor der Abgabe die genannten Abschnitte selbst ansehen.
-- prompts/README.md beschreibt Unterordner v1/ und v2/; die Dateien
+- Erledigt am 12.10.2026 (Commit unter Commits Paket I, Teil 2):
+  prompts/README.md beschreibt Unterordner v1/ und v2/; die Dateien
   liegen flach als prompts/extraction_system_v2.md usw. Berichtigen.
 - Befund fuer Paket H und die Lueckenpruefung: Abschnitt 2.1.4
   kuendigt eine Verarbeitung der Anforderungsmenge in Kapitel 5 an.
@@ -2065,7 +2156,8 @@ Technisch und redaktionell:
   (Nachtrag zu E2, Punkte 4 und 5): B10 prueft ein Programm, die
   Merkmale der Menge bleiben bei B11a und B11b je Pull Request.
   Offen: 2.1.4 bei der Lueckenpruefung anpassen.
-- Sammelliste fuer Kapitel 7 aus Kapitel 5: Lieferreihenfolge von
+- Erledigt am 12.10.2026 (Kapitel 7): Sammelliste fuer Kapitel 7 aus
+  Kapitel 5: Lieferreihenfolge von
   GitHub als Kuerzungsreihenfolge (5.3); Grenzen der
   Pseudonymisierung (5.3); Modell nur ueber den Namen ohne
   Datumszusatz angesprochen (5.4); je ein Lauf je Fassung der
@@ -2073,7 +2165,8 @@ Technisch und redaktionell:
   kein Angriffstest (5.7); Doppelrolle (Nachtrag zu E8 vom
   07.10.2026); Gegenpruefung und Vorschlaege bei K6 und K9 (Nachtrag
   zu C2a vom 07.10.2026).
-- Grenzen aus Paket H fuer Kapitel 7: kriterien_v1.md Abschnitt 11;
+- Erledigt am 12.10.2026 (Kapitel 7): Grenzen aus Paket H fuer
+  Kapitel 7: kriterien_v1.md Abschnitt 11;
   Antwortdatei mit Notizen vor der Sperre im Chat, nur Formpruefung
   (Nachtrag zu E2 vom 09.10.2026, Punkt 3); M3 mit zwei Durchgaengen
   und verschiedenem Codestand (F3).
@@ -2283,6 +2376,20 @@ f825dbe docs: Uebergabe Paket G Teil 5 (G6, Gap-Analyse, Abschnitte 6.3 und 6.4)
 4180e6e tex: Kapitel 5, Abschnitte 5.4 Extraktion, 5.5 Pruefung der Modellausgaben, 5.6 Programme der Auswertung und 5.7 Absicherung der Pipeline mit tab:impl-owasp (OWASP-Ausschnitt LLM01, LLM02, LLM05, LLM10), am Code geprueft; Platzhalter in 4.2.4, 6.1 und 6.2 durch Verweise ersetzt; Anhang A, Einleitung, K6 und K9: Rolle des Verfassers vorangestellt; sechs Eintraege in online.bib (OpenAI-Dokumentation, OWASP)
 374290b docs: tests/README.md auf Stand 07.10.2026 mit 507 Tests, drei Testdateien aus Paket G und ihre Pruefung gegen eingebaute Fehler ergaenzt
 abdcdcf tex: Abschnitt 5.8 Automatische Tests (sec:impl-tests, tab:impl-tests), Zahlen aus pytest --collect-only vom 07.10.2026; Kapitel 5 damit vollstaendig
+
+Teil 2, aus git log gelesen; Basis ist der letzte Commit vor Paket I Teil 2:
+7a68170 docs: Uebergabe Paket H Teil 3: STATUS mit Rotem Faden Punkt 21, Testsuite, naechsten Schritten, Commits Paket H; Nachtrag zu E2 vom 10.10.2026 (Abgleich B9 und G1, Schreibweise); KI-Protokoll
+
+95cf12b tex: Abschnitt 4.3 Datenmodell der Ausgabe (sec:konzeption-datenmodell)
+4b4bb27 docs: prompts/README.md beschreibt die Ablage der Prompt-Fassungen
+9b6e82f bib: Eintraege ollamagptoss und ollamaqwen36, Abruf openaiterra vom 12.10.2026
+67fac4f tex: Einleitung Kapitel 4 und Abschnitt 4.4 (sec:konzeption-prompt-modell)
+685e84b lit: Literaturmatrix um L26 und L27 ergaenzt, Stand 12.10.2026
+59b2b7d bib: sieben Eintraege fuer Abschnitt 2.3 und Kapitel 3
+8a5a79c tex: Abschnitt 2.3 (sec:llm-grundlagen) und Kapitel 3 Verwandte Arbeiten
+6c65831 lit: Literaturmatrix L01-L03, L13, L18 eingearbeitet, L28 und L29 neu
+7288f23 tex: Kapitel 7 Diskussion (cha:diskussion)
+3295de0 lit: L18 auch in Kapitel 7 eingearbeitet
 
 ## Commits Paket H
 
