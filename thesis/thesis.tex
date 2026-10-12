@@ -5861,10 +5861,265 @@ Kapitel~\ref{cha:diskussion}.
 \chapter{Diskussion}
 \label{cha:diskussion}
 
-\textbf{[Noch zu ergänzen: Beantwortung der Forschungsfragen,
-Interpretation, Übertragbarkeit, Validitätsbedrohungen,
-Limitationen.]}
+Dieses Kapitel beantwortet die vier Forschungsfragen auf Grundlage der
+Ergebnisse aus Kapitel~\ref{cha:evaluation} und ordnet sie ein. Danach
+werden die Übertragbarkeit, die Bedrohungen der Validität und die
+Grenzen des Untersuchungsumfangs behandelt.
 
+\section{Beantwortung der Forschungsfragen}
+\label{sec:disk-ff}
+
+\paragraph{Erste Forschungsfrage.} Aus der Historie der Pull Requests
+lassen sich mit einem Sprachmodell formal formulierte Anforderungen
+rekonstruieren, brauchbar ist nach der vorab festgelegten Regel aber
+nur ein Teil. In der Stichprobe sind 49 der 85 Anforderungen brauchbar,
+bezogen auf die beurteilbaren 61,3\,\%
+(Abschnitt~\ref{subsec:bewertung-brauchbar}). Die maschinellen Prüfungen
+der Grundmenge zeigen ein ähnliches Bild: 99,3\,\% der Anforderungen
+erfüllen die Formatkonformität, 86,6\,\% die
+Quellennachvollziehbarkeit, und die Unbelegtheitsrate liegt bei
+5,1\,\% (Abschnitte~\ref{subsec:bewertung-maschinell}
+und~\ref{subsec:ff3-ergebnisse}). Nach eigener Deutung gelingt die Form
+damit fast immer, und der Engpass liegt in der Treue zur Quelle. Die
+Quellentreue erhält den geringsten Anteil der Note~2 und ist bei 20 der
+31 nicht brauchbaren Anforderungen verletzt; meist geht dabei eine
+Einzelheit des Satzes über die Zitate hinaus
+(Abschnitt~\ref{subsec:bewertung-hand}). Die Anteile sind wegen der
+Schichtung nach Pull Requests keine belastbare Schätzung für die
+Grundmenge; allein Pull Request~361 trägt 18 der 85 Anforderungen bei.
+
+Die Zielsetzung verlangt eine Trennung zwischen direkt rekonstruierbaren
+Anforderungen, plausiblen, aber unsicheren Interpretationen und nicht
+belegbaren Vermutungen. Nach der Berechnung aus allen Belegen sind 115
+Anforderungen direkt, 1\,319 indirekt und 33 unzureichend belegt
+(Tabelle~\ref{tab:belegstatus}). Die Historie spricht Anforderungen also
+selten aus. Meist berichtet sie, was geändert wurde, und die Anforderung
+wird daraus erschlossen. Für die rekonstruierten Anforderungen bedeutet
+das nach eigener Einschätzung, dass sie überwiegend beschreiben, wie
+Qrisp sich verhält, und nur selten, was von Qrisp gefordert wurde. Auch
+die Verteilung der Typen passt zu einer Programmbibliothek: Fast die
+Hälfte der Anforderungen betrifft nach dem Etikett des Modells eine
+Schnittstelle, rund zwei Fünftel eine Funktion, und Qualitäts- sowie
+Gebrauchstauglichkeitsanforderungen sind selten
+(Abschnitt~\ref{subsec:grundzahlen-typen}). Die Aufteilung zwischen den
+beiden großen Gruppen ist unsicher, denn 18 der 21 Abweichungen zwischen
+Modell und Prüfung von Hand liegen genau an dieser Grenze
+(Tabelle~\ref{tab:klass-typ}). Dass Qualitätsanforderungen selten sind,
+bestätigt die Stichprobe: Von Hand wurde dort keine einzige als solche
+eingestuft. Nach eigener Deutung werden Qualitätseigenschaften in den
+Pull Requests kaum ausdrücklich verhandelt.
+
+\paragraph{Zweite Forschungsfrage.} Gewählt wurde mit EARS+29148 eine
+Kombination aus einem Satzmuster und einem Ausschnitt der Qualitäts-
+und Sprachregeln, nicht ein einzelnes Format
+(Abschnitt~\ref{subsec:rollenzuweisung}). Die Kriterien der Wahl sind
+die zehn Kriterien der Entscheidungsmatrix; ausschlaggebend waren, dass
+User Story und EARS sich im Satz ausschließen und die Quelldaten eine
+Rolle selten hergeben (Abschnitt~\ref{subsec:bewertungsergebnis}). Die
+Ergebnisse stützen die Wahl in einem Punkt deutlich: Das Format lässt
+sich maschinell prüfen, und das Modell hält es nahezu immer ein. Die
+Formen \emph{shall not} und \emph{shall be able to} kommen nicht vor
+(Abschnitt~\ref{subsec:bewertung-maschinell}). Offen bleibt, ob das
+Muster inhaltlich passt, denn die Prüfung erfasst nur die Form. Hinzu
+kommt, dass EARS für hochrangige Anforderungen entwickelt wurde und die
+Note der Ebene~(b) bei K9 an einem einzigen Fall hängt
+(Abschnitt~\ref{subsec:formatauswahl-grenzen}). Andere Formate wurden
+nicht in eigenen Läufen erprobt. Die Antwort lautet deshalb: EARS+29148
+ist eine begründete und in der Pipeline tragfähige Wahl, aber keine
+gegenüber anderen Formaten empirisch bestätigte.
+
+\paragraph{Dritte Forschungsfrage.} Unter gleichen Bedingungen hat das
+API-Modell 392 von 395 Antworten im verlangten Format geliefert, die
+beiden lokalen Modelle keine ihrer je einen Antworten
+(Tabelle~\ref{tab:ff3-ergebnisse}). Bei den Kosten und der
+Datenkontrolle liegt der Vorteil auf der lokalen Seite: Es fallen keine
+Gebühren an, und kein Quellblock verlässt den Rechner; das API-Modell
+kostete 0,054~US-Dollar je Vorgang, und die Quellblöcke gingen in
+pseudonymisierter Form an den Anbieter
+(Abschnitt~\ref{subsec:ff3-beschreibung}). Ein Vergleich der
+Ergebnisqualität war nicht möglich, weil lokal keine Anforderungen
+vorliegen; die Frage wird daher im reduzierten Umfang nach
+Abschnitt~\ref{subsec:pilot-folge} beantwortet. Bei je einem lokalen
+Vorgang ist der Formatbefund ein Einzelbefund. Er steht nicht im
+Widerspruch zu der Beobachtung, dass kleine Modelle beim Einordnen von
+Anforderungen nahe an große herankommen
+(Abschnitt~\ref{sec:vw-modellgroesse}). Nach eigener Einschätzung
+verlangt die hier gestellte Aufgabe mehr, nämlich eine lange, streng
+strukturierte Ausgabe ohne Formathilfe.
+
+\paragraph{Vierte Forschungsfrage.} Von den 29 Einträgen des Rasters
+liegen 2 in der ersten Kategorie, 7 in der zweiten, 18 in der dritten
+und 2 in der vierten (Tabelle~\ref{tab:gap-summen}). Rekonstruierbar
+sind damit nur Anforderungen an den Entwicklungsprozess, nämlich
+Testverfahren und Migrationswege. Auf der Produktebene ist keiner der
+relevanten Einträge belegt. Nach eigener Deutung dokumentiert die
+Historie eine Praxis der Entwicklung, aber keine Sicherheitsanforderungen
+an das Produkt. Dazu passt, dass die Prüfung von Hand nur 3 der 11
+Markierungen des Modells als sicherheitsrelevant bestätigt; die Hälfte
+der verworfenen geht allerdings auf die geänderte Definition zurück
+(Abschnitt~\ref{sec:eval-klassifikation}). Zudem entsprechen 3 der 4 von
+Hand als sicherheitsrelevant beurteilten Anforderungen keinem Eintrag
+des Rasters (Abschnitt~\ref{sec:eval-gap}). Die Dokumentationslücken
+sind entsprechend zu lesen. Die dritte Kategorie besagt nur, dass die
+untersuchte Historie keinen tragfähigen Beleg enthält, nicht, dass Qrisp
+eine Anforderung nicht erfüllt. Weil die Kategorie einer nachweislich
+fehlenden Sicherheitsfunktion verworfen wurde, zeigt die Arbeit
+Dokumentationslücken und keine fehlenden Funktionen
+(Abschnitt~\ref{subsec:gap-kategorien}). Da die Suche nach Kandidaten
+unvollständig ist und die Gegenprobe Kategorien nur senken kann, können
+die erste und die zweite Kategorie eher zu niedrig als zu hoch
+ausfallen. Für die Einträge SR10 und SR16 ist die zweite Kategorie als
+vorsichtige Einstufung zu lesen.
+
+\section{Übertragbarkeit}
+\label{sec:disk-uebertragbarkeit}
+
+Untersucht wurde ein einziges Projekt, eine Programmbibliothek ohne
+eigenen Betrieb. Wie viel ein Pull Request belegt, hängt nach eigener
+Einschätzung davon ab, wie ausführlich er beschrieben und diskutiert
+wurde; Projekte mit anderer Kultur der Beschreibung können andere
+Anteile ergeben. Die Pipeline selbst ist nicht an Qrisp gebunden:
+Modell, Aufrufparameter und Grenzen der Kürzung stehen in
+Konfigurationsdateien (Abschnitt~\ref{sec:impl-grundsaetze}). Die Anweisung an das Modell wurde aber nur an
+einem API-Modell erprobt (Abschnitt~\ref{subsec:impl-pilot}), und das
+Satzmuster EARS ist für hochrangige Anforderungen entwickelt, nicht für
+die Ebene der Implementierung
+(Abschnitt~\ref{subsec:formatauswahl-grenzen}). Für die dritte
+Forschungsfrage ist die Übertragbarkeit zusätzlich eingeschränkt.
+Jedes lokal lauffähige Modell war durch den Speicher des Rechners
+begrenzt, sodass lokaler Betrieb und begrenzte Modellgröße
+zusammenfallen, und gpt-oss stammt vom selben Anbieter wie das
+API-Modell (Abschnitt~\ref{subsec:modellwahl-lokal}).
+
+\section{Bedrohungen der Validität}
+\label{sec:disk-validitaet}
+
+Die wesentlichen Bedrohungen sind im Folgenden nach Konstruktvalidität,
+interner Validität und Schlussfolgerungsvalidität geordnet; die externe
+Validität behandelt Abschnitt~\ref{sec:disk-uebertragbarkeit}. Kleinere
+Grenzen einzelner Prüfprogramme stehen in
+Kapitel~\ref{cha:implementierung} und werden hier nicht wiederholt.
+
+Die schwerste Bedrohung ist, dass alle Urteile von Hand von einer Person
+stammen, die die Pipeline selbst entworfen hat. Das betrifft die
+Bewertung, die Prüfung der Klassifikation und die Zuordnung in der
+Gap-Analyse; ein Maß der Übereinstimmung liegt nicht vor. Wie stark
+Urteile verschiedener Personen auseinandergehen können, zeigt die
+Gegenprobe von Paiva et~al.: Fünf Bewertende stimmten bei denselben
+Merkmalen aus ISO/\allowbreak IEC/\allowbreak IEEE~29148 untereinander
+nur gering überein \cite[Abschn.~4.6.5]{paiva2026issue}. Dem stehen
+vorab versionierte Regeln, verblindete Bögen und die maschinellen
+Prüfungen gegenüber. Die Bewertung durch das Qrisp-Team ist für die Zeit
+nach der Abgabe vorgesehen (Abschnitt~\ref{subsec:bewertung-design}).
+
+\paragraph{Konstruktvalidität.}
+\begin{itemize}
+  \item Für einzelne Hilfsarbeiten und Gegenprüfungen wurde auch ein
+    Sprachmodell desselben Anbieters eingesetzt; es hat keine Ausgabe
+    des untersuchten Modells bewertet.
+  \item Die Regel \glqq brauchbar\grqq{} und die Notenregeln sind
+    Setzungen. Die praktische Nutzbarkeit wurde stellvertretend für das
+    Qrisp-Team beurteilt. Alle Einzelwerte sind berichtet, sodass sich
+    andere Lesarten nachrechnen lassen
+    (Abschnitt~\ref{subsec:bewertung-brauchbar}).
+  \item Die Formatkonformität prüft die Form, nicht ob eine Bedingung
+    inhaltlich ein Ereignis oder ein Zustand ist. Die sprachlichen
+    Kriterien erkennen Wörter, keine Mehrdeutigkeit, und erfassen
+    unvollständige Verweise nicht; ihre Treffer sind eine Obergrenze
+    (Abschnitt~\ref{subsec:bewertung-maschinell}).
+  \item Welche Bestandteile ein Beleg trägt und ob er etwas fordert,
+    gibt das Modell an; ein Programm prüft das nicht. Die Belegstärke ist
+    nur so verlässlich wie diese Angaben
+    (Abschnitt~\ref{subsec:datenmodell-belegstaerke}). Die Quellentreue
+    wurde deshalb von Hand bewertet und die Aussageform in der
+    Gap-Analyse gegengeprüft.
+  \item Nur zwei der sechs Typwerte ordnet die Norm ausdrücklich einer
+    Art zu, und das Modell etikettierte den Sicherheitsbezug nach einer
+    vorläufigen Definition (Abschnitt~\ref{sec:eval-klassifikation}).
+  \item Das durchgehende \emph{shall} kann als Aussage über die
+    Verbindlichkeit missverstanden werden
+    (Abschnitt~\ref{subsec:formatauswahl-grenzen}).
+  \item Kriterium K4 der Formatauswahl ist aus der Klauselstruktur von
+    EARS abgeleitet und begünstigt Ebene~(b)
+    (Abschnitt~\ref{sec:anhang-k4}). Notenvorschläge und Gegenprüfungen
+    eines Sprachmodells bei der Formatauswahl können als Anker gewirkt
+    haben; die fünf daraufhin geänderten Einstufungen bei K9 sind
+    offengelegt (Abschnitt~\ref{sec:anhang-k9}).
+\end{itemize}
+
+\paragraph{Interne Validität.}
+\begin{itemize}
+  \item Die 85 Anforderungen der Stichprobe waren aus der Prüfung der
+    Klassifikation bereits bekannt, als sie bewertet wurden.
+  \item Skala und Notenregeln entstanden nach dem Pilotlauf; die
+    Kriterien standen vorher fest (Abschnitt~\ref{subsec:bewertung-design}).
+  \item Die Messgrößen M1, M4, M5 und M6 wurden nach Kenntnis der Werte
+    festgelegt, allerdings nur aus vorher versionierten Regeln
+    (Abschnitt~\ref{subsec:ff3-festlegung}).
+  \item Der Vergleich im Nebenteil ist nicht verblindet
+    (Abschnitt~\ref{subsec:bewertung-nebenteil}).
+  \item Große Pull Requests wurden in der Lieferreihenfolge von GitHub
+    gekürzt, die keine Rangfolge nach Bedeutung ist. Ein weggelassener
+    Teil kann einen Beleg enthalten haben; jede Kürzung ist am Datensatz
+    vermerkt (Abschnitt~\ref{sec:impl-aufbereitung}).
+\end{itemize}
+
+\paragraph{Schlussfolgerungsvalidität.}
+\begin{itemize}
+  \item Die Stichproben sind klein: 85 Anforderungen aus 18 Pull
+    Requests, zwölf Fälle der Formulierungsprobe und je ein lokaler
+    Vorgang. Die Bewertung ist nach Pull Requests geschichtet;
+    Signifikanztests wurden nicht gerechnet.
+  \item Die Noten bei K6 und K9 hängen an einzelnen Fällen und an der
+    Auslegung, ob eine pauschal genannte Personengruppe als Rolle gilt.
+    Bei zwölf Fällen wirken die Schwellen als 83,3 und 41,7~Prozent
+    (Abschnitt~\ref{subsec:formulierungsprobe}).
+  \item Je Fassung der Anweisung gab es einen Lauf an 20 Vorgängen, und
+    die beiden Durchgänge für die Übereinstimmung liefen mit
+    verschiedenem Codestand (Abschnitte~\ref{subsec:impl-pilot}
+    und~\ref{subsec:ff3-ergebnisse}).
+  \item Beim Kontrollpunkt der lokalen Modelle galt ein Versuch nur als
+    gelungen, wenn die Antwort vollständig und im Format war, und die
+    Auswahlwerte der Modelle wichen voneinander ab
+    (Abschnitt~\ref{sec:eval-pilot-lokal}).
+  \item Das API-Modell wurde ohne Stand mit Datum angesprochen und lief
+    mit der Temperatur~1. Die Quellstellen zweier Durchgänge stimmen im
+    Mittel zu 0,734 überein, eine Wiederholung liefert also nicht
+    dasselbe Ergebnis (Abschnitt~\ref{subsec:ff3-beschreibung}).
+\end{itemize}
+
+\section{Limitationen}
+\label{sec:disk-limitationen}
+
+Der Untersuchungsumfang ist in mehreren Punkten kleiner als im Exposé
+vorgesehen. Die Bewertung durch das Qrisp-Team und den Betreuer folgt
+nach der Abgabe; diese Abweichung ist mit dem Betreuer abgestimmt
+(Abschnitt~\ref{subsec:bewertung-design}). Die dritte Forschungsfrage
+vergleicht keine Ergebnisqualität, weil die vorab festgelegte Regel nach
+zwei misslungenen Versuchen Stufe~d vorsah
+(Abschnitt~\ref{subsec:pilot-folge}).
+
+Die Gap-Analyse beruht auf einem begründet gewählten Ausschnitt; eine
+Konformität mit ISO/IEC/IEEE~29148, der TR-03185 oder den Common
+Criteria wird nicht beansprucht. Der Bezug des Rasters zu Teil~2 der
+Common Criteria stützt sich nur auf die Namen der Familien, und die
+Errata und Interpretationen zu CC:2022 wurden nicht gelesen. Dass für
+Qrisp kein Schutzprofil und keine Sicherheitsvorgabe vorliegen, beruht
+auf Kenntnis des Projekts und wurde nicht am Repository geprüft. Eine
+Prüfung von Quelltext, Tests oder laufendem System gehört nicht zum
+Umfang; Aussagen über fehlende Funktionen sind daher ausgeschlossen
+(Abschnitt~\ref{subsec:gap-kategorien}).
+
+Weitere Grenzen betreffen die Daten und die Auswertung. Doppelte
+Anforderungen zwischen verschiedenen Pull Requests wurden nicht gesucht
+(Abschnitt~\ref{subsec:bewertung-menge}). Ob ein Pull Request übernommen
+oder verworfen wurde, steht nicht im Quellblock und fließt nicht in die
+Rekonstruktion ein. Drei Review-Kommentare liefert GitHub nicht aus
+(Abschnitt~\ref{sec:impl-erhebung}). Die Ersetzung von Anmeldenamen ist
+eine Pseudonymisierung; Klarnamen im Fließtext und Namen im
+Änderungstext bleiben stehen (Abschnitt~\ref{subsec:impl-pseudonym}). Schließlich beruht
+Kapitel~\ref{cha:verwandte-arbeiten} nicht auf einer systematischen
+Literaturrecherche.
 
 \chapter{Fazit und Ausblick}
 \label{cha:fazit}
