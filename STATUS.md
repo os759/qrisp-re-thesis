@@ -365,17 +365,38 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     behoben. Stand des Baus: 14 Overfull-Warnungen, 0 ungeloeste
     Verweise.
 
-Warum der naechste Schritt jetzt kommt: Es fehlen nur noch Kapitel 1
-(Einleitung), Kapitel 8 (Fazit und Ausblick) und das Abstract. Sie
-kommen jetzt, weil sie die Antworten aus Kapitel 7 zusammenfassen und
-Kapitel 7 erst seit dem 12.10.2026 steht. Danach folgen die
-Lueckenpruefung und die formalen Punkte, weil sie den fertigen Text
-voraussetzen.
+23. Paket I Teil 3, Schreiben und Lueckenpruefung (12. und
+    13.10.2026): L04 (Seidel et al., Preprint zu Qrisp) wurde gelesen,
+    weil Kapitel 1 Qrisp beschreiben muss. Kapitel 1 (Einleitung),
+    Kapitel 8 (Fazit und Ausblick) und die Kurzfassung stehen in
+    thesis.tex, weil damit alle Kapitel geschrieben sind. Die
+    Kurzfassung ist nur deutsch und die Vorlage bleibt unveraendert,
+    weil der Verfasser das so entschieden hat. In 7.4 steht, dass der
+    Betreuer Mitautor der Veroeffentlichung zu Qrisp ist, weil
+    Literaturmatrix L04 das verlangt und der Verfasser zugestimmt hat.
+    Die Kernwerte in Kapitel 8 und in der Kurzfassung liest ein Skript
+    aus dem Satz in 7.1, weil Zahlen nur per Skript in die Arbeit gehen.
+    Neu sind seidel2024qrisp (thesis.bib), eclipseqrisp (online.bib),
+    Matrixzeile L30 und die Lesenotiz seidel_2024_qrisp.md; eigene
+    Nachbearbeitungen der Matrix durch den Verfasser sind mitcommittet.
+    Die in STATUS.md notierten Punkte der Lueckenpruefung sind behoben
+    (Widerspruch in 2.1.7, Verweis in 2.2.1, Aussage zu Mavin/Wilkinson
+    2010, angekuendigte Verwendung von Wilkinson/Mavin 2018, Absatz zu
+    Femmer et al. gestrichen, Wortlaut in 4.1.5, L18 und L19), weil sie
+    sonst in die Abgabe gingen. 2.1.4 und der Platzhalter in 2.2 waren
+    schon erledigt. Stand des Baus unveraendert gegenueber Punkt 22.
 
-Geschrieben sind Kapitel 2 bis 7 und Anhang A. Abgabe am 15.10.2026,
-intern geplant am 13.10.2026; Reserve nur der 14.10. Groesstes Risiko:
-Kapitel 1, Kapitel 8 und das Abstract fehlen noch, und die
-KI-Hinweisbox in vorspann.tex braucht die Formulierung des Betreuers.
+Warum der naechste Schritt jetzt kommt: Alle Kapitel stehen, aber die
+Arbeit wurde noch nicht als Ganzes gegen STATUS.md,
+docs/entscheidungen.md, die Quellen, den Code und die Ergebnisdateien
+abgeglichen. Das kommt jetzt, weil Korrekturen daraus Seitenumbrueche
+und Overfull-Warnungen verschieben; die formalen Punkte folgen deshalb
+zuletzt.
+
+Geschrieben sind alle Kapitel, Anhang A und die Kurzfassung. Abgabe am
+15.10.2026; Reserve nur der 14.10. Groesstes Risiko: Die Pruefung der
+ganzen Arbeit kann Korrekturen ergeben, und die KI-Hinweisbox in
+vorspann.tex braucht die Formulierung des Betreuers.
 
 
 ## Zusammenarbeit im Chat
@@ -515,6 +536,10 @@ Diese Regeln gelten fuer jeden Chat und gehen Annahmen vor.
   den echten Abschnittsnummern auftrat (Befund 07.10.2026). Gehen
   Hilfsdateien in Claudes Umgebung verloren, baut Claude sie aus den
   hochgeladenen Dateien neu auf und sagt das dazu.
+- Claude schickt jede Datei, die der Verfasser herunterladen soll, mit
+  dem Werkzeug zum Senden von Dateien, bevor es sie im Text erwaehnt,
+  weil am 12. und 13.10.2026 zweimal ein angekuendigtes Skript nicht im
+  Chat lag.
 
 ## Kuerzel
 
@@ -1901,61 +1926,45 @@ Folge fuer Schritt 5, aus E1 und den Messwerten:
 
 ## Offene Punkte
 
-Stand 12.10.2026 nach Paket I Teil 2, als Naechstes in dieser
+Stand 13.10.2026 nach Paket I Teil 3, als Naechstes in dieser
 Reihenfolge:
-1. Kapitel 1, Kapitel 8 und Abstract schreiben. Feingliederungen am
-   12.10.2026 vom Verfasser freigegeben:
-   - Kapitel 1 (etwa 2 Seiten), ersetzt den Platzhalter unter
-     cha:einleitung. 1.1 Motivation und Problemstellung: Qrisp nach
-     Seidel et al. (arXiv:2406.14792) und Projektseite; Angaben zum
-     Projekt aus dem Expose (explorativ gewachsen, Wunsch nach
-     kontrolliertem KI-Einsatz) als Angaben aus dem Projekt
-     gekennzeichnet; Verweis auf 2.4. 1.2 Zielsetzung und
-     Forschungsfragen: Pipeline; Dreiteilung direkt rekonstruierbar /
-     plausibel, aber unsicher / nicht belegbar (4.3 und 7.1 verweisen
-     auf die Zielsetzung); FF1 bis FF4 woertlich aus dem Expose;
-     Abgrenzung in drei Saetzen. 1.3 Vorgehen und Aufbau:
-     konstruktiv-empirisch; je ein Satz zu Kapitel 2 bis 8 und Anhang A.
-   - Kapitel 8 (etwa 1 Seite), ersetzt den Platzhalter unter cha:fazit.
-     Fazit: je Forschungsfrage ein bis zwei Saetze aus 7.1, keine neuen
-     Zahlen ausser den Kernwerten (49 von 85 brauchbar; Produktebene
-     ohne Beleg). Ausblick, als eigene Vorschlaege gekennzeichnet:
-     Bewertung durch das Qrisp-Team nach der Abgabe; lokale Modelle mit
-     mehr Speicher oder Formathilfe fuer einen Qualitaetsvergleich in
-     FF3; Beispiele in der Anweisung (Few-Shot) und eine Pruefung der
-     getragenen Bestandteile fuer die Quellentreue; Code- und
-     Testpruefung fuer die Produktebene von FF4; weitere Projekte;
-     Suche nach doppelten Anforderungen zwischen Pull Requests.
-   - Abstract (150 bis 250 Woerter, ein Absatz): Problem, Vorgehen, je
-     Forschungsfrage ein Kernergebnis, Einordnung in einem Satz.
-2. Offene Entscheidungen des Verfassers:
-   a) Satz in 7.4, dass der Betreuer Mitautor der Qrisp-Veroeffentlichung
-      ist (Literaturmatrix L04 verlangt das). Vorschlag: "Der Betreuer
-      der Arbeit ist Mitautor der Veroeffentlichung zu Qrisp; die
-      Bewertung durch ihn ist fuer die Zeit nach der Abgabe vorgesehen."
-   b) Abstract nur deutsch oder zusaetzlich englisch; die Vorgabe der
-      Hochschule ist nicht bekannt.
-   c) L04 (Seidel et al.) ist noch "zu beschaffen"; fuer Kapitel 1 lesen,
-      BibTeX laut Matrix aus dem Qrisp-Repository uebernehmen.
-3. Lueckenpruefung in thesis.tex: Platzhalter zu Femmer et al. in 2.2.3;
-   Widerspruch in 2.1.7 (Text nach Tabelle 2.1 gegen 4.2.1 und G4);
-   falscher Verweis in 2.2.1 (subsec:bewertungsergebnis statt
-   subsec:rollenzuweisung); Aussage "dieselbe Personengruppe" zu
-   Mavin/Wilkinson in 2.2.3; in 2.2.2 angekuendigtes Wilkinson 2018
-   pruefen; "Ausschnitt der Inhaltsvorgaben" in 4.1.5; 2.1.4 kuendigt
-   eine Verarbeitung der Ergebnismenge in Kapitel 5 an, die es nicht
-   gibt; veralteten Platzhalter in 2.2 pruefen. In der Literaturmatrix:
-   L18 nennt nur Kap. 3, Paiva et al. steht auch in 7.3; L19 nennt
-   "Abschn. 6.1" (vermutlich alte Nummer).
-4. Formales: KI-Hinweisbox in vorspann.tex mit der Formulierung des
-   Betreuers; Korreferent und Abgabedatum in thesis.tex; Demo-Dateien in
+1. Pruefung der ganzen Arbeit auf Uebereinstimmung (Wunsch des
+   Verfassers, 13.10.2026), in einem neuen Chat. Grundlage ist ein
+   ZIP-Archiv aus dem letzten Commit mit README.md, STATUS.md, config/,
+   docs/, eval/instrument/, experiments/, literatur/notizen/,
+   literaturmatrix.md, suchprotokoll.md, prompts/, src/, tests/ und
+   thesis.tex, thesis.bib, online.bib, vorspann.tex; ohne data/,
+   eval/responses/ und eval/sample/. Pruefbereiche in dieser
+   Reihenfolge: (1) jede Zahl gegen experiments/, auch Wiederholungen
+   zwischen Kapitel 6, 7, 8 und Kurzfassung; (2) jede Festlegung gegen
+   docs/entscheidungen.md und STATUS.md; (3) Pfade, Parameter,
+   Modellnamen, Versionen und Zahl der Tests gegen src/, config/,
+   prompts/ und tests/; (4) jede Aussage mit Beleg gegen die Lesenotiz,
+   bei frei zugaenglichen Quellen und bei 29148 am Original; (5)
+   Ankuendigungen, Begriffe und Widersprueche innerhalb der Arbeit.
+   Ergebnis: Befundliste mit beiden Fundstellen, Einstufung (falsch,
+   widerspruechlich, ungenau) und Vorschlag; Korrekturen erst nach
+   Freigabe per Skript, danach ein Commit. Datenschutz: experiments/ und
+   docs/ koennen pseudonymisierte Anforderungstexte enthalten, die damit
+   an Anthropic gehen; vor dem Hochladen vom Verfasser zu bestaetigen
+   und im KI-Protokoll zu vermerken. Bekannter Nebenbefund: Tabelle 2.1
+   nennt zweimal die Art Randbedingung, die das Schema in 4.2.1 nicht
+   kennt, waehrend 4.2.1 sagt, dieselbe Einordnung gelte fuer Tabelle
+   2.1; bisher als vertretbar eingestuft, Entscheidung offen.
+2. Formales: KI-Hinweisbox in vorspann.tex mit der Formulierung des
+   Betreuers (beim Betreuer erfragen, falls sie noch nicht vorliegt);
+   Korreferent und Abgabedatum in thesis.tex; Demo-Dateien in
    thesis/figures/; 14 Overfull-Warnungen (zwei in Anhang A wuchsen am
    12.10.2026 von 14,5 auf 20 pt, vermutlich wegen zweistelliger
    Literaturnummern); Literaturverzeichnis ohne Seitenumbruch und nicht
-   im Inhaltsverzeichnis.
-5. Von Claude am 12.10.2026 gelesen, vom Verfasser noch nicht: L01,
-   L02, L03 und L26 bis L29. L13 und L18 hat der Verfasser am
-   12.10.2026 gelesen.
+   im Inhaltsverzeichnis; pruefen, ob die Kurzfassung auf eine Seite
+   passt.
+3. Von Claude gelesen, vom Verfasser noch nicht: L01, L02, L03, L04,
+   L19 und L26 bis L30. Der Verfasser liest die ganze Arbeit vor der
+   Abgabe selbst, weil kein KI-Text ungeprueft in die Abgabe geht.
+4. Abgabeformalien der Hochschule (Form, Zahl der Exemplare, digitale
+   Abgabe) klaeren; in diesem Projekt nicht dokumentiert.
+5. Endkontrolle nach der Liste in der Projektanweisung.
 
 Erledigt am 12.10.2026 in Kapitel 7: Sammelliste fuer Kapitel 7 aus Kapitel 6 (09.10.2026, Paket H Teil 2):
 - Eine Person bewertet, kein Uebereinstimmungsmass; der Verfasser
@@ -2391,6 +2400,9 @@ Teil 2, aus git log gelesen; Basis ist der letzte Commit vor Paket I Teil 2:
 7288f23 tex: Kapitel 7 Diskussion (cha:diskussion)
 3295de0 lit: L18 auch in Kapitel 7 eingearbeitet
 
+Teil 3, aus git log gelesen:
+406e0a0 tex: Kapitel 1, Kapitel 8 und Kurzfassung, Betreuer als Mitautor in 7.4
+
 ## Commits Paket H
 
 Aus git log gelesen; Basis ist der letzte Commit vor Paket H:
@@ -2535,6 +2547,10 @@ W11 12.-15.10. Mo 12.10. Korrekturdurchgang
               Di 13.10. Endkontrolle, interne Abgabe
               Mi 14.10. Puffer
               Do 15.10. Abgabe
+              tatsaechlich: Mo 12.10. und Di 13.10. bis 00:30
+              Kapitel 1, 8, Kurzfassung und Lueckenpruefung der
+              notierten Punkte; Pruefung der ganzen Arbeit und
+              Formales offen.
 
 Ueberholt am 23.09.2026, nur zur Planungsgeschichte:
 Stand 11.09.2026, W6. Paket D war drei Tage vor Plan fertig. Paket C

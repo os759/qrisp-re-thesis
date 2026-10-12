@@ -568,10 +568,11 @@ Nach eigener Einschätzung sind diese Inhaltsvorgaben für die
 vorliegende Arbeit in zweifacher Hinsicht bedeutsam, unterliegen jedoch
 einer erkennbaren Einschränkung. Zum einen liefern sie eine normativ
 verankerte Aufgliederung der Anforderungsarten, an der sich das in
-Kapitel~\ref{cha:konzeption} zu entwickelnde Klassifikationsraster
-ausrichten lässt, ohne dass die Unterscheidung zwischen funktionalen,
-nicht-funktionalen und sicherheitsbezogenen Anforderungen eigens gesetzt
-werden müsste. Zum anderen bildet die Aufzählung sicherheitsbezogener
+Kapitel~\ref{cha:konzeption} entwickelte Klassifikationsschema
+ausrichtet. Die Zuordnung zu funktionalen, nicht-funktionalen und
+sicherheitsbezogenen Anforderungen nimmt der Standard dabei nur
+teilweise selbst vor; die übrige Zuordnung ist eine Festlegung der
+Arbeit (Abschnitt~\ref{subsec:klassifikationsschema}). Zum anderen bildet die Aufzählung sicherheitsbezogener
 Inhalte einen möglichen Baustein des Bewertungsrasters für die
 Gap-Analyse; dessen Auswahl erfolgt gesondert und wird dort begründet.
 Die Einschränkung liegt nicht im Entwicklungsmodell. Der Standard
@@ -663,8 +664,8 @@ von \emph{must} wegen möglicher Fehldeutungen ab
 \emph{SHALL} dagegen als gleichbedeutend~\cite[Abschn.~1]{rfc2119}.
 Beide Konventionen können daher nicht unverändert nebeneinander
 angewendet werden. Welche Festlegung für die in dieser Arbeit erzeugten
-Anforderungen gilt, wird in der Entscheidungsmatrix in
-Abschnitt~\ref{subsec:bewertungsergebnis} begründet festgelegt.
+Anforderungen gilt, wird in
+Abschnitt~\ref{subsec:rollenzuweisung} begründet festgelegt.
 
 \subsection{Easy Approach to Requirements Syntax (EARS)}
 \label{sec:ears}
@@ -794,8 +795,8 @@ enthält \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}.
 
 Die berichteten Ergebnisse sind bei der Einordnung ihrer Aussagekraft zu
 berücksichtigen. Die Untersuchungen fanden in einem Unternehmen und einer
-Anwendungsdomäne statt, die Bewertung der Anforderungen erfolgte durch
-dieselbe Personengruppe, welche die Umformulierung vorgenommen hat, und
+Anwendungsdomäne statt, die Umformulierung nahm eine fachübergreifende
+Gruppe von Ingenieuren vor \cite[Abschn.~Method]{mavin2010bigears}, und
 einzelne Schwellenwerte wurden nach Angabe der Autoren aufgrund
 subjektiver Lesbarkeitserwägungen festgelegt
 \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}. Nach
@@ -827,10 +828,10 @@ die Klauselstruktur von EARS-Anforderungen systematisch auf Abweichungen
 zu untersuchen und daraus ergänzende Anforderungen abzuleiten
 \cite{wilkinson2018mitigation}. Dieser Ansatz betrifft die
 Betriebssicherheit technischer Systeme und nicht die
-Informationssicherheit im Sinne einer Bedrohungsanalyse; er wird in
-dieser Arbeit ausschließlich als methodisches Vorbild für eine
-strukturierte Lückensuche herangezogen
-(Kapitel~\ref{cha:konzeption}).
+Informationssicherheit im Sinne einer Bedrohungsanalyse. In dieser
+Arbeit wird er nur bei der Bewertung der Formate herangezogen, als
+Beleg dafür, dass die Bestandteile eines EARS-Satzes einzeln
+angesprochen werden können (Anhang~\ref{sec:anhang-k4}).
 
 Für die Einordnung im Sinne der Fragestellung dieser Arbeit ist
 festzuhalten, dass EARS ausschließlich den Satzbau regelt. Es definiert
@@ -1055,13 +1056,6 @@ einen begründeten Grundsatz für die Aufgabenteilung zwischen Werkzeug
 und Mensch: Das Werkzeug übernimmt die maschinell entscheidbaren
 Prüfungen, die urteilsabhängigen verbleiben beim Menschen. Beide Punkte
 werden in Kapitel~\ref{cha:konzeption} aufgegriffen.
-
-Ergänzend sei angemerkt, dass die Arbeit in ihrer Übersicht verwandter
-Ansätze auf ein Verfahren verweist, das sprachliche Auffälligkeiten in
-Anforderungen gegen die Qualitätsvorgaben der ISO/IEC/IEEE 29148 prüft
-\cite[Abschn.~7.3]{lucassen2016qus}.
-\textbf{[Zu prüfen: Primärquelle Femmer et al.\ noch nicht gelesen;
-vor einer inhaltlichen Verwendung beschaffen oder Satz streichen]}
 
 
 \section{Large Language Models und Prompt Engineering}
@@ -2077,10 +2071,10 @@ Aussage über die Verbindlichkeit missverstehen. Der Nutznießer einer
 Anforderung entfällt als eigenständiger Satzbestandteil und wird nur
 noch im Attribut Begründung geführt, soweit die Quelle ihn überhaupt
 nennt. Und da die Arbeit lediglich einen begründet gewählten Ausschnitt
-der Inhaltsvorgaben heranzieht, wird eine Konformität mit
-ISO/IEC/IEEE~29148 nicht beansprucht; der Standard schließt eine solche
-Behauptung bei Anpassung seiner Vorgaben ausdrücklich aus
-\cite[Anhang~C.1]{iso29148}.
+der Merkmale und Sprachregeln aus Abschnitt~5.2 des Standards
+heranzieht, wird eine Konformität mit ISO/IEC/IEEE~29148 nicht
+beansprucht; Konformität bezieht der Standard auf Prozesse und auf den
+Inhalt von Informationseinheiten \cite[Abschn.~4.3 und 4.4]{iso29148}.
 
 Aus diesen Einschränkungen folgt nicht, dass die Auswahl beliebig wäre.
 Sie beruht auf zehn vorab festgelegten Kriterien, auf belegten
