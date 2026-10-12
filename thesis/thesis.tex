@@ -1124,11 +1124,54 @@ Entwicklungsartefakten.]}
 \chapter{Konzeption der Pipeline}
 \label{cha:konzeption}
 
-\textbf{[Noch zu ergänzen: Architektur, Datenmodell, Prompt-Design,
-Modellwahl. Das Klassifikationsraster steht in
-Abschnitt~\ref{sec:konzeption-gap}, das Evaluationskonzept zusammen mit
-den Ergebnissen in den Abschnitten~\ref{sec:eval-ff3}
-und~\ref{sec:eval-bewertung}.]}
+Dieses Kapitel legt fest, was die Pipeline leisten soll und nach welchen
+Regeln sie arbeitet. Wie diese Festlegungen umgesetzt sind, beschreibt
+Kapitel~\ref{cha:implementierung}.
+
+Die Pipeline führt in sechs Stufen von der Entwicklungshistorie zu
+ausgewerteten Anforderungen (Tabelle~\ref{tab:impl-stufen}). Die
+Erhebung ruft die Pull Requests von Qrisp über die
+Programmierschnittstelle von GitHub ab. Die Aufbereitung fasst die
+Rohdaten zu einem Datensatz je Pull Request zusammen, und die
+Modelleingabe formt daraus einen Quellblock in Textform. In der
+Extraktion formuliert ein Sprachmodell aus jedem Quellblock
+Anforderungen samt Belegen. Die Prüfung kontrolliert jede Antwort gegen
+das Ausgabeschema und jeden Beleg gegen den Quellblock. Die Auswertung
+zählt, zieht Stichproben, prüft die Klassifikation, ordnet die
+Anforderungen dem Sicherheitsraster zu und bewertet sie.
+
+Vier Grundsätze bestimmen den Aufbau. Erstens liest jede Stufe eine
+Datei und schreibt eine Datei. Jede Stufe lässt sich so einzeln
+wiederholen und prüfen, ohne die vorherigen erneut auszuführen.
+Zweitens formuliert das Sprachmodell, geprüft wird durch Programme. Ob
+ein Quellausschnitt wörtlich im Material steht und welche Belegstärke
+einer Anforderung zukommt, wird nicht der Einschätzung des Modells
+überlassen, sondern nach festen Regeln berechnet. Drittens wird von Hand
+an vorab festgelegten Stichproben geurteilt, und zwar verblindet,
+soweit die Aufgabe es zulässt. Das betrifft die Prüfung der
+Klassifikation, die Zuordnung zum Sicherheitsraster und die Bewertung
+der Anforderungen. Viertens sollen die Regeln feststehen, bevor gezählt
+wird; wo das nur zum Teil gelang, sagt es der jeweilige Abschnitt. Zudem
+hält jeder Lauf in einem Manifest fest, auf welchen Eingaben er beruht.
+Ausnahmen bei der Angabe des ausführenden Codes nennt
+Abschnitt~\ref{sec:impl-grundsaetze}.
+
+Abschnitt~\ref{sec:formatauswahl} wählt das Format der Anforderungen und
+beantwortet damit die zweite Forschungsfrage.
+Abschnitt~\ref{sec:konzeption-gap} legt das Klassifikationsschema, den
+Belegbegriff, das Raster erwarteter Sicherheitsanforderungen und die
+Kategorien der Gap-Analyse fest. Abschnitt~\ref{sec:konzeption-datenmodell}
+beschreibt das Ausgabeformat der Extraktion,
+Abschnitt~\ref{sec:konzeption-prompt-modell} die Anweisung an das
+Sprachmodell und die Wahl der Modelle. Das Evaluationskonzept wird
+zusammen mit den Ergebnissen in den
+Abschnitten~\ref{sec:eval-ff3} und~\ref{sec:eval-bewertung} dargestellt.
+Die Messgrößen für die dritte Forschungsfrage wurden erst nach dem
+Kontrollpunkt der lokalen Modelle festgelegt
+(Abschnitt~\ref{subsec:ff3-festlegung}), und die Stichprobe der
+Bewertung stammt aus der Prüfung der Klassifikation
+(Abschnitt~\ref{subsec:bewertung-design}). Beides ist deshalb nur im
+Zusammenhang mit diesen Ergebnissen nachvollziehbar.
 
 
 \section{Auswahl des Anforderungsformats}
@@ -2599,6 +2642,189 @@ Für die Gap-Analyse wird die Berechnung auf gefundene Belege beschränkt
 dort zusätzlich von Hand gegengeprüft
 (Abschnitt~\ref{subsec:gap-kategorien}). Kapitel~\ref{cha:diskussion}
 greift diese Grenze auf.
+
+\section{Anweisung an das Modell und Modellwahl}
+\label{sec:konzeption-prompt-modell}
+
+Dieser Abschnitt begründet, wie die Anweisung an das Sprachmodell
+aufgebaut ist und welche Modelle die Pipeline verwendet. Grundbegriffe
+wie Prompt und Systemanweisung erläutert
+Abschnitt~\ref{sec:llm-grundlagen}. Wie das Aufrufprogramm die
+Anweisung sendet und wie sie im Pilotlauf weiterentwickelt wurde,
+beschreibt Abschnitt~\ref{sec:impl-extraktion}. Die Anweisung entstand
+vor der Wahl des Modells und nutzt deshalb keine Funktion, die nur ein
+bestimmter Anbieter bietet.
+
+\subsection{Aufbau der Anweisung}
+\label{subsec:prompt-aufbau}
+
+Die Anweisung besteht aus zwei Dateien. Die Systemanweisung ist für
+jeden Pull Request gleich und enthält alle Regeln. Die Vorlage der
+Nachricht enthält nur einen Auftragssatz und zwei Platzhalter, in die
+das Aufrufprogramm die Nummer des Pull Requests und den Quellblock
+einsetzt. Beide Dateien sind englisch, weil die Anforderungen englisch
+formuliert werden (Abschnitt~\ref{subsec:rollenzuweisung}) und die
+Quellen englisch sind.
+
+Die Systemanweisung gliedert sich in zehn Teile: Rolle und Aufgabe,
+Umgang mit dem Material, Aufbau des Quellblocks, Vorgehen, Zielformat,
+Sprachregeln, Felder einer Anforderung, Belege, Verarbeitungsstand und
+Ausgabe. Die Aufgabe ist eng gefasst. Gesucht sind Aussagen, die eine
+Anforderung an Qrisp ausdrücken, und keine Zusammenfassung des Pull
+Requests. Dass ein Pull Request keine Anforderung enthält, ist
+ausdrücklich ein gültiges Ergebnis; das Modell soll keine Anforderung
+erfinden, um ein leeres Ergebnis zu vermeiden.
+
+Der Quellblock steht zwischen zwei festen Trennzeilen. Die Anweisung
+erklärt alles dazwischen zu Material, das andere Personen für andere
+Zwecke geschrieben haben. Aufforderungen im Material werden nicht
+befolgt; sie können aber selbst Beleg einer Anforderung sein. Die
+Anweisung beschreibt außerdem jede Kopfzeile des Quellblocks und legt
+fest, dass Kopfzeilen und Kürzungsvermerke nie zitiert werden. Was diese
+Trennung gegen eingeschleuste Anweisungen leistet und wo ihre Grenzen
+liegen, behandelt Abschnitt~\ref{subsec:impl-injection}.
+
+Eine Regel dient dem Datenschutz. Außerhalb der Quellausschnitte
+schreibt das Modell keine Namen und keine Anmeldenamen. Kann es zwischen
+mehreren Ausschnitten wählen, nimmt es einen ohne Namen. Wie
+Anmeldenamen schon vor dem Senden ersetzt werden, beschreibt
+Abschnitt~\ref{subsec:impl-pseudonym}.
+
+\subsection{Vorgehen und Abgrenzung}
+\label{subsec:prompt-vorgehen}
+
+Die Anweisung gibt sieben Schritte vor. Das Modell liest das Material,
+findet Kandidaten und stuft sie ein, wählt für jede Anforderung ein
+Muster und formuliert den Satz, sammelt die Belege, leitet Aussageform
+und Belegstärke ab, füllt die übrigen Felder und prüft am Ende jeden
+Satz gegen die Sprachregeln und jeden Ausschnitt gegen das Material.
+Ausgegeben wird nur das Ergebnis. Der zweite Schritt übernimmt das
+zweistufige Verfahren aus der Erprobung von EARS: Eine Aussage wird
+zuerst eingestuft und erst danach umformuliert
+\cite[Abschn.~Method]{mavin2010bigears}. Von den vier Kategorien des
+Verfahrens bleiben drei, nämlich Anforderung, Information und nicht
+anwendbar. Die Kategorie Überschrift entfällt; nach eigener Einschätzung
+hat sie im Material eines Pull Requests keine Entsprechung.
+
+Als Anforderung gilt eine Fähigkeit, ein Verhalten, eine Eigenschaft,
+eine Einschränkung oder eine Qualität, die Qrisp oder ein Teil davon
+haben soll und die der Pull Request hinzufügt, ändert, repariert,
+fordert oder dokumentiert. Eine Fehlerbehebung stützt damit die
+Anforderung an das richtige Verhalten. Ein Dokumentationstext, der
+selbst eine Regel aufstellt, etwa dass jede öffentliche Funktion einen
+Test haben soll, stützt ebenfalls eine Anforderung. Nicht dazu zählen
+Aufräumarbeiten ohne Wirkung auf Verhalten oder Eigenschaften, etwa die
+Korrektur eines Tippfehlers, eine Umformatierung, eine Umbenennung ohne
+Wirkung oder das Zusammenführen von Zweigen. Diese Abgrenzung ist
+eine eigene Festlegung. Sie soll verhindern, dass triviale Anforderungen
+die Zahl der rekonstruierten Anforderungen erhöhen, ohne etwas über
+Qrisp auszusagen. Der Ausschluss bleibt sichtbar, weil jeder solche Pull
+Request mit dem Verarbeitungsstand \glqq keine Anforderung
+gefunden\grqq{} und einem Grund erfasst wird
+(Abschnitt~\ref{subsec:datenmodell-ebenen}).
+
+Die Sprachregeln der Anweisung geben den Ausschnitt der Qualitäts- und
+Sprachregeln aus Abschnitt~\ref{subsec:rollenzuweisung} wieder. Hinzu
+kommen drei Vorgaben aus ISO/\allowbreak IEC/\allowbreak IEEE~29148: aktive statt passiver
+Formulierung, positive Formulierung statt \emph{shall not} und Verzicht
+auf \emph{shall be able to} \cite[Abschn.~5.2.4]{iso29148}. Der Standard
+empfiehlt diese Formulierungen, ohne sie vorzuschreiben
+(Abschnitt~\ref{subsec:anforderungsaufbau}); die Anweisung macht sie
+als eigene Festlegung der Arbeit verbindlich. Kann das Modell eine unbestimmte
+Formulierung der Quelle nicht ersetzen, ohne eine Grenze zu erfinden,
+behält es die Anforderung und vermerkt das unter den Unsicherheiten.
+Felder und Belegregeln entsprechen dem Datenmodell aus
+Abschnitt~\ref{sec:konzeption-datenmodell}. Die Belegstärke soll das
+Modell nach den dort genannten Regeln ableiten und nicht beurteilen.
+
+\subsection{Bewusste Auslassungen}
+\label{subsec:prompt-auslassungen}
+
+Drei Dinge enthält die Anweisung bewusst nicht. Erstens enthält sie kein
+vollständiges Beispiel einer Eingabe mit erwarteter Ausgabe, sondern nur
+einzelne Formbeispiele, etwa für den Aufbau einer Kennung. Die zwölf
+Pull Requests der Formulierungsprobe kamen als Beispiele nicht in Frage,
+weil sie den Nebenteil der Bewertung bilden
+(Abschnitt~\ref{subsec:bewertung-nebenteil}). Ohne vollständiges
+Beispiel bleibt zudem erkennbar, was die Regeln selbst bewirken.
+
+Zweitens nutzt die Pipeline keine Funktion der Schnittstelle, die die
+Ausgabe an ein Schema bindet. Die Anweisung verlangt das JSON-Objekt nur
+in Worten. So bleibt die Formatkonformität ein Messwert über das Modell,
+und der Vergleich mit den lokalen Modellen, die ebenfalls keine solche
+Hilfe erhalten, bleibt gleich (Abschnitt~\ref{subsec:impl-aufruf}).
+
+Drittens ist die Anweisung nicht auf einen Anbieter zugeschnitten.
+Dieselben Dateien gingen an das API-Modell und an die lokalen Modelle.
+Erprobt und überarbeitet wurde die Anweisung allerdings nur am
+API-Modell (Abschnitt~\ref{subsec:impl-pilot}).
+
+\subsection{Wahl des API-Modells}
+\label{subsec:modellwahl-api}
+
+Als API-Modell dient gpt-5.6-terra von OpenAI. Die Wahl folgte drei
+Erwägungen. Erstens war das Budget nicht der Engpass. Vor dem ersten Lauf
+war ein Budget von höchstens 150~Euro festgelegt, und die
+Kostenschätzung vom 19.~September 2026 sah für alle geplanten Läufe
+rund ein Viertel davon vor (\path{experiments/kostenschaetzung.md}). Den
+tatsächlichen Verbrauch berichtet Abschnitt~\ref{subsec:ff3-ergebnisse}.
+Entscheidend war damit nicht der niedrigste Preis.
+
+Zweitens wurde kein teureres Modell desselben Anbieters gewählt, weil
+ein Qualitätsvorteil für die Rekonstruktion von Anforderungen nicht
+belegt ist; diese Arbeit behauptet ihn auch nicht. Ein günstigeres Modell
+wurde ebenfalls nicht gewählt. Da der Preis nicht entschied, sprach
+nichts dafür, eine mögliche Einbuße an Qualität in Kauf zu nehmen.
+
+Drittens reicht das Kontextfenster weit aus. Die Modellseite nennt ein
+Kontextfenster von 1\,050\,000~Token und höchstens 128\,000
+Ausgabe-Token \cite{openaiterra}. Ein Quellblock umfasst höchstens
+80\,000~Zeichen (Abschnitt~\ref{subsec:impl-modelleingabe}). Kein
+Vorgang scheitert daher an der Größe der Eingabe. Die Modellseite führt
+keinen Stand mit Datum, sondern nur den Namen des Modells
+\cite{openaiterra}. Was das für die Reproduzierbarkeit bedeutet,
+behandelt Kapitel~\ref{cha:diskussion}. Ob die Anfragen einzeln oder im
+Stapelbetrieb gesendet werden, begründet
+Abschnitt~\ref{subsec:impl-volllauf}.
+
+\subsection{Wahl der Laufzeitumgebung und des lokalen Modells}
+\label{subsec:modellwahl-lokal}
+
+Für die lokale Ausführung wurde die Laufzeitumgebung Ollama gewählt.
+Ausschlaggebend war, dass sie den Endpunkt \path{/v1/responses} der
+Programmierschnittstelle von OpenAI nachbildet
+\cite[Abschn.~Responses API]{ollamaopenai}. Programm, Anweisung und
+Eingabe bleiben damit für beide Seiten gleich, und ein Unterschied im
+Ergebnis kann nicht am Aufrufweg liegen. Ollama läuft auf dem eigenen
+Rechner ohne Schlüssel und ohne Konto; die Cloud-Funktionen waren
+abgeschaltet (Tabelle~\ref{tab:pilot-bedingungen}).
+
+Als lokales Modell dient gpt-oss:20b, als Ersatz qwen3.6:27b. Für
+gpt-oss:20b sprachen drei Gründe. Es passt in den Grafikspeicher des
+Rechners: Nach dem Protokoll des Servers plante dieser 13\,838 von
+28\,753~MiB ein (Abschnitt~\ref{subsec:ff3-ergebnisse}). Es kennt die
+Denkstufen low, medium und high und damit die Stufe, die auch das
+API-Modell erhält \cite{ollamagptoss}. Seine Gewichte stehen unter der
+Lizenz Apache~2.0 \cite{ollamagptoss}. Verworfen wurde qwen3.6:35b,
+dessen Gewichte mit 23 bis 24~GB \cite{ollamaqwen36} nahe an der Grenze
+des nutzbaren Grafikspeichers liegen. qwen3.6:27b wurde zunächst
+zurückgestellt, weil es nach einer eigenen Abschätzung aus der
+Speicherbandbreite für den Zeitplan zu langsam erschien, und als Ersatz
+für einen Fehlschlag benannt. Warum es im Pilotfall dennoch zum Einsatz
+kam, beschreibt Abschnitt~\ref{subsec:pilot-qwen}.
+
+Die dritte Forschungsfrage spricht von lokal betriebenen
+Open-Source-Modellen. Bei gpt-oss:20b sind die Gewichte unter einer
+offenen Lizenz verfügbar; die Modellbibliothek bezeichnet es als Modell
+mit offenen Gewichten \cite{ollamagptoss}. Ob auch Trainingsdaten und
+Trainingsverfahren offenliegen, prüft diese Arbeit nicht; den Begriff
+ordnet Abschnitt~\ref{sec:llm-grundlagen} ein. Zwei Eigenschaften der
+Wahl schränken den Vergleich ein. gpt-oss stammt vom selben Anbieter wie
+das API-Modell. Zudem begrenzt der Speicher des Rechners die Größe jedes
+lokalen Modells, während für das API-Modell keine solche Grenze gilt;
+lokaler Betrieb und begrenzte Modellgröße lassen sich im Vergleich daher
+nicht trennen. Diese und weitere Einschränkungen behandelt
+Kapitel~\ref{cha:diskussion}.
 
 \chapter{Implementierung}
 \label{cha:implementierung}
