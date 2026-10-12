@@ -914,7 +914,68 @@ vor einer inhaltlichen Verwendung beschaffen oder Satz streichen]}
 \section{Large Language Models und Prompt Engineering}
 \label{sec:llm-grundlagen}
 
-\textbf{[Noch zu ergänzen]}
+Large Language Models, im Folgenden Sprachmodelle, beruhen auf der
+Transformer-Architektur. Sie zerlegen Text in Token, also Wörter oder
+Wortteile, und werden an großen, allgemein verfügbaren Textmengen
+vortrainiert \cite[Abschn.~2.1, 2.2 und 3.3]{vogelsang2024llm}. Für das
+Erzeugen von Text eignen sich vor allem Modelle, die nur aus dem
+Decoder-Teil der Architektur bestehen. Sie werden darauf trainiert, das
+jeweils nächste Wort vorherzusagen, und setzen so eine Eingabe
+fortlaufend fort. Modelle mit Encoder-Teil eignen sich dagegen eher für
+das Einordnen von Texten, etwa die Klassifikation von Anforderungen
+\cite[Abschn.~2.3, 2.4 und 3.1]{vogelsang2024llm}.
+
+Ein vortrainiertes Modell lässt sich auf zwei Wegen an eine Aufgabe
+anpassen. Beim Nachtrainieren, dem Fine-Tuning, werden seine Parameter
+mit Daten der Aufgabe weiter trainiert; das erfordert geeignete Daten
+und Rechenaufwand. Beim Prompting bleibt das Modell unverändert, und die
+Aufgabe wird allein durch die Eingabe beschrieben
+\cite[Abschn.~3.3 und 3.4]{vogelsang2024llm}. Diese Arbeit verwendet
+ausschließlich Prompting.
+
+Ein Prompt ist eine Texteingabe, die ein generatives Sprachmodell
+anweist. Er kann vier Bestandteile enthalten: eine Anweisung, Kontext,
+die zu verarbeitenden Eingabedaten und eine Vorgabe für die Form der
+Ausgabe \cite[Abschn.~2.4]{vogelsang2024llm}. Beschreibt der Prompt die
+Aufgabe nur in Worten und enthält kein Beispiel einer gelösten Aufgabe,
+wird von Zero-Shot gesprochen; enthält er einige solcher Beispiele, von
+Few-Shot. In beiden Fällen werden die Parameter des Modells nicht
+verändert \cite[Abschn.~2]{brown2020fewshot}. Beispiele im Prompt können
+die Ergebnisse verbessern \cite[Abschn.~3.4]{vogelsang2024llm}. In dieser
+Arbeit heißt der Prompt Anweisung an das Modell. Er besteht aus einer
+Systemanweisung, die für alle Pull Requests gleich ist und alle Regeln
+enthält, und aus einer Nachricht, die den Quellblock eines Pull Requests
+trägt. Da die Systemanweisung nur einzelne Formbeispiele und kein
+vollständiges Beispiel enthält, entspricht sie im Sinne dieser
+Unterscheidung dem Zero-Shot-Fall
+(Abschnitt~\ref{subsec:prompt-auslassungen}).
+
+Die Qualität der Ausgabe hängt vom Prompt ab
+\cite[Abschn.~2.4]{vogelsang2024llm}. Wie viel Text ein Modell auf
+einmal verarbeiten kann, begrenzt sein Kontextfenster
+\cite[Abschn.~3.4]{vogelsang2024llm}. Zudem kann ein Modell falsche
+Aussagen erzeugen, die glaubwürdig wirken
+\cite[LLM09:2025]{owaspllm2025}. Für diese Arbeit folgt daraus, dass die
+Ausgaben eines Modells nicht ungeprüft übernommen werden. Wie sie geprüft
+werden, legt Kapitel~\ref{cha:konzeption} fest.
+
+Sprachmodelle unterscheiden sich darin, wie zugänglich sie sind. Manche
+sind nur über eine Programmierschnittstelle des Anbieters erreichbar
+\cite[Abschn.~4]{vogelsang2024llm}; die Eingaben verlassen dann den
+eigenen Rechner. Bei anderen sind die Gewichte, also die gelernten
+Parameter, frei verfügbar, sodass das Modell auf eigener Hardware
+betrieben werden kann. Die Open Source Initiative verlangt für ein
+Open-Source-KI-System mehr: neben den Parametern auch den vollständigen
+Code für Training und Ausführung sowie ausreichend genaue Angaben zu
+den Trainingsdaten \cite[Abschn.~What is Open Source AI]{osiaidef2024}.
+Das gilt ausdrücklich auch für Modelle und Gewichte, die als Open Source
+bezeichnet werden \cite[Abschn.~Open Source models and Open Source
+weights]{osiaidef2024}. Frei verfügbare Gewichte allein erfüllen diese
+Definition also nicht. Die dritte Forschungsfrage spricht von lokal
+betriebenen Open-Source-Modellen. Gemeint ist in dieser Arbeit ein
+Modell mit frei verfügbaren Gewichten, das auf dem eigenen Rechner
+läuft. Ob es die Definition der Open Source Initiative erfüllt, wird
+nicht geprüft (Abschnitt~\ref{subsec:modellwahl-lokal}).
 
 \section{Common Criteria und BSI-orientierte Prüfungen im Überblick}
 \label{sec:cc-bsi}
@@ -1116,9 +1177,120 @@ eigene Schlussfolgerung, keine Aussage der Quelle.
 \chapter{Verwandte Arbeiten}
 \label{cha:verwandte-arbeiten}
 
-\textbf{[Noch zu ergänzen: LLMs im Requirements Engineering,
-retrospektives Requirements Engineering, Mining von
-Entwicklungsartefakten.]}
+Dieses Kapitel ordnet die Arbeit in die Forschung zum Einsatz von
+Sprachmodellen im Requirements Engineering ein. Herangezogen werden ein
+Literaturüberblick, zwei Übersichtsbeiträge und zwei empirische
+Studien, die über die Literaturmatrix der Arbeit ausgewählt wurden. Eine
+systematische Literaturrecherche wurde nicht durchgeführt; das Kapitel
+erhebt daher keinen Anspruch auf Vollständigkeit.
+
+\section{Sprachmodelle im Requirements Engineering}
+\label{sec:vw-llm-re}
+
+Einen Überblick über das Feld geben Zadenoori et al.\ mit einer
+Auswertung von 74 Studien aus den Jahren 2023 und 2024. Die Autoren
+bezeichnen ihre Arbeit selbst als vorläufig; Auswahl und Auswertung der
+Studien wurden nicht systematisch gegengeprüft
+\cite[Abschn.~1]{zadenoori2025slr}. Die folgenden Befunde sind daher als
+Orientierung zu lesen. In 57 der 74 Studien werden Modelle der
+GPT-Familie eingesetzt \cite[Abschn.~5.4.3]{zadenoori2025slr}. Die
+häufigste Strategie ist Zero-Shot-Prompting, verwendet in 28 Studien
+\cite[Abschn.~5.3.1]{zadenoori2025slr}. In 56 Studien werden die
+Ansätze in Laborexperimenten erprobt
+\cite[Abschn.~5.6.2]{zadenoori2025slr}; Erfahrungen aus dem praktischen
+Einsatz sind selten \cite[Zusammenfassung]{zadenoori2025slr}.
+
+Arora et al.\ untersuchen für die Erhebung, Spezifikation, Analyse und
+Validierung von Anforderungen, welche Stärken, Schwächen, Chancen und
+Risiken Sprachmodelle mitbringen \cite[Abschn.~3--6]{arora2023advancing}.
+Für die Spezifikation nennen sie unter anderem fehlendes Fachwissen über
+die Domäne, Schwierigkeiten mit Mehrdeutigkeit und die Neigung der
+Modelle zu ausführlichen, überspezifizierten Texten
+\cite[Abschn.~4.2]{arora2023advancing}. Als Risiken bei der Erhebung
+führen sie Datenschutz und Verzerrungen in den Ausgaben an
+\cite[Abschn.~3.2]{arora2023advancing}. Ihre eigene Erprobung beschränkt
+sich auf die Erhebung von Anforderungen in einer Sitzung mit vier
+Teilnehmenden und ist ausdrücklich keine umfassende Bewertung
+\cite[Abschn.~7]{arora2023advancing}.
+
+Vogelsang und Fischbach geben eine Anleitung, wie ein Sprachmodell für
+eine Aufgabe des Requirements Engineering ausgewählt und angepasst wird.
+Danach bestimmt die Art der Aufgabe die Art des Modells: Für das
+Einordnen von Texten kommen eher Modelle mit Encoder-Teil in Frage, für
+das Erzeugen von Text generative Modelle
+\cite[Abschn.~3.1]{vogelsang2024llm}. Nach dieser Einteilung ist die
+Rekonstruktion von Anforderungen in dieser Arbeit eine Aufgabe des
+Erzeugens.
+
+\section{Anforderungen aus Entwicklungsartefakten}
+\label{sec:vw-artefakte}
+
+In den von Zadenoori et al.\ ausgewerteten Studien dienen am häufigsten
+Anforderungsspezifikationen als Eingabe. Issues und Rückmeldungen von
+Nutzenden bilden in 9 der 74 Studien die Eingabe
+\cite[Abschn.~5.2.3]{zadenoori2025slr}.
+
+Am nächsten an der vorliegenden Arbeit liegt die Studie von Paiva et
+al. Sie lassen die Modelle o3-mini und DeepSeek~R1 aus Titeln von
+Feature-Requests Anforderungen formulieren. Die Titel stammen aus je
+30~Issues von fünf aktiven Open-Source-Projekten auf GitHub
+\cite[Abschn.~3.1]{paiva2026issue}. Verglichen werden drei
+Prompt-Strategien: Zero-Shot, Few-Shot und die Vorgabe einer
+Expertenrolle \cite[Abschn.~1]{paiva2026issue}. Die 900 erzeugten
+Anforderungen bewertet ein drittes Sprachmodell nach drei Merkmalen aus
+ISO/\allowbreak IEC/\allowbreak IEEE~29148, nämlich Eindeutigkeit,
+Nachweisbarkeit und Einzelbezug. Die Modelle erzeugen danach oft gute
+Anforderungen, die Qualität hängt aber von der Klarheit des Titels und
+vom Prompt ab; Few-Shot verbessert durchgängig den Einzelbezug
+\cite[Zusammenfassung]{paiva2026issue}. In einer Gegenprobe stimmten
+fünf menschliche Bewertende untereinander nur gering überein
+\cite[Abschn.~4.6.5]{paiva2026issue}. Als Einschränkung nennen die
+Autoren selbst, dass Titel den Kontext aus Beschreibung und Kommentaren
+eines Issues nicht erfassen \cite[Abschn.~5]{paiva2026issue}.
+
+\section{Lokale und kleine Modelle}
+\label{sec:vw-modellgroesse}
+
+Zadenoori et al.\ vergleichen in einer weiteren Studie fünf offen
+verfügbare Modelle mit sieben bis acht Milliarden Parametern mit drei
+großen Modellen, die über Programmierschnittstellen ihrer Anbieter
+angesprochen werden. Aufgabe ist die Einordnung vorhandener
+Anforderungen in zwei Klassen, unter anderem nach ihrem Sicherheitsbezug
+\cite[Abschn.~2]{zadenoori2025size}. Die großen Modelle schneiden im
+Mittel etwas besser ab, der Unterschied ist aber statistisch nicht
+signifikant; stärker als die Modellgröße wirkt der Datensatz
+\cite[Abschn.~3]{zadenoori2025size}. Als Vorteil der kleinen Modelle
+nennen die Autoren, dass sie auf eigenen Rechnern laufen und
+vertrauliche Daten so geschützt verarbeitet werden können
+\cite[Abschn.~1]{zadenoori2025size}. Sie schränken selbst ein, dass die
+Ergebnisse für andere Aufgaben nicht gelten müssen
+\cite[Abschn.~3]{zadenoori2025size}. Das trifft auf die vorliegende
+Arbeit zu, in der Anforderungen nicht eingeordnet, sondern formuliert
+werden.
+
+\section{Einordnung dieser Arbeit}
+\label{sec:vw-einordnung}
+
+Die folgende Einordnung ist eine eigene Schlussfolgerung aus den hier
+herangezogenen Arbeiten und keine Aussage über das gesamte Feld. Von
+diesen Arbeiten unterscheidet sich die vorliegende in fünf Punkten.
+Erstens dient der gesamte Pull Request als Eingabe: Titel, Beschreibung,
+Kommentare, Review-Kommentare und Code-Änderungen
+(Abschnitt~\ref{sec:impl-aufbereitung}). Paiva et al.\ verwenden nur den
+Titel und nennen das selbst als Einschränkung. Zweitens führt jede
+Anforderung Belege, deren Wortlaut ein Programm im Quellblock nachprüft,
+und ihre Belegstärke wird nach festen Regeln berechnet
+(Abschnitte~\ref{sec:konzeption-datenmodell}
+und~\ref{sec:impl-pruefung}). Drittens wird das Format der Anforderungen
+nicht vorausgesetzt, sondern anhand einer Entscheidungsmatrix gewählt
+(Abschnitt~\ref{sec:formatauswahl}). Viertens werden die Anforderungen
+einem Raster erwarteter Sicherheitsanforderungen gegenübergestellt
+(Abschnitt~\ref{sec:konzeption-gap}). Fünftens ist ein Vergleich eines
+API-Modells mit lokal betriebenen Modellen beim Formulieren von
+Anforderungen angelegt; wie weit er durchgeführt werden konnte, berichtet
+Abschnitt~\ref{subsec:pilot-folge}. Bewertet wird anders als bei Paiva
+et al.\ nicht durch ein Sprachmodell, sondern von Hand und durch
+Programme (Abschnitt~\ref{sec:eval-bewertung}).
 
 
 \chapter{Konzeption der Pipeline}
