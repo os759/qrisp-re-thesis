@@ -26,9 +26,32 @@ Eclipse Qrisp}
 \include{vorspann} % Titelseite, Erklärungen, etc.
 
 \begin{abstract} 
-\textbf{[Noch zu ergänzen: Abstract. Wird zuletzt geschrieben, wenn die
-Ergebnisse vorliegen. Umfang etwa 150--250 Wörter: Problemstellung,
-Vorgehen, zentrale Ergebnisse, Einordnung.]}
+Eclipse Qrisp, ein Open-Source-Framework für die Programmierung
+gatterbasierter Quantencomputer, ist nach Angaben aus dem Projekt
+explorativ gewachsen, ohne dass Anforderungen an die Software formal
+dokumentiert wurden. Die dafür nötigen Informationen liegen verteilt in
+der Historie der Pull Requests. In dieser Arbeit wurde eine Pipeline
+konzipiert, prototypisch umgesetzt und evaluiert, die mit Large Language
+Models aus dieser Historie formal formulierte Anforderungen
+rekonstruiert. Jede Anforderung wird auf wörtliche Quellstellen
+zurückgeführt, ihre Belegstärke nach festen Regeln bestimmt, und die
+Anforderungen werden klassifiziert und einem Raster erwarteter
+Sicherheitsanforderungen einer BSI-/\allowbreak Common-Criteria-orientierten
+Prüfung gegenübergestellt. Als Anforderungsformat wurde über eine
+Entscheidungsmatrix eine Kombination aus dem Satzmuster EARS und einem
+Ausschnitt der Qualitätsregeln nach ISO/IEC/IEEE~29148 gewählt; das
+Format ließ sich maschinell prüfen und wurde vom Modell nahezu immer
+eingehalten. In einer von Hand bewerteten Stichprobe waren 49
+von 85 Anforderungen brauchbar; der Engpass lag in der Treue
+zur Quelle. Ein über eine Programmierschnittstelle angesprochenes Modell
+lieferte nahezu alle Antworten im verlangten Format, lokal betriebene
+Open-Source-Modelle keine; lokal fielen dagegen keine Gebühren an, und
+keine Quelldaten verließen den Rechner. Rekonstruierbar waren nur
+Sicherheitsanforderungen an den Entwicklungsprozess. Auf der
+Produktebene fand sich kein Beleg, was als Dokumentationslücke und
+nicht als fehlende Funktion zu lesen ist. Die Pipeline eignet sich
+damit für einen ersten, auf Quellstellen zurückgeführten
+Anforderungsbestand, ersetzt aber keine Prüfung von Hand.
 \end{abstract}
 
 \tableofcontents
@@ -36,9 +59,139 @@ Vorgehen, zentrale Ergebnisse, Einordnung.]}
 \chapter{Einleitung}
 \label{cha:einleitung}
 
-\textbf{[Noch zu ergänzen: Motivation, Problemstellung, Zielsetzung,
-Forschungsfragen, Aufbau der Arbeit. Wird nach den Grundlagen
-geschrieben.]}
+\section{Motivation und Problemstellung}
+\label{sec:einl-motivation}
+
+Qrisp ist ein Framework für die Programmierung gatterbasierter
+Quantencomputer auf hoher Abstraktionsebene. Es ist als eingebettete
+Sprache in Python umgesetzt und übersetzt Programme bis auf die Ebene
+von Quantenschaltkreisen, sodass sie auf den meisten heute verfügbaren
+physischen Quantenrechnern und Simulatoren ausgeführt werden können
+\cite[Zusammenfassung und Abschn.~1]{seidel2024qrisp}. Die Autoren
+begründen den Ansatz mit Argumenten der Softwaretechnik: Wachsende
+Komplexität führe zu mehr Fehlern, schlechterer Wartbarkeit und höheren
+Entwicklungskosten. Qrisp soll deshalb eine modulare Entwicklung
+ermöglichen, bei der sich Teilmodule austauschen sowie isoliert testen
+und dokumentieren lassen \cite[Abschn.~1 und 7]{seidel2024qrisp}.
+Entstanden ist Qrisp bei Fraunhofer FOKUS; heute ist es ein Projekt der
+Eclipse Foundation im Status \emph{Incubating} und steht unter der
+Eclipse Public License~2.0 \cite{eclipseqrisp}. Der Quelltext ist
+öffentlich auf GitHub verfügbar
+\cite[Abschn.~Code availability]{seidel2024qrisp}.
+
+Nach Angaben aus dem Projekt, die dieser Arbeit zugrunde liegen, ist
+Qrisp über längere Zeit explorativ gewachsen, ohne dass Anforderungen
+an die Software formal dokumentiert wurden. Zugleich besteht Bedarf an
+einer nachvollziehbaren Anforderungsdokumentation, etwa als Grundlage
+für Qualitätssicherung und Weiterentwicklung sowie für eine
+perspektivische Sicherheitsprüfung, die sich an den Vorgaben des
+Bundesamts für Sicherheit in der Informationstechnik (BSI) oder an den
+Common Criteria orientiert. Für eine solche Prüfung ist die fehlende
+Dokumentation mehr als ein formaler Mangel: Sowohl die Common Criteria
+als auch der Teil der Technischen Richtlinie TR-03185 für proprietäre
+Software setzen festgelegte Sicherheitsanforderungen als Ausgangspunkt
+voraus (Abschnitt~\ref{subsec:cc-bsi-einordnung}).
+
+Die Informationen, aus denen sich Anforderungen gewinnen ließen, liegen
+nicht in einer Spezifikation vor, sondern verteilt über die
+Entwicklungshistorie, insbesondere in den Pull Requests des Repositorys
+\path{eclipse-qrisp/Qrisp}: in Titeln, Beschreibungen, Code-Änderungen
+und Review-Diskussionen. Eine Aufarbeitung mehrerer hundert Pull
+Requests von Hand ist sehr aufwendig. Large Language Models (LLMs), im
+Folgenden Sprachmodelle, bieten einen Ansatz, Anforderungen aus solchen
+Texten automatisiert zu rekonstruieren. Ihre Ausgaben können jedoch
+falsche Aussagen enthalten, die glaubwürdig wirken
+(Abschnitt~\ref{sec:llm-grundlagen}). Nach Angaben aus dem Projekt
+wünscht sich das Qrisp-Team ausdrücklich einen kontrollierten und
+nachvollziehbaren Einsatz solcher Modelle. In dieser Arbeit bedeutet
+das, dass jede rekonstruierte Anforderung auf eine wörtlich
+nachprüfbare Quellstelle zurückgeführt und ihre Belegstärke nach festen
+Regeln bestimmt wird, statt sie dem Urteil des Modells zu überlassen.
+
+\section{Zielsetzung und Forschungsfragen}
+\label{sec:einl-ziel}
+
+Ziel der Arbeit ist die Konzeption, prototypische Umsetzung und
+Evaluation einer Pipeline, die aus der Pull-Request-Historie von Eclipse
+Qrisp formal formulierte Anforderungen rekonstruiert, diese klassifiziert
+und im Hinblick auf eine zertifizierungsorientierte
+Sicherheitsdokumentation bewertet. Die Pipeline soll dabei klar
+trennen zwischen direkt rekonstruierbaren Anforderungen, plausiblen, aber
+unsicheren Interpretationen und nicht belegbaren Vermutungen. Daraus
+ergeben sich vier Forschungsfragen, die dem mit dem Betreuer
+abgestimmten Exposé wörtlich entnommen sind:
+
+\begin{description}
+  \item[FF1:] Inwieweit lassen sich aus der Pull-Request-Historie eines
+    Open-Source-Pro\-jekts mithilfe von LLMs brauchbare, formal
+    formulierte Softwareanforderungen rekonstruieren?
+  \item[FF2:] Welches Anforderungsformat (z.\,B.
+    RFC-2119-Schlüsselwörter, User Stories, EARS, ISO/IEC/IEEE~29148)
+    eignet sich für die automatisierte Extraktion, und nach welchen
+    Kriterien ist diese Wahl zu begründen?
+  \item[FF3:] Welche Unterschiede zeigen sich zwischen API-basierten und
+    lokal betriebenen Open-Source-Modellen hinsichtlich Qualität, Kosten
+    und Datenkontrolle?
+  \item[FF4:] Welche von einer BSI-/\allowbreak Common-Criteria-orientierten Prüfung
+    erwarteten Sicherheitsanforderungen lassen sich aus der
+    Entwicklungshistorie rekonstruieren, und wo bestehen
+    Dokumentationslücken (Gap-Analyse)?
+\end{description}
+
+Zwei Begriffe der Forschungsfragen werden im Verlauf der Arbeit
+geschärft. Als brauchbar im Sinne der ersten Forschungsfrage gilt eine
+Anforderung nach einer vorab festgelegten Regel
+(Abschnitt~\ref{subsec:bewertung-design}). Als Open-Source-Modell im
+Sinne der dritten Forschungsfrage gilt ein Modell mit frei verfügbaren
+Gewichten, das auf dem eigenen Rechner betrieben wird
+(Abschnitt~\ref{sec:llm-grundlagen}).
+
+Die Arbeit ist in drei Richtungen abgegrenzt. Eine Zertifizierung von
+Qrisp wird nicht vorgenommen, die herangezogenen Standards dienen nur
+in einem begründet gewählten Ausschnitt als Bewertungsraster, und aus
+einem fehlenden Beleg in der Historie wird nicht geschlossen, dass
+Qrisp eine Anforderung nicht erfüllt. Fachwissen über Quantencomputing
+ist nicht Gegenstand der Untersuchung; Qrisp dient als realer
+Anwendungsfall für Fragen der Softwaretechnik, des Requirements
+Engineering und des Einsatzes von Sprachmodellen. Ergebnis ist ein
+wissenschaftlich evaluierter Prototyp und kein produktreifes Werkzeug,
+und vorhandene Modelle werden ausschließlich über Prompting genutzt,
+nicht nachtrainiert.
+
+\section{Vorgehen und Aufbau der Arbeit}
+\label{sec:einl-aufbau}
+
+Die Arbeit folgt einem konstruktiv-empirischen Vorgehen: Ein Artefakt,
+die Pipeline, wird entwickelt und anschließend empirisch evaluiert. Der
+Aufbau folgt diesem Vorgehen.
+
+Kapitel~\ref{cha:grundlagen} stellt die Grundlagen dar: Qualitätskriterien
+für Anforderungen nach ISO/IEC/IEEE~29148, die Anforderungsformate
+RFC~2119, EARS und User Stories, Sprachmodelle und Prompting sowie die
+Common Criteria und die Technische Richtlinie TR-03185 des BSI.
+Kapitel~\ref{cha:verwandte-arbeiten} ordnet die Arbeit in die Forschung
+zum Einsatz von Sprachmodellen im Requirements Engineering ein.
+Kapitel~\ref{cha:konzeption} legt fest, nach welchen Regeln die Pipeline
+arbeitet: das Anforderungsformat als Antwort auf die zweite
+Forschungsfrage, das Klassifikationsschema, den Belegbegriff, das
+Raster erwarteter Sicherheitsanforderungen mit den Kategorien der
+Gap-Analyse, das Datenmodell der Ausgabe sowie die Anweisung an das
+Sprachmodell und die Wahl der Modelle.
+Kapitel~\ref{cha:implementierung} beschreibt die Umsetzung von der
+Erhebung der Daten über die Extraktion und deren Prüfung bis zur
+Auswertung, dazu die Absicherung der Pipeline und die automatischen
+Tests. Kapitel~\ref{cha:evaluation} berichtet die Ergebnisse: den
+Kontrollpunkt der lokalen Modelle, die Grundzahlen des Volllaufs, die
+Messgrößen für die dritte Forschungsfrage, die Bewertung der
+rekonstruierten Anforderungen, die Prüfung der Klassifikation und das
+Ergebnis der Gap-Analyse. Kapitel~\ref{cha:diskussion} beantwortet die
+vier Forschungsfragen und behandelt Übertragbarkeit, Bedrohungen der
+Validität und Limitationen. Kapitel~\ref{cha:fazit} fasst die Arbeit
+zusammen und gibt einen Ausblick.
+Anhang~\ref{cha:anhang-einzelbegruendungen} enthält die
+Einzelbegründungen der Entscheidungsmatrix zur Formatauswahl.
+Quelltext, Konfigurationen und Arbeitsunterlagen, auf die der Text
+verweist, liegen im mit der Arbeit abgegebenen Repository.
 
 
 \chapter{Grundlagen}
@@ -6094,7 +6247,8 @@ nach der Abgabe vorgesehen (Abschnitt~\ref{subsec:bewertung-design}).
 Der Untersuchungsumfang ist in mehreren Punkten kleiner als im Exposé
 vorgesehen. Die Bewertung durch das Qrisp-Team und den Betreuer folgt
 nach der Abgabe; diese Abweichung ist mit dem Betreuer abgestimmt
-(Abschnitt~\ref{subsec:bewertung-design}). Die dritte Forschungsfrage
+(Abschnitt~\ref{subsec:bewertung-design}). Der Betreuer der Arbeit ist
+Mitautor der Veröffentlichung zu Qrisp \cite{seidel2024qrisp}. Die dritte Forschungsfrage
 vergleicht keine Ergebnisqualität, weil die vorab festgelegte Regel nach
 zwei misslungenen Versuchen Stufe~d vorsah
 (Abschnitt~\ref{subsec:pilot-folge}).
@@ -6124,7 +6278,87 @@ Literaturrecherche.
 \chapter{Fazit und Ausblick}
 \label{cha:fazit}
 
-\textbf{[Noch zu ergänzen]}
+\section{Fazit}
+\label{sec:fazit}
+
+In dieser Arbeit wurde eine Pipeline konzipiert, prototypisch umgesetzt
+und evaluiert, die aus der Pull-Request-Historie von Eclipse Qrisp
+formal formulierte Anforderungen rekonstruiert, sie klassifiziert und
+einem Raster erwarteter Sicherheitsanforderungen gegenüberstellt. Die
+Antworten auf die vier Forschungsfragen werden im Folgenden
+zusammengefasst; hergeleitet sind sie in Abschnitt~\ref{sec:disk-ff}.
+
+Zur ersten Forschungsfrage: Mit einem Sprachmodell lassen sich aus der
+Historie formal formulierte Anforderungen rekonstruieren, nach der
+vorab festgelegten Regel brauchbar ist aber nur ein Teil; in der
+Stichprobe sind es 49 der 85 Anforderungen. Die Form
+gelingt fast immer, der Engpass liegt in der Treue zur Quelle, und die
+meisten Anforderungen werden aus berichteten Änderungen erschlossen,
+statt in der Historie ausdrücklich formuliert zu sein.
+
+Zur zweiten Forschungsfrage: Gewählt wurde mit EARS+29148 eine
+Kombination aus einem Satzmuster und einem Ausschnitt der Qualitäts-
+und Sprachregeln, begründet über eine Entscheidungsmatrix. Das Format
+lässt sich maschinell prüfen und wurde vom Modell nahezu immer
+eingehalten; gegenüber anderen Formaten ist die Wahl jedoch nicht
+empirisch bestätigt, weil diese nicht in eigenen Läufen erprobt wurden.
+
+Zur dritten Forschungsfrage: Das API-Modell hat nahezu alle Antworten
+im verlangten Format geliefert, die lokal betriebenen Modelle keine.
+Bei Kosten und Datenkontrolle liegt der Vorteil auf der lokalen Seite,
+weil keine Gebühren anfallen und keine Quelldaten den Rechner
+verlassen. Ein Vergleich der Ergebnisqualität war nicht möglich; die
+Frage wurde daher in reduziertem Umfang beantwortet.
+
+Zur vierten Forschungsfrage: Rekonstruierbar sind nur
+Sicherheitsanforderungen an den Entwicklungsprozess, etwa zu
+Testverfahren und Migrationswegen. Auf der Produktebene ist keiner der
+relevanten Einträge des Rasters in der untersuchten Historie belegt.
+Die festgestellten Lücken sind Dokumentationslücken; dass Qrisp eine
+Anforderung nicht erfüllt, folgt daraus nicht.
+
+Nach eigener Einschätzung eignet sich die Pipeline damit, aus einer
+gewachsenen Historie einen ersten, auf Quellstellen zurückgeführten
+Bestand an Anforderungen zu gewinnen. Eine Prüfung von Hand und
+ausdrücklich festgelegte Sicherheitsanforderungen ersetzt sie nicht.
+
+\section{Ausblick}
+\label{sec:ausblick}
+
+Aus den Grenzen der Arbeit ergeben sich mehrere Ansatzpunkte. Sie werden
+im Folgenden als eigene Vorschläge formuliert.
+
+Die Bewertung durch das Qrisp-Team und den Betreuer ist für die Zeit
+nach der Abgabe vorgesehen (Abschnitt~\ref{subsec:bewertung-design}).
+Sie würde die Bewertung von Hand um die Sicht derjenigen ergänzen, für
+die die Anforderungen bestimmt sind.
+
+Für einen Vergleich der Ergebnisqualität in der dritten
+Forschungsfrage müssten lokale Modelle zunächst auswertbare Ausgaben
+liefern. Dafür kommen ein Rechner mit mehr Speicher für größere Modelle
+oder eine Formathilfe der Laufzeitumgebung in Betracht. Da eine
+Formathilfe die Pipeline verändert, wäre sie für einen fairen Vergleich
+beiden Seiten zu gewähren (Abschnitt~\ref{subsec:pilot-folge}).
+
+Für die Treue zur Quelle bieten sich zwei Ansätze an: Beispiele in der
+Anweisung an das Modell (Few-Shot) und eine automatische Prüfung, ob
+jeder Bestandteil einer Anforderung von den angeführten Zitaten
+getragen wird. Beide setzen an der Quellentreue an, die bei den meisten
+nicht brauchbaren Anforderungen verletzt ist
+(Abschnitt~\ref{subsec:bewertung-hand}).
+
+Für die Produktebene der vierten Forschungsfrage wäre eine Prüfung von
+Quelltext und Tests nötig. Erst sie könnte zeigen, ob eine
+Sicherheitsfunktion vorhanden ist, und damit Aussagen ermöglichen, die
+über Dokumentationslücken hinausgehen
+(Abschnitt~\ref{subsec:gap-kategorien}).
+
+Schließlich wäre die Pipeline an weiteren Projekten zu erproben, um zu
+klären, welche Befunde an Qrisp gebunden sind
+(Abschnitt~\ref{sec:disk-uebertragbarkeit}). Eine Suche nach doppelten
+Anforderungen zwischen Pull Requests würde aus den Einzelergebnissen
+einen zusammenhängenden Anforderungsbestand machen
+(Abschnitt~\ref{subsec:bewertung-menge}).
 
 
 \bibliographystyle{plain} % Literaturverzeichnis
