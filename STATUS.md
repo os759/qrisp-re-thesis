@@ -1,6 +1,6 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 09.10.2026
+Letzte Aktualisierung: 10.10.2026
 Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
 
 ## Roter Faden
@@ -324,20 +324,30 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     KI-Protokoll steht (Nachtrag zu E2 vom 09.10.2026, Text von
     Kapitel 6).
 
-Warum der naechste Schritt jetzt kommt: Kapitel 6 ist bis auf einen
-Satz fertig. Offen ist, ob die Anforderungen, die B9
-(Quellennachvollziehbarkeit) erfuellen, dieselben sind wie die im
-Sinne der Gap-Analyse belegten; beide Zahlen sind gleich gross. Das
-klaert ein kleines Pruefprogramm, weil Kapitel 7 sonst auf einer
-ungeprueften Gleichsetzung aufbauen koennte. Im selben Commit folgen
-tests/README.md, tab:impl-tests, Abschnitt 5.6 und tab:impl-stufen,
-weil sie die zwei neuen Programme noch nicht nennen. Danach Paket I
-Teil 2: die Abschnitte 4.3 und 4.4 und Kapitel 7, weil Kapitel 7 die
-Ergebnisse aus Kapitel 6 deutet.
+21. Abgleich und Schreibweise (10.10.2026): Ein Pruefprogramm
+    (compare_b9_g1.py) hat je Anforderung verglichen, ob die
+    Anforderungen mit erfuellter Quellennachvollziehbarkeit (B9)
+    dieselben sind wie die im Sinne der Gap-Analyse belegten (G1, der
+    Belegbegriff fuer FF4), weil beide Zahlen 1270 betragen und
+    Kapitel 7 sie sonst ungeprueft gleichsetzen koennte. Ergebnis: Es
+    sind nicht dieselben. 1248 stehen in beiden Mengen, je 22 nur
+    in einer; Abschnitt 6.4.4 nennt das jetzt. Die Arbeit steht im
+    Passiv, weil der Verfasser das so festgelegt hat. Ein Sprachmodell
+    wird nur in Anhang A genannt, weil dort eine Bedrohung der
+    Validitaet (die Ankerwirkung von Vorschlaegen) benannt werden muss.
+    Abschnitt 5.6 beschreibt jetzt auch die drei Programme der
+    Bewertung, und die Testtabellen stehen auf 629 Tests, weil sie
+    noch den Stand vom 07.10.2026 zeigten.
+
+Warum der naechste Schritt jetzt kommt: Kapitel 5 und 6 sind fertig.
+Es fehlen die Abschnitte 4.3 (Datenmodell) und 4.4 (Anweisung und
+Modellwahl), auf die Kapitel 5 schon verweist, und Kapitel 7, das die
+Ergebnisse aus Kapitel 6 deutet. Deshalb folgt jetzt Paket I Teil 2.
+Kapitel 1, 3 und 8 kommen danach, weil sie auf Kapitel 7 aufbauen.
 
 Geschrieben sind Teile von Kapitel 2 (mit Abschnitt 2.4), die
-Abschnitte 4.1 und 4.2, Kapitel 5 vollstaendig (5.1 bis 5.8), die
-Abschnitte 6.1 bis 6.6 und Anhang A.
+Abschnitte 4.1 und 4.2, Kapitel 5 vollstaendig (5.1 bis 5.8),
+Kapitel 6 vollstaendig (6.1 bis 6.6) und Anhang A.
 Abgabe am 15.10.2026, intern am 13.10.2026. Der Plan hat keine
 Reserve ausser dem 14.10. Groesstes Risiko: Noch nicht geschrieben
 sind die Kapitel 1, 3, 7 und 8 sowie die Abschnitte 4.3 und 4.4.
@@ -931,9 +941,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-614 Tests, ausfuehren aus der Projektwurzel:
+629 Tests, ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
-Zuletzt gruen am 09.10.2026 (614 passed), vom Verfasser
+Zuletzt gruen am 10.10.2026 (629 passed), vom Verfasser
 ausgefuehrt; Zahl je Datei mit pytest --collect-only, siehe
 Abschnitt 5.8 (tab:impl-tests).
 
@@ -971,8 +981,15 @@ und Kriterienliste v1 seit 08.10.2026, geprueft gegen 30 absichtlich
 eingebaute Fehler, setzt seinen Importpfad selbst),
 test_count_ff3_measures.py (15 Tests, M1 Teil b, M3 und Angabe (i)
 seit 09.10.2026, geprueft gegen 18 absichtlich eingebaute Fehler, setzt
-seinen Importpfad selbst). Die Tabelle tab:impl-tests in Abschnitt 5.8
-nennt noch den Stand vom 07.10.2026. Die
+seinen Importpfad selbst),
+test_compare_b9_g1.py (15 Tests, Abgleich von B9 und G1 seit
+10.10.2026, geprueft gegen 22 absichtlich eingebaute Fehler: 19
+erkannt, 3 ohne Wirkung, weil sie in der Teilmenge stets gleiche
+Werte vertauschen; setzt seinen Importpfad selbst). Die Tabelle
+tab:impl-tests in Abschnitt 5.8 und tests/README.md nennen den Stand
+vom 10.10.2026. Die Erkennungszahlen 30 von 30 und 18 von 18 fuer
+Paket H stammen aus dem Chat vom 08./09.10.2026, auf Aufforderung
+gesucht. Die
 beiden neuen Dateien vom 21. und 22.09.2026, test_diagnose_excerpts.py
 und die vier Dateien vom 28.09.2026 setzen ihren Importpfad selbst.
 Die vier Dateien vom 28.09.2026 wurden in der Umgebung von Claude
@@ -1388,31 +1405,20 @@ Literaturmatrix L07 (Spalte Nutzen) sagen, die Inhaltsbloecke aus
 nicht-funktional ohne eigene Setzung. Nach G4 ordnet die Norm nur zwei
 der sechs Typwerte ausdruecklich zu.
 
-Naechste Schritte in dieser Reihenfolge (Stand 09.10.2026):
-1. Paket H Teil 3 im neuen Chat, mit einem einzigen Commit:
-   a) Pruefung B9 gegen den Belegbegriff der Gap-Analyse (G1). Nach den
-      Zaehlwerten unterscheiden sich beide Mengen nur um Anforderungen,
-      bei denen alle Zitate gefunden werden und das Modell selbst
-      insufficient angibt; gleich viele mit teilweise gefundenen Zitaten
-      gehen den umgekehrten Weg. Ein kleines Pruefprogramm zaehlt das je
-      Anforderung und gibt nur Zahlen aus. Dafuer braucht Claude
-      src/analyze/count_requirements.py und
-      src/analyze/evaluate_requirements.py. Danach wird der Satz "ob es
-      dieselben Anforderungen sind, ist nicht geprueft" in Abschnitt
-      6.4.4 (subsec:bewertung-maschinell) ersetzt.
-   b) tests/README.md und tab:impl-tests in 5.8 auf den Stand der
-      Testsuite bringen (Zahl aus pytest lesen); 5.6 und tab:impl-stufen
-      um evaluate_requirements.py und count_ff3_measures.py ergaenzen.
-   c) Zu klaeren: Der Verfasser schreibt die Arbeit im Passiv. Ob die
-      Wendung "der Verfasser" in Kapitel 4 bis 6 und Anhang A durch
-      Passiv ersetzt werden soll, entscheidet er vor Schritt a.
+Naechste Schritte in dieser Reihenfolge (Stand 10.10.2026):
+1. Erledigt am 10.10.2026 (Commit 9ed9e0b): Paket H Teil 3, also
+   Abgleich B9 gegen G1, Passiv, Abschnitte 5.6, 5.8 und 6.4.4.
 2. Paket I Teil 2 im neuen Chat: Abschnitt 4.3 (Label
    sec:konzeption-datenmodell, nach E1, E6 und ihren Nachtraegen) und
    4.4 (sec:konzeption-prompt-modell, nach E7, E8 und F2), dann der
    Teil von Kapitel 7 zu FF4 mit den Grenzen aus G3 bis G6, dem
    Nachtrag zu G6 und der Sammelliste fuer Kapitel 7 unter "Offene
    Punkte". Vor jedem Vorschlag prueft Claude STATUS.md und
-   docs/entscheidungen.md auf bestehende Regeln.
+   docs/entscheidungen.md auf bestehende Regeln. Kapitel 7 darf die
+   Menge nach B9 und die Menge nach G1 nicht gleichsetzen (Nachtrag
+   zu E2 vom 10.10.2026). Vorab zu entscheiden: ob der Satz zur
+   Doppelrolle (Nachtrag zu E8 vom 07.10.2026) unter die Ausnahme fuer
+   Validitaetsbedrohungen faellt.
 3. Kapitel 1, 3 und 8 sowie der Abstract; Kapitel 3 verkleinert aus
    der Literaturmatrix (Phase 2 der Literatursuche entfaellt aus
    Zeitgruenden, falls der Betreuer zustimmt).
@@ -1632,6 +1638,11 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
 - M3 (09.10.2026): auch Datensaetze mit Schemafehler zaehlen, weil M3
   nach F3 das Verhalten des Modells misst; zweite Zahl nur ueber
   beidseitig gueltige Datensaetze.
+- Schreibweise (10.10.2026): die Arbeit im Passiv; statt "der
+  Verfasser" Passiv, "eigene Einschaetzung" oder "von Hand", weil der
+  Verfasser das so festgelegt hat. KI-Werkzeuge nur dort, wo eine
+  Validitaetsbedrohung benannt werden muss (bisher Anhang A), sonst
+  nur im KI-Protokoll. Siehe Nachtrag zu E2 vom 10.10.2026.
 
 ## LaTeX-Konventionen
 
@@ -1688,6 +1699,9 @@ subsec:impl-zaehlung · subsec:impl-pruefboegen · sec:impl-absicherung ·
 tab:impl-owasp · subsec:impl-injection · subsec:impl-datenschutz ·
 subsec:impl-ausgabe · subsec:impl-verbrauch · sec:impl-tests ·
 tab:impl-tests
+Abschnitt 5.6, neu seit 10.10.2026: subsec:impl-bewertung.
+Schreibweise seit 10.10.2026: Passiv oder unpersoenlich; "Verfasser"
+steht nur noch in Abschnitt 2.1.7 als Begriff aus 29148.
 Verwiesen, aber noch nicht vorhanden: sec:konzeption-datenmodell (4.3)
 und sec:konzeption-prompt-modell (4.4).
 BibTeX-Schluessel seit 07.10.2026 in online.bib: openaireasoning,
@@ -2282,6 +2296,8 @@ cc3e321 code: Programm evaluate_requirements.py fuer die Bewertung nach E2 und K
 eb6fa69 docs: Messgroessen fuer FF3 (experiments/ff3_measures_2026-10-09.json): M1 Teil b im Pilotlauf, M3 und Angabe (i) nach F3
 27bef7a docs: Uebergabe Paket H Teil 1 (Bewertung und Messgroessen): STATUS mit Rotem Faden Punkt 19, Kuerzeln A1 bis A7, K1 bis K9 (B10), B8.1 bis B8.5, N1 und N2, Commits Paket H, Testsuite; Nachtraege zu E2 und F3 vom 09.10.2026; KI-Protokoll
 b8ca5de tex: Abschnitte 6.3 (Messgroessen FF3) und 6.4 (Bewertung), Platzhalter in 4.2, 6.1, 6.2 aufgeloest, Teambewertung nach der Abgabe berichtigt
+5fc1ffa docs: Uebergabe Paket H Teil 2: Widersprueche in Kapitel 2, 4, 6 und Anhang A aufgeloest, KI-Nennung aus 6.4 entfernt; Nachtrag zu E2, STATUS, KI-Protokoll
+9ed9e0b code: Abgleich von B9 mit dem Belegbegriff G1 (compare_b9_g1.py, 15 Tests) mit Ergebnis
 
 ## Aufruf des Ziehungsskripts
 

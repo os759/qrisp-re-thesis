@@ -4217,6 +4217,51 @@ Berichtigungen und Punkt 5 vom Verfasser entschieden.
 Status: festgelegt.
 Bezug: FF1, FF2, FF3, Kapitel 2, 4, 6, 7 und Anhang A.
 
+## 2026-10-10 Paket H: Abgleich von B9 und G1, Schreibweise
+
+### Nachtrag zu E2 (2026-10-10): Abgleich von B9 und G1, Passiv
+
+1. Punkt 7 des Nachtrags vom 09.10.2026 ist beantwortet. Das Programm
+   src/analyze/compare_b9_g1.py ruft B9 aus evaluate_requirements.py
+   und G1 aus count_requirements.py auf und enthaelt keine eigene
+   Regel. Es prueft vor dem Schreiben Eingaben und Summen gegen beide
+   Ergebnisdateien. Ergebnis in
+   experiments/b9_g1_comparison_2026-10-10.json (Commit 9ed9e0b):
+   1248 Anforderungen in beiden Mengen, 175 in keiner. 22 erfuellen nur
+   B9: alle Belege gefunden, Berechnung und Angabe des Modells
+   insufficient. 22 sind nur nach G1 belegt: Belege nur teilweise
+   gefunden, die gefundenen ergeben direct (3) oder indirect (19).
+   Folge: Kapitel 7 setzt beide Mengen nicht gleich, weil die gleiche
+   Zahl keine gleiche Menge ist.
+2. Schreibweise (Festlegung des Verfassers vom 09. und 10.10.2026):
+   Die Arbeit steht im Passiv oder unpersoenlich. "Der Verfasser" wird
+   durch Passiv, "eigene Einschaetzung/Einordnung/Setzung" oder "von
+   Hand" ersetzt. Erkennbar bleibt, wo eine Aussage eine eigene
+   Einordnung statt einer Quellenaussage ist und dass alle Urteile von
+   Hand eine Selbstbewertung sind, weil beides die Validitaet
+   betrifft. "Verfasser" steht nur noch in Abschnitt 2.1.7 als Begriff
+   aus ISO/IEC/IEEE 29148 (Verfasser einer Spezifikation).
+3. Praezisierung von Punkt 5 des Nachtrags vom 09.10.2026: KI-Werkzeuge
+   werden in der Arbeit nur genannt, wo eine Bedrohung der Validitaet
+   benannt werden muss. Das betrifft bisher Anhang A (Einleitung, K6,
+   K9), weil C2a die Ankerwirkung der Vorschlaege fuer Kapitel 7
+   verlangt. Sonst steht der Einsatz nur in docs/ki-protokoll.md.
+   Offen fuer Paket I Teil 2: ob der Satz zur Doppelrolle (Nachtrag
+   zu E8 vom 07.10.2026) unter diese Ausnahme faellt; die
+   Projektanweisung verlangt die Doppelrolle in Kapitel 7.
+4. Die Erkennungszahlen der eingebauten Fehler fuer
+   evaluate_requirements.py (30 von 30) und count_ff3_measures.py
+   (18 von 18) stammen aus dem Chat vom 08./09.10.2026; sie wurden auf
+   Aufforderung des Verfassers gesucht und stehen jetzt in
+   tests/README.md.
+
+Herkunft: Programm, Tests, Ersetzungsskripte und Texte von Claude im
+Chat vom 09./10.10.2026; Lauf, Schreibweise, Ausnahme fuer Anhang A
+und Uebernahme des Chatfunds vom Verfasser.
+
+Status: festgelegt.
+Bezug: FF1, FF4, Kapitel 2, 4, 5, 6, 7 und Anhang A.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5
