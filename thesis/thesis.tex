@@ -1623,8 +1623,7 @@ selbst. Jeder Satz wird gegen den oben festgelegten Ausschnitt der
 Qualitäts- und Sprachregeln geprüft. Neben dem Satz führt jede
 Anforderung mindestens die drei genannten Pflichtfelder; das
 vollständige Ausgabeschema der Pipeline wird in
-Abschnitt~\textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zum
-Datenmodell]} festgelegt und enthält darüber hinaus die Quellreferenz,
+Abschnitt~\ref{sec:konzeption-datenmodell} festgelegt und enthält darüber hinaus die Quellreferenz,
 den Quellausschnitt und die Belegstärke.
 
 Von diesem Zielformat lässt sich ein Teil programmatisch prüfen: das
@@ -1986,8 +1985,7 @@ Pflichtbestandteile, gilt die Anforderung als unzureichend belegt. Die
 zweite Angabe ist die Aussageform der Quelle. Fordert die Quelle etwas,
 gilt die Anforderung als direkt belegt; berichtet sie nur, was ist oder
 getan wurde, gilt sie als indirekt belegt. Die Regeln im Einzelnen
-beschreibt \textbf{[Noch zu ergänzen: Verweis auf den Abschnitt zum
-Datenmodell]}.
+beschreibt Abschnitt~\ref{sec:konzeption-datenmodell}.
 
 Unabhängig davon prüft das Prüfprogramm, ob jeder Quellausschnitt
 wörtlich an der angegebenen Stelle des Pull Requests steht. Beide
@@ -2318,6 +2316,289 @@ zu denen die Historie keinen oder nur einen schwachen Beleg enthält.
 Aussagen über fehlende Funktionen trifft sie nicht. Diese Grenze wird in
 Kapitel~\ref{cha:diskussion} aufgegriffen.
 
+
+\section{Datenmodell der Ausgabe}
+\label{sec:konzeption-datenmodell}
+
+Dieser Abschnitt legt fest, in welcher Form das Sprachmodell die
+rekonstruierten Anforderungen ausgibt und wie die Belegstärke einer
+Anforderung bestimmt wird. Er setzt die Mindestangaben aus
+Abschnitt~\ref{subsec:anforderungsattribute} und die Pflichtfelder des
+Zielformats aus Abschnitt~\ref{subsec:rollenzuweisung} in ein
+Ausgabeschema um. Das Schema ist in JSON Schema in der Fassung 2020-12
+beschrieben und liegt als \path{config/requirement_schema_v2.json} im
+Repository. Wie die Ausgaben gegen das Schema geprüft werden, beschreibt
+Abschnitt~\ref{sec:impl-pruefung}.
+
+\subsection{Drei Ebenen}
+\label{subsec:datenmodell-ebenen}
+
+Das Datenmodell unterscheidet drei Ebenen. Die Ebene des Laufs hält
+fest, unter welchen Bedingungen eine Ausgabe entstanden ist: Modell,
+Parameter, Fassung der Anweisung, Eingabedatei und Zeitpunkt. Diese
+Angaben stehen nicht in der Ausgabe des Modells, sondern im Manifest,
+das das Aufrufprogramm schreibt (Abschnitte~\ref{sec:impl-grundsaetze}
+und~\ref{subsec:impl-aufruf}). Sie hängen damit nicht von der Antwort
+des Modells ab.
+
+Die Ebene des Vorgangs umfasst die Antwort zu genau einem Pull Request.
+Sie nennt die Nummer des Pull Requests, die Fassung des Schemas, einen
+Verarbeitungsstand und die Liste der Anforderungen mit höchstens
+25~Einträgen. Der Verarbeitungsstand kennt drei Werte: Anforderungen
+gefunden, keine Anforderung gefunden und unbrauchbare Eingabe. Bei den
+beiden letzten muss die Liste leer sein, und ein Grund ist anzugeben.
+Ein Pull Request ohne Anforderung, etwa eine reine Umformatierung, ist
+ein gültiges Ergebnis. Ohne eigenen Wert ließe er sich nicht von einem
+gescheiterten Aufruf unterscheiden, und sein Anteil wäre kein Messwert.
+Als unbrauchbar gilt eine Eingabe, die außer Titel und Dateinamen
+nichts enthält.
+
+Die Ebene der Anforderung umfasst die einzelnen rekonstruierten
+Anforderungen. Ihre Felder beschreibt der folgende Unterabschnitt.
+
+\subsection{Felder einer Anforderung}
+\label{subsec:datenmodell-felder}
+
+Tabelle~\ref{tab:datenmodell-felder} führt die Felder einer Anforderung
+auf. Die Spalte Herkunft nennt, woraus ein Feld folgt: aus den
+Attributen von ISO/IEC/IEEE~29148, aus den Mindestangaben in
+Abschnitt~\ref{subsec:anforderungsattribute}, aus dem Zielformat in
+Abschnitt~\ref{subsec:rollenzuweisung} oder aus einer eigenen
+Festlegung. Weitere Felder lässt das Schema auf keiner Ebene zu. Typ
+und Sicherheitsbezug beschreibt
+Abschnitt~\ref{subsec:klassifikationsschema}.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption{Felder einer rekonstruierten Anforderung im Ausgabeschema}
+  \label{tab:datenmodell-felder}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.9cm}%
+                    >{\raggedright\arraybackslash}p{4.9cm}%
+                    >{\raggedright\arraybackslash}p{1.0cm}%
+                    >{\raggedright\arraybackslash}p{3.0cm}@{}}
+    \toprule
+    \textbf{Feld} & \textbf{Inhalt} & \textbf{Pflicht} &
+      \textbf{Herkunft} \\
+    \midrule
+    \path{id} & Kennung aus \texttt{QR-}, Nummer des Pull Requests und
+      laufender Nummer & ja & Mindestangabe; 29148 \\
+    \path{text} & Anforderungssatz in englischer Sprache & ja &
+      Mindestangabe; Zielformat \\
+    \path{ears_pattern} & Muster des Satzes oder eine Kombination & ja &
+      Zielformat \\
+    \path{system_name} & Systemname des Satzes & ja & Zielformat \\
+    \path{type} & einer von sechs Typwerten & ja &
+      Mindestangabe; 29148 \\
+    \path{security_relevant} & Sicherheitsbezug, wahr oder falsch & ja &
+      eigene Festlegung \\
+    \path{rationale} & Begründung & ja & Mindestangabe; 29148 \\
+    \path{beneficiary} & Nutznießer, nur wenn die Quelle ihn nennt &
+      nein & eigene Festlegung \\
+    \path{component} & betroffene Datei oder betroffenes Modul & nein &
+      Mindestangabe \\
+    \path{verification} & Weg, die Erfüllung zu prüfen & nein &
+      Mindestangabe \\
+    \path{evidence_strength} & Belegstärke & ja & Mindestangabe \\
+    \path{uncertainties} & Unsicherheiten in Worten & nein &
+      Mindestangabe \\
+    \path{missing_information} & fehlende Angaben in Worten & nein &
+      Mindestangabe \\
+    \path{modality_set_by_convention} & fester Vermerk, dass
+      \emph{shall} gesetzt ist & ja & Zielformat \\
+    \path{evidence} & ein bis drei Belege & ja & Mindestangabe \\
+    \path{source_form} & Aussageform der Quelle & ja &
+      eigene Festlegung \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  29148: Attribute nach \cite[Abschn.~5.2.8.2]{iso29148}. Mindestangabe:
+  Abschnitt~\ref{subsec:anforderungsattribute}. Zielformat:
+  Abschnitt~\ref{subsec:rollenzuweisung}. Quelle:
+  \path{config/requirement_schema_v2.json}.
+\end{table}
+
+Vier Festlegungen bedürfen einer Erläuterung. Erstens wird die
+Begründung aus den Mindestangaben mit dem Attribut Rationale
+gleichgesetzt, das der Standard als Grund beschreibt, aus dem eine
+Anforderung gebraucht wird \cite[Abschn.~5.2.8.2]{iso29148}; diese
+Gleichsetzung ist eine eigene Einordnung. Nennt die Quelle keinen
+Grund, wird das ausdrücklich vermerkt und kein Grund ergänzt. Zweitens
+ist der Nutznießer ein eigenes, optionales Feld. Es wird nur gefüllt,
+wenn die Quelle eine Rolle oder Personengruppe nennt, und die Angabe
+steht zusätzlich in der Begründung, wie
+Abschnitt~\ref{subsec:rollenzuweisung} es vorsieht. Das eigene Feld
+macht auszählbar, wie oft die Quelle eine Rolle hergibt.
+
+Drittens sind betroffene Komponente und Verifikationskriterium
+optional, obwohl Abschnitt~\ref{subsec:anforderungsattribute} sie zu
+den Mindestangaben zählt. Das Schema sieht beide Felder vor; gefüllt
+werden sie nur, wenn die Quelle eine Komponente nennt oder einen Weg
+zur Prüfung erkennen lässt. Ein Pflichtfeld hätte das Modell genötigt,
+eine Angabe auch ohne Beleg zu ergänzen. Diese Begründung überträgt den
+Grundsatz der Ausschlussregel aus Abschnitt~\ref{subsec:rollenzuweisung}
+auf einzelne Felder; die Übertragung ist eine eigene Einordnung.
+Viertens ist das Feld \texttt{modality\_set\_by\_convention} eine
+Konstante mit dem Wert wahr. Es hält in jeder Anforderung fest, dass
+das Wort \emph{shall} eine Konvention dieser Arbeit ist und nichts über
+die Verbindlichkeit in der Quelle aussagt.
+
+Eine Zahl für die Sicherheit des Modells sieht das Schema nicht vor.
+Unsicherheiten und fehlende Angaben stehen als Text, und die Anweisung
+an das Modell untersagt dort Zahlen, Prozentangaben und
+Konfidenzwerte. Eine frei erzeugte Zahl hätte keine definierte
+Berechnung und ließe sich nicht als Wahrscheinlichkeit lesen
+(vgl.\ Abschnitt~\ref{subsec:anforderungsattribute}). Wurde der
+Quellblock gekürzt, vermerkt das Modell unter den fehlenden Angaben,
+dass der weggelassene Text weitere Belege enthalten haben könnte.
+
+Der Anforderungssatz wird als ganzer Satz erzeugt. Muster und
+Systemname stehen zusätzlich in eigenen Feldern; Vorbedingung, Auslöser
+und Systemreaktion haben kein eigenes Feld. Die in
+Abschnitt~\ref{sec:ears} erwogene Möglichkeit, den Satz aus Feldern
+programmatisch zusammenzusetzen, wurde damit nicht umgesetzt. Nach
+eigener Einschätzung bleibt so messbar, wie oft das Modell das
+Satzmuster selbst einhält. Bei einem zusammengesetzten Satz gäbe das
+Programm die Form vor, und die Formatkonformität aus
+Abschnitt~\ref{subsec:bewertung-maschinell} wäre kein Messwert über das
+Modell.
+
+\subsection{Belege}
+\label{subsec:datenmodell-belege}
+
+Jede Anforderung nennt einen bis drei Belege. Ein Beleg verweist auf
+genau eine Stelle des Pull Requests. Er gibt den Ort an, also Titel,
+Beschreibung, allgemeinen Kommentar, Review-Kommentar oder Änderungstext
+einer Datei, sowie die genaue Stelle, also die Kennung des Kommentars
+oder den Pfad der Datei; bei Titel und Beschreibung entfällt sie. Dazu
+kommen der wörtliche Quellausschnitt und die Angabe, welche Bestandteile
+der Anforderung der Ausschnitt trägt: Systemname, Systemreaktion,
+Vorbedingung, Auslöser oder Begründung. Ein Feld für den Link bleibt in
+der Ausgabe des Modells leer; den Link ergänzt ein Programm aus den
+Daten von GitHub (Abschnitt~\ref{subsec:impl-links}). Zusammen mit der
+Nummer des Pull Requests auf der Ebene des Vorgangs führt so jede
+Anforderung auf eine Textstelle zurück.
+
+Mehrere Belege sind zugelassen, weil die Bestandteile einer Anforderung
+oft an verschiedenen Stellen stehen. In der Formulierungsprobe aus
+Abschnitt~\ref{subsec:formulierungsprobe} waren Systemname und
+Systemreaktion häufig getrennt belegt, etwa im Titel und in der
+Beschreibung. Die Obergrenze von drei Belegen ist eine eigene
+Festlegung.
+
+Ein Quellausschnitt muss wörtlich an der genannten Stelle stehen. Bei
+einem Änderungstext gilt das ohne das erste Zeichen jeder Zeile, also
+ohne das Plus- oder Leerzeichen, das eine hinzugefügte Zeile oder eine
+Kontextzeile kennzeichnet. Entfernte Zeilen zählen nicht als Quelle,
+weil ihr Inhalt nach der Änderung nicht mehr im Code steht. Bei einem
+Review-Kommentar zählt nur sein Text, nicht der Codeausschnitt, auf den
+er sich bezieht. Zeilen, die erst die Aufbereitung hinzufügt, etwa
+Abschnittsköpfe und Kürzungsvermerke, sind nie Quelle. Die Forderung
+nach wörtlichen Ausschnitten macht die Herkunft maschinell prüfbar: Ein
+Programm kann feststellen, ob ein Ausschnitt an der genannten Stelle
+steht (Abschnitt~\ref{subsec:impl-zitate}). Ob der Ausschnitt den
+angegebenen Bestandteil tatsächlich trägt, kann es nicht feststellen.
+
+\subsection{Berechnete Belegstärke}
+\label{subsec:datenmodell-belegstaerke}
+
+Die Belegstärke hat drei Stufen: direkt, indirekt und unzureichend. Sie
+wird nicht vom Modell beurteilt, sondern aus zwei Angaben berechnet: aus
+den Bestandteilen, die die Belege tragen, und aus der Aussageform der
+Quelle. Das Modell gibt beide Angaben und die daraus folgende Stufe an;
+das Prüfprogramm berechnet die Stufe neu
+(Abschnitt~\ref{subsec:impl-validierung}). Für die Berechnung gelten
+sieben Regeln.
+
+\begin{enumerate}
+  \item \emph{Pflichtbestandteile.} Welche Bestandteile belegt sein
+    müssen, richtet sich nach dem Muster
+    (Tabelle~\ref{tab:pflichtbestandteile}). Systemname und
+    Systemreaktion sind bei jedem Muster verlangt, wie es der Aufbau der
+    EARS-Muster vorsieht \cite[Abschn.~4.1]{mavin2009ears}. Dass das
+    Merkmal nach \emph{Where} als Vorbedingung zählt, ist eine eigene
+    Zuordnung. Lautet der Systemname Qrisp, weil die Quelle keine
+    Komponente nennt, muss trotzdem ein Ausschnitt zeigen, dass die
+    Anforderung Qrisp oder einen seiner Teile betrifft.
+  \item \emph{Deckung vor Aussageform.} Wird mindestens ein
+    Pflichtbestandteil von keinem Beleg getragen, lautet die Stufe
+    unzureichend. Die Aussageform spielt dann keine Rolle.
+  \item \emph{Aussageform.} Andernfalls entscheidet die Aussageform der
+    Ausschnitte, die die Systemreaktion tragen. Fordert die Quelle das
+    Verhalten oder die Eigenschaft, etwa als Bitte oder als Forderung in
+    einem Review, lautet die Stufe direkt. Berichtet sie nur, was der
+    Code tut, was getan wurde oder was der Fall ist, lautet sie
+    indirekt. Im Zweifel gilt die Quelle als berichtend.
+  \item \emph{Kein Beleg durch die eigene Form.} Das Wort \emph{shall}
+    im erzeugten Satz macht eine Quelle nicht zu einer fordernden.
+  \item \emph{Ausgabe statt Unterdrückung.} Eine unzureichend belegte
+    Anforderung wird ausgegeben und nicht weggelassen. Ihr Anteil ist ein
+    Messwert (Abschnitt~\ref{subsec:ff3-festlegung}).
+  \item \emph{Kürzung.} Eine Kürzung des Quellblocks senkt die Stufe
+    nicht. Sie wird unter den fehlenden Angaben vermerkt, weil der
+    weggelassene Text einen Beleg enthalten haben könnte.
+  \item \emph{Abgleich.} Weicht die Angabe des Modells von der
+    berechneten Stufe ab, wird der Datensatz abgelehnt. Die Belegstärke
+    beruht damit auf überprüfbaren Regeln und nicht auf einem freien
+    Urteil des Modells.
+\end{enumerate}
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Pflichtbestandteile je Satzmuster für die Belegstärke}
+  \label{tab:pflichtbestandteile}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.0cm}%
+                    >{\raggedright\arraybackslash}p{2.2cm}%
+                    >{\centering\arraybackslash}p{1.7cm}%
+                    >{\centering\arraybackslash}p{1.7cm}%
+                    >{\centering\arraybackslash}p{1.8cm}%
+                    >{\centering\arraybackslash}p{1.4cm}@{}}
+    \toprule
+    \textbf{Muster} & \textbf{Schlüssel\-wort} & \textbf{System\-name} &
+      \textbf{System\-reaktion} & \textbf{Vor\-bedingung} &
+      \textbf{Aus\-löser} \\
+    \midrule
+    Ubiquitous & keines & ja & ja & -- & -- \\
+    State-driven & While, During & ja & ja & ja & -- \\
+    Event-driven & When & ja & ja & -- & ja \\
+    Unwanted behaviour & If \dots{} then & ja & ja & -- & ja \\
+    Optional feature & Where & ja & ja & ja & -- \\
+    Kombination & siehe unten & ja & ja & ja & ja \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.5em}
+  \footnotesize\raggedright
+  Kombination: mindestens ein Schlüsselwort für eine Vorbedingung
+  (While, During, Where) und mindestens eines für einen Auslöser (When,
+  If \dots{} then). Das Wort \emph{shall} ist Pflichtbestandteil des
+  Satzes, aber kein Bestandteil, den ein Beleg tragen kann.
+\end{table}
+
+Die drei Stufen setzen nach eigener Einordnung die Trennung um, die die
+Zielsetzung zwischen direkt rekonstruierbaren Anforderungen, plausiblen,
+aber unsicheren Interpretationen und nicht belegbaren Vermutungen
+verlangt. Direkt heißt, dass die Quelle die Anforderung selbst
+ausspricht. Indirekt heißt, dass die Quelle nur eine Umsetzung berichtet
+und die Anforderung daraus erschlossen ist. Das bedeutet nicht, dass
+die Anforderung wahrscheinlich falsch ist, sondern dass die Quelle sie
+nicht als Forderung formuliert. Unzureichend heißt, dass mindestens ein
+Pflichtbestandteil nicht belegt ist. Was das Modell darüber hinaus für
+unsicher hält, steht getrennt in Textform.
+
+Zwei Angaben, auf denen die Berechnung beruht, stammen vom Modell selbst:
+welche Bestandteile ein Ausschnitt trägt und welche Aussageform er hat.
+Keine der beiden prüft ein Programm. Die Belegstärke ist damit
+reproduzierbar berechnet, aber nur so verlässlich wie diese Angaben.
+Für die Gap-Analyse wird die Berechnung auf gefundene Belege beschränkt
+(Abschnitt~\ref{subsec:belegbegriff-ff4}), und die Aussageform wird
+dort zusätzlich von Hand gegengeprüft
+(Abschnitt~\ref{subsec:gap-kategorien}). Kapitel~\ref{cha:diskussion}
+greift diese Grenze auf.
 
 \chapter{Implementierung}
 \label{cha:implementierung}
