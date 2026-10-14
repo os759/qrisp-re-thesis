@@ -33,8 +33,9 @@ dokumentiert wurden. Die dafür nötigen Informationen liegen verteilt in
 der Historie der Pull Requests. In dieser Arbeit wurde eine Pipeline
 konzipiert, prototypisch umgesetzt und evaluiert, die mit Large Language
 Models aus dieser Historie formal formulierte Anforderungen
-rekonstruiert. Jede Anforderung wird auf wörtliche Quellstellen
-zurückgeführt, ihre Belegstärke nach festen Regeln bestimmt, und die
+rekonstruiert. Zu jeder Anforderung werden wörtliche Quellstellen
+angegeben, deren Vorkommen maschinell geprüft wird; ihre Belegstärke
+wird nach festen Regeln bestimmt, und die
 Anforderungen werden klassifiziert und einem Raster erwarteter
 Sicherheitsanforderungen einer BSI-/\allowbreak Common-Criteria-orientierten
 Prüfung gegenübergestellt. Als Anforderungsformat wurde über eine
@@ -47,7 +48,8 @@ zur Quelle. Ein über eine Programmierschnittstelle angesprochenes Modell
 lieferte nahezu alle Antworten im verlangten Format, lokal betriebene
 Open-Source-Modelle keine; lokal fielen dagegen keine Gebühren an, und
 keine Quelldaten verließen den Rechner. Rekonstruierbar waren nur
-Sicherheitsanforderungen an den Entwicklungsprozess. Auf der
+Anforderungen an den Entwicklungsprozess, nämlich zu Testverfahren und
+Migrationswegen. Auf der
 Produktebene fand sich kein Beleg, was als Dokumentationslücke und
 nicht als fehlende Funktion zu lesen ist. Die Pipeline eignet sich
 damit für einen ersten, auf Quellstellen zurückgeführten
@@ -65,14 +67,14 @@ Anforderungsbestand, ersetzt aber keine Prüfung von Hand.
 Qrisp ist ein Framework für die Programmierung gatterbasierter
 Quantencomputer auf hoher Abstraktionsebene. Es ist als eingebettete
 Sprache in Python umgesetzt und übersetzt Programme bis auf die Ebene
-von Quantenschaltkreisen, sodass sie auf den meisten heute verfügbaren
+von Quantenschaltkreisen, sodass sie auf vielen heute verfügbaren
 physischen Quantenrechnern und Simulatoren ausgeführt werden können
 \cite[Zusammenfassung und Abschn.~1]{seidel2024qrisp}. Die Autoren
 begründen den Ansatz mit Argumenten der Softwaretechnik: Wachsende
 Komplexität führe zu mehr Fehlern, schlechterer Wartbarkeit und höheren
 Entwicklungskosten. Qrisp soll deshalb eine modulare Entwicklung
 ermöglichen, bei der sich Teilmodule austauschen sowie isoliert testen
-und dokumentieren lassen \cite[Abschn.~1 und 7]{seidel2024qrisp}.
+und in ihrer Leistung vergleichen lassen \cite[Abschn.~1 und 7]{seidel2024qrisp}.
 Entstanden ist Qrisp bei Fraunhofer FOKUS; heute ist es ein Projekt der
 Eclipse Foundation im Status \emph{Incubating} und steht unter der
 Eclipse Public License~2.0 \cite{eclipseqrisp}. Der Quelltext ist
@@ -146,7 +148,7 @@ Sinne der dritten Forschungsfrage gilt ein Modell mit frei verfügbaren
 Gewichten, das auf dem eigenen Rechner betrieben wird
 (Abschnitt~\ref{sec:llm-grundlagen}).
 
-Die Arbeit ist in drei Richtungen abgegrenzt. Eine Zertifizierung von
+Die Arbeit ist in vier Richtungen abgegrenzt. Eine Zertifizierung von
 Qrisp wird nicht vorgenommen, die herangezogenen Standards dienen nur
 in einem begründet gewählten Ausschnitt als Bewertungsraster, und aus
 einem fehlenden Beleg in der Historie wird nicht geschlossen, dass
@@ -219,7 +221,7 @@ ausdrückt. Requirements Engineering bezeichnet die interdisziplinäre
 Tätigkeit, mit der Anforderungen an ein System, eine Software oder eine
 Dienstleistung ermittelt, entwickelt, analysiert, verifiziert,
 validiert, kommuniziert, dokumentiert und über den Lebenszyklus
-verwaltet werden~\cite[Abschn.~3.1.19 und 3.1.21]{iso29148}.
+verwaltet werden~\cite[Abschn.~3.1.19, 3.1.21 und 3.1.22]{iso29148}.
 
 Der Standard unterscheidet zwischen der Verifikation und der Validierung
 von Anforderungen. Die Anforderungsverifikation untersucht, ob einzelne
@@ -229,8 +231,7 @@ Anforderungen das von den Stakeholdern beabsichtigte System und den
 zugrunde liegenden Bedarf zutreffend beschreiben. Rückverfolgbarkeit
 bezeichnet die dokumentierte Verbindung einer Anforderung zu ihrem
 Ursprung sowie zu übergeordneten oder nachgelagerten Anforderungen und
-Umsetzungselementen~\cite[Abschn.~3.1.23 sowie
-3.1.25--3.1.26]{iso29148}.
+Umsetzungselementen~\cite[Abschn.~3.1.23, 3.1.24 sowie 3.1.25--3.1.26]{iso29148}.
 
 Für die vorliegende Arbeit folgt daraus, dass die Qualität einer
 rekonstruierten Anforderung nicht allein anhand ihrer sprachlichen Form
@@ -332,7 +333,7 @@ realisierbar, verständlich und validierbar sein. Eine abschließend als
 vollständig bezeichnete Menge darf keine ungeklärten
 \emph{To-Be-Defined}-, \emph{To-Be-Specified}- oder
 \emph{To-Be-Resolved}-Einträge enthalten. Eine konsistente Menge enthält
-keine widersprüchlichen oder unnötig überlappenden Anforderungen und
+keine widersprüchlichen oder überlappenden Anforderungen und
 verwendet Begriffe, Maßeinheiten und Messsysteme einheitlich. Die
 Anforderungsmenge soll darüber hinaus innerhalb der bestehenden
 Randbedingungen realisierbar und so verständlich sein, dass die
@@ -545,9 +546,8 @@ bestimmter Protokoll- oder Verlaufsdatenbestände, die Verteilung
 bestimmter Funktionen auf verschiedene Module, die Einschränkung der
 Kommunikation zwischen Programmbereichen, die Prüfung der
 Datenintegrität kritischer Variablen sowie die Sicherstellung des
-Schutzes personenbezogener Daten. Der Standard kennzeichnet diese
-Aufzählung ausdrücklich als unvollständige Beispielliste
-\cite[Abschn.~9.6.18]{iso29148}. Ergänzend verlangt er unter der
+Schutzes personenbezogener Daten. Der Standard führt diese Punkte als
+mögliche Inhalte ein \cite[Abschn.~9.6.18\,c]{iso29148}. Ergänzend verlangt er unter der
 Konformität mit Normen und Vorschriften die Nachvollziehbarkeit von
 Verarbeitungsschritten und führt als Beispiel die Protokollierung von
 Änderungen mit den Werten vor und nach der Änderung an
@@ -673,7 +673,7 @@ Abschnitt~\ref{subsec:rollenzuweisung} begründet festgelegt.
 Der Easy Approach to Requirements Syntax (EARS) entstand bei einem
 Hersteller von Regelungssystemen für Flugzeugtriebwerke. Solche Systeme
 sind sicherheitskritisch, umfassen mehr als einhunderttausend Zeilen
-Quelltext und werden mit einer zweistelligen Zahl von Zulieferern
+Quelltext und werden mit bis zu zwanzig Zulieferern
 entwickelt \cite{mavin2009ears}. Ausgangspunkt war die Beobachtung, dass
 Anforderungen überwiegend von Personen formuliert werden, die nicht im
 Requirements Engineering ausgebildet sind, und dass unstrukturierte
@@ -683,7 +683,8 @@ Auslassung, Duplikation, Wortreichtum, unangemessene
 Implementierungsvorgaben und fehlende Prüfbarkeit
 \cite[Abschn.~2]{mavin2009ears}. Widersprüchliche Anforderungen und
 fehlende Rückverfolgbarkeitsbeziehungen werden ausdrücklich
-ausgeklammert, da sie im untersuchten Material nicht auftraten
+ausgeklammert, da sie nicht auf natürlichsprachliche Anforderungen
+beschränkt sind und im untersuchten Material nicht auftraten
 \cite[Abschn.~2]{mavin2009ears}.
 
 Formale Notationen wie Z oder Petri-Netze und grafische Notationen wie
@@ -692,9 +693,9 @@ Wechsel der Notation erfordert eine Übersetzung des Ausgangstextes,
 diese Übersetzung führt neue Fehler ein und errichtet eine Sprachbarriere
 zwischen Entwicklern und Stakeholdern; hinzu kommt der Schulungsaufwand
 \cite[Abschn.~2]{mavin2009ears}. Die daraus abgeleitete Hypothese lautet,
-dass eine kleine Menge einfacher Satzstrukturen ein effizienterer Weg zur
-Verbesserung hochrangiger Anforderungen ist als der Wechsel des
-Formalismus \cite[Abschn.~2]{mavin2009ears}.
+dass eine kleine Menge einfacher Satzstrukturen ein effizienter und
+praktikabler Weg ist, das Formulieren hochrangiger
+Stakeholder-Anforderungen zu verbessern \cite[Abschn.~2]{mavin2009ears}.
 
 EARS beruht auf einer einzigen generischen Satzstruktur, die aus einer
 optionalen Vorbedingung, einem optionalen Auslöser, dem Systemnamen, dem
@@ -753,8 +754,9 @@ sich zu komplexeren Mustern kombinieren und innerhalb von
 mehrere Bedingungen zugleich benötigt \cite[Abschn.~4.7]{mavin2009ears}.
 
 Bemerkenswert ist die Begründung für ein eigenes Muster für unerwünschtes
-Verhalten. Es ist logisch äquivalent zum ereignisgetriebenen Muster,
-erhält aber eine eigene Syntax, damit derartige Anforderungen über den
+Verhalten. Es ist aus dem ereignisgetriebenen Muster abgeleitet und ihm
+nach der Folgearbeit logisch äquivalent \cite[Abschn.~EARS
+Templates]{mavin2010bigears}, erhält aber eine eigene Syntax, damit derartige Anforderungen über den
 gesamten Lebenszyklus hinweg als solche erkennbar bleiben. Auslassungen
 bei unerwünschtem Verhalten gelten den Autoren als wesentliche Ursache
 kostspieliger Nacharbeit \cite[Abschn.~4.4]{mavin2009ears}. In einer
@@ -788,7 +790,7 @@ System nicht anwendbar ist. Erst danach werden die als Anforderung
 eingestuften Aussagen in die EARS-Muster überführt, zusammengesetzte
 Anforderungen aufgetrennt und die Umformulierungen von einem Fachexperten
 validiert \cite[Abschn.~Method]{mavin2010bigears}. Zudem werden die acht
-Probleme dort erstmals prüfbar gefasst; Komplexität liegt beispielsweise
+Probleme dort als Zählkriterien gefasst; Komplexität liegt beispielsweise
 vor, wenn eine Anforderung zwei oder mehr miteinander verbundene
 Anforderungen, drei oder mehr Vorbedingungen oder zwei oder mehr Auslöser
 enthält \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}.
@@ -804,10 +806,12 @@ eigener Einschätzung handelt es sich damit um belastbare
 Praxisbefunde, nicht um ein kontrolliertes Experiment; die berichteten
 Verbesserungen sind entsprechend als Erfahrungswerte zu lesen.
 
-Die Autoren benennen mehrere Grenzen des Ansatzes. Universelle
-Anwendbarkeit war nie das Ziel; die Muster wurden für die Definition
-hochrangiger Stakeholder-Anforderungen entwickelt
-\cite[Abschn.~2]{mavin2009ears}. Auch nach der Umformulierung bleiben
+Die Autoren benennen mehrere Grenzen des Ansatzes. Einen Anspruch auf
+Anwendbarkeit über alle Ebenen der Systemzerlegung erheben die Autoren
+nicht; am besten geeignet sei der Ansatz für hochrangige
+Stakeholder-Anforderungen \cite[Abschn.~2]{mavin2009ears}. Universelle
+Anwendbarkeit sei nie das Ziel gewesen
+\cite[Abschn.~Discussion]{mavin2010bigears}. Auch nach der Umformulierung bleiben
 Anforderungen unprüfbar, die unquantifizierte Ausdrücke wie
 \textit{minimise} oder \textit{limit} enthalten, und Anforderungen aus
 Matrizen oder langen Bedingungslisten bleiben aus pragmatischen Gründen
@@ -963,8 +967,7 @@ Anforderung und Kriterien der Anforderungsmenge und folgt damit
 derselben Systematik wie die in den
 Abschnitten~\ref{subsec:merkmale-einzeln}
 und~\ref{subsec:merkmale-menge} dargestellten Merkmale der
-ISO/IEC/IEEE 29148. Beide Quellen kommen unabhängig voneinander zu
-dieser Trennung. Anzumerken ist, dass die hier behandelte Arbeit die
+ISO/IEC/IEEE 29148. Die Autoren beziehen sich dabei selbst auf die Norm. Anzumerken ist, dass die hier behandelte Arbeit die
 Norm in ihrer Ausgabe von 2011 heranzieht
 \cite[Abschn.~7.2]{lucassen2016qus}, während die vorliegende Arbeit die
 Ausgabe von 2018 verwendet.
@@ -1356,8 +1359,7 @@ Modelle zu ausführlichen, überspezifizierten Texten
 \cite[Abschn.~4.2]{arora2023advancing}. Als Risiken bei der Erhebung
 führen sie Datenschutz und Verzerrungen in den Ausgaben an
 \cite[Abschn.~3.2]{arora2023advancing}. Ihre eigene Erprobung beschränkt
-sich auf die Erhebung von Anforderungen in einer Sitzung mit vier
-Teilnehmenden und ist ausdrücklich keine umfassende Bewertung
+sich auf die Erhebung von Anforderungen mit vier Teilnehmenden in je einer eigenen Sitzung und ist ausdrücklich keine umfassende Bewertung
 \cite[Abschn.~7]{arora2023advancing}.
 
 Vogelsang und Fischbach geben eine Anleitung, wie ein Sprachmodell für
@@ -1421,11 +1423,13 @@ werden.
 Die folgende Einordnung ist eine eigene Schlussfolgerung aus den hier
 herangezogenen Arbeiten und keine Aussage über das gesamte Feld. Von
 diesen Arbeiten unterscheidet sich die vorliegende in fünf Punkten.
-Erstens dient der gesamte Pull Request als Eingabe: Titel, Beschreibung,
+Erstens dienen alle Bestandteile des Pull Requests als Eingabe, bei
+großen Änderungen gekürzt: Titel, Beschreibung,
 Kommentare, Review-Kommentare und Code-Änderungen
 (Abschnitt~\ref{sec:impl-aufbereitung}). Paiva et al.\ verwenden nur den
 Titel und nennen das selbst als Einschränkung. Zweitens führt jede
-Anforderung Belege, deren Wortlaut ein Programm im Quellblock nachprüft,
+Anforderung Belege, deren Wortlaut ein Programm im aufbereiteten
+Datensatz nachprüft,
 und ihre Belegstärke wird nach festen Regeln berechnet
 (Abschnitte~\ref{sec:konzeption-datenmodell}
 und~\ref{sec:impl-pruefung}). Drittens wird das Format der Anforderungen
@@ -1455,7 +1459,7 @@ Rohdaten zu einem Datensatz je Pull Request zusammen, und die
 Modelleingabe formt daraus einen Quellblock in Textform. In der
 Extraktion formuliert ein Sprachmodell aus jedem Quellblock
 Anforderungen samt Belegen. Die Prüfung kontrolliert jede Antwort gegen
-das Ausgabeschema und jeden Beleg gegen den Quellblock. Die Auswertung
+das Ausgabeschema und jeden Beleg gegen den aufbereiteten Datensatz. Die Auswertung
 zählt, zieht Stichproben, prüft die Klassifikation, ordnet die
 Anforderungen dem Sicherheitsraster zu und bewertet sie.
 
@@ -1570,8 +1574,8 @@ ihrer Leitfrage und ihrer Herkunft auf.
     Lässt sich ein Satz verlustfrei in Datenfelder überführen? &
     eigene Setzung, gestützt auf die Klauselstruktur von EARS \\
     K5 Eignung für Modellausgaben &
-    Wie viele Pflichtbestandteile und Schreibvarianten muss ein
-    Sprachmodell treffen, um dem Muster zu genügen? &
+    Wie zuverlässig kann ein Sprachmodell das Muster einhalten, ohne
+    fehlende Bestandteile zu erfinden? &
     eigene Setzung; RFC~2119 Abschn.~6; QUS \\
     K6 Eignung für die drei Anforderungsarten &
     Lässt sich eine Anforderung jeder der drei Arten gleich gut
@@ -1919,11 +1923,13 @@ Anforderungen mit \emph{shall} kennzeichnet und von \emph{must}
 abrät \cite[Abschn.~5.2.4]{iso29148}. Sie ist mit dem verpflichtenden
 Satzmuster widerspruchsfrei, da EARS ausschließlich \emph{shall}
 verwendet \cite[Abschn.~4.1]{mavin2009ears}. Die Konvention nach
-RFC~2119 wäre es nicht, da sie \emph{MUST} und \emph{SHALL}
-gleichsetzt und fünf Stufen kennt \cite[Abschn.~1--5]{rfc2119};
-überdies verlangt sie eine Abwägung, welche Stufe angemessen ist
-\cite[Abschn.~6]{rfc2119}, und diese Abwägung ist ohne belegte Stufe
-nicht zu treffen.
+RFC~2119 setzt \emph{MUST} und \emph{SHALL} gleich und kennt fünf Stufen
+\cite[Abschn.~1--5]{rfc2119}; eine dokumentierte Beschränkung auf
+\emph{SHALL} wäre nach eigener Einschätzung mit ihr vereinbar. Sie
+verlangt jedoch eine Abwägung, welche Stufe angemessen ist
+\cite[Abschn.~6]{rfc2119}. Diese Abwägung ist ohne einen einzigen
+belegten Fall nicht zu treffen, sodass die Konvention ihren Zweck
+verlöre.
 
 Daraus folgt eine Festlegung, die als solche kenntlich bleiben muss:
 Alle rekonstruierten Anforderungen verwenden einheitlich \emph{shall}.
@@ -1940,6 +1946,10 @@ Ausschnitt. Verbindlich sind erstens die sprachlichen Kriterien des
 Standards vollständig, also der Grundsatz, dass eine Anforderung das
 Was und nicht das Wie beschreibt, sowie die dort benannten Klassen
 unbestimmter und mehrdeutiger Ausdrücke \cite[Abschn.~5.2.7]{iso29148}.
+Hinzu kommen drei Vorgaben, die der Standard als gebräuchliches Vorgehen
+nennt: Aktiv statt Passiv, positive Formulierung statt \emph{shall not}
+und Verzicht auf \emph{shall be able to} \cite[Abschn.~5.2.4]{iso29148};
+ihre Übernahme ist eine Festlegung der Arbeit.
 Verbindlich sind zweitens fünf der neun Merkmale einzelner
 Anforderungen: eindeutig, vollständig, einzelbezogen, nachweisbar und
 vorlagenkonform \cite[Abschn.~5.2.5]{iso29148}. Verbindlich sind
@@ -1968,8 +1978,8 @@ ihren Gegenstand. Die acht Sprachprobleme aus der Erprobung von EARS
 schließlich sind ein Instrument zur Beurteilung vorhandener
 Anforderungen \cite[Abschn.~Testing the Hypothesis]{mavin2010bigears}
 und kein Regelwerk für
-deren Erzeugung; sie kommen im Bewertungsbogen der Evaluation zum
-Tragen. Welche der neun Merkmale am Satz selbst prüfbar sind, ist eine
+deren Erzeugung; in die Kriterien der Bewertung gehen sie nicht eigens
+ein (Abschnitt~\ref{subsec:bewertung-design}). Welche der neun Merkmale am Satz selbst prüfbar sind, ist eine
 eigene Einordnung und steht so nicht im Standard.
 
 Das gewählte Zielformat verbindet damit zwei Ebenen und wird im
@@ -2069,12 +2079,13 @@ Das durchgehende \emph{shall} ist eine Konvention und kein Befund; eine
 lesende Person, die den Methodenteil nicht kennt, kann es dennoch als
 Aussage über die Verbindlichkeit missverstehen. Der Nutznießer einer
 Anforderung entfällt als eigenständiger Satzbestandteil und wird nur
-noch im Attribut Begründung geführt, soweit die Quelle ihn überhaupt
-nennt. Und da die Arbeit lediglich einen begründet gewählten Ausschnitt
+noch im Attribut Begründung und im optionalen Feld \path{beneficiary}
+geführt, soweit die Quelle ihn überhaupt nennt. Und da die Arbeit lediglich einen begründet gewählten Ausschnitt
 der Merkmale und Sprachregeln aus Abschnitt~5.2 des Standards
 heranzieht, wird eine Konformität mit ISO/IEC/IEEE~29148 nicht
-beansprucht; Konformität bezieht der Standard auf Prozesse und auf den
-Inhalt von Informationseinheiten \cite[Abschn.~4.3 und 4.4]{iso29148}.
+beansprucht; volle Konformität setzt nach dem Standard neben den
+Abschnitten 5.2.4 bis 5.2.7 auch die Prozesse und die
+Informationseinheiten voraus \cite[Abschn.~4.2]{iso29148}.
 
 Aus diesen Einschränkungen folgt nicht, dass die Auswahl beliebig wäre.
 Sie beruht auf zehn vorab festgelegten Kriterien, auf belegten
@@ -2148,7 +2159,8 @@ gestützt. Die Art wird aus dem Typwert abgeleitet und nicht eigens
 vergeben; geprüft wird daher der Typwert. Leistungsanforderungen sind
 im Typwert für funktionale und leistungsbezogene Anforderungen
 enthalten und lassen sich nicht getrennt zählen. Dieselbe Einordnung
-gilt für Tabelle~\ref{tab:29148-srs-inhalte}.
+gilt für Tabelle~\ref{tab:29148-srs-inhalte}; die dort als Randbedingung
+geführten Abschnitte 9.6.16 und 9.6.17 haben im Schema keine eigene Art.
 
 \begin{table}[htbp]
   \centering
@@ -2204,8 +2216,7 @@ Sicherheitszweck, der in Satz, Begründung und Belegen nicht erkennbar
 ist, wird nicht aus eigenem Wissen ergänzt.
 
 Für Grenzfälle legt die Arbeit sieben Regeln fest; sie stehen im
-Wortlaut in \path{docs/entscheidungen.md}. Drei stützen sich auf die
-Gliederung der Norm. Die Prüfung von Eingaben führt sie unter den
+Wortlaut in \path{docs/entscheidungen.md}. Zwei stützen sich auf die Gliederung der Norm. Die Prüfung von Eingaben führt sie unter den
 Funktionen, ebenso die Fehlerbehandlung und Wiederherstellung;
 Verfügbarkeit nennt sie als eigenes Attribut neben der Sicherheit
 \cite[Abschn.~9.6.12\,a, 9.6.12\,c, 9.6.18\,b]{iso29148}. Die Prüfung
@@ -2809,9 +2820,9 @@ das Wort \emph{shall} eine Konvention dieser Arbeit ist und nichts über
 die Verbindlichkeit in der Quelle aussagt.
 
 Eine Zahl für die Sicherheit des Modells sieht das Schema nicht vor.
-Unsicherheiten und fehlende Angaben stehen als Text, und die Anweisung
-an das Modell untersagt dort Zahlen, Prozentangaben und
-Konfidenzwerte. Eine frei erzeugte Zahl hätte keine definierte
+Unsicherheiten und fehlende Angaben stehen als Text; die Anweisung an
+das Modell untersagt bei den Unsicherheiten Zahlen, Prozentangaben und
+Konfidenzwerte und allgemein jede numerische Bewertung. Eine frei erzeugte Zahl hätte keine definierte
 Berechnung und ließe sich nicht als Wahrscheinlichkeit lesen
 (vgl.\ Abschnitt~\ref{subsec:anforderungsattribute}). Wurde der
 Quellblock gekürzt, vermerkt das Modell unter den fehlenden Angaben,
@@ -2979,7 +2990,8 @@ bestimmter Anbieter bietet.
 
 Die Anweisung besteht aus zwei Dateien. Die Systemanweisung ist für
 jeden Pull Request gleich und enthält alle Regeln. Die Vorlage der
-Nachricht enthält nur einen Auftragssatz und zwei Platzhalter, in die
+Nachricht enthält nur zwei Sätze mit dem Auftrag, zwei Trennzeilen und
+zwei Platzhalter, in die
 das Aufrufprogramm die Nummer des Pull Requests und den Quellblock
 einsetzt. Beide Dateien sind englisch, weil die Anforderungen englisch
 formuliert werden (Abschnitt~\ref{subsec:rollenzuweisung}) und die
@@ -3993,8 +4005,7 @@ ist es nur in einem Punkt: Es sucht im Änderungstext des aufbereiteten
 Datensatzes und nicht im Quellblock. Ein Ausschnitt aus einer Datei,
 deren Änderungstext wegen der Grenze des Quellblocks entfallen war,
 kann daher angenommen werden, obwohl das Modell ihn nicht gesehen hat.
-Das Hilfsprogramm zur Ursachensuche zählt solche Fälle gesondert;
-im Volllauf trat keiner auf.
+Das Hilfsprogramm zur Ursachensuche zählt solche Fälle gesondert.
 
 Leerraum am Anfang und am Ende eines Ausschnitts wird seit dem
 27.~September 2026 toleriert, weil die Anweisung genaue Leerzeichen
@@ -4744,8 +4755,10 @@ die Antwort von gpt-oss:20b einen Denkteil enthält. Die Zahl der
 Denk-Token ist lokal daher nicht gemessen. Die Werte für die Auswahl
 der Token, etwa die Temperatur, wurden wie beim API-Modell nicht
 gesendet. Es gelten die Vorgaben der Modelle, die voneinander
-abweichen. Beide Antworten meldeten \texttt{top\_p} als 1; welche
-Werte tatsächlich wirkten, ist ungeprüft.
+abweichen. Beide Antworten meldeten \texttt{top\_p} als 1, während das
+Protokoll des Servers für gpt-oss:20b \texttt{top\_k} 40 und
+\texttt{top\_p} 0,9 nannte; welche Werte tatsächlich wirkten, ist
+ungeprüft.
 
 \subsection{Erster Versuch mit gpt-oss:20b}
 \label{subsec:pilot-gptoss}
@@ -4946,7 +4959,11 @@ wurden. Nach der Unterart weichen 18 nur in einzelnen Zeichen ab,
 6 sind umformuliert und 4 aus getrennten Stellen
 zusammengesetzt; ohne Gegenstück in der Quelle ist keiner. In
 5 Fällen wurde ein Zweifel zwischen zwei Unterarten vermerkt
-(\path{docs/regel3_volllauf.md}).
+(\path{docs/regel3_volllauf.md}). In den Pilotläufen fiel zudem an zwei
+Fällen auf, dass das Modell die Zahl der Backslashes in LaTeX-Ausdrücken
+aus Kommentarblöcken des Python-Quelltexts nicht verlässlich wiedergibt;
+das Hilfsprogramm zur Ursachensuche erkennt das nicht als eigene
+Ursache.
 
 Weil das Prüfprogramm stets den ganzen Datensatz ablehnt
 (Abschnitt~\ref{subsec:impl-validierung}), lehnt es 124 der 395
@@ -5034,7 +5051,8 @@ herleitet.
 
 Von den elf als sicherheitsrelevant markierten Anforderungen sind zehn
 im Sinne der Gap-Analyse belegt, alle mit der Stufe \emph{indirekt}.
-Bei keiner dieser zehn fordert die zitierte Quelle etwas; sie berichtet
+Nach der Aussageform, die das Modell den Belegen zuschreibt, fordert bei
+keiner dieser zehn die zitierte Quelle etwas; sie berichtet
 jeweils, was getan wurde oder der Fall ist. Die elfte Anforderung ist
 unzureichend belegt und zählt auch für die Unbelegtheitsrate als
 unbelegt.
@@ -5280,7 +5298,8 @@ Strom und die anteiligen Kosten des Rechners wurden nicht erhoben.
 
 Für gpt-oss:20b plante der Server 13\,838~MiB Grafikspeicher ein, für
 qwen3.6:27b 21\,155~MiB, jeweils bei einem Kontextfenster von
-65\,536~Token und 28\,753~MiB nutzbarem Grafikspeicher
+65\,536~Token; als frei meldete der Server dabei 28\,753 beziehungsweise
+28\,154~MiB Grafikspeicher
 (Tabelle~\ref{tab:pilot-bedingungen}). Bei qwen3.6:27b ist der Bildteil
 des Modells nicht eingerechnet; für ihn schätzt der Server einen
 Höchstbedarf von rund 1\,188~MiB. Die Gewichtsdateien sind
@@ -5497,8 +5516,8 @@ fest, wie das Programm die Prüfregeln von B8 bis B10 liest, wo der
 Wortlaut der Fassung~v1 eine Frage offenlässt, etwa was als Wortgrenze
 gilt. Diese Lesarten wurden vor der ersten Note bestätigt.
 
-Der Bogen ist verblindet. Er zeigt je Anforderung nur den Satz und die
-Belege mit Ort und Zitat. Er zeigt weder die Etiketten des Modells, etwa
+Der Bogen ist verblindet. Er zeigt je Anforderung nur Nummer, Kennung,
+Pull Request mit Link, den Satz und die Belege mit Ort und Zitat. Er zeigt weder die Etiketten des Modells, etwa
 Typ, Muster und Belegstärke, noch ein Ergebnis der Programme. Die Pull
 Requests stehen in einer zufällig gemischten Reihenfolge (Startwert
 20261008), die Anforderungen eines Pull Requests nebeneinander, gefolgt
@@ -5894,12 +5913,20 @@ vorab festgelegten Teilmengen zusammen 286 Kandidaten:
 Begründung, 70 mit einem Suchwort nur in
 den Belegen, 148 mit dem Typwert Prozess und
 12 mit Sicherheitsbezug; die Teilmengen überschneiden
-sich. Weil die Obergrenze überschritten war, wurde in beiden
-vorgesehenen Stufen gezogen, und
-200 Anforderungen wurden verblindet von Hand zugeordnet. Die Gegenprobe umfasste
+sich. Die Teilmenge mit Sicherheitsbezug umfasst die vom Modell
+markierten Anforderungen und die bei der Prüfung der Klassifikation von
+Hand als sicherheitsrelevant beurteilte. Die Suchwörter wurden aus den
+Kurzformen und Quellstellen der Rastereinträge ohne Kenntnis der
+Anforderungstexte hergeleitet; Liste und Regel stehen in
+\path{docs/entscheidungen.md}. Weil die Obergrenze überschritten war,
+wurden zuerst 50 der Anforderungen gezogen, die nur über ein Suchwort in
+den Belegen gefunden wurden und in keiner anderen Teilmenge liegen,
+danach die übrigen Kandidaten mit Suchwort außerhalb der Teilmengen
+Prozess und Sicherheit, bis 200 blieben (Startwert 20261005). Die
+Teilmengen Prozess und Sicherheit blieben vollständig. Die 200
+Anforderungen wurden verblindet von Hand zugeordnet. Die Gegenprobe umfasste
 21 Anforderungen in 2 Runden. Nach der Sperre der
-Zuordnung speicherte der Editor die Antwortdatei erneut, nach eigener
-Angabe ohne inhaltliche Änderung. Die Zuordnung wurde daraufhin neu
+Zuordnung speicherte der Editor die Antwortdatei erneut, nach Angabe des Verfassers ohne inhaltliche Änderung. Die Zuordnung wurde daraufhin neu
 gesperrt; die aus ihr folgende Menge der Gegenprobe blieb unverändert.
 Die Zahlen stehen in \path{experiments/gap_analysis_2026-10-06.json}.
 
@@ -6029,9 +6056,10 @@ Quellennachvollziehbarkeit, und die Unbelegtheitsrate liegt bei
 und~\ref{subsec:ff3-ergebnisse}). Nach eigener Deutung gelingt die Form
 damit fast immer, und der Engpass liegt in der Treue zur Quelle. Die
 Quellentreue erhält den geringsten Anteil der Note~2 und ist bei 20 der
-31 nicht brauchbaren Anforderungen verletzt; meist geht dabei eine
+31 nicht brauchbaren Anforderungen verletzt; jeweils geht dabei eine
 Einzelheit des Satzes über die Zitate hinaus
-(Abschnitt~\ref{subsec:bewertung-hand}). Die Anteile sind wegen der
+(Abschnitte~\ref{subsec:bewertung-hand}
+und~\ref{subsec:bewertung-brauchbar}). Die Anteile sind wegen der
 Schichtung nach Pull Requests keine belastbare Schätzung für die
 Grundmenge; allein Pull Request~361 trägt 18 der 85 Anforderungen bei.
 
@@ -6039,8 +6067,9 @@ Die Zielsetzung verlangt eine Trennung zwischen direkt rekonstruierbaren
 Anforderungen, plausiblen, aber unsicheren Interpretationen und nicht
 belegbaren Vermutungen. Nach der Berechnung aus allen Belegen sind 115
 Anforderungen direkt, 1\,319 indirekt und 33 unzureichend belegt
-(Tabelle~\ref{tab:belegstatus}). Die Historie spricht Anforderungen also
-selten aus. Meist berichtet sie, was geändert wurde, und die Anforderung
+(Tabelle~\ref{tab:belegstatus}). Nach der Aussageform, die das Modell
+den Belegen zuschreibt, spricht die Historie Anforderungen also selten
+aus. Meist berichtet sie, was geändert wurde, und die Anforderung
 wird daraus erschlossen. Für die rekonstruierten Anforderungen bedeutet
 das nach eigener Einschätzung, dass sie überwiegend beschreiben, wie
 Qrisp sich verhält, und nur selten, was von Qrisp gefordert wurde. Auch
@@ -6116,7 +6145,9 @@ Dokumentationslücken und keine fehlenden Funktionen
 unvollständig ist und die Gegenprobe Kategorien nur senken kann, können
 die erste und die zweite Kategorie eher zu niedrig als zu hoch
 ausfallen. Für die Einträge SR10 und SR16 ist die zweite Kategorie als
-vorsichtige Einstufung zu lesen.
+vorsichtige Einstufung zu lesen. Die Einstufung von SR11 stützt sich auf
+eine Funktion des Produkts, die Anmeldung bei einem fremden Dienst,
+während der Eintrag den Schutz von Repository und Projektseiten meint.
 
 \section{Übertragbarkeit}
 \label{sec:disk-uebertragbarkeit}
@@ -6180,9 +6211,20 @@ nach der Abgabe vorgesehen (Abschnitt~\ref{subsec:bewertung-design}).
     (Abschnitt~\ref{subsec:datenmodell-belegstaerke}). Die Quellentreue
     wurde deshalb von Hand bewertet und die Aussageform in der
     Gap-Analyse gegengeprüft.
+  \item Die Ursachen abgelehnter Ausschnitte ordnet ein Hilfsprogramm zu.
+    Abweichungen in der Zahl der Backslashes erkennt es nicht als eigene
+    Ursache; beobachtet wurden sie an zwei Fällen der Pilotläufe
+    (Abschnitt~\ref{subsec:grundzahlen-daten}).
   \item Nur zwei der sechs Typwerte ordnet die Norm ausdrücklich einer
     Art zu, und das Modell etikettierte den Sicherheitsbezug nach einer
     vorläufigen Definition (Abschnitt~\ref{sec:eval-klassifikation}).
+  \item Der Typwert Prozess ist weiter gefasst als in der Norm, und die
+    Verteilung der Typwerte war bei der Festlegung des Schemas bekannt.
+    Er ist ein Etikett des Modells, nur in der Stichprobe geprüft, und
+    bildet zugleich eine Teilmenge der Kandidaten der Gap-Analyse. Deren
+    Suchwörter sind englisch und ohne Kenntnis der Daten hergeleitet. Die
+    Texte der Dependabot-Beiträge stammen von einem Programm und aus
+    Versionshinweisen fremder Bibliotheken.
   \item Das durchgehende \emph{shall} kann als Aussage über die
     Verbindlichkeit missverstanden werden
     (Abschnitt~\ref{subsec:formatauswahl-grenzen}).
@@ -6198,8 +6240,9 @@ nach der Abgabe vorgesehen (Abschnitt~\ref{subsec:bewertung-design}).
 \begin{itemize}
   \item Die 85 Anforderungen der Stichprobe waren aus der Prüfung der
     Klassifikation bereits bekannt, als sie bewertet wurden.
-  \item Skala und Notenregeln entstanden nach dem Pilotlauf; die
-    Kriterien standen vorher fest (Abschnitt~\ref{subsec:bewertung-design}).
+  \item Skala und Notenregeln entstanden nach dem Volllauf und nach der
+  Prüfung der Klassifikation; Namen und Definitionen der Kriterien
+  standen vor dem ersten kostenpflichtigen Lauf fest (Abschnitt~\ref{subsec:bewertung-design}).
   \item Die Messgrößen M1, M4, M5 und M6 wurden nach Kenntnis der Werte
     festgelegt, allerdings nur aus vorher versionierten Regeln
     (Abschnitt~\ref{subsec:ff3-festlegung}).
@@ -6220,7 +6263,10 @@ nach der Abgabe vorgesehen (Abschnitt~\ref{subsec:bewertung-design}).
   \item Die Noten bei K6 und K9 hängen an einzelnen Fällen und an der
     Auslegung, ob eine pauschal genannte Personengruppe als Rolle gilt.
     Bei zwölf Fällen wirken die Schwellen als 83,3 und 41,7~Prozent
-    (Abschnitt~\ref{subsec:formulierungsprobe}).
+    (Abschnitt~\ref{subsec:formulierungsprobe}). Ohne die Regel, dass
+    eine Modalaussage die rekonstruierte Anforderung selbst betreffen
+    muss, wären bei Ebene~(c) fünf von zwölf Fällen gedeckt, und die
+    Note läge bei~1 (Abschnitt~\ref{sec:anhang-k9}).
   \item Je Fassung der Anweisung gab es einen Lauf an 20 Vorgängen, und
     die beiden Durchgänge für die Übereinstimmung liefen mit
     verschiedenem Codestand (Abschnitte~\ref{subsec:impl-pilot}
@@ -6263,7 +6309,11 @@ Anforderungen zwischen verschiedenen Pull Requests wurden nicht gesucht
 (Abschnitt~\ref{subsec:bewertung-menge}). Ob ein Pull Request übernommen
 oder verworfen wurde, steht nicht im Quellblock und fließt nicht in die
 Rekonstruktion ein. Drei Review-Kommentare liefert GitHub nicht aus
-(Abschnitt~\ref{sec:impl-erhebung}). Die Ersetzung von Anmeldenamen ist
+(Abschnitt~\ref{sec:impl-erhebung}). Am Tag der lokalen Läufe gingen
+zudem zwei Anfragen an einen Endpunkt der Laufzeitumgebung, den das
+Aufrufprogramm nicht verwendet; dass dabei keine Daten der Arbeit
+verarbeitet wurden, stützt das Protokoll des Servers, ist aber nicht
+sicher belegt. Die Ersetzung von Anmeldenamen ist
 eine Pseudonymisierung; Klarnamen im Fließtext und Namen im
 Änderungstext bleiben stehen (Abschnitt~\ref{subsec:impl-pseudonym}). Schließlich beruht
 Kapitel~\ref{cha:verwandte-arbeiten} nicht auf einer systematischen
@@ -6287,7 +6337,8 @@ Historie formal formulierte Anforderungen rekonstruieren, nach der
 vorab festgelegten Regel brauchbar ist aber nur ein Teil; in der
 Stichprobe sind es 49 der 85 Anforderungen. Die Form
 gelingt fast immer, der Engpass liegt in der Treue zur Quelle, und die
-meisten Anforderungen werden aus berichteten Änderungen erschlossen,
+meisten Anforderungen werden nach den Angaben des Modells aus
+berichteten Änderungen erschlossen,
 statt in der Historie ausdrücklich formuliert zu sein.
 
 Zur zweiten Forschungsfrage: Gewählt wurde mit EARS+29148 eine
@@ -6304,9 +6355,10 @@ weil keine Gebühren anfallen und keine Quelldaten den Rechner
 verlassen. Ein Vergleich der Ergebnisqualität war nicht möglich; die
 Frage wurde daher in reduziertem Umfang beantwortet.
 
-Zur vierten Forschungsfrage: Rekonstruierbar sind nur
-Sicherheitsanforderungen an den Entwicklungsprozess, etwa zu
-Testverfahren und Migrationswegen. Auf der Produktebene ist keiner der
+Zur vierten Forschungsfrage: Rekonstruierbar sind nur Anforderungen an
+den Entwicklungsprozess, nämlich zu Testverfahren und Migrationswegen;
+sie zeigen eine dokumentierte Praxis, nicht deren Begründung durch
+Sicherheit. Auf der Produktebene ist keiner der
 relevanten Einträge des Rasters in der untersuchten Historie belegt.
 Die festgestellten Lücken sind Dokumentationslücken; dass Qrisp eine
 Anforderung nicht erfüllt, folgt daraus nicht.
@@ -6339,7 +6391,7 @@ Anweisung an das Modell (Few-Shot) und eine automatische Prüfung, ob
 jeder Bestandteil einer Anforderung von den angeführten Zitaten
 getragen wird. Beide setzen an der Quellentreue an, die bei den meisten
 nicht brauchbaren Anforderungen verletzt ist
-(Abschnitt~\ref{subsec:bewertung-hand}).
+(Abschnitt~\ref{subsec:bewertung-brauchbar}).
 
 Für die Produktebene der vierten Forschungsfrage wäre eine Prüfung von
 Quelltext und Tests nötig. Erst sie könnte zeigen, ob eine
@@ -6655,8 +6707,7 @@ Entwicklung der Prompts überprüft.
   achtzig Varianten zu und kennt kein Muster für den Fall, dass keine
   Anforderung vorliegt.
   \emph{Gegenargument (spräche für Note~0):} Die Ebene ist nur in vier
-  von zwölf gemessenen Fällen gedeckt, überwiegend wegen der fehlenden
-  Rolle (Tabelle~\ref{tab:deckung}). Ein Format, das einen unbelegten
+  von zwölf gemessenen Fällen gedeckt, ausschließlich wegen der fehlenden Rolle (Tabelle~\ref{tab:deckung}). Ein Format, das einen unbelegten
   Bestandteil verlangt, drängt ein Modell zum Erfinden.
 
   \item[(b) EARS, Note~2.]
