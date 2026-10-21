@@ -4,9 +4,10 @@ Tests fuer die Komponenten in `src/`. Ausfuehren aus der Projektwurzel:
 
     python -m pytest tests/ -v
 
-Stand 21.10.2026: 658 Tests, alle bestanden (629 zum Stand der Arbeit
-vom 10.10.2026, dazu 29 fuer den Aufrufweg zur Anthropic-Schnittstelle
-nach der Abgabe). Die aktuelle Zahl zeigt
+Stand 21.10.2026: 673 Tests, alle bestanden (629 zum Stand der Arbeit
+vom 10.10.2026, dazu nach der Abgabe 29 fuer den Aufrufweg zur
+Anthropic-Schnittstelle und 15 fuer den Vergleich zweier Laeufe nach
+E12). Die aktuelle Zahl zeigt
 
     python -m pytest tests/ --collect-only -q
 
@@ -45,6 +46,7 @@ still Daten verfaelscht, nicht dort, wo er sichtbar zum Abbruch fuehrt.
 | `test_evaluate_requirements.py` | Bewertung nach E2 und Kriterienliste v1: verblindeter Bogen, Pruefung und Sperre der Antworten, B8 bis B10, Nebenteil, Auszaehlung und Regel brauchbar | Etikett des Modells auf dem Bogen, Antwort nachtraeglich geaendert, Kriterium falsch gezaehlt |
 | `test_count_ff3_measures.py` | M1 Teil b, M3 und Angabe (i) nach F3, Abgleich mit der Zaehldatei | Fundstellen falsch verglichen, Abweichung von der Zaehldatei bleibt unbemerkt |
 | `test_compare_b9_g1.py` | Abgleich von B9 und Belegbegriff G1 je Anforderung, Abgleich mit beiden Ergebnisdateien, Pruefsumme des Programms | gleiche Zahlen gelten als gleiche Mengen, Grund einer Abweichung falsch zugeordnet |
+| `test_compare_runs.py` | Vergleich zweier Laeufe an einer Stichprobe nach E12 j, seit 21.10.2026; geprueft gegen 17 absichtlich eingebaute Fehler (16 erkannt, einer ohne Wirkung) | Laeufe vermischt, Ablehnungen anders gezaehlt als von validate_output.py, Modelltext in der Ausgabe |
 
 ## Test gegen absichtlich eingebaute Fehler
 
