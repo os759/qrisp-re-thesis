@@ -4,7 +4,9 @@ Tests fuer die Komponenten in `src/`. Ausfuehren aus der Projektwurzel:
 
     python -m pytest tests/ -v
 
-Stand 10.10.2026: 629 Tests, alle bestanden. Die aktuelle Zahl zeigt
+Stand 21.10.2026: 658 Tests, alle bestanden (629 zum Stand der Arbeit
+vom 10.10.2026, dazu 29 fuer den Aufrufweg zur Anthropic-Schnittstelle
+nach der Abgabe). Die aktuelle Zahl zeigt
 
     python -m pytest tests/ --collect-only -q
 
@@ -31,7 +33,7 @@ still Daten verfaelscht, nicht dort, wo er sichtbar zum Abbruch fuehrt.
 | `test_prompt_files.py` | Prompt v1 und v2 gegen das Schema; v2 darf nur die Regeln fuer Zitate aus Diffs aendern | Prompt und Schema passen nicht zusammen, v2 aendert unbemerkt mehr |
 | `test_pseudonymise.py` | Ersetzung von Erwaehnungen (E9) | Anmeldename gelangt unersetzt in die Modelleingabe |
 | `test_draw_sample.py` | Schalter `--sizes` und `--exclude` (E10 a) | Stichprobe falsch zusammengesetzt |
-| `test_run_extraction.py` | Aufrufprogramm ohne Netz, mit erfundenen Antworten | Antwort oder Laufdaten falsch festgehalten |
+| `test_run_extraction.py` | Aufrufprogramm ohne Netz, mit erfundenen Antworten; seit 21.10.2026 auch der Aufrufweg zur Anthropic-Schnittstelle, geprueft gegen 22 absichtlich eingebaute Fehler (21 erkannt, einer ohne Wirkung) | Antwort oder Laufdaten falsch festgehalten |
 | `test_diagnose_excerpts.py` | Zuordnung jedes abgelehnten Zitats zu Ursache und Regel; gleiche Ablehnungen wie `validate_output.py`; keine Zitatinhalte in der Ausgabe | Ablehnung der falschen Regel zugeordnet, Zitatinhalt im Terminal |
 | `test_inspect_excerpts.py` | Auswahl der Zitate nach Regel 3 wie im Suchprogramm, Hinweis H1, Schutz gegen Umleitung, Zuordnungstabelle ohne Inhalte, Auszaehlung | falsches Zitat angezeigt, Inhalt landet in einer Datei, fehlerhafte Tabelle wird gezaehlt |
 | `test_breakdown_rejections.py` | Ablehnungen nach der ersten verletzten Pruefung, Abgleich mit `validate_output.py`, keine Modelltexte in der Ausgabe | Ablehnung der falschen Pruefung zugeschrieben, Summe weicht still ab |

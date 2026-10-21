@@ -4262,6 +4262,99 @@ und Uebernahme des Chatfunds vom Verfasser.
 Status: festgelegt.
 Bezug: FF1, FF4, Kapitel 2, 4, 5, 6, 7 und Anhang A.
 
+## 2026-10-21 Nach dem Abgabetermin: zweites API-Modell fuer das Qrisp-Team
+
+### 2026-10-21 E12 Lauf mit einem Modell von Anthropic an der Stichprobe nach E2
+
+Anlass: Wunsch des Verfassers am 21.10.2026, nach dem Abgabetermin
+15.10.2026. Das Qrisp-Team soll bei seiner Bewertung nach E2 die
+Ausgabe eines zweiten API-Modells neben der von gpt-5.6-terra sehen.
+Der Lauf ist nicht Teil der Arbeit und aendert keine Zahl in ihr. Er
+gehoert zur Weiterentwicklung im Sinne der offenen Entscheidung
+"Umfang gegenueber dem Qrisp-Team". Ueber die Weitergabe an das Team
+entscheidet nach E2 der Betreuer.
+
+Festlegungen vor dem ersten kostenpflichtigen Aufruf:
+
+a) Modell: claude-sonnet-5-5 ueber die Messages-Schnittstelle von
+   Anthropic. Grund: gleiche Preisklasse wie gpt-5.6-terra, wie in E8
+   Begruendung 1 verglichen. Preise am 21.10.2026 laut Preisseite von
+   Anthropic 2,00 / 10,00 US-Dollar je Mio Token (gpt-5.6-terra am
+   21.09.2026: 2,00 / 12,00). Die Kennung ohne Datum ist nach der
+   Modelluebersicht von Anthropic ein fester Stand; das Manifest
+   speichert trotzdem je Antwort den zurueckgemeldeten Namen.
+   Quellen: platform.claude.com/docs/en/models/overview und
+   platform.claude.com/docs/en/about-claude/pricing, abgerufen am
+   21.10.2026.
+
+b) Unveraendert gegenueber dem Volllauf 2026-09-25_full_v2: Prompt v2
+   (Systemanweisung und Nutzervorlage, Pruefsummen im Manifest),
+   Modelleingabe data/processed/model_input_2026-09-19.jsonl,
+   Obergrenze der Ausgabe 25 000 Token einschliesslich Denkteil, keine
+   Formathilfe des Anbieters (E10 e, E11 b), keine Temperatur, ein
+   Aufruf je Pull Request im Normalbetrieb. Die Antwort wird wie bei
+   allen Laeufen streng gelesen; ein Codeblock um das JSON-Objekt zaehlt
+   als Formatfehler und wird nicht repariert.
+
+c) Denkaufwand: Regel aus E10 d, die Voreinstellung des Anbieters wird
+   ausdruecklich gesendet. Fuer claude-sonnet-5-5 ist das am
+   21.10.2026 high, gesendet als output_config.effort (Quelle:
+   platform.claude.com/docs/en/build-with-claude/effort). Der Denkteil
+   laeuft in der Voreinstellung adaptive; sein Text wird nicht
+   zurueckgegeben. Die Stufen beider Anbieter sind nicht aufeinander
+   geeicht; high bei Anthropic ist nicht dasselbe wie medium bei OpenAI.
+
+d) Stichprobe: docs/sample_eval_e2.md, 20 Pull Requests, Startwert
+   20261005, unveraendert. Verglichen wird mit den Antworten von
+   gpt-5.6-terra zu denselben 20 Pull Requests aus dem Volllauf
+   2026-09-25_full_v2. Laufkennung: <Datum des Laufs>_claude_eval_v2.
+
+e) Aufrufweg: src/extract/run_extraction.py wird erweitert, nicht
+   ersetzt, aus demselben Grund wie in F2: Ein Unterschied soll nicht am
+   Programm liegen. Der Weg zu OpenAI und config/api_run.toml bleiben
+   unveraendert. Neue Konfiguration config/anthropic_run.toml.
+   Wiederholt werden nur Netzfehler, Serverfehler und eine
+   Ratenbegrenzung mit retry-after; eine Ausgabengrenze haelt den Lauf
+   sofort an.
+
+f) Ablauf: zuerst ein Probelauf ohne Senden (--dry-run), dann ein
+   Aufruf (--limit 1), dann der Rest unter derselben Kennung. Nach
+   Sicht auf Ergebnisse wird keine Einstellung geaendert und kein
+   Vorgang neu gesendet.
+
+g) Budget: innerhalb von E3. Im Konto von Anthropic setzt der
+   Verfasser vor dem ersten Aufruf ein eigenes Ausgabenlimit.
+
+h) Datenschutz: Gesendet werden dieselben Quellbloecke wie an OpenAI,
+   mit ersetzten Anmeldenamen (E9), aus einem oeffentlichen Repository.
+   Anthropic loescht Eingaben und Ausgaben der Schnittstelle nach
+   seiner Richtlinie fuer Geschaeftskunden standardmaessig innerhalb
+   von 30 Tagen und nutzt sie ohne Zustimmung nicht zum Training. Einen
+   Parameter wie store gibt es nicht. Quellen:
+   privacy.claude.com, Artikel 7996866, und
+   platform.claude.com/docs/en/manage-claude/api-and-data-retention,
+   abgerufen am 21.10.2026.
+
+i) Doppelrolle: Claude ist Arbeitswerkzeug dieser Arbeit, auch fuer
+   diese Erweiterung und fruehere Entwuerfe des Prompts (Herkunft von
+   E7), und ist in diesem Lauf zugleich Messgegenstand. E8 hat diese
+   Doppelrolle fuer die Arbeit vermieden. Bei der Weitergabe an das
+   Team ist sie als Bedrohung der Konstruktvaliditaet zu nennen.
+
+j) Maschinell zaehlbar nach dem Lauf: beantwortete Vorgaenge,
+   vollstaendige Antworten, gueltige JSON-Objekte, Ablehnungen durch
+   validate_output.py, Token, Kostenobergrenze, Laufzeit. Eine
+   Bewertung von Hand nach eval/instrument/kriterien_v1.md ist nicht
+   Teil dieser Entscheidung.
+
+Herkunft: Recherche, Programmerweiterung und Entwurf von Claude im Chat
+vom 21.10.2026. Umfang (Stichprobe nach E2), Denkaufwand (Regel aus
+E10 d) und Modell hat der Verfasser im selben Chat gewaehlt.
+
+Status: festgelegt, sobald der Verfasser den Text gelesen und
+committet hat.
+Bezug: FF3 (nach der Abgabe), Bewertung durch das Qrisp-Team nach E2.
+
 ## Offene Entscheidungen
 
 - Anforderungsformat (FF2), Paket C: entschieden am 08.09.2026, siehe C5

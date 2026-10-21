@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 import requests
@@ -554,3 +555,325 @@ def test_rebuild_with_limit_0_does_not_ask_the_runtime(local_project, monkeypatc
     factory, calls = factory_from({}, expected_key=None)
     assert run.main(LOCAL_ARGS + ["--limit", "0"], sender_factory=factory) == 0
     assert calls == []
+
+
+# --- Anthropic Messages API, after the submission ----------------------
+
+
+ANTHROPIC_CONFIG = """
+[request]
+provider = "anthropic"
+endpoint = "https://example.invalid/v1/messages"
+anthropic_version = "2023-06-01"
+api_key_name = "ANTHROPIC_API_KEY"
+model = "claude-invented"
+reasoning_effort = "high"
+max_output_tokens = 25000
+[transport]
+timeout_seconds = 5
+max_retries = 3
+pause_seconds = 0
+[prices]
+retrieved = "2026-10-21"
+input_per_million = 2.00
+output_per_million = 10.00
+cache_write_multiplier = 1.25
+chars_per_token = 2.5
+[files]
+prompt_version = "v1"
+model_input = "data/processed/model_input_test.jsonl"
+output_directory = "data/processed"
+"""
+
+
+def message(pull: int, text: str | None = None, stop: str = "end_turn",
+            model: str = "claude-invented-returned") -> dict:
+    """An invented answer in the shape of the Messages API."""
+    if text is None:
+        text = json.dumps({"schema_version": 2, "pull_number": pull,
+                           "processing_status": "no_requirements_found",
+                           "status_reason": "invented", "requirements": []})
+    return {
+        "id": f"msg_{pull}", "type": "message", "role": "assistant",
+        "model": model,
+        "content": [{"type": "thinking", "thinking": "", "signature": "sig"},
+                    {"type": "text", "text": text}],
+        "stop_reason": stop, "stop_sequence": None,
+        "stop_details": {"category": "invented"} if stop == "refusal" else None,
+        "usage": {"input_tokens": 900, "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 0, "output_tokens": 400,
+                  "service_tier": "standard"},
+    }
+
+
+@pytest.fixture
+def anthropic_project(project, monkeypatch):
+    (project / "config" / "anthropic_run.toml").write_text(ANTHROPIC_CONFIG,
+                                                          encoding="utf-8")
+    names = []
+
+    def token(key):
+        names.append(key)
+        return FAKE_KEY
+    monkeypatch.setattr(run, "load_token", token)
+    return SimpleNamespace(root=project, key_names=names)
+
+
+ANTHROPIC_ARGS = ARGS + ["--config", "config/anthropic_run.toml"]
+
+
+def messages_factory(responses: dict[int, list]):
+    """Like factory_from, but reads the pull number from a Messages body."""
+    calls: list[int] = []
+    bodies: list[dict] = []
+
+    def factory(config, key):
+        assert key == FAKE_KEY
+
+        def send(body):
+            number = int(body["messages"][0]["content"].split()[1])
+            calls.append(number)
+            bodies.append(body)
+            return responses[number].pop(0)
+        return send
+    return factory, calls, bodies
+
+
+def test_anthropic_body_carries_the_same_prompt_and_settings(anthropic_project):
+    config = run.load_config(Path("config/anthropic_run.toml"))
+    body = run.build_request_body(config, "SYS", "USER")
+    assert body == {"model": "claude-invented", "max_tokens": 25000,
+                    "system": "SYS",
+                    "messages": [{"role": "user", "content": "USER"}],
+                    "output_config": {"effort": "high"}}
+    for absent in ("temperature", "top_p", "thinking", "store", "instructions"):
+        assert absent not in body
+
+
+def test_openai_body_is_unchanged_without_provider(project):
+    config = run.load_config(Path("config/api_run.toml"))
+    assert run.provider(config) == "openai"
+    assert "instructions" in run.build_request_body(config, "S", "U")
+
+
+@pytest.mark.parametrize("change, problem", [
+    (('provider = "anthropic"', 'provider = "invented"'), "provider must be one of"),
+    (('anthropic_version = "2023-06-01"\n', ''), "anthropic_version is missing"),
+    (('max_output_tokens = 25000', 'max_output_tokens = 25000\nstore = false'),
+     "store does not exist"),
+    (('api_key_name = "ANTHROPIC_API_KEY"', 'api_key_name = ""'), "needs a key"),
+    (('https://example.invalid', 'http://example.invalid'), "only sent over https"),
+])
+def test_anthropic_config_errors(tmp_path, change, problem):
+    path = tmp_path / "c.toml"
+    path.write_text(ANTHROPIC_CONFIG.replace(*change), encoding="utf-8")
+    with pytest.raises((ValueError, KeyError), match=problem):
+        run.load_config(path)
+
+
+def test_anthropic_config_rejects_a_runtime_section(tmp_path):
+    path = tmp_path / "c.toml"
+    path.write_text(ANTHROPIC_CONFIG + '[runtime]\nkind = "ollama"\n'
+                    'base_url = "http://127.0.0.1:11434"\nexpected_num_ctx = 65536\n',
+                    encoding="utf-8")
+    with pytest.raises(ValueError, match="only for a local model"):
+        run.load_config(path)
+
+
+def test_anthropic_default_key_name(tmp_path):
+    path = tmp_path / "c.toml"
+    path.write_text(ANTHROPIC_CONFIG.replace('api_key_name = "ANTHROPIC_API_KEY"\n', ''),
+                    encoding="utf-8")
+    assert run.key_name(run.load_config(path)) == "ANTHROPIC_API_KEY"
+
+
+def test_messages_text_skips_thinking_blocks():
+    assert run.output_text(message(5, text='{"a": 1}')) == '{"a": 1}'
+
+
+def test_messages_usage_sums_all_input_fields():
+    answer_ = message(5)
+    answer_["usage"].update({"input_tokens": 50, "cache_creation_input_tokens": 1000,
+                             "cache_read_input_tokens": 200})
+    usage = run.usage_of(answer_)
+    assert usage == {"input_tokens": 1250, "cached_tokens": 200,
+                     "cache_write_tokens": 1000, "output_tokens": 400,
+                     "reasoning_tokens": 0}
+    prices = {"input_per_million": 2.0, "output_per_million": 10.0,
+              "cache_write_multiplier": 1.25}
+    assert run.cost_upper_bound(usage, prices) == pytest.approx(
+        (250 * 2 + 1000 * 2 * 1.25 + 400 * 10) / 1e6)
+
+
+@pytest.mark.parametrize("stop, status, reason", [
+    ("end_turn", "completed", None),
+    ("max_tokens", "incomplete", "max_tokens"),
+    ("refusal", "incomplete", "refusal"),
+    ("model_context_window_exceeded", "incomplete", "model_context_window_exceeded"),
+])
+def test_messages_stop_reason_maps_to_status(stop, status, reason):
+    assert run.answer_status(message(5, stop=stop)) == (status, reason)
+
+
+def test_openai_status_is_read_as_before():
+    assert run.answer_status(answer(5, status="incomplete")) == (
+        "incomplete", "max_output_tokens")
+
+
+def test_anthropic_rate_limit_with_retry_after_is_retried():
+    replies = [FakeResponse(429, {"type": "error", "error": {"type": "rate_limit_error"}},
+                            {"retry-after": "4"}),
+               FakeResponse(200, message(5))]
+    waits = []
+    run.send_with_retry(lambda body: replies.pop(0), {}, 3,
+                        sleep=waits.append, log=lambda _t: None)
+    assert waits == [4.0]
+
+
+@pytest.mark.parametrize("status, body", [
+    # Monthly spend cap: same type as a rate limit, but no retry-after.
+    (429, {"type": "error", "error": {"type": "rate_limit_error",
+                                      "details": {"error_code": "enforced_spend_limit_reached"}}}),
+    # Spend limit set by the user.
+    (400, {"type": "error", "error": {"type": "invalid_request_error"}}),
+    (401, {"type": "error", "error": {"type": "authentication_error"}}),
+    (402, {"type": "error", "error": {"type": "billing_error"}}),
+])
+def test_anthropic_spend_and_key_errors_stop_at_once(status, body):
+    calls = []
+
+    def send(_body):
+        calls.append(1)
+        return FakeResponse(status, body)
+    with pytest.raises(run.RunStopped):
+        run.send_with_retry(send, {}, 5, sleep=lambda _s: None, log=lambda _t: None)
+    assert len(calls) == 1
+
+
+def test_anthropic_overload_is_retried():
+    replies = [FakeResponse(529, {"type": "error", "error": {"type": "overloaded_error"}}),
+               FakeResponse(200, message(5))]
+    waits = []
+    result = run.send_with_retry(lambda body: replies.pop(0), {}, 3,
+                                 sleep=waits.append, log=lambda _t: None)
+    assert result.status_code == 200 and len(waits) == 1
+
+
+def test_anthropic_sender_headers_and_keepalive():
+    seen = {}
+
+    class FakeSession:
+        def post(self, url, headers, json, timeout):
+            seen.update(url=url, headers=headers, timeout=timeout)
+            return FakeResponse(200, {})
+    config = {"request": {"provider": "anthropic", "anthropic_version": "2023-06-01",
+                          "endpoint": "https://example.invalid/v1/messages"},
+              "transport": {"timeout_seconds": 7}}
+    run.make_anthropic_sender(config, FAKE_KEY, session=FakeSession())({})
+    assert seen["headers"]["x-api-key"] == FAKE_KEY
+    assert seen["headers"]["anthropic-version"] == "2023-06-01"
+    assert "Authorization" not in seen["headers"]
+    assert seen["timeout"] == 7
+    with pytest.raises(ValueError, match="needs a key"):
+        run.make_anthropic_sender(config, None, session=FakeSession())
+    options = run.keepalive_socket_options()
+    assert (run.socket.SOL_SOCKET, run.socket.SO_KEEPALIVE, 1) in options
+
+
+def test_anthropic_full_run_writes_three_files_and_counts(anthropic_project):
+    factory, calls, bodies = messages_factory({
+        5: [FakeResponse(200, message(5))],
+        7: [FakeResponse(200, message(7, text='```json\n{"a": 1}\n```'))],
+        9: [FakeResponse(200, message(9, stop="max_tokens", text=""))],
+    })
+    assert run.main(ANTHROPIC_ARGS, sender_factory=factory, sleep=lambda _s: None) == 0
+    assert calls == [5, 7, 9]
+    assert anthropic_project.key_names == ["ANTHROPIC_API_KEY"]
+    assert all(body["system"] == "invented system prompt" for body in bodies)
+    out = anthropic_project.root / "data" / "processed"
+    manifest = json.loads((out / "extraction_test_run.manifest.json").read_text())
+    assert manifest["outcome"] == "finished"
+    assert manifest["counts"]["answered"] == 3
+    assert manifest["counts"]["completed"] == 2
+    assert manifest["counts"]["incomplete"] == 1
+    assert manifest["counts"]["valid_json_object"] == 1
+    assert manifest["request"]["provider"] == "anthropic"
+    assert manifest["request"]["parameters_sent"] == {
+        "model": "claude-invented", "max_tokens": 25000,
+        "output_config": {"effort": "high"}}
+    assert manifest["request"]["models_returned"] == ["claude-invented-returned"]
+    assert "reasoning_tokens_note" in manifest["request"]
+    assert manifest["tokens"]["input_tokens"] == 2700
+    assert manifest["tokens"]["output_tokens"] == 1200
+    assert manifest["cost_upper_bound_usd"] == pytest.approx(
+        (2700 * 2 + 1200 * 10) / 1e6, abs=1e-4)
+    rows = {row["pull_number"]: row for row in manifest["per_pull"]}
+    assert rows[9]["incomplete_reason"] == "max_tokens"
+    assert rows[5]["thinking_blocks"] == 1
+    assert rows[5]["service_tier"] == "standard"
+    lines = (out / "extraction_test_run.jsonl").read_text().splitlines()
+    assert [json.loads(line)["pull_number"] for line in lines] == [5]
+    raw = [json.loads(line) for line in
+           (out / "extraction_test_run.raw.jsonl").read_text().splitlines()]
+    assert raw[0]["response"] == message(5)
+    for path in out.glob("extraction_*"):
+        assert FAKE_KEY not in path.read_text(encoding="utf-8")
+
+
+def test_anthropic_resume_never_sends_twice(anthropic_project):
+    factory, calls, _bodies = messages_factory({5: [FakeResponse(200, message(5))]})
+    run.main(ANTHROPIC_ARGS + ["--limit", "1"], sender_factory=factory,
+             sleep=lambda _s: None)
+    factory, calls, _bodies = messages_factory({7: [FakeResponse(200, message(7))],
+                                                9: [FakeResponse(200, message(9))]})
+    assert run.main(ANTHROPIC_ARGS, sender_factory=factory, sleep=lambda _s: None) == 0
+    assert calls == [7, 9]
+
+
+def test_anthropic_dry_run_uses_its_own_chars_per_token(anthropic_project, capsys):
+    factory, calls, _bodies = messages_factory({})
+    assert run.main(ANTHROPIC_ARGS + ["--dry-run"], sender_factory=factory) == 0
+    assert calls == []
+    out = capsys.readouterr().out
+    chars = len("invented system prompt") + len(
+        "PR 5\n<<<SOURCE_BLOCK_START>>>\n=== PULL REQUEST 5 ===\n[TITLE]\nx\n"
+        "<<<SOURCE_BLOCK_END>>>\n")
+    assert f"{chars:>7} characters, about {chars / 2.5:>7.0f} input tokens" in out
+    assert list((anthropic_project.root / "data" / "processed").glob("extraction_*")) == []
+
+
+def test_real_anthropic_config_file_loads():
+    config = run.load_config(ROOT / "config" / "anthropic_run.toml")
+    assert run.provider(config) == "anthropic"
+    assert config["request"]["model"] == "claude-sonnet-5-5"
+    assert config["request"]["reasoning_effort"] == "high"
+    assert config["request"]["max_output_tokens"] == 25000
+    assert config["files"]["prompt_version"] == "v2"
+    api = run.load_config(ROOT / "config" / "api_run.toml")
+    assert config["files"] == api["files"]
+
+
+def test_visible_thinking_text_never_enters_the_answer():
+    """With display "summarized" a thinking block carries text; it must be skipped."""
+    answer_ = message(5, text='{"a": 1}')
+    answer_["content"][0]["thinking"] = "invented summary of the thinking"
+    assert run.output_text(answer_) == '{"a": 1}'
+
+
+def test_make_sender_chooses_the_anthropic_sender(monkeypatch):
+    seen = {}
+
+    class FakeSession:
+        def mount(self, prefix, adapter):
+            seen["mounted"] = (prefix, type(adapter).__name__)
+
+        def post(self, url, headers, json, timeout):
+            seen["headers"] = headers
+            return FakeResponse(200, {})
+    monkeypatch.setattr(run.requests, "Session", FakeSession)
+    config = {"request": {"provider": "anthropic", "anthropic_version": "2023-06-01",
+                          "endpoint": "https://example.invalid/v1/messages"},
+              "transport": {"timeout_seconds": 7}}
+    run.make_sender(config, FAKE_KEY)({})
+    assert seen["headers"]["x-api-key"] == FAKE_KEY
+    assert seen["mounted"] == ("https://", "KeepAliveAdapter")

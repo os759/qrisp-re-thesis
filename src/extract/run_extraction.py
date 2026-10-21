@@ -3,6 +3,9 @@
 Work package E, step A8, decisions E8 and E10: the OpenAI API.
 Work package F, decision F2: the same program also sends to a local
 model through Ollama, which offers the same /v1/responses interface.
+After the submission: the same program also sends to the Anthropic
+Messages API (provider = "anthropic" in the configuration), so that the
+Qrisp team can compare a second API model on the same prompt.
 Research questions FF1, FF2 and FF3 (cost, run time, data control).
 
 What the script does, in this order:
@@ -38,6 +41,14 @@ only sent over https. A configuration without a key (api_key_name = "")
 is only accepted for an endpoint on this computer, so that no source
 block can leave it by mistake (decision F2).
 
+Anthropic Messages API (provider = "anthropic"): the same prompt files are
+sent, the system prompt as the field system and the user message as the
+only message. Only the transport differs: other headers, another JSON body,
+another answer format. The raw file keeps every answer exactly as the API
+returned it; the manifest maps it to the same fields as an OpenAI answer.
+The connection uses TCP keep-alive, because the provider warns that some
+networks drop idle connections during long requests without streaming.
+
 Local runtime (optional section [runtime] in the configuration): before
 the first call the program asks the runtime for its version, the model
 digest and the context window, and stops if the context window differs
@@ -58,6 +69,7 @@ import hashlib
 import json
 import platform
 import re
+import socket
 import subprocess
 import sys
 import time
@@ -68,6 +80,8 @@ from typing import Any, Callable
 from urllib.parse import urlparse
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.connection import HTTPConnection
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "collect"))
 
@@ -81,7 +95,13 @@ from prompt_files import (  # noqa: E402
 
 DEFAULT_CONFIG = Path("config/api_run.toml")
 KEY_NAME = "OPENAI_API_KEY"
+# Interfaces this program can address. A configuration without the key
+# provider means "openai", so that every older configuration keeps its
+# meaning and its checksum.
+PROVIDERS = ("openai", "anthropic")
+ANTHROPIC_KEY_NAME = "ANTHROPIC_API_KEY"
 # Rough conversion for the dry run only, as in experiments/kostenschaetzung.md.
+# A configuration can set its own value as [prices] chars_per_token.
 CHARS_PER_TOKEN = 3.5
 # Sample files list the drawn pull requests as table rows "| 64 | S2 | ...".
 SAMPLE_ROW = re.compile(r"^\| (\d+) \| S\d+ \|")
@@ -105,9 +125,13 @@ class RunStopped(RuntimeError):
 def load_config(path: Path) -> dict[str, Any]:
     with path.open("rb") as handle:
         config = tomllib.load(handle)
+    chosen = config.get("request", {}).get("provider", "openai")
+    if chosen not in PROVIDERS:
+        raise ValueError(f"{path}: [request] provider must be one of {PROVIDERS}")
+    request_keys = ("endpoint", "model", "reasoning_effort", "max_output_tokens")
+    request_keys += ("store",) if chosen == "openai" else ("anthropic_version",)
     for section, keys in {
-        "request": ("endpoint", "model", "reasoning_effort",
-                    "max_output_tokens", "store"),
+        "request": request_keys,
         "transport": ("timeout_seconds", "max_retries", "pause_seconds"),
         "prices": ("retrieved", "input_per_million", "output_per_million",
                    "cache_write_multiplier"),
@@ -116,8 +140,17 @@ def load_config(path: Path) -> dict[str, Any]:
         for key in keys:
             if key not in config.get(section, {}):
                 raise KeyError(f"{path}: [{section}] {key} is missing")
-    if config["request"]["store"] is not False:
+    if chosen == "openai" and config["request"]["store"] is not False:
         raise ValueError(f"{path}: store must be false, decision E10")
+    if chosen == "anthropic":
+        # store is an OpenAI setting. Written here it would suggest a
+        # protection that the Anthropic API does not offer as a parameter.
+        if "store" in config["request"]:
+            raise ValueError(f"{path}: store does not exist for provider anthropic")
+        if not key_name(config):
+            raise ValueError(f"{path}: provider anthropic needs a key")
+        if "runtime" in config:
+            raise ValueError(f"{path}: [runtime] is only for a local model")
     endpoint = urlparse(config["request"]["endpoint"])
     if key_name(config):
         if endpoint.scheme != "https":
@@ -137,9 +170,15 @@ def load_config(path: Path) -> dict[str, Any]:
     return config
 
 
+def provider(config: dict[str, Any]) -> str:
+    """The interface of the configuration: "openai" (default) or "anthropic"."""
+    return config["request"].get("provider", "openai")
+
+
 def key_name(config: dict[str, Any]) -> str:
     """Name of the key in .env. Empty means: no key, local endpoint only."""
-    return config["request"].get("api_key_name", KEY_NAME)
+    default = ANTHROPIC_KEY_NAME if provider(config) == "anthropic" else KEY_NAME
+    return config["request"].get("api_key_name", default)
 
 
 def read_sample_numbers(path: Path) -> list[int]:
@@ -205,6 +244,17 @@ def build_request_body(config: dict[str, Any], system_prompt: str,
                        user_message: str) -> dict[str, Any]:
     """The JSON body of one call. Only settings named in the config are sent."""
     request = config["request"]
+    if provider(config) == "anthropic":
+        # Same prompt, same output limit, same effort setting; only the
+        # field names of the Messages API differ. max_tokens includes the
+        # thinking, as max_output_tokens does for OpenAI.
+        return {
+            "model": request["model"],
+            "max_tokens": request["max_output_tokens"],
+            "system": system_prompt,
+            "messages": [{"role": "user", "content": user_message}],
+            "output_config": {"effort": request["reasoning_effort"]},
+        }
     return {
         "model": request["model"],
         "instructions": system_prompt,
@@ -215,8 +265,18 @@ def build_request_body(config: dict[str, Any], system_prompt: str,
     }
 
 
+def is_messages_answer(response: dict[str, Any]) -> bool:
+    """True for an answer of the Anthropic Messages API."""
+    return response.get("type") == "message"
+
+
 def output_text(response: dict[str, Any]) -> str:
     """The visible text of an answer. Reasoning items carry no text here."""
+    if is_messages_answer(response):
+        # Thinking blocks are skipped; only text blocks form the answer.
+        return "".join(block.get("text") or ""
+                       for block in response.get("content") or []
+                       if block.get("type") == "text")
     pieces = []
     for item in response.get("output") or []:
         if item.get("type") != "message":
@@ -248,6 +308,19 @@ def parse_model_output(text: str) -> tuple[dict[str, Any] | None, str | None]:
 
 def usage_of(response: dict[str, Any]) -> dict[str, int]:
     usage = response.get("usage") or {}
+    if is_messages_answer(response):
+        # input_tokens counts only the part after the last cache breakpoint;
+        # the total input is the sum of all three fields. Thinking is part
+        # of output_tokens and is not reported on its own, hence 0.
+        read = int(usage.get("cache_read_input_tokens") or 0)
+        written = int(usage.get("cache_creation_input_tokens") or 0)
+        return {
+            "input_tokens": int(usage.get("input_tokens") or 0) + read + written,
+            "cached_tokens": read,
+            "cache_write_tokens": written,
+            "output_tokens": int(usage.get("output_tokens") or 0),
+            "reasoning_tokens": 0,
+        }
     return {
         "input_tokens": int(usage.get("input_tokens") or 0),
         "cached_tokens": int((usage.get("input_tokens_details") or {})
@@ -287,6 +360,10 @@ def error_code(response: requests.Response) -> str:
     return str(error.get("code") or error.get("type") or "")
 
 
+def retry_after_given(response: requests.Response) -> bool:
+    return bool(response.headers.get("retry-after"))
+
+
 def wait_seconds(response: requests.Response | None, attempt: int) -> float:
     if response is not None:
         value = response.headers.get("retry-after")
@@ -301,7 +378,31 @@ def wait_seconds(response: requests.Response | None, attempt: int) -> float:
 Sender = Callable[[dict[str, Any]], requests.Response]
 
 
+def keepalive_socket_options() -> list[tuple[int, int, int]]:
+    """Socket options for TCP keep-alive; names differ between macOS and Linux."""
+    options = list(HTTPConnection.default_socket_options)
+    options.append((socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1))
+    idle = getattr(socket, "TCP_KEEPIDLE", None) or getattr(socket, "TCP_KEEPALIVE", None)
+    if idle is not None:
+        options.append((socket.IPPROTO_TCP, idle, 60))
+    if hasattr(socket, "TCP_KEEPINTVL"):
+        options.append((socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 30))
+    if hasattr(socket, "TCP_KEEPCNT"):
+        options.append((socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 5))
+    return options
+
+
+class KeepAliveAdapter(HTTPAdapter):
+    """An adapter whose connections send TCP keep-alive packets."""
+
+    def init_poolmanager(self, *args: Any, **kwargs: Any) -> None:
+        kwargs["socket_options"] = keepalive_socket_options()
+        super().init_poolmanager(*args, **kwargs)
+
+
 def make_sender(config: dict[str, Any], key: str | None) -> Sender:
+    if provider(config) == "anthropic":
+        return make_anthropic_sender(config, key)
     headers = {"Content-Type": "application/json"}
     if key is not None:
         headers["Authorization"] = f"Bearer {key}"
@@ -311,6 +412,25 @@ def make_sender(config: dict[str, Any], key: str | None) -> Sender:
     def send(body: dict[str, Any]) -> requests.Response:
         return requests.post(endpoint, headers=headers, json=body,
                              timeout=timeout)
+    return send
+
+
+def make_anthropic_sender(config: dict[str, Any], key: str | None,
+                          session: requests.Session | None = None) -> Sender:
+    """Sender for the Messages API: key in x-api-key, version header, keep-alive."""
+    if not key:
+        raise ValueError("provider anthropic needs a key")
+    headers = {"content-type": "application/json",
+               "x-api-key": key,
+               "anthropic-version": config["request"]["anthropic_version"]}
+    endpoint = config["request"]["endpoint"]
+    timeout = config["transport"]["timeout_seconds"]
+    if session is None:
+        session = requests.Session()
+        session.mount("https://", KeepAliveAdapter())
+
+    def send(body: dict[str, Any]) -> requests.Response:
+        return session.post(endpoint, headers=headers, json=body, timeout=timeout)
     return send
 
 
@@ -331,7 +451,11 @@ def send_with_retry(send: Sender, body: dict[str, Any], max_retries: int,
         if status == 200:
             return response
         code = error_code(response)
-        if status == 429 and code == "rate_limit_exceeded":
+        # OpenAI marks a rate limit with its own code. Anthropic uses
+        # rate_limit_error also for the monthly spend cap; only a rate limit
+        # carries retry-after, the spend cap never does.
+        if status == 429 and (code == "rate_limit_exceeded" or (
+                code == "rate_limit_error" and retry_after_given(response))):
             wait = wait_seconds(response, attempt)
             log(f"    rate limited; waiting {wait:.0f}s [{attempt}/{max_retries}]")
             sleep(wait)
@@ -426,17 +550,32 @@ def append_raw(path: Path, entry: dict[str, Any]) -> None:
 # --- derived files ----------------------------------------------------
 
 
+def answer_status(response: dict[str, Any]) -> tuple[str | None, str | None]:
+    """(status, reason) in the terms of the OpenAI answer.
+
+    An Anthropic answer is completed only with stop_reason end_turn. Every
+    other stop reason (max_tokens, refusal, ...) counts as incomplete and is
+    kept as the reason.
+    """
+    if is_messages_answer(response):
+        stop = response.get("stop_reason")
+        return ("completed", None) if stop == "end_turn" else ("incomplete", stop)
+    return (response.get("status"),
+            (response.get("incomplete_details") or {}).get("reason"))
+
+
 def summarise_entry(entry: dict[str, Any], prices: dict[str, Any]) -> dict[str, Any]:
     """One row of the manifest for one answer."""
     response = entry["response"]
     usage = usage_of(response)
     parsed, reason = parse_model_output(output_text(response))
+    status, incomplete_reason = answer_status(response)
     row = {
         "pull_number": entry["pull_number"],
         "response_id": response.get("id"),
         "model_returned": response.get("model"),
-        "status": response.get("status"),
-        "incomplete_reason": (response.get("incomplete_details") or {}).get("reason"),
+        "status": status,
+        "incomplete_reason": incomplete_reason,
         "reasoning": response.get("reasoning"),
         # Echoed by the API: evidence of the settings actually applied.
         "store_applied": response.get("store"),
@@ -452,6 +591,15 @@ def summarise_entry(entry: dict[str, Any], prices: dict[str, Any]) -> dict[str, 
         "parse_problem": reason,
         "pull_number_in_output": parsed.get("pull_number") if parsed else None,
     }
+    if is_messages_answer(response):
+        # The Messages API echoes no settings. These fields show what it
+        # did report: why it stopped, and whether thinking blocks came back.
+        row["stop_reason"] = response.get("stop_reason")
+        row["stop_details"] = response.get("stop_details")
+        row["service_tier"] = (response.get("usage") or {}).get("service_tier")
+        row["thinking_blocks"] = sum(
+            1 for block in response.get("content") or []
+            if block.get("type") in ("thinking", "redacted_thinking"))
     runtime = entry.get("runtime")
     if runtime is not None and runtime.get("num_ctx"):
         # Input and output share the window; a full window means cut text.
@@ -470,6 +618,15 @@ def write_extraction(path: Path, entries: list[dict[str, Any]]) -> int:
                 handle.write(json.dumps(parsed, ensure_ascii=False) + "\n")
                 count += 1
     return count
+
+
+NOT_SENT = {
+    "openai": ["temperature", "reasoning mode", "response format"],
+    "anthropic": ["temperature", "top_p",
+                  "thinking (provider default: adaptive, display omitted)",
+                  "output_config.format (structured outputs)",
+                  "cache_control (no prompt caching)"],
+}
 
 
 def build_manifest(*, run_id: str, config: dict[str, Any], config_path: Path,
@@ -502,8 +659,9 @@ def build_manifest(*, run_id: str, config: dict[str, Any], config_path: Path,
             "model_requested": config["request"]["model"],
             "models_returned": sorted({str(row["model_returned"]) for row in rows}),
             "parameters_sent": {key: value for key, value in body_example.items()
-                                if key not in ("instructions", "input")},
-            "not_sent": ["temperature", "reasoning mode", "response format"],
+                                if key not in ("instructions", "input",
+                                               "system", "messages")},
+            "not_sent": NOT_SENT[provider(config)],
         },
         "prompt": {
             "version": version,
@@ -537,6 +695,12 @@ def build_manifest(*, run_id: str, config: dict[str, Any], config_path: Path,
         "cost_upper_bound_usd": round(sum(r["cost_upper_bound_usd"] for r in rows), 4),
         "per_pull": rows,
     }
+    if provider(config) == "anthropic":
+        manifest["request"]["provider"] = "anthropic"
+        manifest["request"]["anthropic_version"] = config["request"]["anthropic_version"]
+        manifest["request"]["reasoning_tokens_note"] = (
+            "The Messages API counts thinking inside output_tokens and reports "
+            "no separate figure; reasoning_tokens is 0 for this reason.")
     if snapshots:
         manifest["runtime"] = {
             "snapshots": snapshots,
@@ -609,10 +773,14 @@ def main(argv: list[str] | None = None,
 
     if arguments.dry_run:
         estimate_in = 0.0
+        chars_per_token = prices.get("chars_per_token", CHARS_PER_TOKEN)
         for number in todo:
-            chars = len(bodies[number]["instructions"]) + len(
-                bodies[number]["input"][0]["content"])
-            tokens = chars / CHARS_PER_TOKEN
+            body = bodies[number]
+            if provider(config) == "anthropic":
+                chars = len(body["system"]) + len(body["messages"][0]["content"])
+            else:
+                chars = len(body["instructions"]) + len(body["input"][0]["content"])
+            tokens = chars / chars_per_token
             estimate_in += tokens
             print(f"  pull {number:>4}: {chars:>7} characters, about "
                   f"{tokens:>7.0f} input tokens")

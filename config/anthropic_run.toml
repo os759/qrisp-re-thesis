@@ -1,0 +1,57 @@
+# Settings for the calls to the Anthropic Messages API.
+# After the submission of the thesis: a second API model for the Qrisp
+# team, on the same prompt (v2) and the same model input as the runs with
+# gpt-5.6-terra. Contains no credentials: the key is read from .env as
+# ANTHROPIC_API_KEY.
+# Sources, retrieved 21.10.2026 from platform.claude.com/docs:
+# models/overview, build-with-claude/effort, build-with-claude/thinking,
+# about-claude/pricing, api/errors, api/rate-limits.
+
+[request]
+provider = "anthropic"
+endpoint = "https://api.anthropic.com/v1/messages"
+anthropic_version = "2023-06-01"
+api_key_name = "ANTHROPIC_API_KEY"
+# Dateless ID; according to the models overview every Claude model ID
+# from the 4.6 generation on is a pinned snapshot. The name the API
+# returns is stored with every answer all the same.
+model = "claude-sonnet-5-5"
+# Sent as output_config.effort. Rule of E10 d: the provider default, sent
+# explicitly. On 21.10.2026 the default of claude-sonnet-5-5 is "high"
+# (gpt-5.6-terra: "medium"). The levels of both providers are not
+# calibrated against each other.
+reasoning_effort = "high"
+# Sent as max_tokens. Same value as for gpt-5.6-terra; it includes the
+# thinking, as max_output_tokens does for OpenAI.
+max_output_tokens = 25000
+# Not sent: temperature, top_p, thinking, output_config.format,
+# cache_control. Thinking then runs adaptive with display "omitted"
+# (provider default); no structured outputs, as decided in E10 e and
+# E11 b; no prompt caching, so the cost is input plus output only.
+# There is no store parameter. Inputs and outputs are deleted from the
+# backend within 30 days by default (commercial retention policy) and
+# are not used for training without permission.
+
+[transport]
+timeout_seconds = 900
+max_retries = 5
+pause_seconds = 1.0
+
+[prices]
+# US dollars per million tokens for claude-sonnet-5-5, pricing page,
+# retrieved 21.10.2026. No prompt caching is requested, so the cache
+# values only matter if the API reports cache tokens anyway.
+retrieved = "2026-10-21"
+input_per_million = 2.00
+output_per_million = 10.00
+# 5-minute cache writes cost 2.50 per million, that is 1.25 times the
+# input price.
+cache_write_multiplier = 1.25
+# For the dry run only. The models overview gives about 2.5 million
+# characters per million tokens for the current tokenizer.
+chars_per_token = 2.5
+
+[files]
+prompt_version = "v2"
+model_input = "data/processed/model_input_2026-09-19.jsonl"
+output_directory = "data/processed"
