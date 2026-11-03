@@ -1,11 +1,10 @@
 # Schriftliche Ausarbeitung
 
 LaTeX-Vorlage der Hochschule RheinMain.
-Abbildungen liegen in `figures/` mit sprechenden Dateinamen.
 
-Offene Punkte:
-- preamble.tex laedt longtable, booktabs und array nicht;
-  Ergaenzung noetig, bevor die erste Tabelle gesetzt wird
-- vorspann.tex bindet figures/hsrmlogo.pdf ein,
-  vorhanden ist hsrmlogo_bunt.pdf
-- Rote KI-Hinweisbox in vorspann.tex vor Abgabe ersetzen
+- `thesis.tex` Arbeit, Bau mit `make` (pdflatex und bibtex)
+- `anhang_a.tex` Anhang A als digitaler Anhang, Bau mit `make anhang`
+  nach `make`, weil er Verweise auf die Arbeit aus `thesis.aux` liest
+- `figures/` Abbildungen; die Diagramme entstehen aus den
+  Mermaid-Quellen in `figures/diagramme/` (dort `build.sh` und
+  `README.md`)

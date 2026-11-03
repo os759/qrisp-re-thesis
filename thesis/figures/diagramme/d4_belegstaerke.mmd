@@ -1,0 +1,12 @@
+flowchart LR
+  p["<b>Pflichtbestandteile</b><br/>nach ears_pattern:<br/>stets Systemname und<br/>Systemreaktion; dazu<br/>Vorbedingung, Auslöser<br/>oder beides"]
+  q(["Alle von den<br/>Belegen getragen?"])
+  u["<b>unzureichend</b>"]
+  f(["Aussageform der<br/>Belege zur<br/>Systemreaktion?"])
+  d["<b>direkt</b>"]
+  i["<b>indirekt</b>"]
+  p --> q
+  q -- nein --> u
+  q -- ja --> f
+  f -- fordernd --> d
+  f -- "berichtend,<br/>im Zweifel" --> i

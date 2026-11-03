@@ -9,8 +9,8 @@ RM=rm
 MKDIR=mkdir
 
 STYLES=blindtext.sty
-DRAWINGS=figures/zeichnung.odg figures/templateprozess.odg
-IMAGES=figures/zeichnungjpg.jpg figures/zeichnungpng.png figures/zeichnungdraft.jpg figures/gnu.png figures/automata.pdf
+DRAWINGS=
+IMAGES=figures/hsrmlogo.pdf figures/d1_pipeline.pdf figures/d2_aufruf.pdf figures/d3_pruefung.pdf figures/d4_belegstaerke.pdf figures/d7_gap.pdf
 MAIN=thesis
 TEXFILES=$(MAIN).tex preamble.tex vorspann.tex hyphenations.tex
 BIB=thesis.bib online.bib
@@ -31,11 +31,13 @@ LaTeXThesis.zip: $(TOPACK)
 
 $(MAIN).pdf: $(TEXFILES) $(STYLES) $(INCLUDE_BIB)
 
-# für das convert braucht man ImageMagick
-figures/zeichnungjpg.jpg: figures/zeichnung.pdf
-	convert figures/zeichnung.pdf figures/zeichnungjpg.jpg
-figures/zeichnungpng.png: figures/zeichnung.pdf
-	convert figures/zeichnung.pdf figures/zeichnungpng.png
+# Digitaler Anhang A als eigenes PDF; braucht thesis.aux fuer die Verweise (xr)
+anhang: $(MAIN).pdf anhang_a.tex
+	$(PDFLATEX) anhang_a.tex
+	-$(BIBTEX) anhang_a1
+	-$(BIBTEX) anhang_a2
+	$(PDFLATEX) anhang_a.tex
+	$(PDFLATEX) anhang_a.tex
 
 bib: $(MAIN)1.bbl $(MAIN)2.bbl
 # Bibliography geht nur manuell wegen bibtopic
@@ -55,13 +57,15 @@ $(MAIN)1.aux:
 $(MAIN)2.aux: 
 	$(PDFLATEX) $(MAIN).tex
 
-.PHONY: clean
+.PHONY: clean anhang
 
 RERUN = "(There were undefined |Rerun to get (cross-references|the bars))"
 
 .SUFFIXES: .odg .tex .pdf
 
 .tex.pdf: bib
+	$(PDFLATEX) $*.tex
+	$(PDFLATEX) $*.tex
 	$(PDFLATEX) $*.tex
 
 .odg.pdf:

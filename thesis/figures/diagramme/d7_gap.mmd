@@ -1,0 +1,16 @@
+flowchart TB
+  subgraph R1["Auswahl der Anforderungen"]
+    direction LR
+    k["<b>286 Kandidaten</b><br/>Suchwort in Satz oder<br/>Begründung: 135<br/>Suchwort nur in Belegen: 70<br/>Typ Prozess: 148<br/>Sicherheitsbezug: 12"]
+    a["<b>Auswahl 200</b><br/>Prozess und Sicherheit<br/>vollständig, übrige<br/>gezogen (20261005)"]
+    z["<b>Zuordnung von Hand</b><br/>verblindet: Eintrag<br/>ja oder teilweise"]
+    k --> a --> z
+  end
+  subgraph R2["Kategorie je Rastereintrag"]
+    direction LR
+    c["<b>Regel</b><br/>direkt belegt: 1<br/>indirekt oder teilweise: 2<br/>sonst: 3"]
+    g["<b>Gegenprobe</b><br/>21 Anforderungen,<br/>2 Runden, senkt nur"]
+    e["<b>Ergebnis</b><br/>Kat. 1: 2 · Kat. 2: 7<br/>Kat. 3: 18 · Kat. 4 (vorab): 2"]
+    c --> g --> e
+  end
+  R1 ==> R2

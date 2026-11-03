@@ -3342,8 +3342,10 @@ Raster:
 
 Erlaeuterungen zum Raster:
 - Stufe: Modalverb der TR nach deren Abschn. 2.2.1 (RFC 2119 und
-  DIN 820-2). 29148 fuehrt 9.6.18 c ausdruecklich als unvollstaendige
-  Beispielliste und 9.6.15 und 9.6.17 als Inhaltsvorgaben einer
+  DIN 820-2). 29148 fuehrt die Attribute in 9.6.18 ausdruecklich als
+  unvollstaendige Beispielliste ("partial list of examples") und nennt
+  in 9.6.18 c moegliche Inhalte ("could include"; berichtigt am
+  25.10.2026, siehe Nachtrag zu G2) und 9.6.15 und 9.6.17 als Inhaltsvorgaben einer
   Spezifikation; dort gibt es keine Stufe je Eintrag.
 - CC-Bezug: Einordnung des Verfassers, steht so in keiner Quelle. Bei
   Teil 3 beruht er auf den gelesenen Zielen der Familien in
@@ -4266,8 +4268,7 @@ Bezug: FF1, FF4, Kapitel 2, 4, 5, 6, 7 und Anhang A.
 
 ### 2026-10-21 E12 Lauf mit einem Modell von Anthropic an der Stichprobe nach E2
 
-Anlass: Wunsch des Verfassers am 21.10.2026, nach dem Abgabetermin
-15.10.2026. Das Qrisp-Team soll bei seiner Bewertung nach E2 die
+Anlass: Das Qrisp-Team soll bei seiner Bewertung nach E2 die
 Ausgabe eines zweiten API-Modells neben der von gpt-5.6-terra sehen.
 Der Lauf ist nicht Teil der Arbeit und aendert keine Zahl in ihr. Er
 gehoert zur Weiterentwicklung im Sinne der offenen Entscheidung
@@ -4354,6 +4355,129 @@ E10 d) und Modell hat der Verfasser im selben Chat gewaehlt.
 Status: festgelegt, sobald der Verfasser den Text gelesen und
 committet hat.
 Bezug: FF3 (nach der Abgabe), Bewertung durch das Qrisp-Team nach E2.
+
+## 2026-10-25 Kuerzung der Arbeit auf 60 bis 70 Seiten Haupttext
+
+Anlass: Der Haupttext umfasste 125 Seiten (gemessen mit pdftotext am
+Stand vor der Kuerzung). Der Verfasser hat am 25.10.2026 die Kuerzung
+auf 60 bis 70 Seiten beschlossen und den Plan je Kapitel freigegeben.
+Ergebnis: 70 Seiten. Forschungsfragen, Methodik, Ergebnisse,
+Evaluation, Begruendungen der Kernentscheidungen und Quellenbelege
+bleiben erhalten; keine Zahl aendert sich. Entfallen sind nur
+Einzelangaben wie Testzahlen je Datei, Kennzahlen aus der Literatur in
+2.2.3 und 2.4 und einzelne Betriebsparameter.
+
+### Nachtrag zu C6 (2026-10-25): Anhang A als digitaler Anhang
+
+1. Anhang A steht nicht mehr im Dokument der Arbeit, sondern als
+   eigenes PDF im Repository: thesis/anhang_a.pdf, gebaut aus
+   thesis/anhang_a.tex (make anhang nach make). Der Inhalt ist
+   unveraendert; Verweise auf Abschnitte, Tabellen und Abbildungen der
+   Arbeit loest das Paket xr ueber thesis.aux auf.
+2. Neu im digitalen Anhang ist der Abschnitt "Tabellen zum
+   Quality-User-Story-Rahmenwerk" mit den beiden Tabellen aus 2.2.3
+   (Kriterien des Rahmenwerks, Pruefergebnisse von AQUSA).
+3. Die Arbeit verweist in 1.3, 2.2.3 und 4.1.3 auf den digitalen
+   Anhang. Die Notentabelle bleibt in 4.1.3; die Bedrohung durch
+   Notenvorschlaege als moeglichen Anker sowie die Vorbehalte zu K4,
+   K6 und K9 stehen in der Tabelle der Validitaetsbedrohungen in 7.3.
+4. Damit ist Weg C nur noch teilweise erfuellt: Die Einzelbegruendungen
+   sind nicht mehr Teil des Dokuments, aber als PDF mit derselben Form
+   abgegeben. Grund ist der Seitenumfang; Weg A bleibt verworfen, weil
+   die Begruendungen weiter einsehbar sind. Die Zulaessigkeit des
+   digitalen Anhangs ist mit dem Betreuer zu klaeren (STATUS.md).
+
+### Nachtrag zu E8 (2026-10-25): Doppelrolle in der Arbeit
+
+Abschnitt 4.4.3 nennt fuer die Wahl von gpt-5.6-terra drei Gruende
+(Budget, kein teureres oder guenstigeres Modell, Kontextfenster).
+Begruendung 4 von E8 (Doppelrolle) steht dort nicht; KI-Werkzeuge der
+Arbeit werden im Text nicht namentlich genannt (Verfasser,
+25.10.2026). Die Bedrohung selbst steht allgemein in der Tabelle der
+Validitaetsbedrohungen in 7.3: Sprachmodelle beider Anbieter der
+untersuchten API-Modelle dienten auch als Hilfsmittel; keines hat eine
+Ausgabe der untersuchten Modelle bewertet. Diese Zeile ersetzt den Satz
+fuer Kapitel 7 aus dem Nachtrag vom 07.10.2026 und klaert die offene
+Frage aus Punkt 3 des Nachtrags zu E2 vom 10.10.2026. Der Einsatz im
+Einzelnen steht weiter in docs/ki-protokoll.md.
+
+### Nachtrag zu E12 (2026-10-25): Vergleich als explorativer Abschnitt
+
+Der Lauf aus E12 steht jetzt in der Arbeit, als explorativer Vergleich
+in Abschnitt 6.3.3 (Tabelle tab:zweites-modell) und mit der
+Doppelrolle in der Tabelle der Validitaetsbedrohungen in 7.3. Die
+Saetze "gehoert nicht zur Arbeit" in E12 und STATUS.md sind damit
+ueberholt. Die Tabelle enthaelt nur maschinell gezaehlte Groessen nach
+Punkt j; eine Bewertung von Hand fand nicht statt. Die Zahlen der
+uebrigen Auswertung aendern sich nicht. Entschieden vom Verfasser am
+25.10.2026.
+
+### Nachtrag zu G2 (2026-10-25): Wortlaut zu 29148 Abschn. 9.6.18
+
+Die Erlaeuterung zum Raster nannte 9.6.18 c "ausdruecklich eine
+unvollstaendige Beispielliste". Laut 29148, S. 73 f., gilt "partial
+list of examples" fuer die Attribute a bis e von 9.6.18; c nennt
+Inhalte, die eine Spezifikation enthalten koennte ("could include").
+Wortlaut oben angeglichen. Die Stufe "keine (Beispiel)" bei SR01 bis
+SR06 bleibt richtig; keine Zuordnung aendert sich.
+
+Status: festgelegt, sobald der Verfasser den gekuerzten Text gelesen
+und committet hat.
+Bezug: alle Kapitel, Anhang A, FF2, FF3.
+
+### Nachtrag zur Kuerzung (2026-10-26): Berichtigungen nach Pruefung
+
+Eine Pruefung verglich am 26.10.2026 die gekuerzte Fassung Kapitel fuer
+Kapitel mit dem Stand vor der Kuerzung, den Ergebnisdateien unter
+experiments/ und den Quellen. Keine Zahl war falsch. Berichtigt wurde
+Folgendes, weil es beim Kuerzen verloren ging oder verzerrt wurde:
+
+1. Kennzeichnung eigener Einschaetzungen wieder eingesetzt (2.1.4, 2.2.2,
+   2.4.3, 4.1.2, 4.1.4, 4.2.4); 29148 Abschn. 9.6.19 als Empfehlung
+   wiedergegeben.
+2. Verweise in den Tabellen 7.1 und 7.2 auf den digitalen Anhang (K9)
+   statt auf 4.1.2; Grenzen des Stapelbetriebs mit den Nutzungsstufen
+   (Nachtrag zu E8 vom 24.09. und 07.10.2026); Grundmenge der Pruefung
+   der Klassifikation; Verweis auf tests/README.md; Tabelle 2.1
+   (angemessen).
+3. Begruendungen wieder eingesetzt: Ausschlussregel E1 (formatauswahl.md
+   Abschnitt 5) und Bedeutung der Rollen, Ausschluss der Beitraege von
+   Programmen, Reihenfolge der Kuerzung im Quellblock, Lesarten zu M2
+   und M3 (Nachtrag zu F3), Gruppierung von M1 bis M6 nach den
+   Oberkategorien.
+4. Bedrohungen der Validitaet wieder aufgenommen: Erfolgskriterium und
+   Auswahlwerte beim Kontrollpunkt (F1), Typverteilung bei Festlegung
+   des Schemas bekannt, unvollstaendige Verweise; Zuordnung der externen
+   Validitaet zu 7.2. Die Zeile zur Doppelrolle nennt jetzt, dass die
+   Anweisung mit einem Modell des einen Anbieters entworfen und am
+   Modell des anderen erprobt wurde und dass der Arbeitshinweis zur
+   Gegenprobe (Nachtrag zu G6) von einem Sprachmodell stammte
+   (KI-Protokoll, Zeile vom 06.10.2026). Werkzeuge werden weiter nicht
+   namentlich genannt.
+5. Abschnitt 6.3.3 nennt Aufrufweg, Ausgabegrenze und Verzicht auf
+   Temperatur und Formathilfe aus E12 b, c und e sowie den Verweis auf
+   E12 h zum Verbleib der Daten, weil die Projektanweisung fuer ein
+   Modell derselben Familie wie das Arbeitswerkzeug Name, Parameter und
+   Aufrufweg verlangt.
+6. Wieder aufgenommen: top_p 0,9 aus dem Serverprotokoll (6.1.2) und die
+   erwartete Dauer von 4,8 Stunden im Normalbetrieb (5.4.3), weil die
+   Saetze dazu sonst kein Gegenstueck hatten.
+7. Vorspann des digitalen Anhangs ohne Bezug auf die Fassung vor der
+   Kuerzung, weil Pruefende diese Fassung nicht kennen.
+8. Die Ueberschrift ueber E12 war am 25.10.2026 umformuliert worden
+   ("Nach dem frueher geplanten Abgabetermin 15.10.2026"). Sie ist
+   wieder im Wortlaut vom 21.10.2026; gemeint ist der damals geltende
+   Termin 15.10.2026, der Abgabetermin ist jetzt der 03.11.2026.
+
+Damit der Haupttext bei 70 Seiten bleibt, sind die Tabellen 6.11 bis
+6.13 breiter gesetzt und ein Satz in 6.3.2 gestrichen, der die Werte
+von M1 aus Tabelle 6.4 wiederholte.
+
+Herkunft: Pruefung und Entwurf der Berichtigungen von Claude im Chat vom
+26.10.2026 nach Freigabe durch den Verfasser.
+Status: festgelegt, sobald der Verfasser den Text gelesen und committet
+hat.
+Bezug: alle Kapitel, Anhang A, FF1 bis FF4.
 
 ## Offene Entscheidungen
 

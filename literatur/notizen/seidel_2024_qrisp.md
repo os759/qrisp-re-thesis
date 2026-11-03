@@ -5,7 +5,7 @@ Tcholtchev, N.; Hauswirth, M.: Qrisp: A Framework for Compilable
 High-Level Programming of Gate-Based Quantum Computers. Preprint,
 arXiv:2406.14792v1, 20.06.2024. https://arxiv.org/abs/2406.14792
 BibTeX: seidel2024qrisp (thesis.bib). Literaturmatrix: L04.
-Gelesen: Volltext v1 am 12.10.2026 von Claude; vom Verfasser noch nicht.
+Gelesen: Volltext v1 vom Verfasser (Stand 25.10.2026).
 
 ## Inhalt, soweit fuer die Arbeit relevant
 

@@ -1,0 +1,19 @@
+sequenceDiagram
+  participant F as Dateien
+  participant R as run_extraction.py
+  participant M as /v1/responses
+  F->>R: Stichprobe, Quellblöcke, Anweisung v2
+  Note over R: Prüfungen vor dem Senden:<br/>store = false, Schlüssel nur über https,<br/>Trennzeile oder falsche Kopfzeile: Abbruch,<br/>uncommittete Änderungen: Abbruch,<br/>lokal: num_ctx ≠ 65 536: Abbruch
+  F->>R: Rohdatei: Beantwortetes nie erneut senden
+  loop je offener Pull Request, 1 s Pause
+    R->>M: Anweisung, Nachricht, Denkstufe, 25 000 Token
+    alt Netzfehler, 5xx, 429 rate_limit_exceeded
+      M-->>R: warten und wiederholen
+    else anderer Fehler, etwa Ausgabenlimit
+      M-->>R: Lauf sofort anhalten
+    else Antwort
+      M-->>R: Text, Modellname, Token
+      R->>F: sofort an Rohdatei anhängen
+    end
+  end
+  R->>F: Extraktionsdatei und Manifest ableiten

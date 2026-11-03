@@ -1,0 +1,19 @@
+flowchart TB
+  subgraph V["validate_output.py · je Datensatz, Abbruch bei der ersten Ablehnung"]
+    direction LR
+    s["<b>1 Schema</b><br/>JSON Schema 2020-12,<br/>Formregeln"]
+    e["<b>2 Belegstärke</b><br/>nach Abb. 4.2<br/>neu berechnet"]
+    z["<b>3 Zitate</b><br/>wörtlich am Ort;<br/>Diff ohne Marker,<br/>Sperrzeichen für<br/>− und @@;<br/>Randleerraum, Rest ≥ 10"]
+    s --> e --> z
+  end
+  subgraph D["diagnose_excerpts.py · je abgelehntem Zitat"]
+    direction LR
+    c["16 Ursachen in fester Reihenfolge"]
+    r1["Regel 1: Prüfprogramm<br/>(Beleg gilt als gefunden)"]
+    r2["Regel 2: Befund über das Modell"]
+    r3["Regel 3: inspect_excerpts.py,<br/>Zuordnung von Hand"]
+    c --> r1
+    c --> r2
+    c --> r3
+  end
+  V ==> D

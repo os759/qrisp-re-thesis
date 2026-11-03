@@ -1,7 +1,7 @@
 # Bearbeitungsstand
 
-Letzte Aktualisierung: 12.10.2026
-Abgabetermin: 15.10.2026 (Donnerstag; intern geplant auf Di 13.10.2026)
+Letzte Aktualisierung: 25.10.2026
+Abgabetermin: 03.11.2026
 
 ## Roter Faden
 
@@ -386,17 +386,54 @@ Anforderungen, das Programm prueft jede davon gegen ihre Quelle.
     sonst in die Abgabe gingen. 2.1.4 und der Platzhalter in 2.2 waren
     schon erledigt. Stand des Baus unveraendert gegenueber Punkt 22.
 
-Warum der naechste Schritt jetzt kommt: Alle Kapitel stehen, aber die
-Arbeit wurde noch nicht als Ganzes gegen STATUS.md,
-docs/entscheidungen.md, die Quellen, den Code und die Ergebnisdateien
-abgeglichen. Das kommt jetzt, weil Korrekturen daraus Seitenumbrueche
-und Overfull-Warnungen verschieben; die formalen Punkte folgen deshalb
-zuletzt.
+24. Zweites API-Modell fuer das Qrisp-Team (21.10.2026): Dieselben 20 Pull Requests der Bewertung nach E2
+    (Form der Evaluation) gingen mit Prompt v2 an claude-sonnet-5-5 von
+    Anthropic, weil das Qrisp-Team zwei Modelle vergleichen soll. Der
+    Lauf aendert keine Zahl der uebrigen Auswertung. Seit dem 25.10.2026
+    steht sein Ergebnis als explorative Tabelle in Abschnitt 6.3.3 der
+    Arbeit (Nachtrag zu E12). Das
+    Aufrufprogramm wurde nur erweitert, weil ein Unterschied sonst am
+    Programm liegen koennte (wie in F2). Alle Festlegungen stehen als
+    E12 in docs/entscheidungen.md und wurden vor dem ersten bezahlten
+    Aufruf committet (2e8fbed), weil sie sonst nach dem Ergebnis
+    gewaehlt wirken koennten. Die Denkstufe ist high, weil E10 d die
+    Voreinstellung des Anbieters verlangt. Gezaehlt hat
+    compare_runs.py (1c591d4) nach E12 Punkt j, weil beide
+    Modelle nach denselben Regeln gezaehlt werden muessen. Ergebnis an
+    denselben 20 Pull Requests: claude-sonnet-5-5 0 von
+    20 Datensaetzen abgelehnt, 68 Anforderungen; gpt-5.6-terra
+    9 abgelehnt, 85 Anforderungen, davon 38 in angenommenen
+    Datensaetzen. Das ist ein Lauf je Modell an 20 Faellen und sagt
+    nichts ueber die inhaltliche Qualitaet. Claude ist zugleich
+    Arbeitswerkzeug und Messgegenstand (Doppelrolle, E12 Punkt i).
 
-Geschrieben sind alle Kapitel, Anhang A und die Kurzfassung. Abgabe am
-15.10.2026; Reserve nur der 14.10. Groesstes Risiko: Die Pruefung der
-ganzen Arbeit kann Korrekturen ergeben, und die KI-Hinweisbox in
-vorspann.tex braucht die Formulierung des Betreuers.
+25. Kuerzung und Pruefung der Kuerzung (25. und 26.10.2026): Der
+    Haupttext wurde von 125 auf 70 Seiten gekuerzt, weil der Verfasser
+    60 bis 70 Seiten festgelegt hat. Anhang A (Einzelbegruendungen der
+    Entscheidungsmatrix) steht seitdem als eigenes PDF
+    thesis/anhang_a.pdf neben der Arbeit, weil er sonst etwa
+    15 Seiten des Umfangs belegt haette. Eine Pruefung am 26.10.2026
+    verglich die gekuerzte Fassung Kapitel fuer Kapitel mit dem
+    Original. Danach wurden Kennzeichnungen eigener Einschaetzungen,
+    Begruendungen einzelner Festlegungen und vier Bedrohungen der
+    Validitaet wiederhergestellt, weil sie beim Kuerzen verloren
+    gegangen waren. Die Seitenzahl blieb bei 70, weil drei Tabellen in
+    6.5 und 6.6 breiter gesetzt wurden. Punkt 21 ("Sprachmodell nur in
+    Anhang A genannt") und Punkt 22 ("drei Listen statt Tabelle") sind
+    damit ueberholt, weil Kapitel 7 jetzt zwei Tabellen fuehrt und die
+    Doppelrolle dort nennt.
+
+Warum der naechste Schritt jetzt kommt: Die gekuerzte und gepruefte
+Fassung liegt vor. Sie gilt erst, wenn der Verfasser den Text gelesen
+und committet hat (Nachtraege vom 25. und 26.10.2026 in
+docs/entscheidungen.md). Danach kommen die offenen Punkte vor der Abgabe
+am 03.11.2026: Hinweisbox zur KI-Nutzung, Freigabe des digitalen Anhangs
+und Vorlage der Ergebnisse des zweiten Modells beim Betreuer. Sie kommen
+jetzt, weil der Betreuer bis zur Abgabe Rueckmeldezeit braucht.
+
+Abgabetermin ist der 03.11.2026 (bestaetigt vom Verfasser am
+25.10.2026). Letzter Commit vor dem frueher geplanten Termin 15.10.2026
+laut git log: c4397b4 tex: Korrekturen aus der Endkontrolle (Befunde B1.1 bis BA.2, Pruefbericht vom 13.10.2026); online.bib mit einheitlichem Abrufvermerk
 
 
 ## Zusammenarbeit im Chat
@@ -688,6 +725,9 @@ Nachtrag zu E2 vom 08.10.2026, Punkt 7.
 Lesarten 1 bis 9 = die Lesarten der maschinellen Pruefregeln in
 eval/instrument/anleitung_bewertung_e2.md, Teil 6, vor der ersten Note
 committet (cc3e321).
+E12 = Entscheidung vom 21.10.2026 nach dem frueher geplanten Abgabetermin 15.10.2026: Lauf mit
+claude-sonnet-5-5 von Anthropic an der Stichprobe nach E2, fuer das
+Qrisp-Team; nicht Teil der Arbeit.
 Neue Kuerzel duerfen keinen dieser Namen wiederverwenden.
 
 ## Umgebung
@@ -868,6 +908,14 @@ data/processed/extraction_2026-09-25_full_v2.jsonl - 395 Modellausgaben,
   SHA-256 3dbc74b24438cac24feba080eca69ef66a4b495b4f7fd677de0f22d7d91e569d
   Manifest versioniert unter demselben Namen mit .manifest.json.
 
+data/processed/extraction_2026-10-21_claude_eval_v2.raw.jsonl - 20 vollstaendige
+  Antworten der Anthropic-Schnittstelle, lokal (E12)
+  SHA-256 586a71a5223c8af6565c25c996848df390802f74f86cc8468b2729cd930e3289
+data/processed/extraction_2026-10-21_claude_eval_v2.jsonl - 20 Modellausgaben, lokal
+  SHA-256 891b8ead181cc40fdae3c81dd012a917f6f938f01080145f33c485469058beb6
+data/processed/extraction_2026-10-21_claude_eval_v2.manifest.json - versioniert
+  SHA-256 a35a9fa43bf9d9f44429a543c180638f323ae3735fad33deddb35748279e459f
+
 Dazu je eine .progress.jsonl fuer Kommentare und Dateien, ebenfalls
 lokal. Alle Manifeste unter data/manifests/ sind versioniert:
 manifest_pulls_2026-08-12.json, manifest_pull_details_2026-08-14.json,
@@ -991,8 +1039,9 @@ truncation, issue_comments, review_comments, files
 
 ## Testsuite
 
-629 Tests, ausfuehren aus der Projektwurzel:
+673 Tests (Stand 21.10.2026; 629 zum Stand der Arbeit), ausfuehren aus der Projektwurzel:
 python -m pytest tests/ -v
+Gruen am 21.10.2026 (673 passed), vom Verfasser ausgefuehrt.
 Zuletzt gruen am 10.10.2026 (629 passed), vom Verfasser
 ausgefuehrt; Zahl je Datei mit pytest --collect-only, siehe
 Abschnitt 5.8 (tab:impl-tests).
@@ -1694,6 +1743,12 @@ Vollstaendig in docs/entscheidungen.md. Kurzfassung:
   Validitaetsbedrohung benannt werden muss (bisher Anhang A), sonst
   nur im KI-Protokoll. Siehe Nachtrag zu E2 vom 10.10.2026.
 
+- E12 (21.10.2026, nach dem frueher geplanten Abgabetermin 15.10.2026): zweites API-Modell
+  claude-sonnet-5-5 an den 20 Pull Requests der Stichprobe nach E2,
+  Prompt v2, Denkstufe high nach der Regel aus E10 d, gezaehlt nach
+  Punkt j. Weil das Qrisp-Team zwei Modelle vergleichen soll; nicht
+  Teil der Arbeit.
+
 ## LaTeX-Konventionen
 
 Zitierschluessel in thesis.bib: iso29148, mavin2009ears, mavin2010bigears,
@@ -1922,6 +1977,8 @@ Folge fuer Schritt 5, aus E1 und den Messwerten:
 - GitHub-Token qrisp-thesis-readonly, im Passwortmanager und in
   .env im Projektwurzelverzeichnis. Ablauf 2027-05-31.
 - SSH-Schluessel ed25519 fuer das eigene Repository.
+- Anthropic-Schluessel als ANTHROPIC_API_KEY in .env, mit eigenem
+  Ausgabenlimit im Konto (21.10.2026, E12).
 - Git-Identitaet: Omar Assad Salem, GitHub-Noreply-Adresse.
 
 ## Offene Punkte
@@ -1959,9 +2016,8 @@ Reihenfolge:
    Literaturnummern); Literaturverzeichnis ohne Seitenumbruch und nicht
    im Inhaltsverzeichnis; pruefen, ob die Kurzfassung auf eine Seite
    passt.
-3. Von Claude gelesen, vom Verfasser noch nicht: L01, L02, L03, L04,
-   L19 und L26 bis L30. Der Verfasser liest die ganze Arbeit vor der
-   Abgabe selbst, weil kein KI-Text ungeprueft in die Abgabe geht.
+3. Erledigt am 25.10.2026: L01, L02, L03, L04, L19 und L26 bis L30
+   hat der Verfasser gelesen; die Literaturmatrix ist angepasst.
 4. Abgabeformalien der Hochschule (Form, Zahl der Exemplare, digitale
    Abgabe) klaeren; in diesem Projekt nicht dokumentiert.
 5. Endkontrolle nach der Liste in der Projektanweisung.
@@ -2088,10 +2144,9 @@ Technisch und redaktionell:
   processing), beide gehoeren zu den gezaehlten Versuchen. Das ist
   eine Schlussfolgerung von Claude, keine Gewissheit. Fuer Kapitel 7
   als Restunsicherheit festhalten.
-- Ollama-Dokumentation (L19 in der Literaturmatrix) hat Claude am
-  30.09.2026 gelesen, der Verfasser noch nicht. Vor der Abgabe die
-  Abschnitte Responses API und Setting the local context size selbst
-  ansehen.
+- Erledigt am 25.10.2026: Ollama-Dokumentation (L19), Abschnitte
+  Responses API und Setting the local context size, vom Verfasser
+  gelesen.
 - Erledigt am 07.10.2026: tests/README.md nennt den Stand vom
   07.10.2026 mit 507 Tests (Commit 374290b).
 - Ueberholt durch den Stand vom 12.10.2026 oben: Platzhalter in
@@ -2151,9 +2206,8 @@ Technisch und redaktionell:
   fehlt im Inhaltsverzeichnis (Befund 10.09.2026). Eine Behebung
   aendert die Vorlagenstruktur und braucht Abstimmung; Paket I.
 - Demo-Dateien der Vorlage in thesis/figures/ vor Abgabe entfernen
-- Die Quellen L10 und L21 bis L25 (OWASP, OpenAI-Dokumentation) hat
-  Claude am 07.10.2026 ueber ein Abrufwerkzeug gelesen, der Verfasser
-  noch nicht. Vor der Abgabe die genannten Abschnitte selbst ansehen.
+- Erledigt am 25.10.2026: Die Quellen L10 und L21 bis L25 (OWASP,
+  OpenAI-Dokumentation) hat der Verfasser gelesen.
 - Erledigt am 12.10.2026 (Commit unter Commits Paket I, Teil 2):
   prompts/README.md beschreibt Unterordner v1/ und v2/; die Dateien
   liegen flach als prompts/extraction_system_v2.md usw. Berichtigen.
@@ -2181,6 +2235,63 @@ Technisch und redaktionell:
   und verschiedenem Codestand (F3).
 
 
+Nach dem 15.10.2026 (Stand 21.10.2026, E12):
+1. Ergebnisse beider Modelle dem Betreuer vorlegen; er entscheidet nach
+   E2 ueber die Weitergabe an das Qrisp-Team. Dabei die Doppelrolle
+   (E12 Punkt i) und die nicht geeichten Denkstufen (E12 Punkt c)
+   nennen.
+2. Optional: eine lesbare Gegenueberstellung der Anforderungen beider
+   Modelle je Pull Request fuer das Team. Noch nicht gebaut.
+3. Erledigt am 25.10.2026: Abgabe am 03.11.2026.
+4. Geklaert am 25.10.2026: Die am 21.10.2026 nicht committeten
+   Aenderungen waren in thesis/thesis.tex Korrekturen aus der
+   Endkontrolle und in docs/entscheidungen.md der Eintrag E12.
+5. Kuerzung der Arbeit (25.10.2026): Haupttext von 125 auf 70 Seiten
+   (pdftotext: 40 984 auf 19 559 Woerter; Zaehlweise nicht festgehalten,
+   eine Nachzaehlung vom ersten Kapitel bis zum Literaturverzeichnis
+   ergab 40 774 auf 19 298). Keine Zahl geaendert; entfallen sind nur
+   Einzelangaben wie Testzahlen je Datei, Kennzahlen aus der Literatur in
+   2.2.3 und 2.4 und einzelne Betriebsparameter. Fuenf Abbildungen neu
+   (Quellen in thesis/figures/diagramme/), weil Abbildungen Ablaeufe
+   kuerzer zeigen als Fliesstext. Anhang A ausgelagert als digitaler
+   Anhang thesis/anhang_a.pdf (Quelle thesis/anhang_a.tex, Inhalt
+   unveraendert, dazu die Tabellen zum Quality-User-Story-Rahmenwerk und
+   zu AQUSA aus 2.2.3). Nachtraege in docs/entscheidungen.md zu C6
+   (Notentabelle und Anhang A), E8 (Wahl des API-Modells, Doppelrolle),
+   E12 (Lauf mit claude-sonnet-5-5) und G2 (Ausschnitt des
+   Sicherheitsrasters). Vorlagendateien aus thesis/figures/ entfernt,
+   weil die Arbeit sie nicht nutzt; Literaturverzeichnis im
+   Inhaltsverzeichnis.
+   Pruefung und Berichtigung am 26.10.2026: siehe Roter Faden Punkt 25
+   und den Nachtrag vom 26.10.2026 in docs/entscheidungen.md. Seitenzahl
+   danach: Haupttext S. 5 bis 74 (70 Seiten), dazu acht Zeilen des
+   Ausblicks auf S. 75 vor dem Literaturverzeichnis.
+6. Digitaler Anhang: Veroeffentlicht bzw. beigelegt wird nur der
+   versionierte Git-Stand des abgegebenen Commits (Tag empfohlen), nicht
+   die Arbeitskopie. Nicht beilegen: data/raw/, data/interim/ (darin
+   mention_map.json), eval/responses/, Roh- und Extraktionsdateien unter
+   data/processed/ ausser den Manifesten, .DS_Store, .idea/. Zulaessigkeit
+   und Form des digitalen Anhangs mit dem Betreuer klaeren, weil C6
+   (Einzelbegruendungen im Dokument) urspruenglich gegen eine Auslagerung
+   begruendet war.
+7. Offen vor der Abgabe (Stand 26.10.2026):
+   a) Rote Hinweisbox zur KI-Nutzung in vorspann.tex durch die mit dem
+      Referenten abgestimmte Formulierung ersetzen. Verlangt der Referent
+      die Kennzeichnung mit Namen der KI-Anwendung (Option in vorspann.tex),
+      gilt die Festlegung "KI-Werkzeuge werden nicht namentlich genannt"
+      (Nachtrag zu E8 vom 25.10.2026) nicht mehr.
+   b) Literaturverzeichnis im Inhaltsverzeichnis (\addcontentsline in
+      thesis.tex) mit dem Betreuer abstimmen, weil die Projektanweisung
+      Aenderungen an Verzeichnisvorgaben der Vorlage nur nach Abstimmung
+      erlaubt.
+   c) KI-Protokoll: Zeile fuer E12 (21.10.2026) vom Verfasser
+      vervollstaendigen. Falls die Kuerzung vom 25.10.2026 mit KI
+      entstand, dafuer eine Zeile ergaenzen. Die Zeile vom 26.10.2026
+      (Pruefung und Berichtigung) steht.
+   d) Einmaliges make aus sauberem Stand laesst bibtex thesis2 aus
+      (bibtopic legt eine Platzhalterdatei an); make zweimal ausfuehren
+      oder die Befehlsfolge unter "Arbeitsweise" nutzen.
+
 ## Arbeitsweise
 
 - Vor jedem Python-Befehl: source .venv/bin/activate
@@ -2202,6 +2313,10 @@ Technisch und redaktionell:
 - Kompilieren: cd thesis && pdflatex thesis.tex && bibtex thesis1 &&
   bibtex thesis2 && pdflatex thesis.tex && pdflatex thesis.tex
   (nicht make all - braucht LibreOffice und ImageMagick)
+- Digitaler Anhang A danach, weil er die Verweise aus thesis.aux liest:
+  cd thesis && pdflatex anhang_a.tex && bibtex anhang_a1 &&
+  bibtex anhang_a2 && pdflatex anhang_a.tex && pdflatex anhang_a.tex
+  (gleichwertig: make anhang)
 - Commit-Ablauf: status -> diff -> gezieltes add -> diff --staged ->
   commit -> log -1 -> status -> push
 - Kein git add . und kein git add ordner/
@@ -2418,6 +2533,14 @@ b8ca5de tex: Abschnitte 6.3 (Messgroessen FF3) und 6.4 (Bewertung), Platzhalter 
 5fc1ffa docs: Uebergabe Paket H Teil 2: Widersprueche in Kapitel 2, 4, 6 und Anhang A aufgeloest, KI-Nennung aus 6.4 entfernt; Nachtrag zu E2, STATUS, KI-Protokoll
 9ed9e0b code: Abgleich von B9 mit dem Belegbegriff G1 (compare_b9_g1.py, 15 Tests) mit Ergebnis
 
+## Commits nach dem 15.10.2026
+
+Aus git log gelesen; Basis ist der letzte Commit vor dem 15.10.2026:
+c4397b4 tex: Korrekturen aus der Endkontrolle (Befunde B1.1 bis BA.2, Pruefbericht vom 13.10.2026); online.bib mit einheitlichem Abrufvermerk
+
+2e8fbed code: Aufrufweg zur Anthropic-Schnittstelle (config/anthropic_run.toml, 29 Tests); docs: E12 zweites API-Modell
+1c591d4 code: Vergleich zweier Laeufe an der Stichprobe nach E12 j (compare_runs.py, 15 Tests)
+
 ## Aufruf des Ziehungsskripts
 
 python src/analyze/draw_sample.py \
@@ -2469,6 +2592,17 @@ abgelehnt.
 Die Prompt-Version kommt aus config/api_run.toml, seit dem 24.09.2026
 v2. Laeufe bisher: 2026-09-22_pilot (v1), 2026-09-24_pilot_v2 (v2),
 2026-09-25_full_v2 (v2, Volllauf, Liste docs/sample_full_run_e.md).
+
+Anthropic-Schnittstelle (E12, nach dem frueher geplanten Abgabetermin 15.10.2026): Schluessel
+ANTHROPIC_API_KEY in .env, Einstellungen in config/anthropic_run.toml.
+python src/extract/run_extraction.py --config config/anthropic_run.toml \
+  --sample docs/sample_eval_e2.md --run-id 2026-10-21_claude_eval_v2
+Vergleich der Laeufe nach E12 Punkt j, gibt nur Zahlen aus:
+python src/analyze/compare_runs.py --sample docs/sample_eval_e2.md \
+  --run 2026-09-25_full_v2 --run 2026-10-21_claude_eval_v2 \
+  --dataset data/interim/pulls_prepared_2026-08-19.jsonl \
+  --mentions-map data/interim/mention_map.json \
+  --allowlist "jaspify,jax,pytest,rus" --output experiments/model_comparison_eval_e2_2026-10-21.json
 
 Lokale Laeufe (Paket F, F2): zuerst den Server in einem eigenen
 Fenster starten,

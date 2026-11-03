@@ -1,6 +1,6 @@
 % Deutsch
 \usepackage[german]{babel} % deutsch und deutsche Rechtschreibung
-\usepackage[utf8]{inputenc} % Unicode Text 
+\usepackage[utf8]{inputenc} % Unicode Text
 \usepackage[T1]{fontenc} % Umlaute und deutsches Trennen
 \usepackage{textcomp} % Euro
 \usepackage[hyphens]{url}
@@ -12,7 +12,7 @@
 %% Fonts, ein kompletter Satz an Optionen
 
 % Times New Roman, gewohnter Font, ok tt und serifenlos
-%\usepackage{mathptmx} 
+%\usepackage{mathptmx}
 %\usepackage[scaled=.95]{helvet}
 %\usepackage{courier}
 
@@ -24,7 +24,7 @@
 % New Century Schoolbook sieht auch nett aus (macht auch tt und serifenlos)
 %\usepackage{newcent}
 
-% Oder default serifenlos mit Helvetica 
+% Oder default serifenlos mit Helvetica
 % ich kann es nicht mehr sehen ...
 %\renewcommand{\familydefault}{\sfdefault}
 
@@ -46,6 +46,7 @@
 % Tabellen
 \usepackage{booktabs} % Linien fuer Tabellen im Buchsatz
 \usepackage{array}    % erweiterte Spaltendefinitionen, z. B. p mit \raggedright
+\usepackage{longtable} % mehrseitige Tabellen (Abkürzungsverzeichnis)
 
 % Seitenlayout
 \usepackage[paper=a4paper,width=14cm,left=35mm,height=22cm]{geometry}
@@ -54,7 +55,7 @@
 \setlength{\parskip}{0.5em}
 \setlength{\parindent}{0em} % im Deutschen Einrückung nicht üblich, leider
 
-% Seitenmarkierungen 
+% Seitenmarkierungen
 \newcommand{\phv}{\fontfamily{phv}\fontseries{m}\fontsize{9}{11}\selectfont}
 \usepackage{fancyhdr} % Schickere Header und Footer
 \pagestyle{fancy}
@@ -77,16 +78,15 @@
 \newcommand{\qed}{\hfill \ensuremath{\square}}
 
 % Quellen teilen
-\usepackage{bibtopic} 
+\usepackage{bibtopic}
 
 % Spezialpakete
 \usepackage{epigraph}
 \setlength{\epigraphrule}{0pt} % kein Trennstrich
 
-% damit wir nicht so viel tippen müssen, nur für Demo 
-\usepackage{blindtext} 
+% damit wir nicht so viel tippen müssen, nur für Demo
+\usepackage{blindtext}
 
 % Zum Zeigen von Fehlern
 \usepackage{soul}
 \newcommand*\falsch{\st}
-

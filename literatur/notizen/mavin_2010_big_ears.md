@@ -79,7 +79,10 @@ durch einen internen Experten, nicht der Bewertung.
 ## 7 Einschraenkungen und Kritik
 
 - Ein Unternehmen, eine Domaene
-- Bewertende und Umformulierende sind dieselbe Personengruppe
+- Umformulierung durch eine fachuebergreifende Ingenieursgruppe (Abschnitt
+  Method); die Komplexitaetsschwelle legten die Autoren fest (Fussnote 3).
+  Berichtigt am 25.10.2026: Dass Bewertende und Umformulierende dieselbe
+  Personengruppe sind, steht so nicht im Volltext.
 - Schwellenwerte teilweise subjektiv
 - Kein Muster fuer unerwuenschte Zustaende
 
